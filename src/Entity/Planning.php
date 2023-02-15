@@ -16,18 +16,40 @@ class Planning
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date_debut = null;
 
-    #[ORM\OneToMany(mappedBy: 'planning_medecin', targetEntity: RendezVous::class)]
-    private Collection $mes_rendez_vous;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date_fin = null;
 
-    #[ORM\OneToOne(inversedBy: 'planning', cascade: ['persist', 'remove'])]
+
+    #[ORM\Column(length: 255)]
+    private ?string $etat = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
+
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    private ?\DateTimeInterface $heure_debut = null;
+
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    private ?\DateTimeInterface $heure_fin = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date_de_creation = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date_de_modification = null;
+
+    #[ORM\OneToMany(mappedBy: 'planning', targetEntity: RendezVous::class)]
+    private Collection $les_rendez_vous;
+
+    #[ORM\ManyToOne(inversedBy: 'plannings')]
     private ?User $medecin = null;
 
     public function __construct()
     {
-        $this->mes_rendez_vous = new ArrayCollection();
+        $this->les_rendez_vous = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -35,14 +57,98 @@ class Planning
         return $this->id;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDateDebut(): ?\DateTimeInterface
     {
-        return $this->date;
+        return $this->date_debut;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDateDebut(\DateTimeInterface $date_debut): self
     {
-        $this->date = $date;
+        $this->date_debut = $date_debut;
+
+        return $this;
+    }
+
+    public function getDateFin(): ?\DateTimeInterface
+    {
+        return $this->date_fin;
+    }
+
+    public function setDateFin(\DateTimeInterface $date_fin): self
+    {
+        $this->date_fin = $date_fin;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getHeureDebut(): ?\DateTimeInterface
+    {
+        return $this->heure_debut;
+    }
+
+    public function setHeureDebut(\DateTimeInterface $heure_debut): self
+    {
+        $this->heure_debut = $heure_debut;
+
+        return $this;
+    }
+
+    public function getHeureFin(): ?\DateTimeInterface
+    {
+        return $this->heure_fin;
+    }
+
+    public function setHeureFin(\DateTimeInterface $heure_fin): self
+    {
+        $this->heure_fin = $heure_fin;
+
+        return $this;
+    }
+
+    public function getDateDeCreation(): ?\DateTimeInterface
+    {
+        return $this->date_de_creation;
+    }
+
+    public function setDateDeCreation(\DateTimeInterface $date_de_creation): self
+    {
+        $this->date_de_creation = $date_de_creation;
+
+        return $this;
+    }
+
+    public function getDateDeModification(): ?\DateTimeInterface
+    {
+        return $this->date_de_modification;
+    }
+
+    public function setDateDeModification(\DateTimeInterface $date_de_modification): self
+    {
+        $this->date_de_modification = $date_de_modification;
 
         return $this;
     }
@@ -50,27 +156,27 @@ class Planning
     /**
      * @return Collection<int, RendezVous>
      */
-    public function getMesRendezVous(): Collection
+    public function getLesRendezVous(): Collection
     {
-        return $this->mes_rendez_vous;
+        return $this->les_rendez_vous;
     }
 
-    public function addMesRendezVou(RendezVous $mesRendezVou): self
+    public function addLesRendezVou(RendezVous $lesRendezVou): self
     {
-        if (!$this->mes_rendez_vous->contains($mesRendezVou)) {
-            $this->mes_rendez_vous->add($mesRendezVou);
-            $mesRendezVou->setPlanningMedecin($this);
+        if (!$this->les_rendez_vous->contains($lesRendezVou)) {
+            $this->les_rendez_vous->add($lesRendezVou);
+            $lesRendezVou->setPlanning($this);
         }
 
         return $this;
     }
 
-    public function removeMesRendezVou(RendezVous $mesRendezVou): self
+    public function removeLesRendezVou(RendezVous $lesRendezVou): self
     {
-        if ($this->mes_rendez_vous->removeElement($mesRendezVou)) {
+        if ($this->les_rendez_vous->removeElement($lesRendezVou)) {
             // set the owning side to null (unless already changed)
-            if ($mesRendezVou->getPlanningMedecin() === $this) {
-                $mesRendezVou->setPlanningMedecin(null);
+            if ($lesRendezVou->getPlanning() === $this) {
+                $lesRendezVou->setPlanning(null);
             }
         }
 

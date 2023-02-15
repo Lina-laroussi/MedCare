@@ -14,36 +14,36 @@ class RendezVous
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
-
     #[ORM\Column(length: 255)]
     private ?string $etat = null;
 
-    #[ORM\OneToOne(mappedBy: 'rendez_vous', cascade: ['persist', 'remove'])]
-    private ?Consultation $consultation = null;
+    #[ORM\Column(length: 255)]
+    private ?string $symptomes = null;
 
-    #[ORM\ManyToOne(inversedBy: 'rendez_vous_patient')]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date_de_creation = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
+
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    private ?\DateTimeInterface $heure_debut = null;
+
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    private ?\DateTimeInterface $heure_fin = null;
+
+    #[ORM\ManyToOne(inversedBy: 'rendezVouses')]
     private ?User $patient = null;
 
-    #[ORM\ManyToOne(inversedBy: 'mes_rendez_vous')]
-    private ?Planning $planning_medecin = null;
+    #[ORM\OneToOne(inversedBy: 'rendezVous', cascade: ['persist', 'remove'])]
+    private ?Consultation $consultation = null;
+
+    #[ORM\ManyToOne(inversedBy: 'les_rendez_vous')]
+    private ?Planning $planning = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
     }
 
     public function getEtat(): ?string
@@ -58,24 +58,62 @@ class RendezVous
         return $this;
     }
 
-    public function getConsultation(): ?Consultation
+    public function getSymptomes(): ?string
     {
-        return $this->consultation;
+        return $this->symptomes;
     }
 
-    public function setConsultation(?Consultation $consultation): self
+    public function setSymptomes(string $symptomes): self
     {
-        // unset the owning side of the relation if necessary
-        if ($consultation === null && $this->consultation !== null) {
-            $this->consultation->setRendezVous(null);
-        }
+        $this->symptomes = $symptomes;
 
-        // set the owning side of the relation if necessary
-        if ($consultation !== null && $consultation->getRendezVous() !== $this) {
-            $consultation->setRendezVous($this);
-        }
+        return $this;
+    }
 
-        $this->consultation = $consultation;
+    public function getDateDeCreation(): ?\DateTimeInterface
+    {
+        return $this->date_de_creation;
+    }
+
+    public function setDateDeCreation(\DateTimeInterface $date_de_creation): self
+    {
+        $this->date_de_creation = $date_de_creation;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getHeureDebut(): ?\DateTimeInterface
+    {
+        return $this->heure_debut;
+    }
+
+    public function setHeureDebut(\DateTimeInterface $heure_debut): self
+    {
+        $this->heure_debut = $heure_debut;
+
+        return $this;
+    }
+
+    public function getHeureFin(): ?\DateTimeInterface
+    {
+        return $this->heure_fin;
+    }
+
+    public function setHeureFin(\DateTimeInterface $heure_fin): self
+    {
+        $this->heure_fin = $heure_fin;
 
         return $this;
     }
@@ -92,14 +130,26 @@ class RendezVous
         return $this;
     }
 
-    public function getPlanningMedecin(): ?Planning
+    public function getConsultation(): ?Consultation
     {
-        return $this->planning_medecin;
+        return $this->consultation;
     }
 
-    public function setPlanningMedecin(?Planning $planning_medecin): self
+    public function setConsultation(?Consultation $consultation): self
     {
-        $this->planning_medecin = $planning_medecin;
+        $this->consultation = $consultation;
+
+        return $this;
+    }
+
+    public function getPlanning(): ?Planning
+    {
+        return $this->planning;
+    }
+
+    public function setPlanning(?Planning $planning): self
+    {
+        $this->planning = $planning;
 
         return $this;
     }

@@ -18,6 +18,21 @@ class Categorie
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $etat = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $marque = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $groupe_age = null;
+
+    #[ORM\ManyToOne]
+    private ?User $admin = null;
+
     #[ORM\OneToMany(mappedBy: 'categorie', targetEntity: Produit::class)]
     private Collection $produits;
 
@@ -39,6 +54,66 @@ class Categorie
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getMarque(): ?string
+    {
+        return $this->marque;
+    }
+
+    public function setMarque(string $marque): self
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    public function getGroupeAge(): ?string
+    {
+        return $this->groupe_age;
+    }
+
+    public function setGroupeAge(string $groupe_age): self
+    {
+        $this->groupe_age = $groupe_age;
+
+        return $this;
+    }
+
+    public function getAdmin(): ?User
+    {
+        return $this->admin;
+    }
+
+    public function setAdmin(?User $admin): self
+    {
+        $this->admin = $admin;
 
         return $this;
     }

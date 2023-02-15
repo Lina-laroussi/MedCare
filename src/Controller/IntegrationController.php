@@ -15,4 +15,12 @@ class IntegrationController extends AbstractController
             'controller_name' => 'IntegrationController',
         ]);
     }
+
+    #[Route('/admin', name: 'app_integration2')]
+    public function admin(): Response
+    {
+        return $this->render('Back-Office/DashboardAdmin.html.twig', [
+            'controller_name' => 'IntegrationController',
+        ]);
+    }
 }

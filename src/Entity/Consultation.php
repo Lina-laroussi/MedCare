@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ConsultationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ConsultationRepository::class)]
@@ -28,10 +26,13 @@ class Consultation
     private ?float $temperature = null;
 
     #[ORM\Column]
-    private ?float $frequence_cardiaque = null;
+    private ?float $prix = null;
 
     #[ORM\Column]
     private ?float $pression_arterielle = null;
+
+    #[ORM\Column]
+    private ?float $frequence_cardiaque = null;
 
     #[ORM\Column]
     private ?float $taux_glycemie = null;
@@ -40,24 +41,19 @@ class Consultation
     private ?string $symptomes = null;
 
     #[ORM\Column(length: 255)]
+    private ?string $traitement = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $observation = null;
 
-    #[ORM\OneToOne(inversedBy: 'consultation', cascade: ['persist', 'remove'])]
-    private ?RendezVous $rendez_vous = null;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Ordonnance $ordonnance = null;
-
-    #[ORM\OneToMany(mappedBy: 'consultation', targetEntity: AnalyseMedicale::class)]
-    private Collection $analyse_medicale;
+    #[ORM\OneToOne(mappedBy: 'consultation', cascade: ['persist', 'remove'])]
+    private ?RendezVous $rendezVous = null;
 
     #[ORM\ManyToOne(inversedBy: 'consultations')]
     private ?FicheMedicale $fiche_medicale = null;
 
-    public function __construct()
-    {
-        $this->analyse_medicale = new ArrayCollection();
-    }
+    #[ORM\OneToOne(inversedBy: 'consultation', cascade: ['persist', 'remove'])]
+    private ?Ordonnance $ordonnance = null;
 
     public function getId(): ?int
     {
@@ -112,14 +108,14 @@ class Consultation
         return $this;
     }
 
-    public function getFrequenceCardiaque(): ?float
+    public function getPrix(): ?float
     {
-        return $this->frequence_cardiaque;
+        return $this->prix;
     }
 
-    public function setFrequenceCardiaque(float $frequence_cardiaque): self
+    public function setPrix(float $prix): self
     {
-        $this->frequence_cardiaque = $frequence_cardiaque;
+        $this->prix = $prix;
 
         return $this;
     }
@@ -132,6 +128,18 @@ class Consultation
     public function setPressionArterielle(float $pression_arterielle): self
     {
         $this->pression_arterielle = $pression_arterielle;
+
+        return $this;
+    }
+
+    public function getFrequenceCardiaque(): ?float
+    {
+        return $this->frequence_cardiaque;
+    }
+
+    public function setFrequenceCardiaque(float $frequence_cardiaque): self
+    {
+        $this->frequence_cardiaque = $frequence_cardiaque;
 
         return $this;
     }
@@ -160,6 +168,18 @@ class Consultation
         return $this;
     }
 
+    public function getTraitement(): ?string
+    {
+        return $this->traitement;
+    }
+
+    public function setTraitement(string $traitement): self
+    {
+        $this->traitement = $traitement;
+
+        return $this;
+    }
+
     public function getObservation(): ?string
     {
         return $this->observation;
@@ -174,54 +194,22 @@ class Consultation
 
     public function getRendezVous(): ?RendezVous
     {
-        return $this->rendez_vous;
+        return $this->rendezVous;
     }
 
-    public function setRendezVous(?RendezVous $rendez_vous): self
+    public function setRendezVous(?RendezVous $rendezVous): self
     {
-        $this->rendez_vous = $rendez_vous;
-
-        return $this;
-    }
-
-    public function getOrdonnance(): ?Ordonnance
-    {
-        return $this->ordonnance;
-    }
-
-    public function setOrdonnance(?Ordonnance $ordonnance): self
-    {
-        $this->ordonnance = $ordonnance;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, AnalyseMedicale>
-     */
-    public function getAnalyseMedicale(): Collection
-    {
-        return $this->analyse_medicale;
-    }
-
-    public function addAnalyseMedicale(AnalyseMedicale $analyseMedicale): self
-    {
-        if (!$this->analyse_medicale->contains($analyseMedicale)) {
-            $this->analyse_medicale->add($analyseMedicale);
-            $analyseMedicale->setConsultation($this);
+        // unset the owning side of the relation if necessary
+        if ($rendezVous === null && $this->rendezVous !== null) {
+            $this->rendezVous->setConsultation(null);
         }
 
-        return $this;
-    }
-
-    public function removeAnalyseMedicale(AnalyseMedicale $analyseMedicale): self
-    {
-        if ($this->analyse_medicale->removeElement($analyseMedicale)) {
-            // set the owning side to null (unless already changed)
-            if ($analyseMedicale->getConsultation() === $this) {
-                $analyseMedicale->setConsultation(null);
-            }
+        // set the owning side of the relation if necessary
+        if ($rendezVous !== null && $rendezVous->getConsultation() !== $this) {
+            $rendezVous->setConsultation($this);
         }
+
+        $this->rendezVous = $rendezVous;
 
         return $this;
     }
@@ -234,6 +222,18 @@ class Consultation
     public function setFicheMedicale(?FicheMedicale $fiche_medicale): self
     {
         $this->fiche_medicale = $fiche_medicale;
+
+        return $this;
+    }
+
+    public function getOrdonnance(): ?Ordonnance
+    {
+        return $this->ordonnance;
+    }
+
+    public function setOrdonnance(?Ordonnance $ordonnance): self
+    {
+        $this->ordonnance = $ordonnance;
 
         return $this;
     }

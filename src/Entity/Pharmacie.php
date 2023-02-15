@@ -16,16 +16,13 @@ class Pharmacie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nom = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $num_tel = null;
+    private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $horaire = null;
+    private ?string $num_tel = null;
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
@@ -33,32 +30,32 @@ class Pharmacie
     #[ORM\Column(length: 255)]
     private ?string $etat = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $horaire = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $matricule = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $services = null;
+
     #[ORM\OneToOne(inversedBy: 'pharmacie', cascade: ['persist', 'remove'])]
     private ?User $pharmacien = null;
 
-    #[ORM\OneToMany(mappedBy: 'pharmacie', targetEntity: Stock::class)]
-    private Collection $stock;
+    #[ORM\OneToMany(mappedBy: 'pharmacie', targetEntity: Facture::class)]
+    private Collection $factures;
 
     public function __construct()
     {
-        $this->stock = new ArrayCollection();
+        $this->factures = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): self
-    {
-        $this->nom = $nom;
-
-        return $this;
     }
 
     public function getAdresse(): ?string
@@ -73,6 +70,18 @@ class Pharmacie
         return $this;
     }
 
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
     public function getNumTel(): ?string
     {
         return $this->num_tel;
@@ -81,18 +90,6 @@ class Pharmacie
     public function setNumTel(string $num_tel): self
     {
         $this->num_tel = $num_tel;
-
-        return $this;
-    }
-
-    public function getHoraire(): ?string
-    {
-        return $this->horaire;
-    }
-
-    public function setHoraire(string $horaire): self
-    {
-        $this->horaire = $horaire;
 
         return $this;
     }
@@ -121,6 +118,54 @@ class Pharmacie
         return $this;
     }
 
+    public function getHoraire(): ?string
+    {
+        return $this->horaire;
+    }
+
+    public function setHoraire(string $horaire): self
+    {
+        $this->horaire = $horaire;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getMatricule(): ?string
+    {
+        return $this->matricule;
+    }
+
+    public function setMatricule(string $matricule): self
+    {
+        $this->matricule = $matricule;
+
+        return $this;
+    }
+
+    public function getServices(): ?string
+    {
+        return $this->services;
+    }
+
+    public function setServices(string $services): self
+    {
+        $this->services = $services;
+
+        return $this;
+    }
+
     public function getPharmacien(): ?User
     {
         return $this->pharmacien;
@@ -134,29 +179,29 @@ class Pharmacie
     }
 
     /**
-     * @return Collection<int, Stock>
+     * @return Collection<int, Facture>
      */
-    public function getStock(): Collection
+    public function getFactures(): Collection
     {
-        return $this->stock;
+        return $this->factures;
     }
 
-    public function addStock(Stock $stock): self
+    public function addFacture(Facture $facture): self
     {
-        if (!$this->stock->contains($stock)) {
-            $this->stock->add($stock);
-            $stock->setPharmacie($this);
+        if (!$this->factures->contains($facture)) {
+            $this->factures->add($facture);
+            $facture->setPharmacie($this);
         }
 
         return $this;
     }
 
-    public function removeStock(Stock $stock): self
+    public function removeFacture(Facture $facture): self
     {
-        if ($this->stock->removeElement($stock)) {
+        if ($this->factures->removeElement($facture)) {
             // set the owning side to null (unless already changed)
-            if ($stock->getPharmacie() === $this) {
-                $stock->setPharmacie(null);
+            if ($facture->getPharmacie() === $this) {
+                $facture->setPharmacie(null);
             }
         }
 

@@ -7,15 +7,28 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $email = null;
+
+    #[ORM\Column]
+    private array $roles = [];
+
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
@@ -24,92 +37,151 @@ class User
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $email = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $mot_de_passe = null;
+    private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     private ?string $adresse = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_de_naissance = null;
 
     #[ORM\Column(length: 255)]
     private ?string $num_tel = null;
 
     #[ORM\Column(length: 255)]
+    private ?string $age = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date_de_naissance = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $sexe = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $groupe_sanguin = null;
-
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $roles = [];
-
-    #[ORM\Column(length: 255)]
-    private ?string $image = null;
 
     #[ORM\Column(length: 255)]
     private ?string $specialite = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $etat_civil = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date_de_creation = null;
 
     #[ORM\Column(length: 255)]
     private ?string $cin = null;
 
+    #[ORM\Column]
+    private ?int $num_securite_sociale = null;
+
     #[ORM\Column(length: 255)]
-    private ?string $num_securite_sociale = null;
+    private ?string $image = null;
 
-    #[ORM\OneToOne(mappedBy: 'medecin', cascade: ['persist', 'remove'])]
-    private ?Cabinet $cabinet = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date_de_modification = null;
 
-    #[ORM\ManyToMany(targetEntity: Cabinet::class, mappedBy: 'patients')]
-    private Collection $cabinets;
+    #[ORM\Column(length: 255)]
+    private ?string $etat = null;
 
     #[ORM\OneToMany(mappedBy: 'patient', targetEntity: RendezVous::class)]
-    private Collection $rendez_vous_patient;
+    private Collection $rendezVouses;
 
-    #[ORM\OneToOne(mappedBy: 'medecin', cascade: ['persist', 'remove'])]
-    private ?Planning $planning = null;
+    #[ORM\OneToMany(mappedBy: 'medecin', targetEntity: Planning::class)]
+    private Collection $plannings;
+
+    #[ORM\OneToMany(mappedBy: 'assureur', targetEntity: FicheAssurance::class)]
+    private Collection $ficheAssurances;
 
     #[ORM\OneToOne(mappedBy: 'pharmacien', cascade: ['persist', 'remove'])]
     private ?Pharmacie $pharmacie = null;
 
-    #[ORM\OneToMany(mappedBy: 'assureur', targetEntity: FicheSoin::class)]
-    private Collection $fichesoins_assureur;
-
-    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: FicheSoin::class)]
-    private Collection $fichesoins_patient;
-
-    #[ORM\ManyToOne(inversedBy: 'assureur')]
-    private ?Assurance $assurance_assureur = null;
-
-    #[ORM\ManyToOne(inversedBy: 'patients')]
-    private ?Assurance $assurance = null;
-
-    #[ORM\OneToOne(mappedBy: 'admin_para', cascade: ['persist', 'remove'])]
-    private ?Parapharmacie $parapharmacie = null;
-
-    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Commande::class)]
-    private Collection $commandes;
 
     public function __construct()
     {
-        $this->cabinets = new ArrayCollection();
-        $this->rendez_vous_patient = new ArrayCollection();
-        $this->fichesoins_assureur = new ArrayCollection();
-        $this->fichesoins_patient = new ArrayCollection();
-        $this->commandes = new ArrayCollection();
+        $this->rendezVouses = new ArrayCollection();
+        $this->plannings = new ArrayCollection();
+        $this->ficheAssurances = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getNom(): ?string
@@ -136,26 +208,14 @@ class User
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getDescription(): ?string
     {
-        return $this->email;
+        return $this->description;
     }
 
-    public function setEmail(string $email): self
+    public function setDescription(string $description): self
     {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getMotDePasse(): ?string
-    {
-        return $this->mot_de_passe;
-    }
-
-    public function setMotDePasse(string $mot_de_passe): self
-    {
-        $this->mot_de_passe = $mot_de_passe;
+        $this->description = $description;
 
         return $this;
     }
@@ -172,18 +232,6 @@ class User
         return $this;
     }
 
-    public function getDateDeNaissance(): ?\DateTimeInterface
-    {
-        return $this->date_de_naissance;
-    }
-
-    public function setDateDeNaissance(\DateTimeInterface $date_de_naissance): self
-    {
-        $this->date_de_naissance = $date_de_naissance;
-
-        return $this;
-    }
-
     public function getNumTel(): ?string
     {
         return $this->num_tel;
@@ -192,6 +240,30 @@ class User
     public function setNumTel(string $num_tel): self
     {
         $this->num_tel = $num_tel;
+
+        return $this;
+    }
+
+    public function getAge(): ?string
+    {
+        return $this->age;
+    }
+
+    public function setAge(string $age): self
+    {
+        $this->age = $age;
+
+        return $this;
+    }
+
+    public function getDateDeNaissance(): ?\DateTimeInterface
+    {
+        return $this->date_de_naissance;
+    }
+
+    public function setDateDeNaissance(\DateTimeInterface $date_de_naissance): self
+    {
+        $this->date_de_naissance = $date_de_naissance;
 
         return $this;
     }
@@ -208,54 +280,6 @@ class User
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getGroupeSanguin(): ?string
-    {
-        return $this->groupe_sanguin;
-    }
-
-    public function setGroupeSanguin(string $groupe_sanguin): self
-    {
-        $this->groupe_sanguin = $groupe_sanguin;
-
-        return $this;
-    }
-
-    public function getRoles(): array
-    {
-        return $this->roles;
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
     public function getSpecialite(): ?string
     {
         return $this->specialite;
@@ -268,14 +292,14 @@ class User
         return $this;
     }
 
-    public function getEtatCivil(): ?string
+    public function getDateDeCreation(): ?\DateTimeInterface
     {
-        return $this->etat_civil;
+        return $this->date_de_creation;
     }
 
-    public function setEtatCivil(string $etat_civil): self
+    public function setDateDeCreation(\DateTimeInterface $date_de_creation): self
     {
-        $this->etat_civil = $etat_civil;
+        $this->date_de_creation = $date_de_creation;
 
         return $this;
     }
@@ -292,63 +316,50 @@ class User
         return $this;
     }
 
-    public function getNumSecuriteSociale(): ?string
+    public function getNumSecuriteSociale(): ?int
     {
         return $this->num_securite_sociale;
     }
 
-    public function setNumSecuriteSociale(string $num_securite_sociale): self
+    public function setNumSecuriteSociale(int $num_securite_sociale): self
     {
         $this->num_securite_sociale = $num_securite_sociale;
 
         return $this;
     }
 
-    public function getCabinet(): ?Cabinet
+    public function getImage(): ?string
     {
-        return $this->cabinet;
+        return $this->image;
     }
 
-    public function setCabinet(?Cabinet $cabinet): self
+    public function setImage(string $image): self
     {
-        // unset the owning side of the relation if necessary
-        if ($cabinet === null && $this->cabinet !== null) {
-            $this->cabinet->setMedecin(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($cabinet !== null && $cabinet->getMedecin() !== $this) {
-            $cabinet->setMedecin($this);
-        }
-
-        $this->cabinet = $cabinet;
+        $this->image = $image;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Cabinet>
-     */
-    public function getCabinets(): Collection
+    public function getDateDeModification(): ?\DateTimeInterface
     {
-        return $this->cabinets;
+        return $this->date_de_modification;
     }
 
-    public function addCabinet(Cabinet $cabinet): self
+    public function setDateDeModification(\DateTimeInterface $date_de_modification): self
     {
-        if (!$this->cabinets->contains($cabinet)) {
-            $this->cabinets->add($cabinet);
-            $cabinet->addPatient($this);
-        }
+        $this->date_de_modification = $date_de_modification;
 
         return $this;
     }
 
-    public function removeCabinet(Cabinet $cabinet): self
+    public function getEtat(): ?string
     {
-        if ($this->cabinets->removeElement($cabinet)) {
-            $cabinet->removePatient($this);
-        }
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }
@@ -356,51 +367,89 @@ class User
     /**
      * @return Collection<int, RendezVous>
      */
-    public function getRendezVousPatient(): Collection
+    public function getRendezVouses(): Collection
     {
-        return $this->rendez_vous_patient;
+        return $this->rendezVouses;
     }
 
-    public function addRendezVousPatient(RendezVous $rendezVousPatient): self
+    public function addRendezVouse(RendezVous $rendezVouse): self
     {
-        if (!$this->rendez_vous_patient->contains($rendezVousPatient)) {
-            $this->rendez_vous_patient->add($rendezVousPatient);
-            $rendezVousPatient->setPatient($this);
+        if (!$this->rendezVouses->contains($rendezVouse)) {
+            $this->rendezVouses->add($rendezVouse);
+            $rendezVouse->setPatient($this);
         }
 
         return $this;
     }
 
-    public function removeRendezVousPatient(RendezVous $rendezVousPatient): self
+    public function removeRendezVouse(RendezVous $rendezVouse): self
     {
-        if ($this->rendez_vous_patient->removeElement($rendezVousPatient)) {
+        if ($this->rendezVouses->removeElement($rendezVouse)) {
             // set the owning side to null (unless already changed)
-            if ($rendezVousPatient->getPatient() === $this) {
-                $rendezVousPatient->setPatient(null);
+            if ($rendezVouse->getPatient() === $this) {
+                $rendezVouse->setPatient(null);
             }
         }
 
         return $this;
     }
 
-    public function getPlanning(): ?Planning
+    /**
+     * @return Collection<int, Planning>
+     */
+    public function getPlannings(): Collection
     {
-        return $this->planning;
+        return $this->plannings;
     }
 
-    public function setPlanning(?Planning $planning): self
+    public function addPlanning(Planning $planning): self
     {
-        // unset the owning side of the relation if necessary
-        if ($planning === null && $this->planning !== null) {
-            $this->planning->setMedecin(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($planning !== null && $planning->getMedecin() !== $this) {
+        if (!$this->plannings->contains($planning)) {
+            $this->plannings->add($planning);
             $planning->setMedecin($this);
         }
 
-        $this->planning = $planning;
+        return $this;
+    }
+
+    public function removePlanning(Planning $planning): self
+    {
+        if ($this->plannings->removeElement($planning)) {
+            // set the owning side to null (unless already changed)
+            if ($planning->getMedecin() === $this) {
+                $planning->setMedecin(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FicheAssurance>
+     */
+    public function getFicheAssurances(): Collection
+    {
+        return $this->ficheAssurances;
+    }
+
+    public function addFicheAssurance(FicheAssurance $ficheAssurance): self
+    {
+        if (!$this->ficheAssurances->contains($ficheAssurance)) {
+            $this->ficheAssurances->add($ficheAssurance);
+            $ficheAssurance->setAssureur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFicheAssurance(FicheAssurance $ficheAssurance): self
+    {
+        if ($this->ficheAssurances->removeElement($ficheAssurance)) {
+            // set the owning side to null (unless already changed)
+            if ($ficheAssurance->getAssureur() === $this) {
+                $ficheAssurance->setAssureur(null);
+            }
+        }
 
         return $this;
     }
@@ -427,139 +476,5 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection<int, FicheSoin>
-     */
-    public function getFichesoinsAssureur(): Collection
-    {
-        return $this->fichesoins_assureur;
-    }
 
-    public function addFichesoinsAssureur(FicheSoin $fichesoinsAssureur): self
-    {
-        if (!$this->fichesoins_assureur->contains($fichesoinsAssureur)) {
-            $this->fichesoins_assureur->add($fichesoinsAssureur);
-            $fichesoinsAssureur->setAssureur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFichesoinsAssureur(FicheSoin $fichesoinsAssureur): self
-    {
-        if ($this->fichesoins_assureur->removeElement($fichesoinsAssureur)) {
-            // set the owning side to null (unless already changed)
-            if ($fichesoinsAssureur->getAssureur() === $this) {
-                $fichesoinsAssureur->setAssureur(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, FicheSoin>
-     */
-    public function getFichesoinsPatient(): Collection
-    {
-        return $this->fichesoins_patient;
-    }
-
-    public function addFichesoinsPatient(FicheSoin $fichesoinsPatient): self
-    {
-        if (!$this->fichesoins_patient->contains($fichesoinsPatient)) {
-            $this->fichesoins_patient->add($fichesoinsPatient);
-            $fichesoinsPatient->setPatient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFichesoinsPatient(FicheSoin $fichesoinsPatient): self
-    {
-        if ($this->fichesoins_patient->removeElement($fichesoinsPatient)) {
-            // set the owning side to null (unless already changed)
-            if ($fichesoinsPatient->getPatient() === $this) {
-                $fichesoinsPatient->setPatient(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getAssuranceAssureur(): ?Assurance
-    {
-        return $this->assurance_assureur;
-    }
-
-    public function setAssuranceAssureur(?Assurance $assurance_assureur): self
-    {
-        $this->assurance_assureur = $assurance_assureur;
-
-        return $this;
-    }
-
-    public function getAssurance(): ?Assurance
-    {
-        return $this->assurance;
-    }
-
-    public function setAssurance(?Assurance $assurance): self
-    {
-        $this->assurance = $assurance;
-
-        return $this;
-    }
-
-    public function getParapharmacie(): ?Parapharmacie
-    {
-        return $this->parapharmacie;
-    }
-
-    public function setParapharmacie(?Parapharmacie $parapharmacie): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($parapharmacie === null && $this->parapharmacie !== null) {
-            $this->parapharmacie->setAdminPara(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($parapharmacie !== null && $parapharmacie->getAdminPara() !== $this) {
-            $parapharmacie->setAdminPara($this);
-        }
-
-        $this->parapharmacie = $parapharmacie;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Commande>
-     */
-    public function getCommandes(): Collection
-    {
-        return $this->commandes;
-    }
-
-    public function addCommande(Commande $commande): self
-    {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes->add($commande);
-            $commande->setPatient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommande(Commande $commande): self
-    {
-        if ($this->commandes->removeElement($commande)) {
-            // set the owning side to null (unless already changed)
-            if ($commande->getPatient() === $this) {
-                $commande->setPatient(null);
-            }
-        }
-
-        return $this;
-    }
 }

@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
@@ -21,22 +19,20 @@ class Produit
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
-    private ?int $quantite = null;
+    #[ORM\Column]
+    private ?float $prix = null;
 
-    #[ORM\ManyToOne(inversedBy: 'produits')]
-    private ?Parapharmacie $parapharmacie = null;
+    #[ORM\Column(length: 255)]
+    private ?string $etat = null;
+
+    #[ORM\Column]
+    private ?float $quantite = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
 
     #[ORM\ManyToOne(inversedBy: 'produits')]
     private ?Categorie $categorie = null;
-
-    #[ORM\OneToMany(mappedBy: 'produit', targetEntity: LigneCommande::class)]
-    private Collection $ligne_commandes;
-
-    public function __construct()
-    {
-        $this->ligne_commandes = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -67,26 +63,50 @@ class Produit
         return $this;
     }
 
-    public function getQuantite(): ?int
+    public function getPrix(): ?float
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(float $prix): self
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getQuantite(): ?float
     {
         return $this->quantite;
     }
 
-    public function setQuantite(int $quantite): self
+    public function setQuantite(float $quantite): self
     {
         $this->quantite = $quantite;
 
         return $this;
     }
 
-    public function getParapharmacie(): ?Parapharmacie
+    public function getImage(): ?string
     {
-        return $this->parapharmacie;
+        return $this->image;
     }
 
-    public function setParapharmacie(?Parapharmacie $parapharmacie): self
+    public function setImage(string $image): self
     {
-        $this->parapharmacie = $parapharmacie;
+        $this->image = $image;
 
         return $this;
     }
@@ -99,36 +119,6 @@ class Produit
     public function setCategorie(?Categorie $categorie): self
     {
         $this->categorie = $categorie;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, LigneCommande>
-     */
-    public function getLigneCommandes(): Collection
-    {
-        return $this->ligne_commandes;
-    }
-
-    public function addLigneCommande(LigneCommande $ligneCommande): self
-    {
-        if (!$this->ligne_commandes->contains($ligneCommande)) {
-            $this->ligne_commandes->add($ligneCommande);
-            $ligneCommande->setProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLigneCommande(LigneCommande $ligneCommande): self
-    {
-        if ($this->ligne_commandes->removeElement($ligneCommande)) {
-            // set the owning side to null (unless already changed)
-            if ($ligneCommande->getProduit() === $this) {
-                $ligneCommande->setProduit(null);
-            }
-        }
 
         return $this;
     }

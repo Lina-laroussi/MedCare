@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RemboursementRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RemboursementRepository::class)]
@@ -16,11 +17,20 @@ class Remboursement
     #[ORM\Column]
     private ?float $montant_a_rembourser = null;
 
-    #[ORM\OneToOne(mappedBy: 'remboursement', cascade: ['persist', 'remove'])]
-    private ?FicheSoin $ficheSoin = null;
+    #[ORM\Column]
+    private ?float $montant_maximale = null;
 
-    #[ORM\ManyToOne(inversedBy: 'remboursements')]
-    private ?HistoriqueRemboursement $historiqueRemboursement = null;
+    #[ORM\Column]
+    private ?float $taux_remboursement = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date_remboursement = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $etat = null;
+
+    #[ORM\OneToOne(mappedBy: 'remboursement', cascade: ['persist', 'remove'])]
+    private ?FicheAssurance $ficheAssurance = null;
 
     public function getId(): ?int
     {
@@ -39,36 +49,72 @@ class Remboursement
         return $this;
     }
 
-    public function getFicheSoin(): ?FicheSoin
+    public function getMontantMaximale(): ?float
     {
-        return $this->ficheSoin;
+        return $this->montant_maximale;
     }
 
-    public function setFicheSoin(?FicheSoin $ficheSoin): self
+    public function setMontantMaximale(float $montant_maximale): self
     {
-        // unset the owning side of the relation if necessary
-        if ($ficheSoin === null && $this->ficheSoin !== null) {
-            $this->ficheSoin->setRemboursement(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($ficheSoin !== null && $ficheSoin->getRemboursement() !== $this) {
-            $ficheSoin->setRemboursement($this);
-        }
-
-        $this->ficheSoin = $ficheSoin;
+        $this->montant_maximale = $montant_maximale;
 
         return $this;
     }
 
-    public function getHistoriqueRemboursement(): ?HistoriqueRemboursement
+    public function getTauxRemboursement(): ?float
     {
-        return $this->historiqueRemboursement;
+        return $this->taux_remboursement;
     }
 
-    public function setHistoriqueRemboursement(?HistoriqueRemboursement $historiqueRemboursement): self
+    public function setTauxRemboursement(float $taux_remboursement): self
     {
-        $this->historiqueRemboursement = $historiqueRemboursement;
+        $this->taux_remboursement = $taux_remboursement;
+
+        return $this;
+    }
+
+    public function getDateRemboursement(): ?\DateTimeInterface
+    {
+        return $this->date_remboursement;
+    }
+
+    public function setDateRemboursement(\DateTimeInterface $date_remboursement): self
+    {
+        $this->date_remboursement = $date_remboursement;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getFicheAssurance(): ?FicheAssurance
+    {
+        return $this->ficheAssurance;
+    }
+
+    public function setFicheAssurance(?FicheAssurance $ficheAssurance): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($ficheAssurance === null && $this->ficheAssurance !== null) {
+            $this->ficheAssurance->setRemboursement(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($ficheAssurance !== null && $ficheAssurance->getRemboursement() !== $this) {
+            $ficheAssurance->setRemboursement($this);
+        }
+
+        $this->ficheAssurance = $ficheAssurance;
 
         return $this;
     }

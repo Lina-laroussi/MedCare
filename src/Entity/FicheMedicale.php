@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\FicheMedicaleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FicheMedicaleRepository::class)]
@@ -17,6 +18,18 @@ class FicheMedicale
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $allergies = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $pathologie = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date_de_creation = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date_de_modification = null;
 
     #[ORM\OneToMany(mappedBy: 'fiche_medicale', targetEntity: Consultation::class)]
     private Collection $consultations;
@@ -39,6 +52,54 @@ class FicheMedicale
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getAllergies(): ?string
+    {
+        return $this->allergies;
+    }
+
+    public function setAllergies(string $allergies): self
+    {
+        $this->allergies = $allergies;
+
+        return $this;
+    }
+
+    public function getPathologie(): ?string
+    {
+        return $this->pathologie;
+    }
+
+    public function setPathologie(string $pathologie): self
+    {
+        $this->pathologie = $pathologie;
+
+        return $this;
+    }
+
+    public function getDateDeCreation(): ?\DateTimeInterface
+    {
+        return $this->date_de_creation;
+    }
+
+    public function setDateDeCreation(\DateTimeInterface $date_de_creation): self
+    {
+        $this->date_de_creation = $date_de_creation;
+
+        return $this;
+    }
+
+    public function getDateDeModification(): ?\DateTimeInterface
+    {
+        return $this->date_de_modification;
+    }
+
+    public function setDateDeModification(\DateTimeInterface $date_de_modification): self
+    {
+        $this->date_de_modification = $date_de_modification;
 
         return $this;
     }

@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\FicheSoin;
+use App\Entity\FicheAssurance;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<FicheSoin>
+ * @extends ServiceEntityRepository<FicheAssurance>
  *
- * @method FicheSoin|null find($id, $lockMode = null, $lockVersion = null)
- * @method FicheSoin|null findOneBy(array $criteria, array $orderBy = null)
- * @method FicheSoin[]    findAll()
- * @method FicheSoin[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method FicheAssurance|null find($id, $lockMode = null, $lockVersion = null)
+ * @method FicheAssurance|null findOneBy(array $criteria, array $orderBy = null)
+ * @method FicheAssurance[]    findAll()
+ * @method FicheAssurance[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FicheSoinRepository extends ServiceEntityRepository
+class FicheAssuranceRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, FicheSoin::class);
+        parent::__construct($registry, FicheAssurance::class);
     }
 
-    public function save(FicheSoin $entity, bool $flush = false): void
+    public function save(FicheAssurance $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class FicheSoinRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(FicheSoin $entity, bool $flush = false): void
+    public function remove(FicheAssurance $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class FicheSoinRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return FicheSoin[] Returns an array of FicheSoin objects
+//     * @return FicheAssurance[] Returns an array of FicheAssurance objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class FicheSoinRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?FicheSoin
+//    public function findOneBySomeField($value): ?FicheAssurance
 //    {
 //        return $this->createQueryBuilder('f')
 //            ->andWhere('f.exampleField = :val')
