@@ -1,0 +1,44 @@
+{% extends 'sideBar.html.twig' %}
+
+
+{% block content %}
+    <h1>RendezVous index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Etat</th>
+                <th>Symptomes</th>
+                <th>Date_de_creation</th>
+                <th>Date</th>
+                <th>Heure_debut</th>
+                <th>Heure_fin</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rendez_vou in rendez_vouses %}
+            <tr>
+                <td>{{ rendez_vou.id }}</td>
+                <td>{{ rendez_vou.etat }}</td>
+                <td>{{ rendez_vou.symptomes }}</td>
+                <td>{{ rendez_vou.dateDeCreation ? rendez_vou.dateDeCreation|date('Y-m-d') : '' }}</td>
+                <td>{{ rendez_vou.date ? rendez_vou.date|date('Y-m-d') : '' }}</td>
+                <td>{{ rendez_vou.heureDebut ? rendez_vou.heureDebut|date('H:i:s') : '' }}</td>
+                <td>{{ rendez_vou.heureFin ? rendez_vou.heureFin|date('H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_rendez_vous_show', {'id': rendez_vou.id}) }}">show</a>
+                    <a href="{{ path('app_rendez_vous_edit', {'id': rendez_vou.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_rendez_vous_new') }}">Create new</a>
+{% endblock %}

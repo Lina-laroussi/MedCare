@@ -1,0 +1,87 @@
+{% extends 'base-front.html.twig' %}
+{% block body %}
+<div class="content">
+<div class="container-fluid">
+<div class="row">
+
+{% block side %}
+<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+<div class="profile-sidebar">
+<div class="widget-profile pro-widget-content">
+<div class="profile-info-widget">
+<a href="#" class="booking-doc-img">
+<img src="{{asset('FrontOffice/img/patients/patient.jpg')}}" alt="User Image">
+</a>
+<div class="profile-det-info">
+<h3>Richard Wilson</h3>
+<div class="patient-details">
+<h5><i class="fas fa-birthday-cake"></i> 24 Jul 1983, 38 years</h5>
+<h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> Newyork, USA</h5>
+</div>
+</div>
+</div>
+</div>
+<div class="dashboard-widget">
+<nav class="dashboard-menu">
+<ul>
+<li class="active">
+<a href="patient-dashboard.html">
+<i class="fas fa-columns"></i>
+<span>Rendez-vous</span>
+</a>
+</li>
+
+<li>
+<a href="dependent.html">
+<i class="fas fa-users"></i>
+<span>Mes medecins</span>
+</a>
+</li>
+
+<li>
+<a href="medical-details.html">
+<i class="fas fa-file-medical-alt"></i>
+<span>Detailles medicales</span>
+</a>
+</li>
+<li>
+<a href="profile-settings.html">
+<i class="fas fa-user-cog"></i>
+<span>Parametre du profile</span>
+</a>
+</li>
+<li>
+<a href="change-password.html">
+<i class="fas fa-lock"></i>
+<span>Changer mot de passe</span>
+</a>
+</li>
+<li>
+<a href="index.html">
+<i class="fas fa-sign-out-alt"></i>
+<span>Se deconnecté</span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+{% endblock %}
+
+<div class="col-md-7 col-lg-8 col-xl-9">
+{% block content %}
+{% endblock %}
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>{% endblock %}

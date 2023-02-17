@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RendezVousRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RendezVousRepository::class)]
 class RendezVous
@@ -18,6 +19,10 @@ class RendezVous
     private ?string $etat = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank (message:"Veuillez entrer les symptomes")]
+    #[Assert\Length (
+    min:5,
+    minMessage:"La saisie est trop courte. Veuillez entrer au moins 5 caractères ")]
     private ?string $symptomes = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
