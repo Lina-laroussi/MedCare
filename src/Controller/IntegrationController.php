@@ -11,7 +11,7 @@ class IntegrationController extends AbstractController
     #[Route('/integration', name: 'app_integration')]
     public function index(): Response
     {
-        return $this->render('Front-Office/Landing.html.twig', [
+        return $this->render('Front-Office/choose_profile.html.twig', [
             'controller_name' => 'IntegrationController',
         ]);
     }
