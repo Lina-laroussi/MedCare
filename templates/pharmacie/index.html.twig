@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<title>Pharmacie index</title>
+
+{% block body %}
+    <h1>Pharmacie index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Adresse</th>
+                <th>Nom</th>
+                <th>Num_tel</th>
+                <th>Description</th>
+                <th>Etat</th>
+                <th>Horaire</th>
+                <th>Email</th>
+                <th>Matricule</th>
+                <th>Services</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pharmacie in pharmacies %}
+            <tr>
+                <td>{{ pharmacie.id }}</td>
+                <td>{{ pharmacie.adresse }}</td>
+                <td>{{ pharmacie.nom }}</td>
+                <td>{{ pharmacie.numTel }}</td>
+                <td>{{ pharmacie.description }}</td>
+                <td>{{ pharmacie.etat }}</td>
+                <td>{{ pharmacie.horaire }}</td>
+                <td>{{ pharmacie.email }}</td>
+                <td>{{ pharmacie.matricule }}</td>
+                <td>{{ pharmacie.services }}</td>
+                <td>
+                    <a href="{{ path('app_pharmacie_show', {'id': pharmacie.id}) }}">show</a>
+                    <a href="{{ path('app_pharmacie_edit', {'id': pharmacie.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pharmacie_new') }}">Create new</a>
+{% endblock %}
