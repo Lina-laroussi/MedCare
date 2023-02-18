@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Planning;
+use App\Entity\User;
 use App\Form\PlanningType;
 use App\Repository\PlanningRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +24,11 @@ class PlanningController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_planning_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PlanningRepository $planningRepository): Response
-    {
+    #[Route('/{id}/new', name: 'app_planning_new', methods: ['GET', 'POST'])]
+    public function new($id ,Request $request, UserRepository $medecinRep,PlanningRepository $planningRepository): Response
+    {   
         $planning = new Planning();
+        $planning ->setMedecin($medecinRep->find($id));
         $planning ->setEtat("en cours");
         $date_creation = new DateTimeImmutable();
         $planning->setDateDeCreation($date_creation);
@@ -58,10 +61,13 @@ class PlanningController extends AbstractController
     {
         $date_modification = new DateTimeImmutable();
         $planning->setDateDeModification($date_modification);
-        $form = $this->createForm(PlanningType::class, $planning);
+        $form = $this->createForm(PlanningType::class, $planning,
+        [
+            'validation_groups' => ['edit'],
+        ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid(['validation_groups' => ['edit']])) {
             $planningRepository->save($planning, true);
 
             return $this->redirectToRoute('app_planning_index', [], Response::HTTP_SEE_OTHER);

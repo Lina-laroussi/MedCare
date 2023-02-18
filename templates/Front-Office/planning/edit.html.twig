@@ -2,11 +2,9 @@
 
 
 {% block content %}
-    <h1>Edit Planning</h1>
-
-    {{ include('Front-Office/planning/_form.html.twig', {'button_label': 'Update'}) }}
-
+    {{ include('Front-Office/planning/_form.html.twig', {'button_label': 'Modifier'}) }}
+    {{ include('Front-Office/planning/_delete_form.html.twig') }}
     <a href="{{ path('app_planning_index') }}">back to list</a>
 
-    {{ include('Front-Office/planning/_delete_form.html.twig') }}
+
 {% endblock %}

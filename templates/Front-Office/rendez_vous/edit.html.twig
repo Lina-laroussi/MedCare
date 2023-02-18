@@ -2,9 +2,9 @@
 
 
 {% block content %}
-    <h1>Edit RendezVous</h1>
+    <h3>Modifier RendezVous</h3>
 
-    {{ include('rendez_vous/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('Front-Office/rendez_vous/_form.html.twig', {'button_label': 'modifier'}) }}
 
     <a href="{{ path('app_rendez_vous_index') }}">back to list</a>
 

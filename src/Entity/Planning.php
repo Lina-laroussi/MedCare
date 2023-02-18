@@ -18,9 +18,11 @@ class Planning
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message:"veuillez choisir une Date de debut du planing",groups:["create", "update"])]
     private ?\DateTimeInterface $date_debut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message:"veuillez choisir une Date de fin du planing")]
     private ?\DateTimeInterface $date_fin = null;
 
 
@@ -32,11 +34,13 @@ class Planning
     #[Assert\Length(
     min:5, 
     minMessage:"La saisie est trop courte. Veuillez entrer au moins 5 caractères ")]
-    private ?string $description = null;
+    private ?string $description;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[Assert\NotBlank(message:"veuillez choisir une heure de debut")]
     private ?\DateTimeInterface $heure_debut = null;
     #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[Assert\NotBlank(message:"veuillez choisir une heure de fin")]
     private ?\DateTimeInterface $heure_fin = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -66,7 +70,7 @@ class Planning
         return $this->date_debut;
     }
 
-    public function setDateDebut(\DateTimeInterface $date_debut): self
+    public function setDateDebut(\DateTimeInterface $date_debut = null): self
     {
         $this->date_debut = $date_debut;
 
@@ -78,7 +82,7 @@ class Planning
         return $this->date_fin;
     }
 
-    public function setDateFin(\DateTimeInterface $date_fin): self
+    public function setDateFin(\DateTimeInterface $date_fin = null): self
     {
         $this->date_fin = $date_fin;
 
@@ -102,7 +106,7 @@ class Planning
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -114,7 +118,7 @@ class Planning
         return $this->heure_debut;
     }
 
-    public function setHeureDebut(\DateTimeInterface $heure_debut): self
+    public function setHeureDebut(\DateTimeInterface $heure_debut = null): self
     {
         $this->heure_debut = $heure_debut;
 
@@ -126,7 +130,7 @@ class Planning
         return $this->heure_fin;
     }
 
-    public function setHeureFin(\DateTimeInterface $heure_fin): self
+    public function setHeureFin(\DateTimeInterface $heure_fin = null): self
     {
         $this->heure_fin = $heure_fin;
 

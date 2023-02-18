@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Planning;
 use App\Entity\RendezVous;
 use App\Form\RendezVousType;
 use App\Repository\RendezVousRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +24,12 @@ class RendezVousController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_rendez_vous_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, RendezVousRepository $rendezVousRepository): Response
+    #[Route('/{id}/new', name: 'app_rendez_vous_new', methods: ['GET', 'POST'])]
+    public function new(Request $request,Planning $planning,UserRepository $patientRep ,RendezVousRepository $rendezVousRepository): Response
     {
         $rendezVou = new RendezVous();
+        $rendezVou->setPlanning($planning);
+        $rendezVou->setPatient($patientRep->find(2));
         $rendezVou->setEtat("en attente");
         $date_creation = new DateTimeImmutable();
         $rendezVou->setDateDeCreation($date_creation);
@@ -63,13 +67,22 @@ class RendezVousController extends AbstractController
 
             return $this->redirectToRoute('app_rendez_vous_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('Front-Office/rendez_vous/edit.html.twig', [
             'rendez_vou' => $rendezVou,
             'form' => $form,
         ]);
+        
     }
+    
+    #[Route('/{id}/confirm', name: 'app_rendez_vous_confirm', methods: ['GET', 'POST'])]
+    public function confirm(Request $request, RendezVous $rendezVou, RendezVousRepository $rendezVousRepository): Response
+    {
 
+        $rendezVou->setEtat("confirme");
+        return $this->render('Front-Office/rendez_vous/index.html.twig', [
+            'rendez_vouses' => $rendezVousRepository->findAll(),
+        ]);
+    }
     #[Route('/{id}', name: 'app_rendez_vous_delete', methods: ['POST'])]
     public function delete(Request $request, RendezVous $rendezVou, RendezVousRepository $rendezVousRepository): Response
     {

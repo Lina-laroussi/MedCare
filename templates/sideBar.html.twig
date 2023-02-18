@@ -1,5 +1,6 @@
 {% extends 'base-front.html.twig' %}
 {% block body %}
+
 <div class="content">
 <div class="container-fluid">
 <div class="row">
@@ -25,16 +26,16 @@
 <nav class="dashboard-menu">
 <ul>
 <li class="active">
-<a href="patient-dashboard.html">
-<i class="fas fa-columns"></i>
+<a href="{{ path('app_rendez_vous_index') }}">
+<i class="fas fa-calendar-check"></i>
 <span>Rendez-vous</span>
 </a>
 </li>
 
 <li>
-<a href="dependent.html">
-<i class="fas fa-users"></i>
-<span>Mes medecins</span>
+<a href="{{ path('app_planning_index') }}">
+<i class="fas fa-clock"></i>
+<span>Planning Medecin</span>
 </a>
 </li>
 
