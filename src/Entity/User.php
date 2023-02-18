@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Nullable;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,6 +20,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank(message: "Veuillez renseigner votre email")]
+    #[Assert\Email(message: "Votre email n'est pas valide")]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -31,14 +31,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\NotBlank(message: "Veuillez renseigner votre mot de passe")]
+    #[Assert\Length(
+        min: 8,
+        max: 20,
+        minMessage: 'Votre mot de passe doit comporter au moins {{ limit }} caractères',
+        maxMessage: 'Votre mot de passe ne peut pas dépasser {{ limit }} caractères',
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez renseigner votre nom")]
+    #[Assert\Length(
+        min: 2,
+        max: 20,
+        minMessage: 'Votre nom doit comporter au moins {{ limit }} caractères',
+        maxMessage: 'Votre nom ne peut pas dépasser {{ limit }} caractères',
+    )]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez renseigner votre prénom")]
+    #[Assert\Length(
+        min: 2,
+        max: 20,
+        minMessage: 'Votre prénom doit comporter au moins {{ limit }} caractères',
+        maxMessage: 'Votre prénom ne peut pas dépasser {{ limit }} caractères',
+    )]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255,nullable:true)]

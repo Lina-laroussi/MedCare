@@ -1,5 +1,6 @@
 {% extends 'base-front.html.twig' %}
 
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
     <body class="account-page">
@@ -11,39 +12,37 @@
                     <div class="account-content">
                         <div class="row align-items-center justify-content-center">
                             <div class="col-md-7 col-lg-6 login-left">
-                                <img src="{{ asset('FrontOffice/img/login-banner.png') }}" class="img-fluid" alt="Doccure Register">
+                                <img src="{{ asset('FrontOffice/img/login-banner.png') }}" class="img-fluid" alt="Doccure Login">
                             </div>
                             <div class="col-md-12 col-lg-6 login-right">
                                 <div class="login-header">
-                                    <h3>Inscription Patient <a href="doctor-register.html">Are you a Doctor?</a></h3>
+                                    <h3>Connexion</h3>
                                 </div>
-                                {{ form_start(form, {attr: {'novalidate': 'novalidate'}}) }}
+                                <form  method="post" novalidate="">
+                                    {% if error %}
+                                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                    {% endif %}
+
+                                    <input type="hidden" name="_csrf_token"
+                                           value="{{ csrf_token('authenticate') }}"
+                                    >
                                     <div class="form-group form-focus">
-                                        {{ form_widget(form.nom,{attr:{'class':'form-control floating'}}) }}
-                                        
-                                        <label class="focus-label">Nom</label>
-                                    </div>
-                                    <div class="form-group form-focus">
-                                        {{ form_widget(form.prenom,{attr:{'class':'form-control floating'}}) }}
-                                        <label class="focus-label">Prenom</label>
-                                    </div>
-                                    <div class="form-group form-focus">
-                                        {{ form_widget(form.email,{attr:{'class':'form-control floating'}}) }}
+                                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control floating"  autofocus>
                                         <label class="focus-label">Email</label>
                                     </div>
-                                    <div class="form-group form-focus">
-                                        {{ form_widget(form.password.first,{attr:{'class':'form-control floating'}}) }}
-                                        <label class="focus-label">Mot de Passe</label>
-                                    </div>
-                                    <div class="form-group form-focus">
-                                        {{ form_widget(form.password.second,{attr:{'class':'form-control floating'}}) }}
-                                        <label class="focus-label">Confirmer Mot de Passe</label>
-                                    </div>
-                                    <div class="text-end">
-                                        <a class="forgot-link" href="{{ path('app_login')}}">Vous avez déjà un compte?</a>
+
+                                    <div class="form-group">
+                                         <p class="text-danger">  </p>
                                     </div>
 
-                                    <button class="btn btn-primary w-100 btn-lg login-btn" type="submit">S'inscrire</button>
+                                    <div class="form-group form-focus">
+                                        <input type="password" name="password" id="inputPassword" class="form-control floating" autocomplete="current-password" >
+                                        <label class="focus-label">Mot de passe</label>
+                                    </div>
+                                    <div class="text-end">
+                                        <a class="forgot-link" href="forgot-password.html">Mot de Passe oublié ?</a>
+                                    </div>
+                                    <button class="btn btn-primary w-100 btn-lg login-btn" type="submit">Se connecter</button>
                                     <div class="login-or">
                                         <span class="or-line"></span>
                                         <span class="span-or">or</span>
@@ -56,7 +55,8 @@
                                             <a href="#" class="btn btn-google w-100"><i class="fab fa-google me-1"></i> Se connecter</a>
                                         </div>
                                     </div>
-                                {{ form_end(form) }}
+                                    <div class="text-center dont-have">Vous n'avez pas de compte? <a href="{{ path('app_choose_profile') }}">créer un compte</a></div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -66,4 +66,5 @@
         </div>
     </div>
     </body>
+
 {% endblock %}
