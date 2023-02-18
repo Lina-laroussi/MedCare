@@ -15,6 +15,10 @@ class Facture
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Veuillez ajouter le montant du facture")]
+    #[Assert\Positive(message: "Non valide")]
+
+
     private ?float $montant = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]

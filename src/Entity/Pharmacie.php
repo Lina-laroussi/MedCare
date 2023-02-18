@@ -16,15 +16,24 @@ class Pharmacie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Veuillez ajouter l'adresse de votre pharmacie")]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Veuillez ajouter le nom de votre pharmacie")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 8,
+        max: 15,
+        minMessage: 'Votre numéro doit etre composer de 8 numéros au minimum',
+        maxMessage: 'Non valide',
+    )]
     private ?string $num_tel = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank (message:"Veuillez entrer une description")]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
@@ -34,6 +43,8 @@ class Pharmacie
     private ?string $horaire = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Veuillez ajouter votre email")]
+    #[Assert\Email(message: "Le mail '{{value}}'n'est pas valide")]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]

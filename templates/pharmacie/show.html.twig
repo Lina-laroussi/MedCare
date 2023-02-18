@@ -1,6 +1,5 @@
-<!DOCTYPE html>
+{% extends 'base-front.html.twig' %}
 
-<title>Pharmacie</title>
 
 {% block body %}
     <h1>Pharmacie</h1>
@@ -50,7 +49,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_pharmacie_index') }}">back to list</a>
+    <a href="{{ path('app_pharmacie_index') }}">Retour</a>
 
     <a href="{{ path('app_pharmacie_edit', {'id': pharmacie.id}) }}">edit</a>
 

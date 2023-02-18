@@ -12,6 +12,10 @@ class PharmacieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+
+
+
+        
             ->add('adresse')
             ->add('nom')
             ->add('num_tel')
@@ -22,6 +26,12 @@ class PharmacieType extends AbstractType
             ->add('matricule')
             ->add('services')
             ->add('pharmacien')
+
+
+
+
+
+
         ;
     }
 
