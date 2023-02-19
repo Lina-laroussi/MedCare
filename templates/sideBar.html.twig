@@ -1,0 +1,85 @@
+{% extends 'base-front.html.twig' %}
+
+{% block signup %}
+        <li class="nav-item dropdown has-arrow logged-item">
+            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" width="31" alt="Darren Elder">
+                </span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end">
+                <div class="user-header">
+                    <div class="avatar avatar-sm">
+                        <img src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" alt="User Image" class="avatar-img rounded-circle">
+                    </div>
+                    <div class="user-text">
+                        <h6>Darren Elder</h6>
+                        <p class="text-muted mb-0">Doctor</p>
+                    </div>
+                </div>
+                <a class="dropdown-item" href="doctor-dashboard.html">Dashboard</a>
+                <a class="dropdown-item" href="doctor-profile-settings.html">Profile Settings</a>
+                <a class="dropdown-item" href="login.html">Logout</a>
+            </div>
+        </li>        
+    {% endblock %}
+
+{% block body %}
+    <div class="breadcrumb-bar">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-12 col-12">
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                        </ol>
+                    </nav>
+                    <h2 class="breadcrumb-title">Dashboard</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">    
+                {% block sideBar %}
+                {% endblock %}
+                <div class="col-md-7 col-lg-8 col-xl-9">    
+                    {% block content %}
+                    {% endblock %}
+        
+        
+
+    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('FrontOffice/js/script.js') }}"></script>
+<script src="{{ asset('FrontOffice/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('FrontOffice/js/circle-progress.min.js') }}"></script>
+<script src="{{ asset('FrontOffice/js/feather.min.js') }}"></script>
+<script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+<script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+<script src="{{ asset('FrontOffice/plugins/select2/js/select2.min.js') }}"></script>
+<script src="{{ asset('FrontOffice/plugins/apex/apexcharts.min.js') }}"></script>
+<script src="{{ asset('FrontOffice/plugins/apex/chart-data.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{asset('FrontOffice/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{asset('FrontOffice/plugins/fontawesome/css/fontawesome.min.css') }}">
+<link rel="stylesheet" href="{{asset('FrontOffice/plugins/fontawesome/css/all.min.css') }}">
+<link rel="stylesheet" href="{{asset('FrontOffice/css/feather.css') }}">
+<link rel="stylesheet" href="{{asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{asset('FrontOffice/css/owl.carousel.min.css') }}">
+<link rel="stylesheet" href="{{asset('FrontOffice/plugins/apex/apexcharts.css') }}">
+<link rel="stylesheet" href="{{asset('FrontOffice/css/style.css') }}">
+{% endblock %}

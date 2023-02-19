@@ -8,21 +8,40 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class IntegrationController extends AbstractController
 {
-    #[Route('/integration', name: 'app_integration')]
-    public function index(): Response
+    #[Route('/', name: 'Home_Page')]
+    public function home(): Response
     {
         return $this->render('Front-Office/Landing.html.twig');
     }
 
-    #[Route('/admin', name: 'app_integration2')]
-    public function admin(): Response
-    {
-        return $this->render('Back-Office/DashboardAdmin.html.twig');
-    }
-
-    #[Route('/consultation', name: 'app_consult')]
+    #[Route('/dashboard', name: 'app_consult')]
     public function dashboard(): Response
     {
-        return $this->render('Front-Office/consultation.html.twig');
+        return $this->render('Back-Office/dashboardDoc.html.twig');
     }
+
+    #[Route('/consultation', name: 'app_consultation')]
+    public function consultation(): Response
+    {
+        return $this->render('Front-Office/consultation.html.twig');
+
+    }
+
+    #[Route('/fichemed', name: 'app_fiche_med')]
+    public function fich(): Response
+    {
+        return $this->render('Front-Office/fichemed.html.twig');
+    }
+
+    #[Route('/ordenance', name: 'app_ordenance')]
+    public function ordenance(): Response
+    {
+        return $this->render('Front-Office/ordenance.html.twig');
+    }
+
+
+
+
+
+
 }
