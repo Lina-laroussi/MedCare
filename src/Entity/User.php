@@ -18,7 +18,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 180, unique: true,nullable:true)]
     #[Assert\NotBlank(message: "Veuillez renseigner votre email")]
     #[Assert\Email(message: "Votre email n'est pas valide")]
     private ?string $email = null;
@@ -39,7 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable:true)]
     #[Assert\NotBlank(message: "Veuillez renseigner votre nom")]
     #[Assert\Length(
         min: 2,
@@ -49,7 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable:true)]
     #[Assert\NotBlank(message: "Veuillez renseigner votre prénom")]
     #[Assert\Length(
         min: 2,
@@ -60,24 +60,58 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255,nullable:true)]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre description")]
+    #[Assert\Length(
+        min: 8,
+        max: 20,
+        minMessage: 'Votre description doit comporter au moins {{ limit }} caractères',
+        maxMessage: 'Votre description ne peut pas dépasser {{ limit }} caractères',
+    )]
     private ?string $description = null;
 
     #[ORM\Column(length: 255,nullable:true)]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre adresse")]
+    #[Assert\Length(
+        min: 3,
+        max: 20,
+        minMessage: 'Votre adresse doit comporter au moins {{ limit }} caractères',
+        maxMessage: 'Votre adresse ne peut pas dépasser {{ limit }} caractères',
+    )]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255,nullable:true)]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre téléphone")]
+    #[Assert\Length(
+    min: 8,
+    max: 10,
+    minMessage: 'Votre téléphone doit comporter au moins {{ limit }} caractères',
+    maxMessage: 'Votre téléphone ne peut pas dépasser {{ limit }} caractères',
+    )]
+    #[Assert\Regex(
+        pattern:"/^[0-9]*$/",
+        message:"Votre numéro de téléphone n'est pas valide"
+    )]
+
     private ?string $num_tel = null;
 
     #[ORM\Column(length: 255,nullable:true)]
     private ?string $age = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE,nullable:true)]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre date de naissance")]
     private ?\DateTimeInterface $date_de_naissance = null;
 
     #[ORM\Column(length: 255,nullable:true)]
     private ?string $sexe = null;
 
     #[ORM\Column(length: 255,nullable:true)]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre spécialité")]
+    #[Assert\Length(
+        min: 3,
+        max: 20,
+        minMessage: 'Votre spécialité doit comporter au moins {{ limit }} caractères',
+        maxMessage: 'Votre spécialité ne peut pas dépasser {{ limit }} caractères',
+    )]
     private ?string $specialite = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]

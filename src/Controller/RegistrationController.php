@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\EditFormUserType;
 use App\Form\UserType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +24,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/registerPatient', name: 'app_registration_patient')]
-    public function registerPatient(Request $request,ManagerRegistry $rm,ValidatorInterface $validator)
+    public function registerPatient(Request $request,ManagerRegistry $rm)
     {
         $user = new User();
 
@@ -53,7 +54,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/registerMedecin', name: 'app_registration_doctor')]
-    public function registerDoctor(Request $request,ManagerRegistry $rm,ValidatorInterface $validator)
+    public function registerDoctor(Request $request,ManagerRegistry $rm)
     {
         $user = new User();
 
@@ -83,7 +84,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/registerPharmacien', name: 'app_registration_pharmacien')]
-    public function registerPharmacien(Request $request,ManagerRegistry $rm,ValidatorInterface $validator)
+    public function registerPharmacien(Request $request,ManagerRegistry $rm)
     {
         $user = new User();
 
@@ -114,7 +115,7 @@ class RegistrationController extends AbstractController
 
 
     #[Route('/registerAssureur', name: 'app_registration_assureur')]
-    public function registerAssureur(Request $request,ManagerRegistry $rm,ValidatorInterface $validator)
+    public function registerAssureur(Request $request,ManagerRegistry $rm)
     {
         $user = new User();
 
@@ -143,6 +144,26 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    #[Route('/registerAdmin', name: 'app_registration_admin')]
+    public function registerAdmin(Request $request,ManagerRegistry $rm)
+    {
+            $user = new User();
+            $user->setEmail("admin@gmail.com");
+            // Encode the new users password
+            $user->setPassword($this->userPasswordHasher->hashPassword($user,"admin"));
+            $user->setNom("admin");
+            $user->setPrenom("admin");
+            // Set their role
+            $user->setRoles(['ROLE_ADMIN']);
+
+            $user->setDateDeCreation(new \DateTime());
+            // Save
+            $em =$rm->getManager();
+            $em->persist($user);
+            $em->flush();
+
+        return $this->redirectToRoute('app_login');
+    }
 
 
 }

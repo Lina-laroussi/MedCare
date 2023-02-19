@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\EditFormMedecinType;
 use App\Form\EditFormUserType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,28 +27,42 @@ class UserController extends AbstractController
 
    //user connected
     #[Route('/profile', name: 'app_user_profile', methods: ['GET','POST'])]
-    public function getUserConnected(UserRepository $userRepository,Request $request,ManagerRegistry $rm): Response
+    public function edit(UserRepository $userRepository,Request $request): Response
     {
         $currentuser = $this->getUser();
+        if(in_array('ROLE_MEDECIN',$currentuser->getRoles(),true)) {
+
+            $form = $this->createForm(EditFormMedecinType::class, $currentuser);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $userRepository->save($currentuser, true);
+
+                return $this->redirectToRoute('app_user_profile');
+            }
+
+            return $this->render('Front-Office/profile/profile-medecin.html.twig', [
+                'user' => $currentuser,
+                'form'=> $form->createView()
+            ]);
+
+        }else{
 
         $form = $this->createForm(EditFormUserType::class, $currentuser);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$userRepository->save($currentuser, true);
+            $userRepository->save($currentuser, true);
 
-            $em =$rm->getManager();
-            $em->persist($currentuser);
-            $em->flush();
-            return $this->redirectToRoute('app_user_profile');
+           return $this->redirectToRoute('app_user_profile');
         }
         return $this->render('Front-Office/profile/profile-user.html.twig', [
             'user' => $currentuser,
             'form'=> $form->createView()
 
         ]);
-    }
+    }}
 
     /*#[Route('/editProfile', name: 'app_edit_profile', methods: ['GET'])]
     public function editUserConnected(UserRepository $userRepository,Request $request): Response
@@ -99,7 +115,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
+   /* #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -115,7 +131,7 @@ class UserController extends AbstractController
             'user' => $user,
             'form' => $form,
         ]);
-    }
+    }*/
 
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response

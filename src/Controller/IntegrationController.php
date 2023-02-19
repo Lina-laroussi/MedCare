@@ -26,11 +26,14 @@ class IntegrationController extends AbstractController
         ]);
     }
 
-    #[Route('/admin', name: 'app_integration2')]
+    #[Route('/admin', name: 'app_admin')]
     public function admin(): Response
     {
-        return $this->render('Back-Office/DashboardAdmin.html.twig', [
+        $currentuser = $this->getUser();
+
+        return $this->render('Back-Office/list-doctors.html.twig', [
             'controller_name' => 'IntegrationController',
+            'user'=>$currentuser
         ]);
     }
 
