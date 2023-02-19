@@ -84,7 +84,15 @@ class RendezVousController extends AbstractController
     public function confirm(Request $request, RendezVous $rendezVou, RendezVousRepository $rendezVousRepository): Response
     {
 
-        $rendezVou->setEtat("confirme");
+        $rendezVou->setEtat("confirmé");
+        $rendezVousRepository->save($rendezVou, true);
+        return $this->redirectToRoute('app_rendez_vous_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/{id}/cancel', name: 'app_rendez_vous_cancel', methods: ['GET', 'POST'])]
+    public function cancel(Request $request, RendezVous $rendezVou, RendezVousRepository $rendezVousRepository): Response
+    {
+
+        $rendezVou->setEtat("annulé");
         $rendezVousRepository->save($rendezVou, true);
         return $this->redirectToRoute('app_rendez_vous_index', [], Response::HTTP_SEE_OTHER);
     }

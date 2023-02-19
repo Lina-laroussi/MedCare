@@ -51,7 +51,7 @@
                 {% if rendez_vou.etat =="en attente" %}
                 <span class="badge rounded-pill bg-warning-light">
                 {% endif %}
-                {% if rendez_vou.etat =="confirme" %}
+                {% if rendez_vou.etat =="confirmé" %}
                 <span class="badge rounded-pill bg-success-light">
                 {% endif %}
                 {% if rendez_vou.etat =="annulé" %}
@@ -61,8 +61,8 @@
                 </td>
                 <td class="text-end ">
                 <div class="table-action">
-                    <a class="mr-3 btn btn-sm bg-info-light " href="{{ path('app_rendez_vous_show', {'id': rendez_vou.id}) }}"><i class="far fa-eye"></i>show</a>
-                    <a class="mr-3 btn btn-sm bg-success-light" href="{{ path('app_rendez_vous_edit', {'id': rendez_vou.id}) }}"><i class="fas fa-edit"></i>edit</a>
+                    <a class="mr-3 btn btn-sm bg-info-light " href="{{ path('app_rendez_vous_show', {'id': rendez_vou.id}) }}"><i class="far fa-eye"></i>consulter</a>
+                    <a class="mr-3 btn btn-sm bg-success-light" href="{{ path('app_rendez_vous_edit', {'id': rendez_vou.id}) }}"><i class="fas fa-edit"></i>modifier</a>
                 </div>
 
                 </td>
@@ -70,6 +70,16 @@
                 <td class="text-end">
                 <div class="table-action">
                     {{ include('Front-Office/rendez_vous/_confirm_form.html.twig') }}
+
+                </div>
+                </td>
+                {% endif %}
+                {% if rendez_vou.etat !="annulé" %}
+
+                <td class="text-end">
+                  <div class="table-action">
+                    {{ include('Front-Office/rendez_vous/_cancel_form.html.twig') }}
+
                 </div>
                 </td>
                 {% endif %}
@@ -122,7 +132,7 @@
                 {% if rendez_vou.etat =="en attente" %}
                 <span class="badge rounded-pill bg-warning-light">
                 {% endif %}
-                {% if rendez_vou.etat =="confirme" %}
+                {% if rendez_vou.etat =="confirmé" %}
                 <span class="badge rounded-pill bg-success-light">
                 {% endif %}
                 {% if rendez_vou.etat =="annulé" %}
@@ -132,15 +142,24 @@
                 </td>
                 <td class="text-end ">
                 <div class="table-action">
-                    <a class="mr-3 btn btn-sm bg-info-light " href="{{ path('app_rendez_vous_show', {'id': rendez_vou.id}) }}"><i class="far fa-eye"></i>show</a>
-                    <a class="mr-3 btn btn-sm bg-success-light" href="{{ path('app_rendez_vous_edit', {'id': rendez_vou.id}) }}"><i class="fas fa-edit"></i>edit</a>
+                    <a class="mr-3 btn btn-sm bg-info-light " href="{{ path('app_rendez_vous_show', {'id': rendez_vou.id}) }}"><i class="far fa-eye"></i>consulter</a>
+                    <a class="mr-3 btn btn-sm bg-success-light" href="{{ path('app_rendez_vous_edit', {'id': rendez_vou.id}) }}"><i class="fas fa-edit"></i>modifier</a>
                 </div>
-
-                </td>
                 {% if rendez_vou.etat =="en attente" %}
+
                 <td class="text-end">
                 <div class="table-action">
                     {{ include('Front-Office/rendez_vous/_confirm_form.html.twig') }}
+
+                </div>
+                </td>
+                {% endif %}
+                {% if rendez_vou.etat !="annulé" %}
+
+                <td class="text-end">
+                  <div class="table-action">
+                    {{ include('Front-Office/rendez_vous/_cancel_form.html.twig') }}
+
                 </div>
                 </td>
                 {% endif %}

@@ -1,6 +1,4 @@
-{% extends 'base-front.html.twig' %}
 {% block modal %}
-<input type="hidden" id="rendezVousIdInput" name="rendezVousId" value="" />
 
                 <div class="modal fade custom-modal" id="appt_details" data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
                 <div class="modal-dialog modal-dialog-centered">
@@ -12,8 +10,6 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                {{ include('Front-Office/rendez_vous/_confirm_form.html.twig') }}
-
                 </div>
                 </div>
                 </div>
