@@ -1,0 +1,25 @@
+{% extends 'base-back.html.twig' %}
+
+
+
+{% block body %}
+<br><br>
+<br>
+<br>
+<br>
+<br><br><br>
+<br>
+
+ <div class="container" style="margin-left: 50%"
+>
+ <div class="row justify-content-center">
+
+    <h1>Create new Categorie</h1>
+
+    {{ include('categorie/_form.html.twig') }}
+
+    <a href="{{ path('app_categorie_index') }}">back to list</a>
+    </div>
+        </div>
+
+{% endblock %}

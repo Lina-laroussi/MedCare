@@ -18,6 +18,12 @@ class Categorie
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    public function __toString()
+{
+    return $this->nom;
+}
+
+
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 

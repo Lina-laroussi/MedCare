@@ -1,0 +1,14 @@
+{% extends 'base-back.html.twig' %}
+
+
+
+{% block body %}
+ <div class="container" style="margin-left: 30%" >
+    <h1>Create new Produit</h1>
+
+    {{ include('produit/_form.html.twig') }}
+
+    <a href="{{ path('app_produit_index') }}">back to list</a>
+     </div>
+    </div>
+{% endblock %}
