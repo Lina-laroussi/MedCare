@@ -1,8 +1,8 @@
-{% extends 'base-front.html.twig' %}
+{% extends 'Menu.html.twig' %}
 
 
 
-{% block body %}
+{% block content %}
 
     <h1>Mes Factures </h1>
     <div class="tab-content pt-0">
@@ -31,8 +31,8 @@
                 <td>{{ facture.imageSignature }}</td>
                 <td>{{ facture.numFacture }}</td>
                 <td>
-                    <a href="{{ path('app_facture_show', {'id': facture.id}) }}">Voir</a>
-                    <a href="{{ path('app_facture_edit', {'id': facture.id}) }}">Modifier</a>
+                    <a href="{{ path('app_facture_show', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Voir') }}</a>
+                    <a href="{{ path('app_facture_edit', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Modifier') }}</a>
                 </td>
             </tr>
         {% else %}
@@ -43,7 +43,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_facture_new') }}">Ajouter une nouvelle facture</a>
+    <a href="{{ path('app_facture_new') }}" class="btn btn-primary mt-3">{{ button_label|default('Ajouter une nouvelle facture') }}</a>
     </div>
 </div>
 </div>

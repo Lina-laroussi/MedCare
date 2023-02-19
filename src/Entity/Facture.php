@@ -24,7 +24,9 @@ class Facture
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column(length: 255)]
+   
+
+    #[ORM\Column]
     private ?string $image_signature = null;
 
     #[ORM\Column]

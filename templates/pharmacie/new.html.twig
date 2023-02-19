@@ -1,10 +1,12 @@
 
+{% extends 'Menu.html.twig' %}
 
-
-{% block body %}
-    <h1>Create new Pharmacie</h1>
+{% block content %}
+    <h1>Ajouter une Pharmacie</h1>
 
     {{ include('pharmacie/_form.html.twig') }}
 
-    <a href="{{ path('app_pharmacie_index') }}">Retour</a>
+
+
+    <a href="{{ path('app_pharmacie_index') }}" class="btn btn-primary mt-3">{{ button_label|default('Retour') }}</a>
 {% endblock %}
