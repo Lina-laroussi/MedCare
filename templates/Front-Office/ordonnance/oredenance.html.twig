@@ -1,0 +1,74 @@
+{% extends 'sideBar.html.twig' %}
+
+                                {% block active_side %}
+                                    <li>
+                                        <a href="/dashboard">
+                                            <i class="fas fa-columns"></i>
+                                            <span>Dashboard</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/consultation">
+                                        <i class="fas fa-calendar-check"></i>
+                                        <span> Consultation </span>
+                                        </a>
+                                    </li>                                    
+                                   
+                                    <li class="active">
+                                        <a href="/ordenance">
+                                        <i class="fas fa-calendar-check"></i>
+                                        <span> Ordenance </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/fichemed">
+                                        <i class="fas fa-calendar-check"></i>
+                                        <span> Fiche Medical </span>
+                                        </a>
+                                    </li>
+                                {% endblock %} 
+
+
+{% block content %}
+    <h1>Ordonnance index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Code_ordonnance</th>
+                <th>Medicaments</th>
+                <th>Dosage</th>
+                <th>Nombre_jours</th>
+                <th>Date_de_creation</th>
+                <th>Date_de_modification</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ordonnance in ordonnances %}
+            <tr>
+                <td>{{ ordonnance.id }}</td>
+                <td>{{ ordonnance.description }}</td>
+                <td>{{ ordonnance.codeOrdonnance }}</td>
+                <td>{{ ordonnance.medicaments }}</td>
+                <td>{{ ordonnance.dosage }}</td>
+                <td>{{ ordonnance.nombreJours }}</td>
+                <td>{{ ordonnance.dateDeCreation ? ordonnance.dateDeCreation|date('Y-m-d') : '' }}</td>
+                <td>{{ ordonnance.dateDeModification ? ordonnance.dateDeModification|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_ordonnance_show', {'id': ordonnance.id}) }}">show</a>
+                    <a href="{{ path('app_ordonnance_edit', {'id': ordonnance.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ordonnance_new') }}">Create new</a>
+{% endblock %}

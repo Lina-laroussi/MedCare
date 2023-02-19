@@ -27,3 +27,43 @@
                                         </a>
                                     </li>
                                 {% endblock %} 
+
+{% block content %}
+    <h1>Fiche Medicale </h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Allergies</th>
+                <th>Pathologie</th>
+                <th>Date_de_creation</th>
+                <th>Date_de_modification</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fiche_medicale in fiche_medicales %}
+            <tr>
+                <td>{{ fiche_medicale.id }}</td>
+                <td>{{ fiche_medicale.description }}</td>
+                <td>{{ fiche_medicale.allergies }}</td>
+                <td>{{ fiche_medicale.pathologie }}</td>
+                <td>{{ fiche_medicale.dateDeCreation ? fiche_medicale.dateDeCreation|date('Y-m-d') : '' }}</td>
+                <td>{{ fiche_medicale.dateDeModification ? fiche_medicale.dateDeModification|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_fiche_medicale_show', {'id': fiche_medicale.id}) }}">show</a>
+                    <a href="{{ path('app_fiche_medicale_edit', {'id': fiche_medicale.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_fiche_medicale_new') }}">Create new</a>
+{% endblock %}

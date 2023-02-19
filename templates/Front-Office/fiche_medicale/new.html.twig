@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<title>New FicheMedicale</title>
+
+{% block body %}
+    <h1>Create new FicheMedicale</h1>
+
+    {{ include('fiche_medicale/_form.html.twig') }}
+
+    <a href="{{ path('app_fiche_medicale_index') }}">back to list</a>
+{% endblock %}

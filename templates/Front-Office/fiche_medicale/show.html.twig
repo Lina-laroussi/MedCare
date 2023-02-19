@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<title>FicheMedicale</title>
+
+{% block body %}
+    <h1>FicheMedicale</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ fiche_medicale.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ fiche_medicale.description }}</td>
+            </tr>
+            <tr>
+                <th>Allergies</th>
+                <td>{{ fiche_medicale.allergies }}</td>
+            </tr>
+            <tr>
+                <th>Pathologie</th>
+                <td>{{ fiche_medicale.pathologie }}</td>
+            </tr>
+            <tr>
+                <th>Date_de_creation</th>
+                <td>{{ fiche_medicale.dateDeCreation ? fiche_medicale.dateDeCreation|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date_de_modification</th>
+                <td>{{ fiche_medicale.dateDeModification ? fiche_medicale.dateDeModification|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_fiche_medicale_index') }}">back to list</a>
+
+    <a href="{{ path('app_fiche_medicale_edit', {'id': fiche_medicale.id}) }}">edit</a>
+
+    {{ include('fiche_medicale/_delete_form.html.twig') }}
+{% endblock %}

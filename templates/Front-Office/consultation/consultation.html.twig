@@ -76,6 +76,57 @@
                     </div>
                 </div>
 {% endblock %}
-    
+ 
 
-   
+{% block content %}
+<div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Poids</th>
+                <th>Taille</th>
+                <th>Imc</th>
+                <th>Temperature</th>
+                <th>Prix</th>
+                <th>Pression_arterielle</th>
+                <th>Frequence_cardiaque</th>
+                <th>Taux_glycemie</th>
+                <th>Symptomes</th>
+                <th>Traitement</th>
+                <th>Observation</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for consultation in consultations %}
+            <tr>
+                <td>{{ consultation.id }}</td>
+                <td>{{ consultation.poids }}</td>
+                <td>{{ consultation.taille }}</td>
+                <td>{{ consultation.imc }}</td>
+                <td>{{ consultation.temperature }}</td>
+                <td>{{ consultation.prix }}</td>
+                <td>{{ consultation.pressionArterielle }}</td>
+                <td>{{ consultation.frequenceCardiaque }}</td>
+                <td>{{ consultation.tauxGlycemie }}</td>
+                <td>{{ consultation.symptomes }}</td>
+                <td>{{ consultation.traitement }}</td>
+                <td>{{ consultation.observation }}</td>
+                <td>
+                    <a href="{{ path('app_consultation_show', {'id': consultation.id}) }}">show</a>
+                    <a href="{{ path('app_consultation_edit', {'id': consultation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_consultation_new') }}">Create new</a>
+</div>
+{% endblock %}
