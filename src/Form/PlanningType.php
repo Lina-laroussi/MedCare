@@ -23,25 +23,30 @@ class PlanningType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'attr' => ['class' => 'form-control form-group'],
+                'required' => true
             ])
             ->add('date_fin', DateType::class, [
                 'label' => 'Date Fin',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'attr' => ['class' => 'form-control form-group'],
+                'required' => true
             ])
             ->add('heure_debut', TimeType::class, [
                 'label' => 'Heure Debut',
                 'widget' => 'single_text',
                 'attr' => ['class' => 'form-control form-group'],
+                'required' => true
             ])
             ->add('heure_fin', TimeType::class, [
                 'label' => 'Heure Fin',
                 'widget' => 'single_text',
                 'attr' => ['class' => 'form-control form-group'],
+                'required' => true
             ])
             ->add('description',  TextareaType::class, [
                 'attr' => ['class' => 'form-control'],
+                'required' => true
          
 
             ])

@@ -54,13 +54,43 @@ class RendezVousRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?RendezVous
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findRendezVousesBydate($date)
+    {
+        return $this->createQueryBuilder('r')
+        ->Where('r.date = :val')
+        ->setParameter('val', $date)
+        ->getQuery()
+        ->getResult()
+        ;
+   }
+   public function findUpcomingRendezVouses($date)
+   {
+       return $this->createQueryBuilder('r')
+       ->Where('r.date >= :val')
+       ->setParameter('val', $date)
+       ->getQuery()
+       ->getResult()
+       ;
+  }
+/*public function findByDate($cin)
+    {
+
+      $req=$this->createQueryBuilder('c');
+      if($cin!=null)
+      {
+      $req->select('c.ref')
+      ->join('c.utilisateur','u')
+      ->addSelect('u.nom')//s.name et c.name : meme nom affiche l'un des deux---->ajouter l'alias :addSelect('c.name t')
+      ->where('u.cin=:t')
+      ->andWhere("c.agence='BiatTunis'")
+      ->setParameter('t',$cin);
+      }
+      
+      $res = $req->getQuery()
+      ->getResult();
+      dd($res);
+      //return $req;
+       
+    }
+*/
 }

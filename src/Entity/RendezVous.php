@@ -71,7 +71,7 @@ class RendezVous
         return $this->symptomes;
     }
 
-    public function setSymptomes(string $symptomes): self
+    public function setSymptomes(?string $symptomes): self
     {
         $this->symptomes = $symptomes;
 

@@ -20,7 +20,10 @@
     <link rel="stylesheet" href="{{ asset('FrontOffice/css/aos.css') }}">
 
     <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
-{% endblock%}
+    {% block calendarStyle %}
+    
+    {% endblock %}
+{% endblock %}
 </head>
 <body>
 {% block header %}
@@ -178,6 +181,26 @@
             </ul>
         </nav>
     </header>
+    <div class="breadcrumb-bar">
+<div class="container-fluid">
+<div class="row align-items-center">
+<div class="col">
+<nav aria-label="breadcrumb" class="page-breadcrumb">
+<ol class="breadcrumb">
+<li class="breadcrumb-item"><a href="{{ path('app_integration') }}">Acceuil</a></li>
+
+</ol>
+</nav>
+<h2 class="breadcrumb-title">{% block page %}{% endblock %}</h2>
+</div>
+<div class="col-auto text-end float-end ms-auto">
+{% block lien %}
+
+{% endblock %}
+</div>
+</div>
+</div>
+</div>
 {% endblock %}
 
 {% block body %}
@@ -191,7 +214,7 @@
 
         <div class="footer-top">
             <div class="container-fluid">
-                <div class="row aos" data-aos="fade-up">
+                <div class="row aos" data-aos="">
                     <div class="col-lg-3 col-md-6">
 
                         <div class="footer-widget footer-about">
@@ -306,7 +329,7 @@
 </div>
 
 {% endblock %}
-{% block javascripts%}
+{% block javascripts %}
     <!--<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>-->
     <script src="{{ asset('FrontOffice/js/jquery-3.6.0.min.js')}}"></script>
 
@@ -319,6 +342,9 @@
     <script src="{{ asset('FrontOffice/js/aos.js') }}"></script>
 
     <script src="{{ asset('FrontOffice/js/script.js') }}"></script>
+    {% block calendarScript %}
+    
+    {% endblock %}
 {% endblock %}
 </body>
 <!-- Mirrored from doccure.dreamguystech.com/laravel/template/public/index by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 07 Feb 2023 19:57:01 GMT -->

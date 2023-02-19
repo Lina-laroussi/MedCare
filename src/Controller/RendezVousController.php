@@ -7,6 +7,7 @@ use App\Entity\RendezVous;
 use App\Form\RendezVousType;
 use App\Repository\RendezVousRepository;
 use App\Repository\UserRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,8 +20,13 @@ class RendezVousController extends AbstractController
     #[Route('/', name: 'app_rendez_vous_index', methods: ['GET'])]
     public function index(RendezVousRepository $rendezVousRepository): Response
     {
+        $date = new DateTime('today');
+        $todaysDate = $date->format('Y-m-d');
         return $this->render('Front-Office/rendez_vous/index.html.twig', [
-            'rendez_vouses' => $rendezVousRepository->findAll(),
+            'rendez_vouses' => $rendezVousRepository->findUpcomingRendezVouses($todaysDate),
+            'today_rendez_vouses' => $rendezVousRepository->findRendezVousesBydate($todaysDate),
+            'date'=> $todaysDate,
+
         ]);
     }
 
@@ -79,9 +85,8 @@ class RendezVousController extends AbstractController
     {
 
         $rendezVou->setEtat("confirme");
-        return $this->render('Front-Office/rendez_vous/index.html.twig', [
-            'rendez_vouses' => $rendezVousRepository->findAll(),
-        ]);
+        $rendezVousRepository->save($rendezVou, true);
+        return $this->redirectToRoute('app_rendez_vous_index', [], Response::HTTP_SEE_OTHER);
     }
     #[Route('/{id}', name: 'app_rendez_vous_delete', methods: ['POST'])]
     public function delete(Request $request, RendezVous $rendezVou, RendezVousRepository $rendezVousRepository): Response

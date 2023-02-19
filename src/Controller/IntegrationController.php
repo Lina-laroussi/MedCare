@@ -23,4 +23,9 @@ class IntegrationController extends AbstractController
             'controller_name' => 'IntegrationController',
         ]);
     }
+    #[Route('/calendar', name: 'app_calendar')]
+    public function calendar(): Response
+    {
+        return $this->render('Front-Office/calendar.html.twig');
+    }
 }

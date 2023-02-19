@@ -34,7 +34,7 @@ class Planning
     #[Assert\Length(
     min:5, 
     minMessage:"La saisie est trop courte. Veuillez entrer au moins 5 caractères ")]
-    private ?string $description;
+    private ?string $description = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     #[Assert\NotBlank(message:"veuillez choisir une heure de debut")]

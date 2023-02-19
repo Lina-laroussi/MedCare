@@ -1,6 +1,9 @@
 {% extends 'sideBar.html.twig' %}
-
-
+{% block page %}Calendrier
+{% endblock %}
+{% block lien %}
+<a href="{{ path('app_planning_new', {'id': 1}) }}" class="btn btn-primary btn-sm" >Ajouter planning</a>
+{% endblock %}
 {% block content %}
     <h3>Programme du medecin</h3>
 <div class="tab-content pt-0">
@@ -12,36 +15,31 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Date_debut</th>
                 <th>Date_fin</th>
-                <th>Etat</th>
                 <th>Description</th>
                 <th>Heure_debut</th>
                 <th>Heure_fin</th>
-                <th>Date_de_creation</th>
-                <th>Date_de_modification</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for planning in plannings %}
             <tr>
-                <td>{{ planning.id }}</td>
                 <td>{{ planning.dateDebut ? planning.dateDebut|date('Y-m-d') : '' }}</td>
                 <td>{{ planning.dateFin ? planning.dateFin|date('Y-m-d') : '' }}</td>
-                <td>{{ planning.etat }}</td>
                 <td>{{ planning.description }}</td>
                 <td>{{ planning.heureDebut ? planning.heureDebut|date('H:i:s') : '' }}</td>
                 <td>{{ planning.heureFin ? planning.heureFin|date('H:i:s') : '' }}</td>
-                <td>{{ planning.dateDeCreation ? planning.dateDeCreation|date('Y-m-d') : '' }}</td>
-                <td>{{ planning.dateDeModification ? planning.dateDeModification|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_planning_show', {'id': planning.id}) }}">show</a>
-                    <a href="{{ path('app_planning_edit', {'id': planning.id}) }}">edit</a>
-                    <a href="{{ path('app_rendez_vous_new', {'id': planning.id}) }}">Ajouter Rendez-vous</a>
+                <td class="text-end ">
+                <div class="table-action">
+                    <a class="mr-3 btn btn-sm bg-info-light " href="{{ path('app_planning_show', {'id': planning.id}) }}"><i class="far fa-eye"></i>show</a>
+                    <a class="mr-3 btn btn-sm bg-success-light" href="{{ path('app_planning_edit', {'id': planning.id}) }}"><i class="fas fa-edit"></i>edit</a>
+                    <a class="mr-3 btn btn-sm bg-success-light" href="{{ path('app_rendez_vous_new', {'id': planning.id}) }}"><i class="fas "></i>Ajouter Rendez-vous</a>
+
+                </div>
 
                 </td>
+                    
             </tr>
         {% else %}
             <tr>
@@ -54,6 +52,4 @@
 </div>
 </div>
 </div>
-    <a href="{{ path('app_planning_new', {'id': 1}) }}">Create new</a>
-
 {% endblock %}

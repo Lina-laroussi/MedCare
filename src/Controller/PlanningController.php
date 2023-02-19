@@ -61,13 +61,10 @@ class PlanningController extends AbstractController
     {
         $date_modification = new DateTimeImmutable();
         $planning->setDateDeModification($date_modification);
-        $form = $this->createForm(PlanningType::class, $planning,
-        [
-            'validation_groups' => ['edit'],
-        ]);
+        $form = $this->createForm(PlanningType::class, $planning);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid(['validation_groups' => ['edit']])) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $planningRepository->save($planning, true);
 
             return $this->redirectToRoute('app_planning_index', [], Response::HTTP_SEE_OTHER);
@@ -88,4 +85,6 @@ class PlanningController extends AbstractController
 
         return $this->redirectToRoute('app_planning_index', [], Response::HTTP_SEE_OTHER);
     }
+    
+
 }

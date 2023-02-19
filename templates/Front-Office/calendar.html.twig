@@ -1,0 +1,27 @@
+{% extends 'sideBar.html.twig' %}
+{% block calendarStyle %}
+<link rel="stylesheet" href="{{asset('FrontOffice/plugins/fullcalendar/fullcalendar.min.css')}}">
+
+{% endblock %}
+{% block content %}
+<div class="card-body">
+<div id="calendar"></div>
+</div>
+{% endblock %}
+{% block calendarScript %}
+<script src="{{asset('FrontOffice/js/bootstrap.bundle.min.js')}}"></script>
+
+<script src="{{asset('FrontOffice/plugins/theia-sticky-sidebar/ResizeSensor.js')}}"></script>
+<script src="{{asset('FrontOffice/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js')}}"></script>
+
+<script src="{{asset('FrontOffice/js/moment.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/bootstrap-datetimepicker.min.js')}}"></script>
+
+<script src="{{asset('FrontOffice/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+<script src="{{asset('FrontOffice/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
+<script src="{{asset('FrontOffice/plugins/fullcalendar/jquery.fullcalendar.js')}}"></script>
+
+<script src="{{asset('FrontOffice/js/feather.min.js')}}"></script>
+
+<script src="{{asset('FrontOffice/js/script.js')}}"></script>
+{% endblock %}
