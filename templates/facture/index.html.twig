@@ -26,9 +26,11 @@
         {% for facture in factures %}
             <tr>
                 <td>{{ facture.id }}</td>
-                <td>{{ facture.montant }}</td>
                 <td>{{ facture.date ? facture.date|date('Y-m-d') : '' }}</td>
                 <td>{{ facture.imageSignature }}</td>
+                 <td>{{ facture.montant }}</td>
+
+
                 <td>{{ facture.numFacture }}</td>
                 <td>
                     <a href="{{ path('app_facture_show', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Voir') }}</a>

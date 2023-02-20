@@ -37,6 +37,9 @@ class Facture
 
     #[ORM\ManyToOne(inversedBy: 'factures')]
     private ?Pharmacie $pharmacie = null;
+    public function __toString() :string {
+        return $this->pharmacie;
+    }
 
     public function getId(): ?int
     {
@@ -124,4 +127,6 @@ class Facture
 
         return $this;
     }
+   
+    
 }

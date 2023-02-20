@@ -23,7 +23,7 @@ class Pharmacie
     #[Assert\NotBlank(message: "Veuillez ajouter le nom de votre pharmacie")]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column]
     #[Assert\Length(
         min: 8,
         max: 15,
@@ -217,5 +217,8 @@ class Pharmacie
         }
 
         return $this;
+    }
+    public function __toString() :string {
+        return $this->nom;
     }
 }

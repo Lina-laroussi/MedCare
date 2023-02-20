@@ -12,6 +12,7 @@ class FactureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('pharmacie')
             ->add('num_facture')
             ->add('date')
             ->add('ordonnance')
