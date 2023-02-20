@@ -3,6 +3,7 @@
 
 {% block body %}
     <h1>Produit</h1>
+ <div class="container" style="margin-left: 30%" >
 
     <table class="table">
         <tbody>
@@ -34,7 +35,7 @@
                 <th>Image</th>
                 <td>
                 {% if produit.image %}
-    <img src=" {{ asset('image/produit/p2.jpg') }}"  alt="{{ produit.nom }}" />
+<img src="{{ asset('uploads/' ~ produit.image) }}" alt="{{ produit.nom }}" />
 {% endif %}
                 
                 </td>                                 
@@ -47,4 +48,5 @@
     <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
 
     {{ include('produit/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

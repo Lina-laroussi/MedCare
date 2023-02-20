@@ -1,11 +1,9 @@
 
-{% extends 'base-back.html.twig' %}
-
-
+{% extends 'base-front.html.twig' %}
 {% block body %}
 
- <div class="container" style="margin-left: 10%" >
-    <h1>Produit index</h1>
+ <div class="container"  >
+    <h1> la Liste des Produits </h1>
 
     <table class="table">
         <thead>
@@ -15,7 +13,6 @@
                 <th>Description</th>
                 <th>Prix</th>
                 <th>Etat</th>
-                <th>Quantite</th>
                 <th>Image</th>
                 <th>actions</th>
             </tr>
@@ -28,15 +25,18 @@
                 <td>{{ produit.description }}</td>
                 <td>{{ produit.prix }}</td>
                 <td>{{ produit.etat }}</td>
-                <td>{{ produit.quantite }}</td>
+                
                 <td> 
                 {% if produit.image %}
 <img src="{{ asset('uploads/' ~ produit.image) }}" alt="{{ produit.nom }}" />
 {% endif %}</td>
 
                      <td>   
-                    <a href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>
-                    <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
+                    <a> ajouter au panier </a>
+                    
+                   <a commander</a>
+
+                   
                 </td>
             </tr>
         {% else %}
@@ -47,6 +47,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_produit_new') }}">Create new</a>
+   
                 </div>
 {% endblock %}

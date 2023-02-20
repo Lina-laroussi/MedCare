@@ -20,6 +20,17 @@ class ProduitController extends AbstractController
             'produits' => $produitRepository->findAll(),
         ]);
     }
+    
+    ///pour le Front 
+
+    #[Route('/index1', methods: ['GET'])]
+    public function index1(ProduitRepository $produitRepository): Response
+    {
+        return $this->render('produit/index1.html.twig', [
+            'produits' => $produitRepository->findAll(),
+        ]);
+    }
+//////
 
     #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProduitRepository $produitRepository): Response
@@ -29,7 +40,23 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $produitRepository->save($produit, true);
+// Get the uploaded file
+$file = $form['image']->getData();
+
+// Generate a unique name for the file before saving it
+$fileName = md5(uniqid()) . '.' . $file->guessExtension();
+
+// Move the file to the directory where images are stored
+$file->move(
+    $this->getParameter('product_images_directory'),
+    $fileName
+);
+
+// Update the filename property of the produit entity
+$produit->setImage($fileName);
+
+// Save the produit entity to the database
+$produitRepository->save($produit, true);
 
             return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -55,6 +82,23 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+// Get the uploaded file
+$file = $form['image']->getData();
+
+if ($file) {
+    // Generate a unique name for the file before saving it
+    $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+
+    // Move the file to the directory where images are stored
+    $file->move(
+        $this->getParameter('product_images_directory'),
+        $fileName
+    );
+
+    // Update the filename property of the produit entity
+    $produit->setImage($fileName);
+}
             $produitRepository->save($produit, true);
 
             return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
@@ -74,5 +118,7 @@ class ProduitController extends AbstractController
         }
 
         return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
-    }
+        }
+
 }
+

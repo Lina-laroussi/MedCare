@@ -21,6 +21,14 @@ class CategorieController extends AbstractController
         ]);
     }
 
+    #[Route('/indexC', methods: ['GET'])]
+    public function indexC(CategorieRepository $categorieRepository): Response
+    {
+        return $this->render('categorie/indexC.html.twig', [
+            'categories' => $categorieRepository->findAll(),
+        ]);
+    }
+
     #[Route('/new', name: 'app_categorie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CategorieRepository $categorieRepository): Response
     {

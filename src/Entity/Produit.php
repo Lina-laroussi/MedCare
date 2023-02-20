@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -14,9 +15,11 @@ class Produit
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank (message:" Le nom ne peut pas être vide")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank (message:" Le description ne peut pas être vide")]  
     private ?string $description = null;
 
     #[ORM\Column]
@@ -29,6 +32,7 @@ class Produit
     private ?float $quantite = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank (message:" inserer une image pour le produit")]  
     private ?string $image = null;
 
     #[ORM\ManyToOne(inversedBy: 'produits')]
