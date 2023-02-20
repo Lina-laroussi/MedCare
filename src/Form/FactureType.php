@@ -6,6 +6,14 @@ use App\Entity\Facture;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+
+
+
 
 class FactureType extends AbstractType
 {
@@ -14,7 +22,13 @@ class FactureType extends AbstractType
         $builder
             ->add('pharmacie')
             ->add('num_facture')
-            ->add('date')
+            ->add('date',DateType::class, [
+               
+                'label' => 'Date ',
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+                'required' => true
+            ])           
             ->add('ordonnance')
             ->add('image_signature')
             ->add('montant')

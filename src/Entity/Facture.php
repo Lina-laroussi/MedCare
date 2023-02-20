@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Repository\FactureRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+
 
 #[ORM\Entity(repositoryClass: FactureRepository::class)]
 class Facture
@@ -17,16 +20,12 @@ class Facture
     #[ORM\Column]
     #[Assert\NotBlank(message: "Veuillez ajouter le montant du facture")]
     #[Assert\Positive(message: "Non valide")]
-
-
     private ?float $montant = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-   
-
-    #[ORM\Column]
+   #[ORM\Column]
     private ?string $image_signature = null;
 
     #[ORM\Column]
@@ -51,7 +50,7 @@ class Facture
         return $this->montant;
     }
 
-    public function setMontant(float $montant): self
+    public function setMontant(float $montant=null): self
     {
         $this->montant = $montant;
 
@@ -63,7 +62,7 @@ class Facture
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(\DateTimeInterface $date =null): self
     {
         $this->date = $date;
 
@@ -75,7 +74,7 @@ class Facture
         return $this->image_signature;
     }
 
-    public function setImageSignature(string $image_signature): self
+    public function setImageSignature(string $image_signature = null): self
     {
         $this->image_signature = $image_signature;
 
@@ -87,7 +86,7 @@ class Facture
         return $this->num_facture;
     }
 
-    public function setNumFacture(int $num_facture): self
+    public function setNumFacture(int $num_facture = null): self
     {
         $this->num_facture = $num_facture;
 
@@ -99,7 +98,7 @@ class Facture
         return $this->ordonnance;
     }
 
-    public function setOrdonnance(?Ordonnance $ordonnance): self
+    public function setOrdonnance(?Ordonnance $ordonnance = null): self
     {
         // unset the owning side of the relation if necessary
         if ($ordonnance === null && $this->ordonnance !== null) {
@@ -121,7 +120,7 @@ class Facture
         return $this->pharmacie;
     }
 
-    public function setPharmacie(?Pharmacie $pharmacie): self
+    public function setPharmacie(?Pharmacie $pharmacie=null): self
     {
         $this->pharmacie = $pharmacie;
 

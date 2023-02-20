@@ -1,14 +1,129 @@
-<div class="row">
-<div class="col-sm-6 col-12 avail-time">
-<div class="mb-3">
-<div class="schedule-calendar-col justify-content-start">
-{{ form_start(form,{'attr': {'class': 'flex-wrap ' ,'novalidate': 'novalidate'}}) }}
-<div class="me-3">
+{% block stylesheets %}
+
+    <link href="assets/img/favicon.png" rel="icon">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/bootstrap.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/all.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/feather.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/bootstrap-datetimepicker.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
+
+{% endblock %}
+{% block content %}
+    <div class="col-md-7 col-lg-8 col-xl-9">
+        <div class="card">
+            <div class="card-body">
+
+{{form_start(form,{'attr': {'novalidate': 'novalidate'}})}}
+
+ <div class="row form-row">
+                        <div class="col-12 col-md-12">
+                            <div class="form-group">
+                                <div class="change-avatar">
+                                    <div class="profile-img">
+                                        <img src="{{ asset('FrontOffice/img/patients/patient5.jpg') }}" alt="User Image">
+                                    </div>
+                                    <div class="upload-img">
+                                        <div class="change-photo-btn">
+                                            <span><i class="fa fa-upload"></i> Ajouter</span>
+                                            <input type="file" class="upload">
+                                        </div>
+                                        <small class="form-text text-muted">JPG, GIF ou PNG autorisés. Taille maximale de 2 Mo</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Nom</label>
+                                {{ form_widget(form.nom,{attr:{'class':'form-control'}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_errors(form.nom,{attr:{'class':'text-danger'}})  }}
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Adresse</label>
+                                {{ form_widget(form.adresse,{attr:{'class':'form-control '}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_errors(form.adresse,{attr:{'class':'text-danger'}})  }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Numéro Télephone</label>
+                                {{ form_widget(form.num_tel,{attr:{'class':'form-control'}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_errors(form.num_tel,{attr:{'class':'text-danger'}})  }}
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Email </label>
+                                {{ form_widget(form.email,{attr:{'class':'form-control '}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_errors(form.email,{attr:{'class':'text-danger'}})  }}
+                            </div>
+                        </div>
+                           <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Matricule</label>
+                                {{ form_widget(form.matricule,{attr:{'class':'form-control'}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_errors(form.matricule,{attr:{'class':'text-danger'}})  }}
+                            </div>
+                        </div>
+                         <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Etat</label>
+                                {{ form_widget(form.etat,{attr:{'class':'form-select form-control'}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_errors(form.etat,{attr:{'class':'text-danger'}})  }}
+                            </div>
+                        </div>
+                          <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Horaire</label>
+                                {{ form_widget(form.horaire,{attr:{'class':'form-control'}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_errors(form.horaire,{attr:{'class':'text-danger'}})  }}
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Services</label>
+                                {{ form_widget(form.services,{attr:{'class':'form-control'}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_errors(form.services,{attr:{'class':'text-danger'}})  }}
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Description</label>
+                                {{ form_widget(form.description,{attr:{'class':'form-control'}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_errors(form.description,{attr:{'class':'text-danger'}})  }}
+                            </div>
+                        </div>
+
     {{ form_widget(form) }}
     <button class="btn btn-primary mt-3">{{ button_label|default('Ajouter Pharmacie') }}</button>
-    </div> 
 {{ form_end(form) }}
-</div>
-</div>
-</div>
-</div>
+{% endblock %}
