@@ -85,6 +85,6 @@ class PlanningController extends AbstractController
 
         return $this->redirectToRoute('app_planning_index', [], Response::HTTP_SEE_OTHER);
     }
-    
+
 
 }

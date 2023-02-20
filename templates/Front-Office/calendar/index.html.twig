@@ -1,9 +1,13 @@
 {% extends 'sideBar.html.twig' %}
+{% block lien %}
+<a href="{{ path('app_planning_new', {'id': 1}) }}" class="btn btn-primary btn-sm" >Ajouter rendezVous</a>
+{% endblock %}
 {% block calendarStyle %}
 <link rel="stylesheet" href="{{asset('FrontOffice/plugins/fullcalendar/fullcalendar.min.css')}}">
 
 {% endblock %}
 {% block content %}
+
 <div class="card-body">
 <div id="calendar"></div>
 </div>
@@ -19,9 +23,33 @@
 
 <script src="{{asset('FrontOffice/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <script src="{{asset('FrontOffice/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
-<script src="{{asset('FrontOffice/plugins/fullcalendar/jquery.fullcalendar.js')}}"></script>
 
 <script src="{{asset('FrontOffice/js/feather.min.js')}}"></script>
 
 <script src="{{asset('FrontOffice/js/script.js')}}"></script>
+<script>
+    $(document).ready(function() {
+        $('#calendar').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+        minTime: '07:00:00',
+        maxTime: '21:00:00',
+        navLinks: true,
+        navLinkDayClick: function(date, jsEvent) {
+            console.log('day', date.toISOString());
+            console.log('coords', jsEvent.pageX, jsEvent.pageY);
+        },
+
+        events:
+            {{ data|raw }},
+
+        });
+    })
+
+
+</script>
+
 {% endblock %}
