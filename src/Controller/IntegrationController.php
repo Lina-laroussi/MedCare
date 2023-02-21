@@ -23,4 +23,18 @@ class IntegrationController extends AbstractController
             'controller_name' => 'IntegrationController',
         ]);
     }
+    #[Route('/searchpharmacie', name: 'app_integration3')]
+    public function searchpharmacie(): Response
+    {
+        return $this->render('Front-Office/pharmacy-search.html.twig', [
+            'controller_name' => 'IntegrationController',
+        ]);
+    }
+    #[Route('/detailpharmacie', name: 'app_integration4')]
+    public function detailspharmacie(): Response
+    {
+        return $this->render('Front-Office/pharmacy-details.html.twig', [
+            'controller_name' => 'IntegrationController',
+        ]);
+    }
 }
