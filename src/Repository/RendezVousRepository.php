@@ -72,6 +72,21 @@ class RendezVousRepository extends ServiceEntityRepository
        ->getResult()
        ;
   }
+  public function findByPlanning($planning_id)
+  {
+      $req = $this->createQueryBuilder('r');
+      if($planning_id!=null){
+        $req
+        ->join('r.planning','p')
+        ->Where('p.id >= :val')
+        ->setParameter('val', $planning_id);
+
+      }
+      $res = $req->getQuery()
+      ->getResult();
+      //return $req;
+
+    }
 /*public function findByDate($cin)
     {
 

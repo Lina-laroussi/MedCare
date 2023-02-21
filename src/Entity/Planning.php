@@ -49,7 +49,7 @@ class Planning
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_de_modification = null;
 
-    #[ORM\OneToMany(mappedBy: 'planning', targetEntity: RendezVous::class)]
+    #[ORM\OneToMany(mappedBy: 'planning', targetEntity: RendezVous::class, cascade: ['remove'],)]
     private Collection $les_rendez_vous;
 
     #[ORM\ManyToOne(inversedBy: 'plannings')]
