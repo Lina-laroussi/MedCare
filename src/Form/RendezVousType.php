@@ -17,7 +17,7 @@ class RendezVousType extends AbstractType
         $builder
             ->add('date',DateType::class, [
                
-                'label' => 'Date Debut',
+                'label' => 'Date',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'attr' => ['class' => 'form-control form-group'],
@@ -30,7 +30,7 @@ class RendezVousType extends AbstractType
                 'required' => true
             ])
             ->add('heure_fin',TimeType::class, [
-                'label' => 'Heure Debut',
+                'label' => 'Heure Fin',
                 'widget' => 'single_text',
                 'attr' => ['class' => 'form-control form-group'],
                 'required' => true

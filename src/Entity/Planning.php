@@ -18,7 +18,7 @@ class Planning
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\NotBlank(message:"veuillez choisir une Date de debut du planing",groups:["create", "update"])]
+    #[Assert\NotBlank(message:"veuillez choisir une Date de debut du planing")]
     private ?\DateTimeInterface $date_debut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
