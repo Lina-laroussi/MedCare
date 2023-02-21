@@ -1,4 +1,4 @@
-{% extends 'side-bar.html.twig' %}
+{% extends 'base-back.html.twig' %}
 
 {% block stylesheets %}
 
@@ -14,14 +14,34 @@
     <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css') }}">
+
     <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/dropzone/dropzone.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
 
+    <link rel="shortcut icon" href="{{ asset('BackAdmin/img/favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/css/bootstrap.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/fontawesome/css/fontawesome.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/fontawesome/css/all.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/css/feather.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/select2/css/select2.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/owl-carousel/owl.carousel.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/daterangepicker/daterangepicker.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/css/style.css') }}">
+
 {% endblock %}
 
-{% block content %}
-
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
     <div class="col-md-7 col-lg-8 col-xl-9">
         {{ form_start(form, {attr: {'novalidate': 'novalidate'}}) }}
         <div class="card">
@@ -32,7 +52,7 @@
                         <div class="form-group">
                             <div class="change-avatar">
                                 <div class="profile-img">
-                                    <img src="{{ user.image|default('uploads/utilisateurs/user.png') }}"alt="User Image">
+                                    <img src="{{ user.image|default('uploads/utilisateurs/user.png') }}" alt="User Image">
                                 </div>
                                 <div class="upload-img">
                                     <div class="change-photo-btn">
@@ -40,12 +60,12 @@
                                         {{ form_widget(form.photo,{attr:{'class':'upload'}}) }}
                                     </div>
                                     <small class="form-text text-muted">AJPG, GIF ou PNG autorisés. Taille maximale de 2 Mo</small>
+                                    <div class="form-group">
+                                        {{ form_errors(form.photo,{attr:{'class':'text-danger'}})  }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        {{ form_errors(form.photo,{attr:{'class':'text-danger'}})  }}
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -163,7 +183,31 @@
         </div>
         {{ form_end(form) }}
     </div>
+    </div>
+</div>
 
 
 
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('BackAdmin/js/jquery-3.6.0.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/js/bootstrap.bundle.min.js') }}"></script>
+
+    <script src="{{asset('BackAdmin/js/feather.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/plugins/select2/js/select2.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/plugins/owl-carousel/owl.carousel.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/plugins/apexchart/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('BackAdmin/plugins/apexchart/chart-data.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/js/moment.min.js') }}"></script>
+    <script src="{{ asset('BackAdmin/plugins/daterangepicker/daterangepicker.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/js/script.js') }}"></script>
 {% endblock %}

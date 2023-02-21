@@ -2,7 +2,9 @@
 
 {% block stylesheets %}
 
-    <link href="assets/img/favicon.png" rel="icon">
+    <link href="{{ asset('FrontOffice/img/favicon.png"') }}" rel="icon">
+    <link type="image/x-icon" href="{{asset('FrontOffice/img/favicon.png') }}" rel="icon">
+
     <link rel="stylesheet" href="{{ asset('FrontOffice/css/bootstrap.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/fontawesome.min.css') }}">
@@ -30,16 +32,20 @@
                             <div class="form-group">
                                 <div class="change-avatar">
                                     <div class="profile-img">
-                                        <img src="{{ asset('FrontOffice/img/patients/patient.jpg') }}" alt="User Image">
+                                        <img src="{{ user.image|default('uploads/utilisateurs/user.png') }}" alt="User Image">
                                     </div>
                                     <div class="upload-img">
                                         <div class="change-photo-btn">
                                             <span><i class="fa fa-upload"></i> Ajouter</span>
-                                            <input type="file" class="upload">
+                                            <!--<input type="file" class="upload">-->
+                                            {{ form_widget(form.photo,{attr:{'class':'upload'}}) }}
                                         </div>
                                         <small class="form-text text-muted">JPG, GIF ou PNG autorisés. Taille maximale de 2 Mo</small>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_errors(form.photo,{attr:{'class':'text-danger'}})  }}
                             </div>
                         </div>
 

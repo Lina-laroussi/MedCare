@@ -234,7 +234,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(string $description = null): self
     {
         $this->description = $description;
 
@@ -246,7 +246,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->adresse;
     }
 
-    public function setAdresse(string $adresse): self
+    public function setAdresse(string $adresse = null): self
     {
         $this->adresse = $adresse;
 
@@ -258,7 +258,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->num_tel;
     }
 
-    public function setNumTel(string $num_tel): self
+    public function setNumTel(string $num_tel = null): self
     {
         $this->num_tel = $num_tel;
 
@@ -306,7 +306,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->specialite;
     }
 
-    public function setSpecialite(string $specialite): self
+    public function setSpecialite(string $specialite = null): self
     {
         $this->specialite = $specialite;
 
@@ -354,7 +354,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(string $image = null): self
     {
         $this->image = $image;
 

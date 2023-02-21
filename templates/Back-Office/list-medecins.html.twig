@@ -1,0 +1,170 @@
+{% extends 'base-back.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="shortcut icon" href="{{ asset('BackAdmin/img/favicon.png') }}">
+
+    <link rel="stylesheet" href="{{asset('BackAdmin/css/bootstrap.min.css')}}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/fontawesome/css/all.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/css/feather.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/daterangepicker/daterangepicker.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/select2/css/select2.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/datatables/datatables.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/css/style.css') }}">
+
+{% endblock %}
+
+
+
+{% block body %}
+
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col-md-12 d-flex justify-content-end">
+                        <div class="doc-badge me-3">Total Médecins <span class="ms-1">48</span></div>
+                        <a href="#" class="btn btn-primary btn-add" data-bs-toggle="modal" data-bs-target="#addModal"><i class="feather-plus-square me-1"></i> Add New</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header border-bottom-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h5 class="card-title">Médecins</h5>
+                                </div>
+                                <div class="col-auto custom-list d-flex">
+                                    <div class="form-custom me-2">
+                                        <div id="tableSearch" class="dataTables_wrapper"></div>
+                                    </div>
+                                    <div class="SortBy">
+                                        <div class="selectBoxes order-by">
+                                            <p class="mb-0"><img src="{{ asset('BackAdmin/img/icon/sort.png') }}" class="me-2" alt="icon"> Order by </p>
+                                            <span class="down-icon"><i class="feather-chevron-down"></i></span>
+                                        </div>
+                                        <div id="checkBox">
+                                            <form action="https://doccure.dreamguystech.com/html/template/admin/pharmacy-list.html">
+                                                <p class="lab-title">Order By </p>
+                                                <label class="custom_radio w-100">
+                                                    <input type="radio" name="sort">
+                                                    <span class="checkmark"></span> ID
+                                                </label>
+                                                <label class="custom_radio w-100">
+                                                    <input type="radio" name="sort">
+                                                    <span class="checkmark"></span> Date Created
+                                                </label>
+                                                <p class="lab-title">Sort By</p>
+                                                <label class="custom_radio w-100">
+                                                    <input type="radio" name="sort">
+                                                    <span class="checkmark"></span> Ascending
+                                                </label>
+                                                <label class="custom_radio w-100 mb-4">
+                                                    <input type="radio" name="sort">
+                                                    <span class="checkmark"></span> Descending
+                                                </label>
+                                                <button type="submit" class="btn w-100 btn-primary">Apply</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="datatable table table-borderless hover-table" id="data-table">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Photo</th>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        <th>Email</th>
+                                        <th>Spécialité</th>
+                                        <th>Date de Naissance</th>
+                                        <th>Sexe</th>
+                                        <th>Téléphone</th>
+                                        <th>Adresse</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for user in users %}
+                                        {% for role in user.roles %}
+                                            {% if  role == "ROLE_MEDECIN"  %}
+                                                <tr>
+                                                    <td>{{ user.id }}</td>
+                                                    <td>
+                                                        <h2 class="table-avatar">
+                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#editModal"><img class="avatar avatar-img" src="{{ user.image|default('uploads/utilisateurs/user.png') }}" alt="User Image"></a>
+                                                        </h2>
+                                                    </td>
+                                                    <td>
+                                                        <h2 class="table-avatar">
+                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#editModal"><span>{{ user.nom |capitalize }}</span></a>
+                                                        </h2>
+                                                    </td>
+                                                    <td>
+                                                        <h2 class="table-avatar">
+                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#editModal"><span>{{ user.prenom |capitalize }}</span></a>
+                                                        </h2>
+                                                    </td>
+                                                    <td>{{ user.email }}</td>
+                                                    <td>{{ user.specialite }}</td>
+                                                    <td><span class="d-block">{{ user.dateDeNaissance |date }}</span></td>
+                                                    <td>{{ user.sexe }}</td>
+                                                    <td>{{ user.numTel }}</td>
+                                                    <td>{{ user.adresse }}</td>
+                                                    <td><a class="btn btn-outline-info" href="{{path('update_medecin',{'id':user.id})}}"/>Modifier</td>
+                                                    <td><a class="btn btn-outline-danger" onclick="return confirm('vous etes sure de vouloir supprimer ?');" href="{{path('remove_utilisateur',{'id':user.id})}}"/>supprimer</td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tablepagination" class="dataTables_wrapper"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+    <script src="{{ asset('BackAdmin/js/jquery-3.6.0.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/js/bootstrap.bundle.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('BackAdmin/plugins/datatables/datatables.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/js/moment.min.js') }}"></script>
+    <script src="{{ asset('BackAdmin/plugins/daterangepicker/daterangepicker.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/plugins/select2/js/select2.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/js/script.js') }}"></script>
+
+
+{% endblock %}

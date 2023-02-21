@@ -6,6 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>{% block title %}MedCare{% endblock %}</title>
+
+
 {% block stylesheets %}
     <link rel="shortcut icon" href="{{ asset('BackAdmin/img/favicon.png') }}">
 
@@ -193,7 +195,7 @@
                 <ul>
                     <li class="menu-title"><span>Main</span></li>
                     <li class="active">
-                        <a href="index.html"><i class="feather-grid"></i> <span>Dashboard</span></a>
+                        <a href="{{ path('app_admin') }}"><i class="feather-grid"></i> <span>Dashboard</span></a>
                     </li>
                     <li>
                         <a href="upcoming-appointments.html"><i class="feather-calendar"></i> <span>Appointments</span></a>
@@ -202,10 +204,16 @@
                         <a href="specialities.html"><i class="feather-package"></i> <span>Specialities</span></a>
                     </li>
                     <li>
-                        <a href="{{ path('app_user_index') }}"><i class="feather-user-plus"></i> <span>Utilisateurs</span></a>
+                        <a href="{{ path('list_medecins') }}"><i class="feather-users"></i> <span>Médecins</span></a>
                     </li>
                     <li>
-                        <a href="patient-list.html"><i class="feather-users"></i> <span>Patients</span></a>
+                        <a href="{{ path('list_patients') }}"><i class="feather-users"></i> <span>Patients</span></a>
+                    </li>
+                    <li>
+                        <a href="{{ path('list_pharmaciens') }}"><i class="feather-users"></i> <span>Pharmaciens</span></a>
+                    </li>
+                    <li>
+                        <a href="{{ path('list_assureurs') }}"><i class="feather-users"></i> <span>Assureurs</span></a>
                     </li>
                     <li>
                         <a href="ratings.html"><i class="feather-star"></i> <span>Reviews</span></a>

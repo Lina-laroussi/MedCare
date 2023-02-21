@@ -7,15 +7,14 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
-use Symfony\Component\Validator\Constraints\NotNullValidator;
 use Symfony\Component\Validator\Constraints\Regex;
 
 class EditFormUserType extends AbstractType
@@ -23,8 +22,8 @@ class EditFormUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom',TextType::class)
-            ->add('prenom',TextType::class)
+            ->add('nom',TextType::class,[ 'disabled' => true])
+            ->add('prenom',TextType::class,[ 'disabled' => true])
 
             ->add('date_de_naissance',DateType::class, [
                 'widget' => 'single_text',
@@ -36,7 +35,7 @@ class EditFormUserType extends AbstractType
 
             ->add('num_tel',TextType::class,[
                 'constraints' => [new notBlank(['message'=>('Veuillez renseigner votre numéro de téléphone')]),
-                    new Regex(pattern:"/^[0-9]*$/", message:"Votre numéro de téléphone n'est pas valide")
+                    new Regex(pattern:"/^[0-9]*$/", message:"Votre numéro de téléphone n'est pas valide"),
                 ]
             ])
             ->add('sexe',ChoiceType::class, [
@@ -55,6 +54,29 @@ class EditFormUserType extends AbstractType
                     )
                     ]
             ] )
+            ->add('photo', FileType::class, [
+                'label' => 'Votre image de profil (Des fichiers images uniquement)',
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => false,
+                // unmapped fields can't define their validation using annotations
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/gif',
+                            'image/jpeg',
+                            'image/png',
+                            'image/jpg',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez renseigner votre Image',
+                    ])
+                ],
+            ])
+
         ;
     }
 

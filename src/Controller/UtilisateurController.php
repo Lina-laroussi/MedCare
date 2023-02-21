@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\EditFormMedecinType;
 use App\Form\EditFormUserType;
+use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,153 +15,176 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class ProfileController extends AbstractController
+class UtilisateurController extends AbstractController
 {
-    #[Route('/p', name: 'app_profile')]
-    public function index(): Response
-    {
-        return $this->render('profile/index.html.twig', [
-            'controller_name' => 'ProfileController',
-        ]);
-    }
-
-
-    #[Route('/profile', name: 'app_user_profile')]
-    public function update_profile_utilisateur( ManagerRegistry $rg, Request $req,  SluggerInterface $slugger): Response
-    {
-       // $user = $repo->find($id);
-        $user=$this->getUser();
-
-        $form = $this->createForm(EditFormUserType::class, $user);
-        $form->handleRequest($req);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $photo = $form->get('photo')->getData();
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
-            if ($photo) {
-                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $photo->guessExtension();
-                // Move the file to the directory where brochures are stored
-                try {
-                    $photo->move(
-                        $this->getParameter('utilisateurs_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $user->setImage($newFilename);
-            }
-
-            $result = $rg->getManager();
-            $result->persist($user);
-            $result->flush();
-        }
-
-        return $this->render('Front-Office/profile/profile-user.html.twig', [
-            'form' => $form->createView(),
-            'user'=>$user
-        ]);
-
-    }
-
-
-    #[Route('/profileM', name: 'app_medecin_profile')]
-    public function update_profile_medecin(ManagerRegistry $rg, Request $req, SluggerInterface $slugger): Response
-    {
-        //$user = $repo->find($id);
-        $user=$this->getUser();
-        $form = $this->createForm(EditFormMedecinType::class, $user);
-
-        $form->handleRequest($req);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $photo = $form->get('photo')->getData();
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
-            if ($photo) {
-                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $photo->guessExtension();
-                // Move the file to the directory where brochures are stored
-                try {
-                    $photo->move(
-                        $this->getParameter('utilisateurs_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $user->setImage($newFilename);
-            }
-
-            $result = $rg->getManager();
-            $result->persist($user);
-            $result->flush();
-
-        }
-
-        return $this->render('Front-Office/profile/profile-medecin.html.twig', [
-            'form' => $form->createView(),
-            'user'=>$user
-        ]);
-    }
-
-
-
-   /* #[Route('/profile', name: 'app_user_profile', methods: ['GET','POST'])]
-    public function edit(UserRepository $userRepository,Request $request,ManagerRegistry $rg):Response
+    #[Route('/admin', name: 'app_admin')]
+    public function admin(): Response
     {
         $currentuser = $this->getUser();
-        if(in_array('ROLE_MEDECIN',$currentuser->getRoles(),true)) {
 
-            $form = $this->createForm(EditFormMedecinType::class, $currentuser);
+        return $this->render('Back-Office/DashboardAdmin.html.twig', [
+            'controller_name' => 'UtilisateurController',
+            'user'=>$currentuser
+        ]);
+    }
 
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
+    #[Route('/newUser', name: 'add_utilisateur')]
+    public function add_utilisateur(ManagerRegistry $rg, Request $req):Response
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($req);
+        if ($form->isSubmitted()) {
+            $result = $rg->getManager();
+            $result->persist($user);
+            $result->flush();
+        }
 
-                $em=$rg->getManager();
-                $em->persist($form);
-                $em->flush();
-               //  $userRepository->save($currentuser, true);
+        return $this->render('utilisateur/ajouter.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 
-                return $this->redirectToRoute('app_user_profile', [], Response::HTTP_SEE_OTHER);
+    #[Route('/updateUser/{id}', name: 'update_utilisateur')]
+    public function update_utilisateur($id, ManagerRegistry $rg, Request $req, UserRepository $repo, SluggerInterface $slugger): Response
+    {
+        $user = $repo->find($id);
+        $form = $this->createForm(EditFormUserType::class, $user);
+        $form->handleRequest($req);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $photo = $form->get('photo')->getData();
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($photo) {
+                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $photo->guessExtension();
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photo->move(
+                        $this->getParameter('utilisateurs_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $user->setImage($newFilename);
             }
+            $result = $rg->getManager();
+            $result->persist($user);
+            $result->flush();
+        }
 
-            return $this->render('Front-Office/profile/profile-medecin.html.twig', [
-                'user' => $currentuser,
-                'form'=> $form->createView()
-            ]);
+        return $this->render('Back-Office/Profile-User.html.twig', [
+            'form' => $form->createView(),
+            'user'=>$user
+        ]);
 
-        } else{
+    }
 
-            $form = $this->createForm(EditFormUserType::class, $currentuser);
+    #[Route('/updateMed/{id}', name: 'update_medecin')]
+    public function update_medecin($id, ManagerRegistry $rg, Request $req, UserRepository $repo, SluggerInterface $slugger): Response
+    {
+        $user = $repo->find($id);
 
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid() ) {
+        $form = $this->createForm(EditFormMedecinType::class, $user);
+        $form->handleRequest($req);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $photo = $form->get('photo')->getData();
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($photo) {
+                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $photo->guessExtension();
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photo->move(
+                        $this->getParameter('utilisateurs_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
 
-                $em=$rg->getManager();
-                $em->persist($form);
-                $em->flush();
-
-                //$userRepository->save($currentuser, true, []);
-
-                return $this->redirectToRoute('app_user_profile', Response::HTTP_SEE_OTHER);
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $user->setImage($newFilename);
             }
-            return $this->render('Front-Office/profile/profile-user.html.twig', [
-                'user' => $currentuser,
-                'form'=> $form->createView()
+            $result = $rg->getManager();
+            $result->persist($user);
+            $result->flush();
 
-            ]);
-        }}*/
-   }
+        }
 
+        return $this->render('Back-Office/Profile-Medecin.html.twig', [
+            'form' => $form->createView(),
+            'user'=>$user
+        ]);
+    }
+
+
+    #[Route('/removeUser/{id}', name: 'remove_utilisateur')]
+    public function remove_utilisateur($id, ManagerRegistry $rg, UserRepository $repo,Request $req): Response
+    {
+        $user = $repo->find($id);
+        $result = $rg->getManager();
+        $result->remove($user);
+        $result->flush();
+
+        if (in_array('ROLE_MEDECIN', $user->getRoles(), true)) {
+            return $this->redirectToRoute('list_medecins');
+        } elseif (in_array('ROLE_ASSUREUR', $user->getRoles(), true)){
+            return $this->redirectToRoute('list_assureurs');
+        }elseif (in_array('ROLE_PHARMACIEN', $user->getRoles(), true)){
+            return $this->redirectToRoute('list_pharmaciens');
+        }else {
+            return $this->redirectToRoute('list_patients');
+        }
+    }
+
+    #[Route('/listMedecins', name: 'list_medecins')]
+    public function list_medecin(UserRepository $repo): Response
+    {
+        $users = $repo->findAll();
+
+        return $this->render('Back-Office/list-medecins.html.twig', [
+            'users' => $users
+        ]);
+    }
+
+    #[Route('/listAssureurs', name: 'list_assureurs')]
+    public function list_assureur(UserRepository $repo): Response
+    {
+        $users = $repo->findAll();
+
+        return $this->render('Back-Office/list-assureurs.html.twig', [
+            'users' => $users
+        ]);
+    }
+
+    #[Route('/listPatients', name: 'list_patients')]
+    public function list_patient(UserRepository $repo): Response
+    {
+        $users = $repo->findAll();
+
+        return $this->render('Back-Office/list-patients.html.twig', [
+            'users' => $users
+        ]);
+    }
+
+    #[Route('/listPharmaciens', name: 'list_pharmaciens')]
+    public function list_pharmacien(UserRepository $repo): Response
+    {
+        $users = $repo->findAll();
+
+        return $this->render('Back-Office/list-pharmaciens.html.twig', [
+            'users' => $users
+        ]);
+    }
+}
