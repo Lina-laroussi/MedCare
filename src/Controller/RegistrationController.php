@@ -2,8 +2,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\EditFormMedecinType;
 use App\Form\EditFormUserType;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -63,7 +65,6 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Encode the new users password
             $user->setPassword($this->userPasswordHasher->hashPassword($user, $user->getPassword()));
 
             // Set their role
@@ -77,7 +78,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_login');
 
         }
-        return $this->render('Front-Office/registration/register-doctor.html.twig', [
+        return $this->render('Front-Office/registration/register-pharmacien.html.twig', [
 
             'form' => $form->createView()
         ]);
@@ -148,7 +149,7 @@ class RegistrationController extends AbstractController
     public function registerAdmin(Request $request,ManagerRegistry $rm)
     {
             $user = new User();
-            $user->setEmail("admin@gmail.com");
+            $user->setEmail("admin20@gmail.com");
             // Encode the new users password
             $user->setPassword($this->userPasswordHasher->hashPassword($user,"admin"));
             $user->setNom("admin");
@@ -164,6 +165,5 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('app_login');
     }
-
 
 }

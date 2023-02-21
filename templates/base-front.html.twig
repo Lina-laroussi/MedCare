@@ -90,7 +90,17 @@
                                     </div>
                                     <div class="user-text">
                                         <h6>{{ user.nom |capitalize }} {{ user.prenom |capitalize }}</h6>
+                                        {% if is_granted('ROLE_PATIENT') %}
                                         <p class="text-muted mb-0">Patient</p>
+                                        {% elseif is_granted('ROLE_MEDECIN') %}
+                                        <p class="text-muted mb-0">Médecin</p>
+                                        {% elseif is_granted('ROLE_PHARMACIEN') %}
+                                        <p class="text-muted mb-0">Pharmacien</p>
+                                        {% elseif is_granted('ROLE_ASSUREUR') %}
+                                        <p class="text-muted mb-0">Asurreur</p>
+                                        {% else %}
+                                        <p class="text-muted mb-0">Admin</p>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>
@@ -235,7 +245,9 @@
 
 {% endblock %}
 {% block javascripts%}
-    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="FrontOffice/js/jquery-3.6.0.min.js"></script>
+
+
+    </script><script src="FrontOffice/js/jquery-3.6.0.min.js"></script>
 
     <script src="{{ asset('FrontOffice/js/bootstrap.bundle.min.js') }}"></script>
 

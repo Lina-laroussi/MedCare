@@ -31,7 +31,7 @@ class IntegrationController extends AbstractController
     {
         $currentuser = $this->getUser();
 
-        return $this->render('Back-Office/list-doctors.html.twig', [
+        return $this->render('Back-Office/dashboardAdmin.html.twig', [
             'controller_name' => 'IntegrationController',
             'user'=>$currentuser
         ]);

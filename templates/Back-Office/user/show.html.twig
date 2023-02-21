@@ -1,94 +1,72 @@
-<!DOCTYPE html>
+{% block stylesheets %}
+    <link rel="shortcut icon" href="{{ asset('BackAdmin/img/favicon.png') }}">
 
-<title>User</title>
+    <link rel="stylesheet" href="{{ asset('BackAdmin/css/bootstrap.min.css') }}">
 
-{% block body %}
-    <h1>User</h1>
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/fontawesome/css/all.min.css') }}">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ user.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ user.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ user.description }}</td>
-            </tr>
-            <tr>
-                <th>Adresse</th>
-                <td>{{ user.adresse }}</td>
-            </tr>
-            <tr>
-                <th>Num_tel</th>
-                <td>{{ user.numTel }}</td>
-            </tr>
-            <tr>
-                <th>Age</th>
-                <td>{{ user.age }}</td>
-            </tr>
-            <tr>
-                <th>Date_de_naissance</th>
-                <td>{{ user.dateDeNaissance ? user.dateDeNaissance|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Sexe</th>
-                <td>{{ user.sexe }}</td>
-            </tr>
-            <tr>
-                <th>Specialite</th>
-                <td>{{ user.specialite }}</td>
-            </tr>
-            <tr>
-                <th>Date_de_creation</th>
-                <td>{{ user.dateDeCreation ? user.dateDeCreation|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Cin</th>
-                <td>{{ user.cin }}</td>
-            </tr>
-            <tr>
-                <th>Num_securite_sociale</th>
-                <td>{{ user.numSecuriteSociale }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ user.image }}</td>
-            </tr>
-            <tr>
-                <th>Date_de_modification</th>
-                <td>{{ user.dateDeModification ? user.dateDeModification|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Etat</th>
-                <td>{{ user.etat }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <link rel="stylesheet" href="{{ asset('BackAdmin/css/feather.css') }}">
 
-    <a href="{{ path('app_user_index') }}">back to list</a>
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/daterangepicker/daterangepicker.css') }}">
 
-    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/select2/css/select2.min.css') }}">
 
-    {{ include('user/_delete_form.html.twig') }}
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/datatables/datatables.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/css/style.css') }}">
+
 {% endblock %}
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Recipient:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Send message</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+    <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
+
+    </script><script src="{{ asset('BackAdmin/js/jquery-3.6.0.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/js/bootstrap.bundle.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('BackAdmin/plugins/datatables/datatables.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/js/moment.min.js') }}"></script>
+    <script src="{{ asset('BackAdmin/plugins/daterangepicker/daterangepicker.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/plugins/select2/js/select2.min.js') }}"></script>
+
+    <script src="{{ asset('BackAdmin/js/script.js') }}"></script>
+
+{% endblock %}
+
+
+

@@ -31,12 +31,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\NotBlank(message: "Veuillez renseigner votre mot de passe")]
-    #[Assert\Length(
-        min: 8,
-        max: 20,
-        minMessage: 'Votre mot de passe doit comporter au moins {{ limit }} caractères',
-        maxMessage: 'Votre mot de passe ne peut pas dépasser {{ limit }} caractères',
-    )]
+   /* #[Assert\Regex(
+        pattern: "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/",
+        message:"Votre mot de passe doit comporter au moins huit caractères, dont des lettres majuscules et minuscules, un chiffre et un symbole"
+    )]*/
     private ?string $password = null;
 
     #[ORM\Column(length: 255,nullable:true)]
@@ -60,58 +58,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255,nullable:true)]
-    #[Assert\NotBlank(message: "Veuillez renseigner votre description")]
-    #[Assert\Length(
-        min: 8,
-        max: 20,
-        minMessage: 'Votre description doit comporter au moins {{ limit }} caractères',
-        maxMessage: 'Votre description ne peut pas dépasser {{ limit }} caractères',
-    )]
     private ?string $description = null;
 
     #[ORM\Column(length: 255,nullable:true)]
-    #[Assert\NotBlank(message: "Veuillez renseigner votre adresse")]
-    #[Assert\Length(
-        min: 3,
-        max: 20,
-        minMessage: 'Votre adresse doit comporter au moins {{ limit }} caractères',
-        maxMessage: 'Votre adresse ne peut pas dépasser {{ limit }} caractères',
-    )]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255,nullable:true)]
-    #[Assert\NotBlank(message: "Veuillez renseigner votre téléphone")]
-    #[Assert\Length(
-    min: 8,
-    max: 10,
-    minMessage: 'Votre téléphone doit comporter au moins {{ limit }} caractères',
-    maxMessage: 'Votre téléphone ne peut pas dépasser {{ limit }} caractères',
-    )]
-    #[Assert\Regex(
-        pattern:"/^[0-9]*$/",
-        message:"Votre numéro de téléphone n'est pas valide"
-    )]
-
     private ?string $num_tel = null;
 
     #[ORM\Column(length: 255,nullable:true)]
     private ?string $age = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE,nullable:true)]
-    #[Assert\NotBlank(message: "Veuillez renseigner votre date de naissance")]
     private ?\DateTimeInterface $date_de_naissance = null;
 
     #[ORM\Column(length: 255,nullable:true)]
     private ?string $sexe = null;
 
     #[ORM\Column(length: 255,nullable:true)]
-    #[Assert\NotBlank(message: "Veuillez renseigner votre spécialité")]
-    #[Assert\Length(
-        min: 3,
-        max: 20,
-        minMessage: 'Votre spécialité doit comporter au moins {{ limit }} caractères',
-        maxMessage: 'Votre spécialité ne peut pas dépasser {{ limit }} caractères',
-    )]
     private ?string $specialite = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -162,7 +126,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email = null): self
     {
         $this->email = $email;
 
@@ -246,7 +210,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setNom(string $nom = null): self
     {
         $this->nom = $nom;
 
@@ -258,7 +222,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): self
+    public function setPrenom(string $prenom = null): self
     {
         $this->prenom = $prenom;
 
@@ -318,7 +282,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->date_de_naissance;
     }
 
-    public function setDateDeNaissance(\DateTimeInterface $date_de_naissance): self
+    public function setDateDeNaissance(\DateTimeInterface $date_de_naissance = null): self
     {
         $this->date_de_naissance = $date_de_naissance;
 
