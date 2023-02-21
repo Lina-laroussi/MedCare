@@ -1,13 +1,11 @@
-<!DOCTYPE html>
+{% extends 'sideBar.html.twig' %}
 
-<title>Edit Ordonnance</title>
+{% block content %}
+    <h1>Modifier Ordonnance</h1>
 
-{% block body %}
-    <h1>Edit Ordonnance</h1>
-
-    {{ include('ordonnance/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('Front-Office/ordonnance/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_ordonnance_index') }}">back to list</a>
 
-    {{ include('ordonnance/_delete_form.html.twig') }}
+    {{ include('Front-Office/ordonnance/_delete_form.html.twig') }}
 {% endblock %}

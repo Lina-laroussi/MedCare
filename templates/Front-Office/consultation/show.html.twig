@@ -1,3 +1,4 @@
+{% extends 'sideBar.html.twig' %}
 
 {% block content %}
     <h1>Consultation</h1>
@@ -9,36 +10,21 @@
                 <td>{{ consultation.id }}</td>
             </tr>
             <tr>
-                <th>Poids</th>
-                <td>{{ consultation.poids }}</td>
-            </tr>
-            <tr>
-                <th>Taille</th>
-                <td>{{ consultation.taille }}</td>
-            </tr>
-            <tr>
-                <th>Imc</th>
+                <th>imc</th>
                 <td>{{ consultation.imc }}</td>
             </tr>
             <tr>
-                <th>Temperature</th>
+                <th>poids</th>
+                <td>{{ consultation.poids }}</td>
+            </tr>
+            <tr>
+                <th>taille</th>
+                <td>{{ consultation.taille }}</td>
+            </tr>
+            
+            <tr>
+                <th>temperature</th>
                 <td>{{ consultation.temperature }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ consultation.prix }}</td>
-            </tr>
-            <tr>
-                <th>Pression_arterielle</th>
-                <td>{{ consultation.pressionArterielle }}</td>
-            </tr>
-            <tr>
-                <th>Frequence_cardiaque</th>
-                <td>{{ consultation.frequenceCardiaque }}</td>
-            </tr>
-            <tr>
-                <th>Taux_glycemie</th>
-                <td>{{ consultation.tauxGlycemie }}</td>
             </tr>
             <tr>
                 <th>Symptomes</th>
@@ -54,10 +40,10 @@
             </tr>
         </tbody>
     </table>
+    
+    <a href="{{ path('app_consultation_edit', {'id': consultation.id}) }}" class="add-new-btn"> Modifier </a>
 
-    <a href="{{ path('app_consultation_index') }}">back to list</a>
+    {{ include('Front-Office/consultation/_delete_form.html.twig') }}
 
-    <a href="{{ path('app_consultation_edit', {'id': consultation.id}) }}">edit</a>
-
-    {{ include('consultation/_delete_form.html.twig') }}
+     <a href="{{ path('app_consultation_index') }}"> retour à la liste</a>
 {% endblock %}

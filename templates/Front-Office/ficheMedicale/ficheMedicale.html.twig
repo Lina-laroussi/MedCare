@@ -1,5 +1,5 @@
 {% extends 'sideBar.html.twig' %}
-{% block nav %} Consultation  {% endblock %}
+{% block nav %} Ficche Medicale  {% endblock %}
 {% block active_side %}
     <li>
         <a href="/dashboard">
@@ -7,7 +7,7 @@
             <span>Dashboard</span>
         </a>
     </li>
-    <li class="active">
+    <li>
         <a href="/consultation">
             <i class="fas fa-calendar-check"></i>
             <span> Consultation </span>
@@ -19,13 +19,13 @@
             <span> Ordonnance </span>
         </a>
     </li>
-    <li>
+    <li class="active">
         <a href="/ficheMedicale">
             <i class="fas fa-calendar-check"></i>
             <span> Fiche Medical </span>
         </a>
     </li>
-    <li>
+        <li>
         <a href="my-patients.html">
             <i class="fas fa-user-injured"></i>
             <span>Mes Patients</span>
@@ -50,46 +50,41 @@
         </a>
     </li>
 {% endblock %} 
-                                
 
 {% block content %}
-<h1> Consulation </h1>
-
-<div class="text-end">
-<a href="{{ path('app_consultation_new') }}" class="add-new-btn"> Créer nouveau consultation </a>
-</div>
-
-<div>
+    <h1>Fiche Medicale  </h1>
+    <div class="text-end">
+        <a href="{{ path('app_fiche_medicale_new') }}" class="add-new-btn"> Nouveau Fiche Med </a>
+    </div>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>                
-                <th>Symptomes</th>
-                <th>Traitement</th>
-                <th>Observation</th>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Date creation</th>
+                <th>Date modfication</th>
             </tr>
         </thead>
         <tbody>
-        {% for consultation in consultations %}
+        {% for fiche_medicale in fiche_medicales %}
             <tr>
-                <td>{{ consultation.id }}</td>               
-                <td>{{ consultation.symptomes }}</td>
-                <td>{{ consultation.traitement }}</td>
-                <td>{{ consultation.observation }}</td>
+                <td>{{ fiche_medicale.id }}</td>
+                <td>{{ fiche_medicale.description }}</td>
+                <td>{{ fiche_medicale.dateDeCreation ? fiche_medicale.dateDeCreation|date('Y-m-d') : '' }}</td>
+                <td>{{ fiche_medicale.dateDeModification ? fiche_medicale.dateDeModification|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_consultation_show', {'id': consultation.id}) }}" class="add-new-btn"> Afficher </a>
-                    <a href="{{ path('app_consultation_edit', {'id': consultation.id}) }}" class="add-new-btn"> Modifier</a>
+                    <a href="{{ path('app_fiche_medicale_show', {'id': fiche_medicale.id}) }}" class="add-new-btn">Afficher</a>
+                    <a href="{{ path('app_fiche_medicale_edit', {'id': fiche_medicale.id}) }}" class="add-new-btn">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="13"> Aucun enregistrement trouvé</td>
+                <td colspan="7">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    
-</div>
+
 {% endblock %}

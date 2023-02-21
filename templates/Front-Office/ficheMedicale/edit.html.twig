@@ -1,0 +1,11 @@
+{% extends 'sideBar.html.twig' %}
+
+{% block content %}
+    <h1>Modifier Fiche Medicale</h1>
+
+    {{ include('Front-Office/ficheMedicale/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_fiche_medicale_index') }}">back to list</a>
+
+    {{ include('Front-Office/ficheMedicale/_delete_form.html.twig') }}
+{% endblock %}

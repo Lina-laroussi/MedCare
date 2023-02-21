@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+{% extends 'sideBar.html.twig' %}
 
-<title>New Consultation</title>
 
-{% block body %}
-    <h1>Create new Consultation</h1>
+{% block content %}
 
-    {{ include('consultation/_form.html.twig') }}
+    <h1>Créer une nouvelle consultation</h1>
 
-    <a href="{{ path('app_consultation_index') }}">back to list</a>
+    {{ include('Front-Office/consultation/_form.html.twig') }}
+
+    <a href="{{ path('app_consultation_index') }}" > retour à la liste des consultations</a>
 {% endblock %}

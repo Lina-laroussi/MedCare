@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/consultation')]
 class ConsultationController extends AbstractController
 {
+// afficher tous les consultation
     #[Route('/', name: 'app_consultation_index', methods: ['GET'])]
     public function index(ConsultationRepository $consultationRepository): Response
     {
@@ -21,6 +22,7 @@ class ConsultationController extends AbstractController
         ]);
     }
 
+// ajouter/créer consultation
     #[Route('/new', name: 'app_consultation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ConsultationRepository $consultationRepository): Response
     {
@@ -34,20 +36,22 @@ class ConsultationController extends AbstractController
             return $this->redirectToRoute('app_consultation_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('consultation/new.html.twig', [
+        return $this->renderForm('Front-Office/consultation/new.html.twig', [
             'consultation' => $consultation,
             'form' => $form,
         ]);
     }
 
+// afficher consultation par id
     #[Route('/{id}', name: 'app_consultation_show', methods: ['GET'])]
     public function show(Consultation $consultation): Response
     {
-        return $this->render('consultation/show.html.twig', [
+        return $this->render('Front-Office/consultation/show.html.twig', [
             'consultation' => $consultation,
         ]);
     }
 
+// modifier consultation
     #[Route('/{id}/edit', name: 'app_consultation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Consultation $consultation, ConsultationRepository $consultationRepository): Response
     {
@@ -60,12 +64,13 @@ class ConsultationController extends AbstractController
             return $this->redirectToRoute('app_consultation_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('consultation/edit.html.twig', [
+        return $this->renderForm('Front-Office/consultation/edit.html.twig', [
             'consultation' => $consultation,
             'form' => $form,
         ]);
     }
 
+// delete consultation
     #[Route('/{id}', name: 'app_consultation_delete', methods: ['POST'])]
     public function delete(Request $request, Consultation $consultation, ConsultationRepository $consultationRepository): Response
     {

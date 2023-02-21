@@ -10,17 +10,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/fiche/medicale')]
+#[Route('/ficheMedicale')]
 class FicheMedicaleController extends AbstractController
 {
+// afficher tous les fiche med
     #[Route('/', name: 'app_fiche_medicale_index', methods: ['GET'])]
     public function index(FicheMedicaleRepository $ficheMedicaleRepository): Response
     {
-        return $this->render('Front-Office/fiche_medicale/fichemed.html.twig', [
+        return $this->render('Front-Office/ficheMedicale/ficheMedicale.html.twig', [
             'fiche_medicales' => $ficheMedicaleRepository->findAll(),
         ]);
     }
 
+// Ajout/create new fiche med
     #[Route('/new', name: 'app_fiche_medicale_new', methods: ['GET', 'POST'])]
     public function new(Request $request, FicheMedicaleRepository $ficheMedicaleRepository): Response
     {
@@ -34,20 +36,22 @@ class FicheMedicaleController extends AbstractController
             return $this->redirectToRoute('app_fiche_medicale_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('fiche_medicale/new.html.twig', [
+        return $this->renderForm('Front-Office/ficheMedicale/new.html.twig', [
             'fiche_medicale' => $ficheMedicale,
             'form' => $form,
         ]);
     }
 
+// afficher les fiche med par id
     #[Route('/{id}', name: 'app_fiche_medicale_show', methods: ['GET'])]
     public function show(FicheMedicale $ficheMedicale): Response
     {
-        return $this->render('fiche_medicale/show.html.twig', [
+        return $this->render('Front-Office/ficheMedicale/show.html.twig', [
             'fiche_medicale' => $ficheMedicale,
         ]);
     }
 
+// modifier fiche med
     #[Route('/{id}/edit', name: 'app_fiche_medicale_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, FicheMedicale $ficheMedicale, FicheMedicaleRepository $ficheMedicaleRepository): Response
     {
@@ -60,12 +64,12 @@ class FicheMedicaleController extends AbstractController
             return $this->redirectToRoute('app_fiche_medicale_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('fiche_medicale/edit.html.twig', [
+        return $this->renderForm('Front-Office/ficheMedicale/edit.html.twig', [
             'fiche_medicale' => $ficheMedicale,
             'form' => $form,
         ]);
     }
-
+// delete fiche med
     #[Route('/{id}', name: 'app_fiche_medicale_delete', methods: ['POST'])]
     public function delete(Request $request, FicheMedicale $ficheMedicale, FicheMedicaleRepository $ficheMedicaleRepository): Response
     {

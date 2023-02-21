@@ -1,11 +1,9 @@
-<!DOCTYPE html>
+{% extends 'sideBar.html.twig' %}
 
-<title>New Ordonnance</title>
+{% block content %}
+    <h1>Créer une nouvelle Ordonnance</h1>
 
-{% block body %}
-    <h1>Create new Ordonnance</h1>
+    {{ include('Front-Office/ordonnance/_form.html.twig') }}
 
-    {{ include('ordonnance/_form.html.twig') }}
-
-    <a href="{{ path('app_ordonnance_index') }}">back to list</a>
+    <a href="{{ path('app_ordonnance_index') }}"> retour à la liste </a>
 {% endblock %}

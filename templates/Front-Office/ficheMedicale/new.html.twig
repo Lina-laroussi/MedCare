@@ -1,0 +1,9 @@
+{% extends 'sideBar.html.twig' %}
+
+{% block content %}
+    <h1>Créer une nouvelle Fiche Medicale</h1>
+
+    {{ include('Front-Office/ficheMedicale/_form.html.twig') }}
+
+    <a href="{{ path('app_fiche_medicale_index') }}"> retour à la liste </a>
+{% endblock %}

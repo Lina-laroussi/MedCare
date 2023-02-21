@@ -1,13 +1,12 @@
-<!DOCTYPE html>
+{% extends 'sideBar.html.twig' %}
 
-<title>Edit Consultation</title>
+{% block content %}
+    <h1>Modifier Consultation</h1>
 
-{% block body %}
-    <h1>Edit Consultation</h1>
+    {{ include('Front-Office/consultation/_form.html.twig', {'button_label': 'Mise à jour'}) }}
+    
+    {{ include('Front-Office/consultation/_delete_form.html.twig') }}
 
-    {{ include('consultation/_form.html.twig', {'button_label': 'Update'}) }}
+    <a href="{{ path('app_consultation_index') }}"> retour à la liste des consultations </a>
 
-    <a href="{{ path('app_consultation_index') }}">back to list</a>
-
-    {{ include('consultation/_delete_form.html.twig') }}
 {% endblock %}
