@@ -1,52 +1,27 @@
-
 {% extends 'base-front.html.twig' %}
+
+{% block title %}Les produits
+{% endblock %}
+
 {% block body %}
+    <section class="bg-light p-3">
+        <h1>Les produits</h1>
+    </section>
 
- <div class="container"  >
-    <h1> la Liste des Produits </h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Prix</th>
-                <th>Etat</th>
-                <th>Image</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for produit in produits %}
-            <tr>
-                <td>{{ produit.id }}</td>
-                <td>{{ produit.nom }}</td>
-                <td>{{ produit.description }}</td>
-                <td>{{ produit.prix }}</td>
-                <td>{{ produit.etat }}</td>
-                
-                <td> 
-                {% if produit.image %}
-<img src="{{ asset('uploads/' ~ produit.image) }}" alt="{{ produit.nom }}" />
-{% endif %}</td>
-
-                     <td>   
-                    <a> ajouter au panier </a>
-                    
-                   <a commander</a>
-
-                   
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-   
+    <section class="row">
+        {% for produit in categorie.produits %}
+            <div class="col-4 mt-4">
+                <div class="border border-dark rounded p-2 clearfix">
+                    <h2>{{ produit.nom }}</h2>
+                    <p>{{ produit.prix }} Dt</p>
+                    <p>{{ produit.description }} </p>
+                    <img src="{{ asset('uploads/') ~ produit.image }}" alt="Image de {{ produit.nom }}">
+                    <hr>
+                    <a href="{{path("cart_add", {id: produit.id})}}" class="btn btn-success">
+                        <i class="bi bi-cart-plus"></i> Ajouter au panier
+                    </a>
                 </div>
+            </div>
+        {% endfor %}
+    </section>
 {% endblock %}

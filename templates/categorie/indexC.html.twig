@@ -2,46 +2,50 @@
 
 {% block body %}
     <h1>Categorie index</h1>
- <div class="container"
-
- <div class="row justify-content-center">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Etat</th>
-                <th>Marque</th>
-                <th>Groupe_age</th>
-             
-            </tr>
-        </thead>
-        <tbody>
-        {% for categorie in categories %}
-            <tr>
-                <td>{{ categorie.id }}</td>
-                <td>{{ categorie.nom }}</td>
-                <td>{{ categorie.description }}</td>
-                <td>{{ categorie.etat }}</td>
-                <td>{{ categorie.marque }}</td>
-                <td>{{ categorie.groupeAge }}</td>
-                
-                <td>
-              
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    <div class="container">
+        <div class="row justify-content-center">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Etat</th>
+                        <th>Marque</th>
+                        <th>Groupe_age</th>
+                        <th>Produits</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for categorie in categories %}
+                    <tr>
+                        <td>{{ categorie.id }}</td>
+                        <td>{{ categorie.nom }}</td>
+                        <td>{{ categorie.description }}</td>
+                        <td>{{ categorie.etat }}</td>
+                        <td>{{ categorie.marque }}</td>
+                        <td>{{ categorie.groupeAge }}</td>
+                        <td>
+                            <ul>
+                            {% for produit in categorie.produits %}
+                                <li>{{ produit.nom }}</li>
+                            {% else %}
+                                <li>Aucun produit dans cette catégorie</li>
+                            {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <a href="{{ path('app_produit_index1', {'categorie': categorie.id}) }}">Produits</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
-                </div>
-
-        
-        
+    </div>
 {% endblock %}

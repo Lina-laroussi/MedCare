@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+
 use App\Entity\Produit;
 use App\Form\ProduitType;
+use App\Repository\CategorieRepository;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,13 +25,34 @@ class ProduitController extends AbstractController
     
     ///pour le Front 
 
-    #[Route('/index1', methods: ['GET'])]
-    public function index1(ProduitRepository $produitRepository): Response
+    #[Route('/index1', name: 'app_produit_index1', methods: ['GET'])]
+    public function index1(Request $request, ProduitRepository $produitRepository, CategorieRepository $categorieRepository): Response
     {
+        // Get the category ID from the request parameters
+        $categorieId = $request->query->get('categorie');
+    
+        if (!$categorieId) {
+            // If no category ID is specified, redirect to the category index page
+            return $this->redirectToRoute('app_categorie_index');
+        }
+    
+        // Get the category by ID
+        $categorie = $categorieRepository->find($categorieId);
+    
+        if (!$categorie) {
+            // If the category is not found, display an error message
+            throw $this->createNotFoundException(sprintf('Category with ID %s not found', $categorieId));
+        }
+    
+        // Get the products associated with the category
+        $produits = $produitRepository->findByCategorie($categorie);
+    
         return $this->render('produit/index1.html.twig', [
-            'produits' => $produitRepository->findAll(),
+            'categorie' => $categorie,
+            'produits' => $produits,
         ]);
     }
+    
 //////
 
     #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
@@ -120,5 +143,5 @@ if ($file) {
         return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
         }
 
-}
-
+       
+    }
