@@ -15,11 +15,12 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Montant</th>
                 <th>Date</th>
-                <th>Image_signature</th>
+                <th>Cin Patient</th>
+
+                <th>Montant</th>
                 <th>Num_facture</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -27,7 +28,7 @@
             <tr>
                 <td>{{ facture.id }}</td>
                 <td>{{ facture.date ? facture.date|date('Y-m-d') : '' }}</td>
-                <td>{{ facture.imageSignature }}</td>
+
                  <td>{{ facture.montant }}</td>
 
 
