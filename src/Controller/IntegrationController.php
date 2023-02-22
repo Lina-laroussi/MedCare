@@ -27,19 +27,18 @@ class IntegrationController extends AbstractController
 
     }
 
-    #[Route('/fichemed', name: 'app_fiche_med')]
+    #[Route('/ficheMedicale', name: 'app_fiche_med')]
     public function fich(): Response
     {
         return $this->render('Front-Office/fichemed.html.twig');
     }
 
-    #[Route('/ordenance', name: 'app_ordenance')]
-    public function ordenance(): Response
+    
+    #[Route('/login', name: 'app_login')]
+    public function login(): Response
     {
-        return $this->render('Front-Office/ordenance.html.twig');
+        return $this->render('Back-Office/login.html.twig');
     }
-
-
 
 
 

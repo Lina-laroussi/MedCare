@@ -16,7 +16,7 @@ class Ordonnance
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    private ?string $description = "ordonnace medicale";
 
     #[Assert\NotBlank()]
     #[ORM\Column(length: 10)]

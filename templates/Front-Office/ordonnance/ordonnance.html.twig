@@ -1,5 +1,51 @@
 {% extends 'sideBar.html.twig' %}
 
+{% block content %}
+<h1>Liste Ordonnances </h1>
+<div class="text-end">
+<a href="{{ path('app_ordonnance_new') }}" class="add-new-btn"> Créer nouveau Ordonnance </a>
+</div>
+<div class="card card-table mb-0">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Medicament</th>
+                        <th>Code ordonnance</th>              
+                        <th>Date creation</th>
+                        <th>Date modification</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for ordonnance in ordonnances %}
+                    <tr>
+                        <td>{{ ordonnance.id }}</td>
+                        <td>{{ ordonnance.medicaments }}</td>
+                        <td>{{ ordonnance.codeOrdonnance }}</td>
+                        <td>{{ ordonnance.dateDeCreation ? ordonnance.dateDeCreation|date('Y-m-d') : '' }}</td>
+                        <td>{{ ordonnance.dateDeModification ? ordonnance.dateDeModification|date('Y-m-d') : '' }}</td>
+                        <td>
+                            <a href="{{ path('app_ordonnance_show', {'id': ordonnance.id}) }}" class="add-new-btn">Afficher</a>
+                            <a href="{{ path('app_ordonnance_edit', {'id': ordonnance.id}) }}" class="add-new-btn">Modifier</a>
+                            <a href="/ordonnances/{id}/print" target="_blank" onclick="window.print(); return false;" class="add-new-btn"> imprimer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="9">Aucun enregistrement trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+   
+{% endblock %}
+
+
 {% block nav %} ordonnance  {% endblock %}
 {% block active_side %}
     <li>
@@ -50,48 +96,3 @@
         </a>
     </li>
 {% endblock %} 
-
-
-{% block content %}
-<h1>Liste Ordonnances </h1>
-<div class="text-end">
-<a href="{{ path('app_ordonnance_new') }}" class="add-new-btn"> Créer nouveau Ordonnance </a>
-</div>
-<div class="card card-table mb-0">
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Medicament</th>
-                        <th>Code ordonnance</th>              
-                        <th>Date creation</th>
-                        <th>Date modification</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for ordonnance in ordonnances %}
-                    <tr>
-                        <td>{{ ordonnance.id }}</td>
-                        <td>{{ ordonnance.description }}</td>
-                        <td>{{ ordonnance.codeOrdonnance }}</td>
-                        <td>{{ ordonnance.dateDeCreation ? ordonnance.dateDeCreation|date('Y-m-d') : '' }}</td>
-                        <td>{{ ordonnance.dateDeModification ? ordonnance.dateDeModification|date('Y-m-d') : '' }}</td>
-                        <td>
-                            <a href="{{ path('app_ordonnance_show', {'id': ordonnance.id}) }}" class="add-new-btn">Afficher</a>
-                            <a href="{{ path('app_ordonnance_edit', {'id': ordonnance.id}) }}" class="add-new-btn">Modifier</a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="9">Aucun enregistrement trouvé</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-   
-{% endblock %}

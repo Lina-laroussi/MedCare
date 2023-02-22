@@ -48,6 +48,7 @@ class Consultation
     private ?string $traitement = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $observation = null;
 
     #[ORM\OneToOne(mappedBy: 'consultation', cascade: ['persist', 'remove'])]

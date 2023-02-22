@@ -1,4 +1,43 @@
 {% extends 'sideBar.html.twig' %}
+
+{% block content %}
+    <h1>Fiche Medicale  </h1>
+    <div class="text-end">
+        <a href="{{ path('app_fiche_medicale_new') }}" class="add-new-btn"> Nouveau Fiche Med </a>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Date creation</th>
+                <th>Date modfication</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fiche_medicale in fiche_medicales %}
+            <tr>
+                <td>{{ fiche_medicale.id }}</td>
+                <td>{{ fiche_medicale.description }}</td>
+                <td>{{ fiche_medicale.dateDeCreation ? fiche_medicale.dateDeCreation|date('Y-m-d') : '' }}</td>
+                <td>{{ fiche_medicale.dateDeModification ? fiche_medicale.dateDeModification|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_fiche_medicale_show', {'id': fiche_medicale.id}) }}" class="add-new-btn">Afficher</a>
+                    <a href="{{ path('app_fiche_medicale_edit', {'id': fiche_medicale.id}) }}" class="add-new-btn">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
+
 {% block nav %} Ficche Medicale  {% endblock %}
 {% block active_side %}
     <li>
@@ -50,41 +89,3 @@
         </a>
     </li>
 {% endblock %} 
-
-{% block content %}
-    <h1>Fiche Medicale  </h1>
-    <div class="text-end">
-        <a href="{{ path('app_fiche_medicale_new') }}" class="add-new-btn"> Nouveau Fiche Med </a>
-    </div>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Description</th>
-                <th>Date creation</th>
-                <th>Date modfication</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for fiche_medicale in fiche_medicales %}
-            <tr>
-                <td>{{ fiche_medicale.id }}</td>
-                <td>{{ fiche_medicale.description }}</td>
-                <td>{{ fiche_medicale.dateDeCreation ? fiche_medicale.dateDeCreation|date('Y-m-d') : '' }}</td>
-                <td>{{ fiche_medicale.dateDeModification ? fiche_medicale.dateDeModification|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_fiche_medicale_show', {'id': fiche_medicale.id}) }}" class="add-new-btn">Afficher</a>
-                    <a href="{{ path('app_fiche_medicale_edit', {'id': fiche_medicale.id}) }}" class="add-new-btn">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">Aucun enregistrement trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-
-{% endblock %}

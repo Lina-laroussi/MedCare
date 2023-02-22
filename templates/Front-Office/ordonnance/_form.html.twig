@@ -1,5 +1,7 @@
 
-{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
-    {{ form_widget(form, {'attr':{'class':'form-horizontal'}}) }}
+{{ form_start(form, {'attr':{'class':'form-horizontal'}})  }}
+    {{ form_widget(form)}}
+
     <button class="add-new-btn">{{ button_label|default('Enregistrer') }}</button>
+
 {{ form_end(form) }}

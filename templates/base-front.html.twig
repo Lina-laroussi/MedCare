@@ -24,6 +24,7 @@
 
     <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
 {% endblock %}
+
 </head>
 
 <body>
@@ -84,7 +85,7 @@
                 </li>          
                 {% block signup %}
                 <li class="nav-item">
-                    <a class="nav-link header-login" href="login.html.twig">Se connecter / S'inscrire </a>
+                    <a class="nav-link header-login" href="/login">Se connecter / S'inscrire </a>
                 </li>
                 {% endblock %} 
             </ul>
@@ -92,6 +93,7 @@
            
         </nav>
     </header>
+
     {% block body %}
     {% endblock %}
 
