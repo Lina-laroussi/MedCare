@@ -10,9 +10,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/pharmacie')]
-class PharmacieController extends AbstractController
+
+class PharmaController extends AbstractController
 {
+#[Route('/admin/pharmacie', name: 'app_pharmacieadmin_index', methods: ['GET'])]
+    public function indexAdmin(PharmacieRepository $pharmacieRepository): Response
+    {
+        return $this->render('Back-Office/pharmacie/index.html.twig', [
+            'pharmacies' => $pharmacieRepository->findAll(),
+        ]);
+    }
+
     #[Route('/', name: 'app_pharmacie_index', methods: ['GET'])]
     public function index(PharmacieRepository $pharmacieRepository): Response
     {
@@ -75,5 +83,5 @@ class PharmacieController extends AbstractController
 
         return $this->redirectToRoute('app_pharmacie_index', [], Response::HTTP_SEE_OTHER);
     }
-
 }
+

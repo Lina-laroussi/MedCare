@@ -35,15 +35,17 @@ class FactureController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $image = $form->get('image')->getData();
 
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
+           
+            //l'image n'est pas obligatoire  donc field est lu seulement si l'image est uploaded
             if ($image) {
                 $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
+                // changement du nom de l'image
+
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$image->guessExtension();
 
                 // Move the file to the directory where brochures are stored
+                //transpérer 
                 try {
                     $image->move(
                         $this->getParameter('image_directory'),

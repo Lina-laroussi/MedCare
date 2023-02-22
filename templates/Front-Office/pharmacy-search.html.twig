@@ -203,7 +203,6 @@
 <img src="assets/img/pharmacy/pharmacy-01.jpg" class="img-fluid" alt="">
 </a>
 <div class="pharmacy-pro-tags">
-<span class="pharmacy-closed">Closed</span>
 </div>
 </div>
 <div class="doc-info-cont">
@@ -227,11 +226,17 @@
 <p class="doc-location">
 <i class="feather-clock"></i> 9 AM - 8 PM (Mon - Sat)
 </p>
+
+<div class="pharmacy-pro-tags">
+<span class="pharmacy-closed">Closed</span>
+</div>
+
+
+
 </div>
 </div>
 <div class="pharmacy-booking">
-<a class="btn view-details-btn" href="pharmacy-details.html">View Details</a>
-<a class="btn browse-products-btn" href="product-all.html">Browse Products</a>
+<a class="btn view-details-btn" href="{{path('app_integration4')}}">View Details</a>
 </div>
 </div>
 </div>
@@ -249,11 +254,10 @@
 <img src="assets/img/pharmacy/pharmacy-02.jpg" class="img-fluid" alt="">
 </a>
 <div class="pharmacy-pro-tags">
-<span class="pharmacy-closed">Closed</span>
 </div>
 </div>
 <div class="doc-info-cont">
-<h4 class="doc-name"><a href="pharmacy-details.html">Furia Pharmacy</a></h4>
+<h4 class="doc-name"><a href="{{path('app_integration4')}}">Furia Pharmacy</a></h4>
 <div class="rating">
 <i class="fas fa-star filled"></i>
 <i class="fas fa-star filled"></i>
@@ -273,11 +277,13 @@
 <p class="doc-location">
 <i class="feather-clock"></i> 24Hrs (Mon - Sun)
 </p>
+<div class="pharmacy-pro-tags">
+<span class="pharmacy-opened">Opened</span>
+</div>
 </div>
 </div>
 <div class="pharmacy-booking">
-<a class="btn view-details-btn" href="pharmacy-details.html">View Details</a>
-<a class="btn browse-products-btn" href="product-all.html">Browse Products</a>
+<a class="btn view-details-btn" href="{{path('app_integration4')}}">View Details</a>
 </div>
 </div>
 </div>
@@ -295,11 +301,10 @@
 <img src="assets/img/pharmacy/pharmacy-03.jpg" class="img-fluid" alt="">
 </a>
 <div class="pharmacy-pro-tags">
-<span class="pharmacy-closed">Closed</span>
 </div>
 </div>
 <div class="doc-info-cont">
-<h4 class="doc-name"><a href="pharmacy-details.html">Medicare Pharmacy</a></h4>
+<h4 class="doc-name"><a href="{{path('app_integration4')}}">Medicare Pharmacy</a></h4>
 <div class="rating">
 <i class="fas fa-star filled"></i>
 <i class="fas fa-star filled"></i>
@@ -319,11 +324,13 @@
 <p class="doc-location">
 <i class="feather-clock"></i> 10 AM - 10 PM (Mon - Sat)
 </p>
+<div class="pharmacy-pro-tags">
+<span class="pharmacy-closed">Closed</span>
+</div>
 </div>
 </div>
 <div class="pharmacy-booking">
-<a class="btn view-details-btn" href="pharmacy-details.html">View Details</a>
-<a class="btn browse-products-btn" href="product-all.html">Browse Products</a>
+<a class="btn view-details-btn" href="{{path('app_integration4')}}">View Details</a>
 </div>
 </div>
 </div>
@@ -341,11 +348,11 @@
 <img src="assets/img/pharmacy/pharmacy-04.jpg" class="img-fluid" alt="">
 </a>
 <div class="pharmacy-pro-tags">
-<span class="pharmacy-opened">Opened</span>
 </div>
 </div>
 <div class="doc-info-cont">
-<h4 class="doc-name"><a href="pharmacy-details.html">Mallon Pharma</a></h4>
+<h4 class="doc-name"><a href="{{path('app_integration4')}}">Mallon Pharma</a></h4>
+
 <div class="rating">
 <i class="fas fa-star filled"></i>
 <i class="fas fa-star filled"></i>
@@ -363,21 +370,21 @@
 <i class="feather-tag"></i> Hospital Equipment
 </p>
 <p class="doc-location">
-<i class="feather-clock"></i> 24Hrs (Mon - Sun)
+<i class="feather-clock"></i> 24Hrs (Mon - Sun)d
 </p>
+<div class="pharmacy-pro-tags">
+<span class="pharmacy-opened">Opened</span>
+</div>
 </div>
 </div>
 <div class="pharmacy-booking">
-<a class="btn view-details-btn" href="{{ path('app_pharmacie_index') }}"View Details</a>
-<a class="btn browse-products-btn" href="product-all.html">Browse Products</a>
+<a class="btn view-details-btn" href="{{path('app_integration4')}}">View Details</a>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-
-
 <div class="col-md-12 text-center">
 <div class="product-pagination pharmacy-search-pagination">
 <nav>
@@ -407,129 +414,7 @@
 </div>
 </div>
 
- 
-<footer class="footer">
-
-<div class="footer-top">
-<div class="container">
-<div class="row">
-<div class="col-lg-3 col-md-6">
-
-<div class="footer-widget footer-about">
-<div class="footer-logo">
-<img src="assets/img/footer-logo.png" alt="logo">
-</div>
-<div class="footer-about-content">
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-<div class="social-icon">
-<ul>
-<li>
-<a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
-</li>
-<li>
-<a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
-</li>
-<li>
-<a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-</li>
-<li>
-<a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-</li>
-<li>
-<a href="#" target="_blank"><i class="fab fa-dribbble"></i> </a>
-</li>
-</ul>
-</div>
-</div>
-</div>
-
-</div>
-<div class="col-lg-3 col-md-6">
-
-<div class="footer-widget footer-menu">
-<h2 class="footer-title">For Patients</h2>
-<ul>
-<li><a href="search.html">Search for Doctors</a></li>
-<li><a href="login.html">Login</a></li>
-<li><a href="register.html">Register</a></li>
-<li><a href="booking.html">Booking</a></li>
-<li><a href="patient-dashboard.html">Patient Dashboard</a></li>
-</ul>
-</div>
-
-</div>
-<div class="col-lg-3 col-md-6">
-
-<div class="footer-widget footer-menu">
-<h2 class="footer-title">For Doctors</h2>
-<ul>
-<li><a href="appointments.html">Appointments</a></li>
-<li><a href="chat.html">Chat</a></li>
-<li><a href="login.html">Login</a></li>
-<li><a href="doctor-register.html">Register</a></li>
-<li><a href="doctor-dashboard.html">Doctor Dashboard</a></li>
-</ul>
-</div>
-
-</div>
-<div class="col-lg-3 col-md-6">
-
-<div class="footer-widget footer-contact">
-<h2 class="footer-title">Contact Us</h2>
-<div class="footer-contact-info">
-<div class="footer-address">
-<span><i class="fas fa-map-marker-alt"></i></span>
-<p> 3556 Beech Street, San Francisco,<br> California, CA 94108 </p>
-</div>
-<p>
-<i class="fas fa-phone-alt"></i>
-+1 315 369 5943
-</p>
-<p class="mb-0">
-<i class="fas fa-envelope"></i>
-<a href="https://doccure.dreamguystech.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="abcfc4c8c8ded9ceebced3cac6dbc7ce85c8c4c6">[email&#160;protected]</a>
-</p>
-</div>
-</div>
-
-</div>
-</div>
-</div>
-</div>
-
-
-<div class="footer-bottom">
-<div class="container">
-
-<div class="copyright">
-<div class="row">
-<div class="col-md-6 col-lg-6">
-<div class="copyright-text">
-<p class="mb-0">&copy; 2022 Doccure. All rights reserved.</p>
-</div>
-</div>
-<div class="col-md-6 col-lg-6">
-
-<div class="copyright-menu">
-<ul class="policy-menu">
-<li><a href="term-condition.html">Terms and Conditions</a></li>
-<li><a href="privacy-policy.html">Policy</a></li>
-</ul>
-</div>
-
-</div>
-</div>
-</div>
-
-</div>
-</div>
-
-</footer>
-
-</div>
-
-
-<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.6.0.min.js"></script>
+ <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.6.0.min.js"></script>
 
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 
@@ -548,8 +433,4 @@
 <script src="assets/plugins/jquery-ui/jquery-ui.min.js"></script>
 
 <script src="assets/js/script.js"></script>
-</body>
-
-<!-- Mirrored from doccure.dreamguystech.com/html/template/pharmacy-search.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 08 Feb 2023 13:01:44 GMT -->
-</html>
 {% endblock %}

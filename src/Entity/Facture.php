@@ -33,7 +33,7 @@ class Facture
     #[Assert\Positive(message: "Non valide")]
     private ?int $num_facture = null;
 
-    #[ORM\OneToOne(mappedBy: 'facture', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'facture' , cascade: ['persist', 'remove'])]
     private ?Ordonnance $ordonnance = null;
 
     #[ORM\ManyToOne(inversedBy: 'factures')]
