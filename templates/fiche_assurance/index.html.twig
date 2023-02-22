@@ -1,0 +1,41 @@
+{% extends 'base-front.html.twig' %}
+
+{% block body %}
+    <h1>FicheAssurance index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Num_adherent</th>
+                <th>Description</th>
+                <th>Date_creation</th>
+                <th>Image_facture</th>
+                <th>Etat</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fiche_assurance in fiche_assurances %}
+            <tr>
+                <td>{{ fiche_assurance.id }}</td>
+                <td>{{ fiche_assurance.numAdherent }}</td>
+                <td>{{ fiche_assurance.description }}</td>
+                <td>{{ fiche_assurance.dateCreation ? fiche_assurance.dateCreation|date('Y-m-d') : '' }}</td>
+                <td>{{ fiche_assurance.imageFacture }}</td>
+                <td>{{ fiche_assurance.etat }}</td>
+                <td>
+                    <a href="{{ path('app_fiche_assurance_show', {'id': fiche_assurance.id}) }}">show</a>
+                    <a href="{{ path('app_fiche_assurance_edit', {'id': fiche_assurance.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_fiche_assurance_new') }}">Create new</a>
+{% endblock %}

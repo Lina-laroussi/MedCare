@@ -1,0 +1,42 @@
+{% extends 'base-front.html.twig' %}
+
+
+{% block body %}
+    <h1>Remboursement index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Montant_a_rembourser</th>
+                <th>Montant_maximale</th>
+                <th>Taux_remboursement</th>
+                <th>Date_remboursement</th>
+                <th>Etat</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for remboursement in remboursements %}
+            <tr>
+                <td>{{ remboursement.id }}</td>
+                <td>{{ remboursement.montantARembourser }}</td>
+                <td>{{ remboursement.montantMaximale }}</td>
+                <td>{{ remboursement.tauxRemboursement }}</td>
+                <td>{{ remboursement.dateRemboursement ? remboursement.dateRemboursement|date('Y-m-d') : '' }}</td>
+                <td>{{ remboursement.etat }}</td>
+                <td>
+                    <a href="{{ path('app_remboursement_show', {'id': remboursement.id}) }}">show</a>
+                    <a href="{{ path('app_remboursement_edit', {'id': remboursement.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_remboursement_new') }}">Create new</a>
+{% endblock %}

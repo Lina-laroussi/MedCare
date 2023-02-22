@@ -29,8 +29,9 @@ class Remboursement
     #[ORM\Column(length: 255)]
     private ?string $etat = null;
 
-    #[ORM\OneToOne(mappedBy: 'remboursement', cascade: ['persist', 'remove'])]
-    private ?FicheAssurance $ficheAssurance = null;
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?FicheAssurance $FicheAssurance = null;
+
 
     public function getId(): ?int
     {
@@ -72,7 +73,7 @@ class Remboursement
 
         return $this;
     }
-
+ 
     public function getDateRemboursement(): ?\DateTimeInterface
     {
         return $this->date_remboursement;
@@ -99,23 +100,21 @@ class Remboursement
 
     public function getFicheAssurance(): ?FicheAssurance
     {
-        return $this->ficheAssurance;
+        return $this->FicheAssurance;
     }
 
-    public function setFicheAssurance(?FicheAssurance $ficheAssurance): self
+    public function setFicheAssurance(?FicheAssurance $FicheAssurance): self
     {
-        // unset the owning side of the relation if necessary
-        if ($ficheAssurance === null && $this->ficheAssurance !== null) {
-            $this->ficheAssurance->setRemboursement(null);
-        }
+        $this->FicheAssurance = $FicheAssurance;
 
-        // set the owning side of the relation if necessary
-        if ($ficheAssurance !== null && $ficheAssurance->getRemboursement() !== $this) {
-            $ficheAssurance->setRemboursement($this);
+        $newRemboursement = $FicheAssurance=== null ? null : $this;
+        if($newRemboursement !==$FicheAssurance->getRemboursement())
+        {
+            $FicheAssurance->setRemboursement($newRemboursement);
         }
-
-        $this->ficheAssurance = $ficheAssurance;
 
         return $this;
     }
+
+
 }

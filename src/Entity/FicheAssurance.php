@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\FicheAssuranceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Entity\Remboursement;
 #[ORM\Entity(repositoryClass: FicheAssuranceRepository::class)]
 class FicheAssurance
 {
@@ -38,8 +38,10 @@ class FicheAssurance
     #[ORM\ManyToOne(inversedBy: 'ficheAssurances')]
     private ?User $assureur = null;
 
-    #[ORM\OneToOne(inversedBy: 'ficheAssurance', cascade: ['persist', 'remove'])]
-    private ?Remboursement $remboursement = null;
+  
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Remboursement $Remboursement = null;
 
 
     public function getId(): ?int
@@ -142,15 +144,13 @@ class FicheAssurance
 
         return $this;
     }
-
     public function getRemboursement(): ?Remboursement
     {
-        return $this->remboursement;
+        return $this->Remboursement;
     }
-
-    public function setRemboursement(?Remboursement $remboursement): self
+    public function setRemboursement(?Remboursement $Remboursement): self
     {
-        $this->remboursement = $remboursement;
+        $this->Remboursement = $Remboursement;
 
         return $this;
     }
