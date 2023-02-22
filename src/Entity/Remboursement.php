@@ -29,8 +29,13 @@ class Remboursement
     #[ORM\Column(length: 255)]
     private ?string $etat = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'remboursement', cascade: ['persist', 'remove'])]
     private ?FicheAssurance $FicheAssurance = null;
+
+
+
+ 
+
 
 
     public function getId(): ?int
@@ -107,14 +112,11 @@ class Remboursement
     {
         $this->FicheAssurance = $FicheAssurance;
 
-        $newRemboursement = $FicheAssurance=== null ? null : $this;
-        if($newRemboursement !==$FicheAssurance->getRemboursement())
-        {
-            $FicheAssurance->setRemboursement($newRemboursement);
-        }
-
         return $this;
     }
 
 
+
+
+   
 }

@@ -83,45 +83,7 @@ class RemboursementController extends AbstractController
 
 
 
-    #[Route('/{idRemboursement}/{idassurance}',name:'idRemboursement')]
-    public function assignfichetoretuyèmboursement($idRemboursement,$idassurance, RemboursementRepository $remRepo,FicheAssuranceRepository $ficheRepo)
-    {
-    $ficheassurance=$remRepo->find($idassurance);
-    $remboursement=$remRepo->find($idRemboursement);
-    $remboursement->setFicheAssurance($ficheassurance);
-    return $this->render ('test.html.twig');
-
-    }
-    
-    #[Route('/a/{remboursementid}',name:'remboursementid')]
-    public function showe(Remboursement $remboursementid)
-    {
-    return $this->render('test.html.twig', [
-        'remboursementid' => $remboursementid,
-    ]);
-    }
-
-    #[Route('/{idRemboursement}/ficheassurance/{ficheId}',name:'assign_remboursement_to_ficheassurance')]
-    public function assignfichetoremboursement($idRemboursement, $ficheId)
-{
-    // Retrieve the user and profile objects from the database
-    $entityManager = $this->getDoctrine()->getManager();
-    
-
-    $remboursement = $entityManager->getRepository(Remboursement::class)->find($idRemboursement);
-    if ($remboursement) {
-    $ficheassurance = $entityManager->getRepository(FicheAssurance::class)->find($ficheId);
-
-    // Assign the profile to the user
-    $remboursement->setFicheAssurance($ficheassurance);
-
-    // Save the changes to the database
-    $entityManager->persist($remboursement);
-    $entityManager->flush();
-}
-    // Redirect the user back to the page where they came from
-    return $this->redirectToRoute('remboursementid', ['remboursementId' => $idRemboursement]);
-}
+   
 
 
 

@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\FicheAssuranceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Remboursement;
+
 #[ORM\Entity(repositoryClass: FicheAssuranceRepository::class)]
 class FicheAssurance
 {
@@ -38,11 +38,10 @@ class FicheAssurance
     #[ORM\ManyToOne(inversedBy: 'ficheAssurances')]
     private ?User $assureur = null;
 
+    #[ORM\OneToOne(mappedBy: 'FicheAssurance', cascade: ['persist', 'remove'])]
+    private ?Remboursement $remboursement = null;
+
   
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Remboursement $Remboursement = null;
-
 
     public function getId(): ?int
     {
@@ -144,15 +143,29 @@ class FicheAssurance
 
         return $this;
     }
+
     public function getRemboursement(): ?Remboursement
     {
-        return $this->Remboursement;
+        return $this->remboursement;
     }
-    public function setRemboursement(?Remboursement $Remboursement): self
+
+    public function setRemboursement(?Remboursement $remboursement): self
     {
-        $this->Remboursement = $Remboursement;
+        // unset the owning side of the relation if necessary
+        if ($remboursement === null && $this->remboursement !== null) {
+            $this->remboursement->setFicheAssurance(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($remboursement !== null && $remboursement->getFicheAssurance() !== $this) {
+            $remboursement->setFicheAssurance($this);
+        }
+
+        $this->remboursement = $remboursement;
 
         return $this;
     }
+
+
 
 }
