@@ -1,10 +1,10 @@
-{% extends 'base-front.html.twig' %}
+{% extends 'Menu.html.twig' %}
 
 
-{% block body %}
+{% block content %}
     <h1>Modifier Pharmacie</h1>
 
-    {{ include('pharmacie/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('pharmacie/_form.html.twig', {'button_label': 'Modifier'}) }}
 
     <a href="{{ path('app_pharmacie_index') }}" class="btn btn-primary mt-3">{{ button_label|default('Retour') }} </a>
 

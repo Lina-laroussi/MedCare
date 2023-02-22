@@ -116,20 +116,24 @@
 </div>
 <div class="invoice-info">
   <tr>
-                <th>Image_signature</th>
-                <td>{{ facture.imageSignature }}</td>
+                <th class="d-none d-sm-table-cell" >Image_signature</th> </tr>
+               
+
                 <img src="{{ asset('uploads/images/' ~ facture.imageSignature ) }}" alt="Image de signature" >
 
 
-            </tr>
+            
 </div>
 </div>
 </div>
 
 </div>
 </div>
+<a href="{{ path('app_facture_index') }}" class="btn btn-primary mt-3">{{ button_label|default('Retour') }}</a>
 
+    <a href="{{ path('app_facture_edit', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Modifier') }}</a>
 </div>
+ 
 
 
 <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.6.0.min.js"></script>
@@ -146,10 +150,8 @@
 <!-- Mirrored from doccure.dreamguystech.com/html/template/pharmacy/invoice.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 08 Feb 2023 13:03:30 GMT -->
 </html>
 
-   
-    <a href="{{ path('app_facture_index') }}">Retour</a>
 
-    <a href="{{ path('app_facture_edit', {'id': facture.id}) }}">edit</a>
+
 
     {{ include('facture/_delete_form.html.twig') }}
 {% endblock %}

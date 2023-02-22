@@ -52,7 +52,7 @@ class Pharmacie
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez ajouter votre email")]
-    #[Assert\Email(message: "Le mail '{{value}}'n'est pas valide")]
+    #[Assert\Email(message: "Le mail n'est pas valide")]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]

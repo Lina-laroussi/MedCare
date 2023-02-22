@@ -16,10 +16,8 @@
             <tr>
                 <th>Id</th>
                 <th>Date</th>
-                <th>Cin Patient</th>
-
                 <th>Montant</th>
-                <th>Num_facture</th>
+                <th>Code Ordonnance</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -28,11 +26,9 @@
             <tr>
                 <td>{{ facture.id }}</td>
                 <td>{{ facture.date ? facture.date|date('Y-m-d') : '' }}</td>
-
                  <td>{{ facture.montant }}</td>
+                 <td>{{ facture.ordonnance}}</td>
 
-
-                <td>{{ facture.numFacture }}</td>
                 <td>
                     <a href="{{ path('app_facture_show', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Voir') }}</a>
                     <a href="{{ path('app_facture_edit', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Modifier') }}</a>

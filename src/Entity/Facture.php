@@ -29,6 +29,8 @@ class Facture
     private ?string $image_signature = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Veuillez ajouter le numéro du facture")]
+    #[Assert\Positive(message: "Non valide")]
     private ?int $num_facture = null;
 
     #[ORM\OneToOne(mappedBy: 'facture', cascade: ['persist', 'remove'])]

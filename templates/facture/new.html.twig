@@ -7,5 +7,6 @@
 
     {{ include('facture/_form.html.twig') }}
 
-    <a href="{{ path('app_facture_index') }}" >Retour</a>
+        <a href="{{ path('app_facture_index') }}" class="btn btn-primary mt-3">{{ button_label|default('Retour') }}</a>
+
 {% endblock %}
