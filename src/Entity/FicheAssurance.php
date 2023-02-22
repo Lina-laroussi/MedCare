@@ -6,6 +6,7 @@ use App\Repository\FicheAssuranceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ORM\Entity(repositoryClass: FicheAssuranceRepository::class)]
 class FicheAssurance
 {
@@ -20,6 +21,7 @@ class FicheAssurance
         minMessage: 'Montant maximale doit etre composer de 1 numéros au minimum',
         maxMessage: 'Montant maximale ne doit pas dépasser 10 numéros ',
     )]
+
     #[Assert\Positive]
     #[Assert\NotBlank(message: "Veuillez ajouter votre num d'adherent")]
     #[ORM\Column]
@@ -32,7 +34,8 @@ class FicheAssurance
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_creation = null;
-
+    
+    #[Assert\Url]
     #[ORM\Column(length: 255)]
     private ?string $image_facture = null;
 

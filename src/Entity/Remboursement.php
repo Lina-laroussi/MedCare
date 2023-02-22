@@ -6,7 +6,13 @@ use App\Repository\RemboursementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
+
 #[ORM\Entity(repositoryClass: RemboursementRepository::class)]
+#[UniqueEntity(fields:['FicheAssurance'], message:"cette fiche d'assurance est déja utilisé dans une fiche de remboursement")]
 class Remboursement
 {
     #[ORM\Id]
@@ -20,9 +26,8 @@ class Remboursement
         min: 1,
         max: 5,
         minMessage: 'Montant maximale doit etre composer de 1 numéros au minimum',
-        maxMessage: 'Montant maximale ne doit pas dépasser 2 numéros ',
+        maxMessage: 'Montant maximale ne doit pas dépasser 5 numéros ',
     )]
-
     #[Assert\Positive]
     #[ORM\Column]
     private ?float $montant_a_rembourser = null;
@@ -37,13 +42,16 @@ class Remboursement
     )]
     #[ORM\Column]
     private ?float $montant_maximale = null;
-
+    
+    #[Assert\Positive]
     #[ORM\Column]
     private ?float $taux_remboursement = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_remboursement = null;
-
+    
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $etat = null;
 
