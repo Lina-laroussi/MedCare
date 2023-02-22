@@ -15,6 +15,7 @@ class Produit
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex(pattern: '/^[A-Z]/', message: "Le nom doit commencer par une lettre majuscule")]
     #[Assert\NotBlank (message:" Le nom ne peut pas être vide")]
     private ?string $nom = null;
 
@@ -23,12 +24,14 @@ class Produit
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\Positive(message: "Le prix doit être un nombre positif.")]
     private ?float $prix = null;
 
     #[ORM\Column(length: 255)]
     private ?string $etat = null;
 
     #[ORM\Column]
+    #[Assert\GreaterThanOrEqual(value: 0, message: "La quantité doit être supérieure ou égale à 0.")]
     private ?float $quantite = null;
 
     #[ORM\Column(length: 255)]

@@ -34,12 +34,19 @@ class Categorie
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank (message:" Le description ne peut pas être vide")]  
+    #[Assert\Length(
+        min: 4,
+        max: 40,
+        minMessage: "La description doit avoir au moins {{ limit }} caractères",
+        maxMessage: "La description ne doit pas dépasser {{ limit }} caractères"
+    )]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     private ?string $etat = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex(pattern: '/^[A-Z]/', message: "La marque doit commencer par une lettre majuscule")]
     #[Assert\NotBlank (message:" La marque ne peut pas être vide")]  
     private ?string $marque = null;
 
