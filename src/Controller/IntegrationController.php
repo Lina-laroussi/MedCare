@@ -19,14 +19,6 @@ class IntegrationController extends AbstractController
     }
 
 
-    #[Route('/list', name: 'app_home')]
-    public function list(): Response
-    {
-        return $this->render('Back-Office/pharmacies-list.html.twig', [
-            'controller_name' => 'IntegrationController',
-        ]);
-    }
-
     #[Route('/connect', name: 'app_choose_profile')]
     public function profile(): Response
     {

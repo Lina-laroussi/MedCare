@@ -50,7 +50,7 @@
                 </div>
                 <ul class="main-nav">
                     <li class="has-submenu active">
-                        <a href="#">Accueil </a>
+                        <a href="{{ path('app_home') }}">Accueil </a>
                     </li>
                     <li class="has-submenu">
                         <a href="#">Médecin</a>
@@ -80,13 +80,13 @@
                         <li class="nav-item dropdown has-arrow logged-item">
                             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                                 <span class="user-img">
-                                <img class="rounded-circle" src="{{ user.image|default('uploads/utilisateurs/user.png') }}"  width="31" alt="user image">
+                                <img class="rounded-circle" src="{{ asset('uploads/utilisateurs/' ~ user.image |default('uploads/utilisateurs/user.png') ) }}"  width="31" alt="user image">
                                 </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <div class="user-header">
                                     <div class="avatar avatar-sm">
-                                        <img src="{{ user.image|default('uploads/utilisateurs/user.png') }}" alt="User Image" class="avatar-img rounded-circle">
+                                        <img src="{{ asset('uploads/utilisateurs/' ~ user.image |default('uploads/utilisateurs/user.png') ) }}" alt="User Image" class="avatar-img rounded-circle">
                                     </div>
                                     <div class="user-text">
                                         <h6>{{ user.nom |capitalize }} {{ user.prenom |capitalize }}</h6>

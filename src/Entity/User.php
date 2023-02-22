@@ -31,10 +31,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\NotBlank(message: "Veuillez renseigner votre mot de passe")]
-   /* #[Assert\Regex(
+    #[Assert\Regex(
         pattern: "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/",
         message:"Votre mot de passe doit comporter au moins huit caractères, dont des lettres majuscules et minuscules, un chiffre et un symbole"
-    )]*/
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255,nullable:true)]

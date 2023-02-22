@@ -28,11 +28,11 @@ class EditFormMedecinType extends AbstractType
             ->add('date_de_naissance',DateType::class, [
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
-                'constraints' => [new notBlank(['message'=>('Veuillez renseigner votre date de naissance')])]
+                'constraints' => [new NotBlank(['message'=>('Veuillez renseigner votre date de naissance')])]
             ])
             ->add('email',TextType::class)
             ->add('num_tel',TextType::class,[
-                'constraints' => [new notBlank(['message'=>('Veuillez renseigner votre numéro de téléphone')]),
+                'constraints' => [new NotBlank(['message'=>('Veuillez renseigner votre numéro de téléphone')]),
                     new Regex(pattern:"/^[0-9]*$/", message:"Votre numéro de téléphone n'est pas valide")
                     ]
             ])
@@ -43,7 +43,7 @@ class EditFormMedecinType extends AbstractType
                 ]],
             )
             ->add('description',TextareaType::class,[
-                'constraints' => [new notBlank(['message'=>('Veuillez renseigner votre description')]),
+                'constraints' => [new NotBlank(['message'=>('Veuillez renseigner votre description')]),
                     new Length(
                         min:8,
                         max: 1000,
@@ -53,7 +53,7 @@ class EditFormMedecinType extends AbstractType
                     ]
             ])
             ->add('adresse',TextType::class,
-                ['constraints' => [new notBlank(['message'=>('Veuillez renseigner votre adresse')]),
+                ['constraints' => [new NotBlank(['message'=>('Veuillez renseigner votre adresse')]),
                     new Length(
                         min:3,
                         max: 30,
@@ -63,7 +63,7 @@ class EditFormMedecinType extends AbstractType
                     ]])
 
             ->add('specialite',TextType::class,[
-                'constraints' => [new notBlank(['message'=>('Veuillez renseigner votre spécialité')]),
+                'constraints' => [new NotBlank(['message'=>('Veuillez renseigner votre spécialité')]),
                     new Length(
                         min:3,
                         max: 30,
@@ -91,7 +91,9 @@ class EditFormMedecinType extends AbstractType
                             'image/jpg',
                         ],
                         'mimeTypesMessage' => 'Veuillez renseigner votre Image',
-                    ])
+
+                    ]),
+                    new NotBlank(['message'=>('Veuillez renseigner votre image')])
                 ],
             ])
         ;

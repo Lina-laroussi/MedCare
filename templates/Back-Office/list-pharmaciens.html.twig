@@ -31,7 +31,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-12 d-flex justify-content-end">
                         <div class="doc-badge me-3">Total Pharmaciens <span class="ms-1">48</span></div>
-                        <a href="#" class="btn btn-primary btn-add" data-bs-toggle="modal" data-bs-target="#addModal"><i class="feather-plus-square me-1"></i> Add New</a>
+                        <a href="#" class="btn btn-primary btn-add" data-bs-toggle="modal" data-bs-target="#addModal"><i class="feather-plus-square me-1"></i> Ajouter</a>
                     </div>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                                         <td>{{ user.id }}</td>
                                         <td>
                                             <h2 class="table-avatar">
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#editModal"><img class="avatar avatar-img" src="{{ user.image|default('uploads/utilisateurs/user.png') }}" alt="User Image"></a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#editModal"><img class="avatar avatar-img" src="{{ asset('uploads/utilisateurs/' ~ user.image|default('uploads/utilisateurs/user.png') ) }}" alt="User Image"></a>
                                             </h2>
                                         </td>
                                         <td>

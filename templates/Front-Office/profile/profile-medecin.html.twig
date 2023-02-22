@@ -32,7 +32,7 @@
                         <div class="form-group">
                             <div class="change-avatar">
                                 <div class="profile-img">
-                                    <img src="{{ user.image|default('uploads/utilisateurs/user.png') }}"alt="User Image">
+                                    <img src="{{ asset('uploads/utilisateurs/' ~ user.image |default('uploads/utilisateurs/user.png') ) }}" alt="User Image">
                                 </div>
                                 <div class="upload-img">
                                     <div class="change-photo-btn">
@@ -43,10 +43,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            {{ form_errors(form.photo,{attr:{'class':'text-danger'}})  }}
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {{ form_errors(form.photo,{attr:{'class':'text-danger'}})  }}
-                    </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Nom </label>
