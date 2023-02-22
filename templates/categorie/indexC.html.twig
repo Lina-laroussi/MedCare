@@ -1,51 +1,25 @@
 {% extends 'base-front.html.twig' %}
-
 {% block body %}
-    <h1>Categorie index</h1>
+<div class="my-background" style="background-image: url('{{ asset('Parapharmacie.jpg') }}');">
+  <!-- Le contenu de votre site web -->
+
+    <h2 class="text-center">Les catégories</h2>
     <div class="container">
         <div class="row justify-content-center">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nom</th>
-                        <th>Description</th>
-                        <th>Etat</th>
-                        <th>Marque</th>
-                        <th>Groupe_age</th>
-                        <th>Produits</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <ul>
                 {% for categorie in categories %}
-                    <tr>
-                        <td>{{ categorie.id }}</td>
-                        <td>{{ categorie.nom }}</td>
-                        <td>{{ categorie.description }}</td>
-                        <td>{{ categorie.etat }}</td>
-                        <td>{{ categorie.marque }}</td>
-                        <td>{{ categorie.groupeAge }}</td>
-                        <td>
-                            <ul>
-                            {% for produit in categorie.produits %}
-                                <li>{{ produit.nom }}</li>
-                            {% else %}
-                                <li>Aucun produit dans cette catégorie</li>
-                            {% endfor %}
-                            </ul>
-                        </td>
-                        <td>
-                            <a href="{{ path('app_produit_index1', {'categorie': categorie.id}) }}">Produits</a>
-                        </td>
-                    </tr>
+                    <li>
+                        <h3>{{ categorie.nom }}</h3>
+                        <p>{{ categorie.description }}</p>
+                        <a href="{{ path('app_produit_index1', {'categorie': categorie.id}) }}" class="btn btn-primary">
+                            Voir les produits
+                        </a>
+                    </li>
                 {% else %}
-                    <tr>
-                        <td colspan="8">no records found</td>
-                    </tr>
+                    <li>Aucune catégorie trouvée.</li>
                 {% endfor %}
-                </tbody>
-            </table>
+            </ul>
         </div>
+    </div>
     </div>
 {% endblock %}

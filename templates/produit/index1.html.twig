@@ -4,6 +4,9 @@
 {% endblock %}
 
 {% block body %}
+<div class="my-background" style="background-image: url('{{ asset('Parapharmacie.jpg') }}');">
+
+        {# une barre de titre simple avec un fond de couleur gris clair. #}
     <section class="bg-light p-3">
         <h1>Les produits</h1>
     </section>
@@ -17,11 +20,13 @@
                     <p>{{ produit.description }} </p>
                     <img src="{{ asset('uploads/') ~ produit.image }}" alt="Image de {{ produit.nom }}">
                     <hr>
-                    <a href="{{path("cart_add", {id: produit.id})}}" class="btn btn-success">
+                    <a href="{{path("cart_add", {id: produit.id})}}" class="btn btn-primary">
                         <i class="bi bi-cart-plus"></i> Ajouter au panier
                     </a>
                 </div>
             </div>
         {% endfor %}
     </section>
+                </div>
+
 {% endblock %}

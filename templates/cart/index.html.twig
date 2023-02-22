@@ -44,9 +44,13 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="3">Total</td>
-                <td class="text-end">{{ total }} €</td>
-                <td>
+                <td colspan="3">
+                <form>
+                    <button type="submit" onclick="window.history.go(-1); return false;">Back</button>
+                </form>
+            </td>
+            <td class="text-end">{{ total }} €</td>
+            <td>
                     <a href="{{path("cart_delete_all")}}" class="btn btn-danger">
                         <i class="bi bi-cart-x"></i>
                     </a>
