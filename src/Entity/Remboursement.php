@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\RemboursementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: RemboursementRepository::class)]
 class Remboursement
 {
@@ -13,10 +13,28 @@ class Remboursement
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+    
+    #[Assert\Positive]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 1,
+        max: 5,
+        minMessage: 'Montant maximale doit etre composer de 1 numéros au minimum',
+        maxMessage: 'Montant maximale ne doit pas dépasser 2 numéros ',
+    )]
 
+    #[Assert\Positive]
     #[ORM\Column]
     private ?float $montant_a_rembourser = null;
-
+    
+    #[Assert\Positive]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 3,
+        minMessage: 'Montant maximale doit etre composer de 2 numéros au minimum',
+        maxMessage: 'Montant maximale ne doit pas dépasser 3 numéros ',
+    )]
     #[ORM\Column]
     private ?float $montant_maximale = null;
 

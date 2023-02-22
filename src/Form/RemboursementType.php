@@ -6,6 +6,7 @@ use App\Entity\FicheAssurance;
 use App\Entity\Remboursement;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,7 +19,13 @@ class RemboursementType extends AbstractType
             ->add('montant_maximale')
             ->add('taux_remboursement')
             ->add('date_remboursement')
-            ->add('etat')
+            ->add('etat', ChoiceType::class, [
+                'choices'  => [
+                    'Non confirmé' => 'Non confirmé',
+                    'confirmée' => "confirmée",
+                   
+                ],
+            ])
             ->add('FicheAssurance', EntityType::class, [
                 // looks for choices from this entity
                 'class' => FicheAssurance::class,

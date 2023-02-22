@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\FicheAssuranceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: FicheAssuranceRepository::class)]
 class FicheAssurance
 {
@@ -14,9 +14,19 @@ class FicheAssurance
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Length(
+        min: 1,
+        max: 10,
+        minMessage: 'Montant maximale doit etre composer de 1 numéros au minimum',
+        maxMessage: 'Montant maximale ne doit pas dépasser 10 numéros ',
+    )]
+    #[Assert\Positive]
+    #[Assert\NotBlank(message: "Veuillez ajouter votre num d'adherent")]
     #[ORM\Column]
     private ?int $num_adherent = null;
 
+    #[Assert\NotBlank(message: "Veuillez ajouter une description,nb quelle doit avoir au minimum 10 caracteres")]
+    #[Assert\Length(min:10,minMessage:"Votre mot de passe ne contient pas {{ limit }} caractères.")]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
