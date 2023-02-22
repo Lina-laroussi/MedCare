@@ -29,6 +29,16 @@ class RendezVousController extends AbstractController
 
         ]);
     }
+    #[Route('/admin', name: 'app_rendez_vous_admin_index', methods: ['GET'])]
+    public function indexAdmin(RendezVousRepository $rendezVousRepository): Response
+    {
+ 
+        return $this->render('Back-Office/rendez_vous/index.html.twig', [
+            'rendez_vouses' => $rendezVousRepository->findAll(),
+          
+
+        ]);
+    }
 
     #[Route('/{id}/new', name: 'app_rendez_vous_new', methods: ['GET', 'POST'])]
     public function new(Request $request,Planning $planning,UserRepository $patientRep ,RendezVousRepository $rendezVousRepository): Response

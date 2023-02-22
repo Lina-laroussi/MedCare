@@ -1,0 +1,80 @@
+{% extends 'base-back.html.twig' %}
+{% block page %}RendezVous
+{% endblock %}
+{% block lien %}
+{% endblock %}
+
+{% block body %}
+    <div class="page-wrapper">
+    <div class="content container-fluid">   
+    <div class="appointment-tab">
+    <ul class="nav nav-tabs nav-tabs-solid nav-tabs-rounded p-3" role="tablist">
+
+    </ul>
+
+<div class="tab-content pt-0">
+<div id="upcoming-appointments" class="tab-pane fade show active" role="tabpanel">
+<div class="card card-table mb-0">
+<div class="card-body">
+<div class="table-responsive">
+<table class="table table-hover table-center mb-0">
+        <thead>
+            <tr>
+                <th>Medecin</th>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Etat</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for rendez_vou in rendez_vouses %}
+            <tr>
+                <td>
+                <h2 class="table-avatar">
+                    <a href="doctor-profile.html" class="avatar avatar-sm me-2">
+                    <img class="avatar-img rounded-circle" src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" alt="User Image">
+                    </a>
+                    <a href="doctor-profile.html">{{ rendez_vou.planning.medecin.nom}} {{ rendez_vou.planning.medecin.prenom}} </a>
+                    </h2>
+                 
+                </td>
+                
+                <td>{{ rendez_vou.date ? rendez_vou.date|date('Y-m-d') : '' }}</td>
+                <td>{{ rendez_vou.heureDebut ? rendez_vou.heureDebut|date('H:i:s') : '' }}-{{ rendez_vou.heureFin ? rendez_vou.heureFin|date('H:i:s') : '' }}</td>
+                <td>
+                {% if rendez_vou.etat =="en attente" %}
+                <span class="badge rounded-pill bg-warning-light">
+                {% endif %}
+                {% if rendez_vou.etat =="confirmé" %}
+                <span class="badge rounded-pill bg-success-light">
+                {% endif %}
+                {% if rendez_vou.etat =="annulé" %}
+                <span class="badge rounded-pill bg-danger-light">
+                {% endif %}
+                {{ rendez_vou.etat }}</span>
+                </td>
+                <td class="text-end ">
+                <div class="table-action">
+                    <a class="mr-3 btn btn-sm bg-info-light " href="{{ path('app_rendez_vous_show', {'id': rendez_vou.id}) }}"><i class="far fa-eye"></i>consulter</a>
+                </div>
+
+                </td>
+
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">Pas de resultats</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

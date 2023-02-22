@@ -23,6 +23,13 @@ class PlanningController extends AbstractController
             'plannings' => $planningRepository->findAll(),
         ]);
     }
+    #[Route('/admin', name: 'app_planning_index_admin', methods: ['GET'])]
+    public function indexAdmin(PlanningRepository $planningRepository): Response
+    {
+        return $this->render('Back-Office/planning/index.html.twig', [
+            'plannings' => $planningRepository->findAll(),
+        ]);
+    }
 
     #[Route('/{id}/new', name: 'app_planning_new', methods: ['GET', 'POST'])]
     public function new($id ,Request $request, UserRepository $medecinRep,PlanningRepository $planningRepository): Response
