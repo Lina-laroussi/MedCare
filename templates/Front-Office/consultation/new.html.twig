@@ -7,5 +7,12 @@
 
     {{ include('Front-Office/consultation/_form.html.twig') }}
 
+
+    <div>
+    <a href="{{ path('app_ordonnance_new') }}" class="add-new-btn"> Ajouter Ordonnance </a>
+    <a href="{{ path('app_fiche_medicale_new') }}" class="add-new-btn"> Ajouter Fiche Med </a>
+    </div>
+    
     <a href="{{ path('app_consultation_index') }}" > retour à la liste des consultations</a>
+
 {% endblock %}

@@ -2,47 +2,52 @@
 
 {% block content %}
     <h1>Ordonnance</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ ordonnance.id }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ ordonnance.description }}</td>
-            </tr>
-            <tr>
-                <th>Code_ordonnance</th>
-                <td>{{ ordonnance.codeOrdonnance }}</td>
-            </tr>
-            <tr>
-                <th>Medicaments</th>
-                <td>{{ ordonnance.medicaments }}</td>
-            </tr>
-            <tr>
-                <th>Dosage</th>
-                <td>{{ ordonnance.dosage }}</td>
-            </tr>
-            <tr>
-                <th>Nombre_jours</th>
-                <td>{{ ordonnance.nombreJours }}</td>
-            </tr>
-            <tr>
-                <th>Date_de_creation</th>
-                <td>{{ ordonnance.dateDeCreation ? ordonnance.dateDeCreation|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Date_de_modification</th>
-                <td>{{ ordonnance.dateDeModification ? ordonnance.dateDeModification|date('Y-m-d') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="card card-table mb-0">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ ordonnance.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ ordonnance.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>Code_ordonnance</th>
+                        <td>{{ ordonnance.codeOrdonnance }}</td>
+                    </tr>
+                    <tr>
+                        <th>Medicaments</th>
+                        <td>{{ ordonnance.medicaments }}</td>
+                    </tr>
+                    <tr>
+                        <th>Dosage</th>
+                        <td>{{ ordonnance.dosage }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nombre_jours</th>
+                        <td>{{ ordonnance.nombreJours }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date_de_creation</th>
+                        <td>{{ ordonnance.dateDeCreation ? ordonnance.dateDeCreation|date('Y-m-d') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date_de_modification</th>
+                        <td>{{ ordonnance.dateDeModification ? ordonnance.dateDeModification|date('Y-m-d H:m:s', 'UTC') : '' }}</td>
+                    </tr>
+                </tbody>
+            </table>
 
     <a href="{{ path('app_ordonnance_index') }}"> retour à la liste </a>
 
     <a href="{{ path('app_ordonnance_edit', {'id': ordonnance.id}) }}" class="add-new-btn"> Modifier</a>
 
     {{ include('Front-Office/ordonnance/_delete_form.html.twig') }}
+</div>   
+</div> 
+</div> 
 {% endblock %}

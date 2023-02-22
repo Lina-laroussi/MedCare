@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ConsultationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ConsultationRepository::class)]
 class Consultation
@@ -26,15 +27,18 @@ class Consultation
     private ?float $temperature = null;
 
     #[ORM\Column]
-    private ?float $prix = null;
+    private ?float $prix = 50;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $pression_arterielle = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $frequence_cardiaque = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $taux_glycemie = null;
 
     #[ORM\Column(length: 255)]

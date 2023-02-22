@@ -1,4 +1,48 @@
 {% extends 'sideBar.html.twig' %}
+                            
+{% block content %}
+<h1> Consulation </h1>
+
+<div class="text-end">
+<a href="{{ path('app_consultation_new') }}" class="add-new-btn"> Créer nouveau consultation </a>
+</div>
+
+<div class="card card-table mb-0">
+    <div class="card-body">
+        <div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>               
+                <th>Symptomes</th>
+                <th>Traitement</th>
+                <th>Observation</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for consultation in consultations  %}
+            <tr>
+                <td>{{ consultation.id }}</td>               
+                <td>{{ consultation.symptomes }}</td>
+                <td>{{ consultation.traitement }}</td>
+                <td>{{ consultation.observation }}</td>
+                <td>
+                    <a href="{{ path('app_consultation_show', {'id': consultation.id}) }}" class="add-new-btn"> Afficher </a>
+                    <a href="{{ path('app_consultation_edit', {'id': consultation.id}) }}" class="add-new-btn"> Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13"> Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+  </div> 
+</div>
+{% endblock %}
+
 {% block nav %} Consultation  {% endblock %}
 {% block active_side %}
     <li>
@@ -50,46 +94,3 @@
         </a>
     </li>
 {% endblock %} 
-                                
-
-{% block content %}
-<h1> Consulation </h1>
-
-<div class="text-end">
-<a href="{{ path('app_consultation_new') }}" class="add-new-btn"> Créer nouveau consultation </a>
-</div>
-
-<div>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>                
-                <th>Symptomes</th>
-                <th>Traitement</th>
-                <th>Observation</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for consultation in consultations %}
-            <tr>
-                <td>{{ consultation.id }}</td>               
-                <td>{{ consultation.symptomes }}</td>
-                <td>{{ consultation.traitement }}</td>
-                <td>{{ consultation.observation }}</td>
-                <td>
-                    <a href="{{ path('app_consultation_show', {'id': consultation.id}) }}" class="add-new-btn"> Afficher </a>
-                    <a href="{{ path('app_consultation_edit', {'id': consultation.id}) }}" class="add-new-btn"> Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="13"> Aucun enregistrement trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    
-</div>
-{% endblock %}

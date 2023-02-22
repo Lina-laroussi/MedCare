@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 #[Route('/ordonnance')]
 class OrdonnanceController extends AbstractController
@@ -25,14 +26,21 @@ class OrdonnanceController extends AbstractController
     #[Route('/new', name: 'app_ordonnance_new', methods: ['GET', 'POST'])]
     public function new(Request $request, OrdonnanceRepository $ordonnanceRepository): Response
     {
+        // Generate the pre-generated code, convert it to a hexadecimal string bin2hex
+        $preGeneratedCode = substr(bin2hex(random_bytes(5)), 0, 10);
+        
         $ordonnance = new Ordonnance();
-        $form = $this->createForm(OrdonnanceType::class, $ordonnance);
+        $form = $this->createForm(OrdonnanceType::class, $ordonnance, [
+            'pre_generated_code' => $preGeneratedCode, // pass the pre-generated code to the form builder
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $ordonnanceRepository->save($ordonnance, true);
 
-            return $this->redirectToRoute('app_ordonnance_index', [], Response::HTTP_SEE_OTHER);
+            $previousUrl = $request->headers->get('referer');
+            return new RedirectResponse($previousUrl);
+            //return $this->redirectToRoute('app_ordonnance_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('Front-Office/ordonnance/new.html.twig', [

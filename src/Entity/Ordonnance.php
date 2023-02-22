@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\OrdonnanceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrdonnanceRepository::class)]
 class Ordonnance
@@ -17,8 +18,9 @@ class Ordonnance
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $code_ordonnance = null;
+    #[Assert\NotBlank()]
+    #[ORM\Column(length: 10)]
+    private ?string $code_ordonnance ;
 
     #[ORM\Column(length: 255)]
     private ?string $medicaments = null;
@@ -41,7 +43,19 @@ class Ordonnance
     #[ORM\OneToOne(inversedBy: 'ordonnance', cascade: ['persist', 'remove'])]
     private ?Facture $facture = null;
 
+    /**
+     * @ORM\PrePersist
+     */
+    public function generateCodeOrdonnance(): void
+    {
+        $this->code_ordonnance = substr(bin2hex(random_bytes(5)), 0, 10);
+    }
 
+    public function __construct()
+    {
+        $this->code_ordonnance = bin2hex(random_bytes(5));
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
