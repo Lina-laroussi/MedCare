@@ -43,6 +43,7 @@
         events:{{ data|raw }},
        dayClick: function(date, jsEvent, view) {
         var events = $('#calendar').fullCalendar('clientEvents', function(event) {
+          console.log(date);
           return date.isBetween(event.start, event.end) &&
             (event.rendering === 'background' || event.rendering === undefined);
         });
@@ -93,5 +94,12 @@
 
 
 </script>
+  navLinks: true,
 
+    selectable: true,
+    slotDuration: '00:15:00', /* If we want to split day time each 15minutes */
+    defaultView: 'month',  
+    handleWindowResize: true,   
+            $body.find('#rendez_vous_calendar_heure_debut').val(date.add(1,'hour').format('hh:mm'));
+             $body.find('#rendez_vous_calendar_heure_debut').val(date.add(1,'hour').format('hh:mm'));
 {% endblock %}

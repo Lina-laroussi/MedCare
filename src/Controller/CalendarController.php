@@ -37,44 +37,35 @@ class CalendarController extends AbstractController
         }
         $getPlannings = $planningRepository->findAll();
         foreach($getPlannings as $planning){
+            $startDate =new \DateTime( $planning->getDateDebut()->format('Y-m-d ').$planning->getHeureDebut()->format('H:i:s'));
+            $endDate = new \DateTime($planning->getDateFin()->format('Y-m-d ').$planning->getHeurefin()->format('H:i:s'));
+            $startTime = $planning->getHeureDebut()->format('H:i:s');
+            $endTime = $planning->getHeureFin()->format('H:i:s');
+
+            for ($date = clone $startDate; $date <= $endDate; $date->modify('+1 day')) {
             $rendeVouses[] = [
                 'id'=> $planning->getId(),
-                'start'=> $planning->getDateDebut()->format('Y-m-d ').$planning->getHeureDebut()->format('H:i:s'),
-                'end'=> $planning->getDateFin()->format('Y-m-d ').$planning->getHeurefin()->format('H:i:s'),
+                'planningStart'=>$startDate->modify('-1 day')->format('Y-m-d H:i:s'),
+                'planningEnd'=>$endDate->format('Y-m-d H:i:s'),
+                'start' => $date->format('Y-m-d ').$startTime,
+                'end' => $date->format('Y-m-d ').$endTime,
+                'startTime'=>$startTime,
+                'endeTime'=>$endTime,
                 'description'=> $planning->getDescription(),
                 'planningId'=>$planning->getId(),
                 'type'=>'planning',
+                //'allDay' => true,
+                'extendedProps' => [
+                    'type' => 'recurring',
+                ],
+        
                 'rendering'=> 'background',
-                'allDay'=> 'allDay',
                 
-            ];
+            ];}
         }
         $data = json_encode($rendeVouses);
         $rendezVou = new RendezVous();
 
-        $form = $this->createForm(RendezVousType::class, $rendezVou, [
-            'attr' => ['id' => 'rendezVousForm']
-        ]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $planningId = $form->get('planningId');
-            $planning = $planningRepository->find($planningId);
-            if (!$planning) {
-            throw new NotFoundHttpException('No planning found with ID '.$planningId);
-            }
-            $rendezVou->setPlanning($planning);
-            $rendezVou->setPatient($patientRep->find(2));
-            $rendezVou->setEtat("en attente");
-            $date_creation = new DateTimeImmutable();
-            $rendezVou->setDateDeCreation($date_creation);
-            $rendezVousRepository->save($rendezVou, true);
-           /* $rendezVou->setDate($request->get('rendezVousStartDate')->getData()) ;
-            $rendezVou->setHeureDebut($request->get('rendezVousStartTime')->getData()) ;
-            $rendezVou->setHeureFin($request->get('rendezVousEndTime')->getData()) ;
-            $rendezVou->setSymptomes($request->get('rendezVousSymptomes')->getData()) ;*/
-            return $this->redirectToRoute('app_rendez_vous_index', [], Response::HTTP_SEE_OTHER);
-        }
         return $this->render('Front-Office/calendar/index.html.twig', compact('data'));
     }
     #[Route('/new/{planningId}', name: 'app_rendez_vous_calendar_new', methods: ['GET', 'POST'])]
@@ -89,7 +80,7 @@ class CalendarController extends AbstractController
         $rendezVou->setDateDeCreation($date_creation);
         $form = $this->createForm(RendezVousCalendarType::class, $rendezVou);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $rendezVousRepository->save($rendezVou, true);
 

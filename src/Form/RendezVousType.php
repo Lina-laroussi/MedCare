@@ -21,23 +21,23 @@ class RendezVousType extends AbstractType
                 'label' => 'Date',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
-                'attr' => ['class' => 'form-control form-group','id' => 'date'],
+                'attr' => ['class' => 'form-control form-group'],
                 'required' => true
             ])
             ->add('heure_debut',TimeType::class, [
                 'label' => 'Heure Debut',
                 'widget' => 'single_text',
-                'attr' => ['class' => 'form-control form-group','id' => 'heureDebut'],
+                'attr' => ['class' => 'form-control form-group'],
                 'required' => true
             ])
             ->add('heure_fin',TimeType::class, [
                 'label' => 'Heure Fin',
                 'widget' => 'single_text',
-                'attr' => ['class' => 'form-control form-group','id' => 'heureFin'],
+                'attr' => ['class' => 'form-control form-group'],
                 'required' => true
             ])
             ->add('symptomes',TextareaType::class, [
-                'attr' => ['class' => 'form-control','id' => 'symptomes'],
+                'attr' => ['class' => 'form-control'],
                 'required' => true
             ])
 
