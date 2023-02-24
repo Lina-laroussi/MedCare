@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RendezVousType extends AbstractType
+class RendezVousCalendarType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -22,7 +22,6 @@ class RendezVousType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'attr' => ['class' => 'form-control form-group','id' => 'date'],
-                'required' => true
             ])
             ->add('heure_debut',TimeType::class, [
                 'label' => 'Heure Debut',
@@ -40,7 +39,9 @@ class RendezVousType extends AbstractType
                 'attr' => ['class' => 'form-control','id' => 'symptomes'],
                 'required' => true
             ])
-
+           //->add('planning', HiddenType::class, [
+             //   'attr' => ['id' => 'planningId']
+           //])
 
         ;
     }
