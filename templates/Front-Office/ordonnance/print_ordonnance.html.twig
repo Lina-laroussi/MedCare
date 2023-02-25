@@ -1,0 +1,131 @@
+<title>MedCare</title>
+<link href="{{asset('FrontOffice/img/favicon.png')}}" rel="icon">
+<link rel="stylesheet" href="{{asset('FrontOffice/css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{asset('FrontOffice/plugins/fontawesome/css/fontawesome.min.css')}}">
+<link rel="stylesheet" href="{{asset('FrontOffice/plugins/fontawesome/css/all.min.css')}}">
+<link rel="stylesheet" href="{{asset('FrontOffice/css/feather.css')}}">
+<link rel="stylesheet" href="{{asset('FrontOffice/css/style.css')}}">
+
+<body>
+<div class="main-wrapper">  
+</div>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">            
+            <div class="col-lg-8 offset-lg-2">
+                <div class="invoice-content">
+                    <div class="invoice-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="invoice-logo">
+                            <img src="{{ asset('FrontOffice/img/logoMedB.png') }}" class="img-fluid" alt="Logo">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="invoice-details">
+                        <strong>ID_Ord:</strong>{{ ordonnance.id }} <br></p>
+                    </div>
+                </div>
+            </div>
+            <div class="invoice-item">
+                <div class="row">
+                    <div class="col-md-6 ">
+                        <div class="profile-det-info">
+                            <h3>Médcin: Dr. Darren Elder</h3>
+                            <div class="patient-details">
+                                <h5 class="mb-0">Spécialité: BDS, MDS - Oral et Maxillofacial Surgery</h5>
+                                <h5 class="mb-0">Adresse: Tunis</h5>
+                                <h5 class="mb-0">Tel: 71 765 098</h5>
+                                <h5 class="mb-0">Tel: 50 765 321 <br> </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-det-info">
+                            <h3>Patient: Darren Elder</h3>
+                            <div class="patient-details">
+                                <h5 class="mb-0">Tel: 54 876 423</h5>
+                                <h5 class="mb-0">E-mail: foulen@gmail.com</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="invoice-item">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="profile-det-info">
+                            <div class="col-md-6">
+                                <p class="invoice-details">
+                                <p><strong>Code ordonnance:</strong> {{ ordonnance.getCodeOrdonnance()  }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-det-info">
+                            <div class="col-md-6">
+                                <p class="invoice-details">
+                                 <p><strong>Tunis le ::</strong> {{ ordonnance.dateDeCreation ? ordonnance.dateDeCreation|date('Y-m-d') : ''  }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="invoice-item invoice-table-wrap">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="invoice-table table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Médicament</th>
+                                        <th class="text-center">Dosage</th>
+                                        <th class="text-center">Nombre de jours</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">{{ ordonnance.medicaments }}</td>
+                                        <td class="text-center">{{ ordonnance.dosage }}</td>
+                                        <td class="text-center">{{ ordonnance.nombreJours}}</td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+            <div class="other-info">
+                <h4>Observation</h4>
+                <p class="text-muted mb-0">{% if ordonnance.consultation %}                                                                                        
+                                            {{ ordonnance.consultation.observation }}
+                                            {% endif %}</p>
+            </div>    
+            <div class="invoice-item">        
+                <div class="row ">                
+                    <div class="col-md-11 text-end">
+                        <div class="sign-name">
+                        <p class="mb-0">( Dr. Darren Elder )</p>
+                        <span>Signature</span>
+                        </div>
+                        <div class="signature-wrap">
+                            <div class="signature"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script src="{{asset('FrontOffice/js/jquery-3.6.0.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/feather.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/script.js')}}"></script>
+<script>
+    window.onload = function() {
+        window.print();
+    }
+</script>

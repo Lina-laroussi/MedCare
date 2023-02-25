@@ -5,34 +5,30 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>{% block title %}MedCare{% endblock %}</title>
-{% block stylesheets %}
+    <title>{% block title %} MedCare {% endblock %}</title>
+
     <link rel="shortcut icon" href="{{ asset('BackAdmin/img/favicon.png') }}">
-
     <link rel="stylesheet" href="{{ asset('BackAdmin/css/bootstrap.min.css') }}">
-
     <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/fontawesome/css/all.min.css') }}">
-
     <link rel="stylesheet" href="{{ asset('BackAdmin/css/feather.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/select2/css/select2.min.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/owl-carousel/owl.carousel.min.css') }}">
-
     <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/daterangepicker/daterangepicker.css') }}">
-
     <link rel="stylesheet" href="{{ asset('BackAdmin/css/style.css') }}">
-{% endblock %}
-</head>
-<body>
+    {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/owl-carousel/owl.carousel.min.css') }}">
+    {% endblock %}
+    
 
+</head>
+
+<body>
 {% block header %}
 <div class="main-wrapper">
+<!--debut navbar-->
     <div class="header">
-
         <div class="header-left">
-            <a href="index.html" class="logo">
+            <a href="/" class="logo">
                 <img src="{{ asset('BackAdmin/img/logoMedB.png') }}" alt="Logo">
             </a>
             <a href="index.html" class="logo logo-small">
@@ -42,50 +38,47 @@
                 <i class="feather-chevrons-left"></i>
             </a>
         </div>
-
-
+        <!--debut search bar-->
         <div class="top-nav-search">
             <div class="main">
                 <form class="search" method="post" action="https://doccure.dreamguystech.com/html/template/admin/index.html">
                     <div class="s-icon"><i class="fas fa-search"></i></div>
-                    <input type="text" class="form-control" placeholder="Start typing your Search..." />
+                        <input type="text" class="form-control" placeholder="Commencez à saisir votre recherche..." />
                     <ul class="results">
                         <li>
-                            <h6><i class="feather-calendar me-1"></i> Appointments</h6>
-                            <p>No matched Appointment found. <a href="index.html"><span>View all</span></a></p>
+                            <h6><i class="feather-calendar me-1"></i> Rendez-vous</h6>
+                            <p>Aucun rendez-vous correspondant trouvé. <a href="index.html"><span>Voir tout</span></a></p>
                         </li>
                         <li>
-                            <h6><i class="feather-calendar me-1"></i> Specialities</h6>
-                            <p>No matched Appointment found. <a href="index.html"><span>View all</span></a></p>
+                            <h6><i class="feather-calendar me-1"></i> consultation </h6>
+                            <p>Aucun consultation correspondant trouvé. <a href="index.html"><span>Voir tout</span></a></p>
                         </li>
                         <li>
-                            <h6><i class="feather-user me-1"></i> Doctors</h6>
-                            <p>No matched Appointment found. <a href="index.html"><span>View all</span></a></p>
+                            <h6><i class="feather-calendar me-1"></i> Spécialités</h6>
+                            <p>Aucun spécialités correspondant trouvé. <a href="index.html"><span>Voir tout</span></a></p>
                         </li>
                         <li>
-                            <h6><i class="feather-users me-1"></i> Patients</h6>
-                            <p>No matched Appointment found. <a href="index.html"><span>View all</span></a></p>
+                            <h6><i class="feather-user me-1"></i> Medcin</h6>
+                            <p>Aucun médcin correspondant trouvé. <a href="index.html"><span>Voir tout</span></a></p>
+                        </li>
+                        <li>
+                            <h6><i class="feather-users me-1"></i> Patient</h6>
+                            <p>Aucun patients correspondant trouvé. <a href="index.html"><span>Voir tout</span></a></p>
                         </li>
                     </ul>
                 </form>
             </div>
         </div>
-
-
+        <!--right header-->
         <a class="mobile_btn" id="mobile_btn">
             <i class="fas fa-bars"></i>
         </a>
-
-
         <ul class="nav nav-tabs user-menu">
-
             <li class="nav-item">
                 <a href="#" id="dark-mode-toggle" class="dark-mode-toggle">
                     <i class="feather-sun light-mode"></i><i class="feather-moon dark-mode"></i>
                 </a>
             </li>
-
-
             <li class="nav-item dropdown noti-nav">
                 <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                     <i class="feather-bell"></i> <span class="badge"></span>
@@ -100,9 +93,9 @@
                             <li class="notification-message">
                                 <a href="#">
                                     <div class="media d-flex">
-<span class="avatar">
-<img class="avatar-img" alt="" src="{{ asset('BackAdmin/img/profiles/avatar-02.jpg') }}">
-</span>
+                                        <span class="avatar">
+                                            <img class="avatar-img" alt="" src="{{ asset('BackAdmin/img/profiles/avatar-02.jpg') }}">
+                                        </span>
                                         <div class="media-body">
                                             <h6>Travis Tremble <span class="notification-time">18.30 PM</span></h6>
                                             <p class="noti-details">Sent a amount of $210 for his Appointment <span class="noti-title">Dr.Ruby perin </span></p>
@@ -110,12 +103,13 @@
                                     </div>
                                 </a>
                             </li>
+                            <!--notifications messages 
                             <li class="notification-message">
                                 <a href="#">
                                     <div class="media d-flex">
-<span class="avatar">
-<img class="avatar-img" alt="" src="{{ asset('BackAdmin/img/profiles/avatar-05.jpg') }}">
-</span>
+                                        <span class="avatar">
+                                            <img class="avatar-img" alt="" src="{{ asset('BackAdmin/img/profiles/avatar-05.jpg') }}">
+                                        </span>
                                         <div class="media-body">
                                             <h6>Travis Tremble <span class="notification-time">12 Min Ago</span></h6>
                                             <p class="noti-details"> has booked her appointment to <span class="noti-title">Dr. Hendry Watt</span></p>
@@ -149,18 +143,17 @@
                                     </div>
                                 </a>
                             </li>
+                            -->
                         </ul>
                     </div>
                 </div>
             </li>
-
-
             <li class="nav-item dropdown main-drop">
                 <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-<span class="user-img">
-<img src="{{ asset('BackAdmin/img/profiles/avatar-01.jpg') }}" alt="">
-<span class="status online"></span>
-</span>
+                    <span class="user-img">
+                        <img src="{{ asset('BackAdmin/img/profiles/avatar-01.jpg') }}" alt="">
+                        <span class="status online"></span>
+                    </span>
                 </a>
                 <div class="dropdown-menu">
                     <div class="user-header">
@@ -169,55 +162,60 @@
                         </div>
                         <div class="user-text">
                             <h6>Robert Haddin</h6>
-                            <p class="text-muted mb-0">Administrator</p>
+                            <p class="text-muted mb-0">Admin</p>
                         </div>
                     </div>
-                    <a class="dropdown-item" href="profile.html"><i class="feather-user me-1"></i> My Profile</a>
-                    <a class="dropdown-item" href="profile.html"><i class="feather-edit me-1"></i> Edit Profile</a>
-                    <a class="dropdown-item" href="account-settings.html"><i class="feather-sliders me-1"></i> Account Settings</a>
+                    <a class="dropdown-item" href="#"><i class="feather-user me-1"></i> Mon profil </a>
+                    <a class="dropdown-item" href="#"><i class="feather-edit me-1"></i> Modifier profil</a>
+                    <a class="dropdown-item" href="#"><i class="feather-sliders me-1"></i> Paramètres du compte </a>
                     <hr class="my-0 ms-2 me-2">
-                    <a class="dropdown-item" href="login.html"><i class="feather-log-out me-1"></i> Logout</a>
+                    <a class="dropdown-item" href="login.html"><i class="feather-log-out me-1"></i> Se déconnecter </a>
                 </div>
             </li>
-
         </ul>
-
     </div>
+    {% endblock %}
 
-{% endblock %}
+    {% block sidebar %}
 
-{% block sidebar %}
     <div class="sidebar" id="sidebar">
         <div class="sidebar-inner slimscroll">
             <div id="sidebar-menu" class="sidebar-menu">
                 <ul>
                     <li class="menu-title"><span>Main</span></li>
-                    <li class="active">
+                    <li class="submenu">
                         <a href="index.html"><i class="feather-grid"></i> <span>Dashboard</span></a>
                     </li>
                     <li>
-                        <a href="upcoming-appointments.html"><i class="feather-calendar"></i> <span>Appointments</span></a>
+                        <a href="#"><i class="feather-calendar"></i> <span> Rendez-vous </span></a>
+                    </li>                    
+                     <li class="active">
+                        <a href="#"><i class="feather-file-text"></i><span> Consultation </span></a>                       
                     </li>
                     <li>
-                        <a href="specialities.html"><i class="feather-package"></i> <span>Specialities</span></a>
+                        <a href="specialities.html"><i class="feather-package"></i> <span>Spécialités</span></a>
                     </li>
                     <li>
-                        <a href="doctor-list.html"><i class="feather-user-plus"></i> <span>Doctors</span></a>
+                        <a href="doctor-list.html"><i class="feather-user-plus"></i> <span>Médcin</span></a>
                     </li>
                     <li>
                         <a href="patient-list.html"><i class="feather-users"></i> <span>Patients</span></a>
                     </li>
+                    <!--
                     <li>
-                        <a href="ratings.html"><i class="feather-star"></i> <span>Reviews</span></a>
+                        <a href="ratings.html"><i class="feather-star"></i> <span>Commentaires</span></a>
                     </li>
                     <li>
                         <a href="transaction.html"><i class="feather-credit-card"></i> <span>Transactions</span></a>
                     </li>
                     <li>
-                        <a href="settings.html"><i class="feather-sliders"></i> <span> Settings</span></a>
-                    </li>
+                        <a href="settings.html"><i class="feather-sliders"></i> <span> Paramétres </span></a>
+                    </li>                    
                     <li class="submenu">
-                        <a href="#"><i class="feather-file-text"></i> <span> Reports</span> <span class="menu-arrow"></span></a>
+                        <a href="#"><i class="feather-file-text"></i> 
+                            <span> Reports</span> 
+                            <span class="menu-arrow"></span>
+                        </a>
                         <ul>
                             <li><a href="appointment-report.html">Appointment Report</a></li>
                             <li><a href="income-report.html">Income Report</a></li>
@@ -225,6 +223,7 @@
                             <li><a href="user-reports.html">Users Report</a></li>
                         </ul>
                     </li>
+                    -->
                     <li class="menu-title">
                         <span>Pharmacy</span>
                     </li>
@@ -242,6 +241,7 @@
                             <li><a href="product-category.html">Categories</a></li>
                         </ul>
                     </li>
+                    <!--
                     <li class="menu-title">
                         <span>Blog</span>
                     </li>
@@ -256,10 +256,11 @@
                     </li>
                     <li class="menu-title">
                         <span>Pages</span>
-                    </li>
+                    </li>                    
                     <li>
                         <a href="add-profile.html"><i class="feather-user"></i> <span>Profile</span></a>
                     </li>
+                    -->
                     <li class="submenu">
                         <a href="#"><i class="feather-lock"></i> <span> Authentication </span> <span class="menu-arrow"></span></a>
                         <ul>
@@ -269,6 +270,7 @@
                             <li><a href="lock-screen.html"> Lock Screen </a></li>
                         </ul>
                     </li>
+                    <!--
                     <li class="submenu">
                         <a href="#"><i class="feather-book-open"></i> <span> Error Pages </span> <span class="menu-arrow"></span></a>
                         <ul>
@@ -295,7 +297,7 @@
                             <li><a href="form-mask.html">Form Mask </a></li>
                             <li><a href="form-validation.html">Form Validation </a></li>
                         </ul>
-                    </li>
+                    </li>-->
                     <li class="submenu">
                         <a href="#"><i class="feather-align-justify"></i> <span> Tables </span> <span class="menu-arrow"></span></a>
                         <ul>
@@ -331,30 +333,26 @@
     </div>
 {% endblock %}
 
+{% block body %}
+
+{% endblock %}
 
 
-{% block javascripts %}
+
 <script src="{{ asset('BackAdmin/js/jquery-3.6.0.min.js') }}"></script>
-
 <script src="{{ asset('BackAdmin/js/bootstrap.bundle.min.js') }}"></script>
-
-<script src="{{asset('BackAdmin/js/feather.min.js') }}"></script>
-
-<script src="{{ asset('BackAdmin/plugins/select2/js/select2.min.js') }}"></script>
-
 <script src="{{ asset('BackAdmin/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
-
-<script src="{{ asset('BackAdmin/plugins/owl-carousel/owl.carousel.min.js') }}"></script>
-
-<script src="{{ asset('BackAdmin/plugins/apexchart/apexcharts.min.js') }}"></script>
-<script src="{{ asset('BackAdmin/plugins/apexchart/chart-data.js') }}"></script>
-
 <script src="{{ asset('BackAdmin/js/moment.min.js') }}"></script>
 <script src="{{ asset('BackAdmin/plugins/daterangepicker/daterangepicker.js') }}"></script>
-
 <script src="{{ asset('BackAdmin/js/script.js') }}"></script>
+{% block javascripts %}
+<script src="{{asset('BackAdmin/js/feather.min.js') }}"></script>
+<script src="{{ asset('BackAdmin/plugins/select2/js/select2.min.js') }}"></script>
+<script src="{{ asset('BackAdmin/plugins/owl-carousel/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('BackAdmin/plugins/apexchart/apexcharts.min.js') }}"></script>
+<script src="{{ asset('BackAdmin/plugins/apexchart/chart-data.js') }}"></script>
 {% endblock %}
-</body>
 
+</body>
 <!-- Mirrored from doccure.dreamguystech.com/html/template/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 08 Feb 2023 13:02:22 GMT -->
 </html>

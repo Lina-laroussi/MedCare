@@ -15,18 +15,23 @@ class Consultation
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $poids = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $taille = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $imc = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $temperature = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $prix = 50;
 
     #[ORM\Column]
@@ -45,6 +50,7 @@ class Consultation
     private ?string $symptomes = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $traitement = null;
 
     #[ORM\Column(length: 255)]
@@ -54,11 +60,13 @@ class Consultation
     #[ORM\OneToOne(mappedBy: 'consultation', cascade: ['persist', 'remove'])]
     private ?RendezVous $rendezVous = null;
 
-    #[ORM\ManyToOne(inversedBy: 'consultations')]
+    #[ORM\ManyToOne(inversedBy: 'consultations', cascade: ['persist', 'remove'])]//used to be= #[ORM\ManyToOne(inversedBy: 'consultations')]
     private ?FicheMedicale $fiche_medicale = null;
 
     #[ORM\OneToOne(inversedBy: 'consultation', cascade: ['persist', 'remove'])]
     private ?Ordonnance $ordonnance = null;
+    
+    
 
     public function getId(): ?int
     {

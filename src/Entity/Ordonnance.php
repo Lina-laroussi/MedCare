@@ -16,19 +16,23 @@ class Ordonnance
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $description = "ordonnace medicale";
-
     #[Assert\NotBlank()]
+    private ?string $description = "examenr générale";
+
     #[ORM\Column(length: 10)]
+    #[Assert\NotBlank()]
     private ?string $code_ordonnance ;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $medicaments = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $dosage = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?int $nombre_jours = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]

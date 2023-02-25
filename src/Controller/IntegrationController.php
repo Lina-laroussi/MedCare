@@ -17,20 +17,24 @@ class IntegrationController extends AbstractController
     #[Route('/dashboard', name: 'app_consult')]
     public function dashboard(): Response
     {
-        return $this->render('Back-Office/dashboardDoc.html.twig');
+        return $this->render('Front-Office/dashboardDoc.html.twig');
     }
 
-    #[Route('/consultation', name: 'app_consultation')]
+
+    #[Route('/admin/consultation', name: 'admin_consultation')]
     public function consultation(): Response
     {
-        return $this->render('Front-Office/consultation.html.twig');
-
+        return $this->render('Back-Office/dashboardAdmin.html.twig');
     }
-
-    #[Route('/ficheMedicale', name: 'app_fiche_med')]
-    public function fich(): Response
+    #[Route('/admin/ordonnance', name: 'admin_ordonnance')]
+    public function ordonnance(): Response
     {
-        return $this->render('Front-Office/fichemed.html.twig');
+        return $this->render('Back-Office/ordonnance.html.twig');
+    }
+    #[Route('/admin/ficheMedicale', name: 'admin_fiche_medicale')]
+    public function ficheMedicale(): Response
+    {
+        return $this->render('Back-Office/fichMedicale.html.twig');
     }
 
     

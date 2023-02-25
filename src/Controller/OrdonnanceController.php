@@ -86,4 +86,13 @@ class OrdonnanceController extends AbstractController
 
         return $this->redirectToRoute('app_ordonnance_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    #[Route('/ordonnance/{id}/print', name: 'print_ordonnance')]
+    public function printOrdonnance(Ordonnance $ordonnance): Response
+    {
+        return $this->render('Front-Office/ordonnance/print_ordonnance.html.twig', [
+            'ordonnance' => $ordonnance,
+        ]);
+    }
 }

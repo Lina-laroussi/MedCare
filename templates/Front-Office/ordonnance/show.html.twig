@@ -1,54 +1,200 @@
-{% extends 'sideBar.html.twig' %}
-{% block nav %} ordonnance  {% endblock %}
+{% extends 'base-front.html.twig' %}
 
-{% block content %}
-    <h1>Ordonnance</h1>
-<div class="card card-table mb-0">
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th>Id</th>
-                        <td>{{ ordonnance.id }}</td>
-                    </tr>
-                    <tr>
-                        <th>Description</th>
-                        <td>{{ ordonnance.description }}</td>
-                    </tr>
-                    <tr>
-                        <th>Code_ordonnance</th>
-                        <td>{{ ordonnance.codeOrdonnance }}</td>
-                    </tr>
-                    <tr>
-                        <th>Medicaments</th>
-                        <td>{{ ordonnance.medicaments }}</td>
-                    </tr>
-                    <tr>
-                        <th>Dosage</th>
-                        <td>{{ ordonnance.dosage }}</td>
-                    </tr>
-                    <tr>
-                        <th>Nombre_jours</th>
-                        <td>{{ ordonnance.nombreJours }}</td>
-                    </tr>
-                    <tr>
-                        <th>Date_de_creation</th>
-                        <td>{{ ordonnance.dateDeCreation ? ordonnance.dateDeCreation|date('Y-m-d') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Date_de_modification</th>
-                        <td>{{ ordonnance.dateDeModification ? ordonnance.dateDeModification|date('Y-m-d H:m:s', 'UTC') : '' }}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-    <a href="{{ path('app_ordonnance_index') }}"> retour à la liste </a>
-
-    <a href="{{ path('app_ordonnance_edit', {'id': ordonnance.id}) }}" class="add-new-btn"> Modifier</a>
-
-    {{ include('Front-Office/ordonnance/_delete_form.html.twig') }}
-</div>   
+{% block body %}
+<div class="col-md-7 col-lg-8 col-xl-9">
+    <h1>Ordonnance N° {{ordonnance.id}}</h1>
+        <div class="card card-table mb-0">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Code Ordonnance</th>
+                                <td>{{ ordonnance.codeOrdonnance }}</td>
+                            </tr>                           
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ ordonnance.description }}</td>
+                            </tr>                            
+                            <tr>
+                                <th>Medicaments</th>
+                                <td>{{ ordonnance.medicaments }}</td>
+                            </tr>
+                            <tr>
+                                <th>Dosage</th>
+                                <td>{{ ordonnance.dosage }}</td>
+                            </tr>
+                            <tr>
+                                <th>Nombre de jours</th>
+                                <td>{{ ordonnance.nombreJours }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <td>{{ ordonnance.dateDeCreation ? ordonnance.dateDeCreation|date('Y-m-d') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date de Modification</th>
+                                <td>{{ ordonnance.dateDeModification ? ordonnance.dateDeModification|date('Y-m-d H:m:s', 'UTC') : '' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <div> 
+                            <a href="{{ path('app_ordonnance_edit', {'id': ordonnance.id}) }}" class="add-new-btn"> Modifier</a>
+                            <a href="{{ path('print_ordonnance', { 'id': ordonnance.id }) }}" target="_blank" class="btn btn-sm bg-warning-light" > <i class="fas fa-print"></i> Imprimer </a>                                        
+                        </div>
+                        <div>                            
+                            {{ include('Front-Office/ordonnance/_delete_form.html.twig') }}
+                        </div>
+                        <div>
+                            <a href="{{ path('app_ordonnance_index') }}"> retour à la liste </a>
+                        </div>
+                    </div>
+                    
+                </div>   
+            </div> 
+        </div> 
 </div> 
-</div> 
+{% endblock %}
+
+
+{% block active_menu %}
+    <li class="has-submenu ">
+        <a href="/">Accueil </a>
+    </li>
+    <li class="has-submenu active" >
+        <a href="/dashboard">Médecin</a>
+    </li>      
+{% endblock %}
+
+{% block signup %}
+    <li class="nav-item dropdown has-arrow logged-item">
+        <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+            <span class="user-img">
+                <img class="rounded-circle" src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" width="31" alt="Darren Elder">
+            </span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end">
+            <div class="user-header">
+                <div class="avatar avatar-sm">
+                    <img src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" alt="User Image" class="avatar-img rounded-circle">
+                </div>
+                <div class="user-text">
+                    <h6>Darren Elder</h6>
+                    <p class="text-muted mb-0">Doctor</p>
+                </div>
+            </div>
+            <a class="dropdown-item" href="/dashboard">Dashboard</a>
+            <a class="dropdown-item" href="doctor-profile-settings.html">Profile Settings</a>
+            <a class="dropdown-item" href="/">Logout</a>
+        </div>
+    </li>        
+{% endblock %}
+
+{% block breadcrumbBar %}
+    <div class="breadcrumb-bar">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-12 col-12"> 
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active"><a href="/"> Home > </a></li>
+                            <li> Consultation </li>
+                        </ol>
+                    </nav>
+                    <h2 class="breadcrumb-title"> Consultation </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block sideBar %}
+    <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+        <div class="profile-sidebar"> 
+            <div class="widget-profile pro-widget-content">
+                <div class="profile-info-widget">
+                    <a href="#" class="booking-doc-img">
+                        <img src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" alt="User Image">
+                    </a>
+                    <div class="profile-det-info">
+                        <h3>Dr. Darren Elder</h3>
+                        <div class="patient-details">
+                            <h5 class="mb-0">BDS, MDS - Oral et Maxillofacial Surgery</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-widget">
+                <nav class="dashboard-menu">
+                    <ul>
+                        <li>
+                            <a href="/dashboard">
+                                <i class="fas fa-columns"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/consultation">
+                                <i class="fas fa-calendar-check"></i>
+                                <span> Consultation </span>
+                            </a>
+                        </li>         
+                        <li class="active">
+                            <a href="/ordonnance">
+                                <i class="fas fa-calendar-check"></i>
+                                <span> Ordonnance </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/ficheMedicale">
+                                <i class="fas fa-calendar-check"></i>
+                                <span> Fiche Medical </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="my-patients.html">
+                                <i class="fas fa-user-injured"></i>
+                                <span>Mes Patients</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="doctor-profile-settings.html">
+                                <i class="fas fa-user-cog"></i>
+                                <span>Profile Settings</span>
+                            </a>
+                        </li>                                
+                        <li>
+                            <a href="doctor-change-password.html">
+                                <i class="fas fa-lock"></i>
+                                <span>Change Mot de passe</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index.html">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Déconnecter</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{asset('FrontOffice/css/feather.css')}}">
+    <link rel="stylesheet" href="{{asset('FrontOffice/css/bootstrap-datetimepicker.min.css')}}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('BackAdmin/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/js/moment.min.js')}}"></script>
+    <script src="{{ asset('FrontOffice/js/bootstrap-datetimepicker.min.js')}}"></script>
+    <script src="{{ asset('FrontOffice/js/feather.min.js')}}"></script>
 {% endblock %}

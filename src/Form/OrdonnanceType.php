@@ -53,7 +53,7 @@ class OrdonnanceType extends AbstractType
             ])
             ->add('consultation', EntityType::class,[
                     'class' => Consultation::class,
-                    'choice_label' => 'id',
+                    'choice_label' => 'traitement',
                     'attr' => ['class' => 'form-control form-group']
             ])
         ;

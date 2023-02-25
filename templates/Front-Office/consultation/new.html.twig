@@ -1,18 +1,157 @@
-{% extends 'sideBar.html.twig' %}
+{% extends 'base-front.html.twig' %}
 
-
-{% block content %}
-
+{% block body %}
+<div class="col-md-7 col-lg-8 col-xl-9">
     <h1>Créer une nouvelle consultation</h1>
-
-    {{ include('Front-Office/consultation/_form.html.twig') }}
-
-
-    <div>
-    <a href="{{ path('app_ordonnance_new') }}" class="add-new-btn"> Ajouter Ordonnance </a>
-    <a href="{{ path('app_fiche_medicale_new') }}" class="add-new-btn"> Ajouter Fiche Med </a>
+    <div class="card">
+        <div class="card-body pt-0">            
+            <div class="tab-content">
+                {{ include('Front-Office/consultation/_form.html.twig') }}               
+                <a href="{{ path('app_consultation_index') }}" > retour à la liste des consultations</a>
+            </div>
+        </div>
     </div>
-    
-    <a href="{{ path('app_consultation_index') }}" > retour à la liste des consultations</a>
+</div>
+{% endblock %}
 
+{% block active_menu %}
+<li class="has-submenu ">
+    <a href="/">Accueil </a>
+</li>
+<li class="has-submenu active" >
+    <a href="/dashboard">Médecin</a>
+</li>      
+{% endblock %}
+
+{% block signup %}
+<li class="nav-item dropdown has-arrow logged-item">
+    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+        <span class="user-img">
+            <img class="rounded-circle" src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" width="31" alt="Darren Elder">
+        </span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end">
+        <div class="user-header">
+            <div class="avatar avatar-sm">
+                <img src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" alt="User Image" class="avatar-img rounded-circle">
+            </div>
+            <div class="user-text">
+                <h6>Darren Elder</h6>
+                <p class="text-muted mb-0">Doctor</p>
+            </div>
+        </div>
+        <a class="dropdown-item" href="/dashboard">Dashboard</a>
+        <a class="dropdown-item" href="doctor-profile-settings.html">Profile Settings</a>
+        <a class="dropdown-item" href="/">Logout</a>
+    </div>
+</li>        
+{% endblock %}
+
+{% block breadcrumbBar %}
+<div class="breadcrumb-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12"> 
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="/"> Home > </a></li>
+                        <li class="active"> Consultation > </li>
+                        <li> Nouneau </li>
+                    </ol>
+                </nav>
+                <h2 class="breadcrumb-title"> Consultation </h2>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block sideBar %}
+<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+    <div class="profile-sidebar"> 
+        <div class="widget-profile pro-widget-content">
+            <div class="profile-info-widget">
+                <a href="#" class="booking-doc-img">
+                    <img src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" alt="User Image">
+                </a>
+                <div class="profile-det-info">
+                    <h3>Dr. Darren Elder</h3>
+                    <div class="patient-details">
+                        <h5 class="mb-0">BDS, MDS - Oral et Maxillofacial Surgery</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-widget">
+            <nav class="dashboard-menu">
+                <ul>
+                    <li>
+                        <a href="/dashboard">
+                            <i class="fas fa-columns"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="/consultation">
+                            <i class="fas fa-calendar-check"></i>
+                            <span> Consultation </span>
+                        </a>
+                    </li>        
+                    <li>
+                        <a href="/ordonnance">
+                            <i class="fas fa-calendar-check"></i>
+                            <span> Ordonnance </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/ficheMedicale">
+                            <i class="fas fa-calendar-check"></i>
+                            <span> Fiche Medical </span>
+                        </a>
+                    </li> 
+                    <li>
+                        <a href="my-patients.html">
+                            <i class="fas fa-user-injured"></i>
+                            <span>Mes Patients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="doctor-profile-settings.html">
+                            <i class="fas fa-user-cog"></i>
+                            <span>Profile Settings</span>
+                        </a>
+                    </li>                                
+                    <li>
+                        <a href="doctor-change-password.html">
+                            <i class="fas fa-lock"></i>
+                            <span>Change Mot de passe</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Déconnecter</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{asset('FrontOffice/css/feather.css')}}">
+    <link rel="stylesheet" href="{{asset('FrontOffice/css/bootstrap-datetimepicker.min.css')}}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('BackAdmin/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/js/moment.min.js')}}"></script>
+    <script src="{{ asset('FrontOffice/js/bootstrap-datetimepicker.min.js')}}"></script>
+    <script src="{{ asset('FrontOffice/js/feather.min.js')}}"></script>
 {% endblock %}

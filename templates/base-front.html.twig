@@ -9,21 +9,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>{% block title %} MedCare {% endblock %}</title>
 
-{% block stylesheets %}
     <link type="image/x-icon" href="{{asset('FrontOffice/img/favicon.png') }}" rel="icon">
-
     <link rel="stylesheet" href="{{asset('FrontOffice/css/bootstrap.min.css')}}">
-
     <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/fontawesome.min.css') }}">
-
     <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/all.min.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/swiper/css/swiper.min.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('FrontOffice/css/aos.css') }}">
-
     <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/swiper/css/swiper.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/aos.css') }}">
 {% endblock %}
+
+
+
 
 </head>
 
@@ -51,15 +48,15 @@
                     <a id="menu_close" class="menu-close" href="javascript:void(0);">
                         <i class="fas fa-times"></i>
                     </a>
-                </div>
-                {% block active_menu %}
+                </div>                
                 <ul class="main-nav">
+                    {% block active_menu %}
                     <li class="has-submenu active">
                         <a href="/">Accueil </a>
                     </li>
                     <li class="has-submenu">
                         <a href="/dashboard">Médecin</a>
-                    </li>
+                    </li>{% endblock %}
                     <li class="has-submenu">
                         <a href="#" >Pharmacie</a>
                     </li>
@@ -69,10 +66,8 @@
                     <li class="has-submenu">
                         <a href="#">Doctoshop </a>
                     </li>
-                </ul>
-                {% endblock %}
+                </ul>                
             </div>
-            
             <ul class="nav header-navbar-rht">
                 <li class="nav-item contact-item">
                     <div class="header-contact-img">
@@ -94,8 +89,25 @@
         </nav>
     </header>
 
-    {% block body %}
+    {% block breadcrumbBar %}
     {% endblock %}
+
+    {% block content %}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+        {% block sideBar %}
+        {% endblock %}
+            {% block body %}    
+            {% endblock %} 
+        </div>
+    </div>
+</div>
+    {% endblock %}       
+        
+    
+    
+    
 
     <footer class="footer">
         <div class="footer-top">
@@ -205,13 +217,14 @@
 
     <script data-cfasync="false" src="{{ asset('../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js')}}">
     </script><script src="{{ asset('FrontOffice/js/jquery-3.6.0.min.js')}}"></script>
-    <script src="{{ asset('FrontOffice/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/js/bootstrap.bundle.min.js') }}"></script>    
+    <script src="{{ asset('FrontOffice/js/script.js') }}"></script>
 {% block javascripts %}
     <script src="{{ asset('FrontOffice/plugins/swiper/js/swiper.min.js') }}"></script>
     <script src="{{ asset('FrontOffice/js/slick.js') }}"></script>
     <script src="{{ asset('FrontOffice/js/aos.js') }}"></script>
-    <script src="{{ asset('FrontOffice/js/script.js') }}"></script>
 {% endblock %}
+
 
 
 

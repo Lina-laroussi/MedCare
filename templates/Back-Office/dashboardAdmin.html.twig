@@ -1,0 +1,139 @@
+{% extends 'base-back.html.twig' %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+    <!--section1: header-->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <ul class="list-links">
+                        <li class="active"><a href="/admin/consultation"> Consultation <span>(98)</span></a></li>
+                        <li><a href="/admin/ordonnance"> Ordonnance <span>(98)</span></a></li>
+                        <li><a href="/admin/ficheMedicale"> Fiche Medicale <span>(98)</span></a></li>
+                    </ul>
+                </div>
+                <div class="col-auto">
+                    <div class="bookingrange btn btn-white btn-sm">
+                        <div class="cal-ico">
+                            <i class="feather-calendar mr-1"></i>
+                            <span>Sélectionner une date</span>
+                        </div>
+                        <div class="ico">
+                            <i class="fas fa-chevron-left"></i>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--section2: body-->
+        <div class="sidebar-inner slimscroll">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header border-bottom-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h5 class="card-title">List Consultation</h5>
+                                </div>
+                                <div class="col-auto d-flex">
+                                    <form >
+                                        <div class="multipleSelection">
+                                            <div class="selectBox">
+                                                <p class="mb-0"><i class="feather-filter me-1"></i> Tri </p>
+                                                <span class="down-icon"><i class="feather-chevron-down"></i></span>
+                                            </div>
+                                            <div id="checkBoxes">
+                                                <div class="form-custom">
+                                                    <input type="text" class="form-control bg-grey" placeholder="Rechercher par patient">
+                                                    <i class="fas fa-search"></i>
+                                                </div>
+                                                <div class="form-custom">
+                                                    <input type="text" class="form-control bg-grey" placeholder="Rechercher par patient Medcin">
+                                                    <i class="fas fa-search"></i>
+                                                </div>
+                                                    <button type="submit" class="btn w-100 btn-primary">Appliquer </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!--table-->
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="datatable table table-borderless hover-table" id="data-tables">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Patient</th>
+                                            <th>Doctor</th>
+                                            <th>Disease</th>
+                                            <th>Appointment Date et Time</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>#4546</td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <a href="#"><img class="avatar avatar-img" src="{{ asset('BackAdmin/img/profiles/avatar-07.jpg')}}" alt="User Image'"></a>
+                                                    <a href="#"><span class="user-name">Bess Twishes</span> <span class="text-muted">Male, 40 Years Old</span></a>
+                                                </h2>
+                                            </td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <a class="avatar-pos" href="#"><img class="avatar avatar-img" src="{{ asset('BackAdmin/img/profiles/avatar-05.jp')}}" alt="User Image"></a>
+                                                    <a href="#" class="user-name"><span class="text-muted">Dr. Rayan</span> <span class="tab-subtext">Gyanoclogist</span></a>
+                                                </h2>
+                                            </td>
+                                            <td><span class="disease-name">Allergies et Asthma</span></td>
+                                            <td><span class="user-name">26 November 2022 </span><span class="d-block">12/20/2022</span></td>
+                                            <td>$300.00</td>
+                                            <td><span class="badge bg-badge-grey text-success"><i class="fas fa-circle me-1"></i> Completed</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>#8774</td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <a href="profile.html"><img class="avatar avatar-img" src="{{ asset('BackAdmin/img/profiles/avatar-04.jpg')}}" alt="User Image"></a>
+                                                    <a href="profile.html"><span class="user-name">Bess Twishes</span> <span class="text-muted">Female,30 Years Old</span></a>
+                                                </h2>
+                                            </td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <a class="avatar-pos" href="#"><img class="avatar avatar-img" src="{{ asset('BackAdmin/img/profiles/avatar-05.jpg')}}" alt="User Image"></a>
+                                                    <a href="#" class="user-name"><span class="text-muted">Dr. Monroe</span> <span class="tab-subtext">Hair Specialities</span></a>
+                                                </h2>
+                                            </td>
+                                            <td><span class="disease-name">Sleep Problem</span></td>
+                                            <td><span class="user-name">26 November 2022 </span><span class="d-block">12/20/2022</span></td>
+                                            <td>$300.00</td>
+                                            <td><span class="badge bg-badge-grey text-danger"><i class="fas fa-circle me-1"></i> Cancelled</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tablepagination" class="dataTables_wrapper"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('BackAdmin/plugins/datatables/datatables.min.css') }}">
+<link rel="stylesheet" href="{{ asset('BackAdmin/css/feather.css') }}">
+{% endblock %}
+{% block javascripts %}
+<script src="{{ asset('BackAdmin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('BackAdmin/plugins/datatables/datatables.min.js') }}"></script>
+{% endblock %}
