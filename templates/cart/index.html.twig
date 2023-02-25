@@ -21,9 +21,9 @@
             {% for element in dataPanier %}
                 <tr>
                     <td>{{ element.produit.nom }}</td>
-                    <td class="text-end">{{ element.produit.prix }} €</td>
+                    <td class="text-end">{{ element.produit.prix }} dt</td>
                     <td>{{ element.quantite }}</td>
-                    <td class="text-end">{{ element.quantite * element.produit.prix }} €</td>
+                    <td class="text-end">{{ element.quantite * element.produit.prix }} dt</td>
                     <td>
                         <a href="{{path("cart_add", {id: element.produit.id})}}" class="btn btn-success">
                             <i class="bi bi-cart-plus"></i>
@@ -58,5 +58,12 @@
             </tr>
         </tfoot>
     </table>
+  <div>
+ 
+  </div>
+  <a href="{{ path('app_stripe') }}" class="btn btn-primary">
+                        <i class="bi bi-cart-plus"></i> payer
+                    </a>
+    
     
 {% endblock %}

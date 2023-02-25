@@ -102,6 +102,7 @@ $produitRepository->save($produit, true);
     public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
     {
         $form = $this->createForm(ProduitType::class, $produit);
+        // lier les données de la requête HTTP aux champs du formulaire correspondant.
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -136,6 +137,8 @@ if ($file) {
     #[Route('/{id}', name: 'app_produit_delete', methods: ['POST'])]
     public function delete(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
     {
+        // Ce code vérifie si le jeton CSRF (Cross-Site Request Forgery) soumis avec la requête est valide,
+        //  avant de supprimer un produit de la base de données.
         if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
             $produitRepository->remove($produit, true);
         }

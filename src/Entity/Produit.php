@@ -41,6 +41,8 @@ class Produit
     #[ORM\ManyToOne(inversedBy: 'produits')]
     private ?Categorie $categorie = null;
 
+  
+
 
 
     public function getId(): ?int
@@ -131,5 +133,7 @@ class Produit
 
         return $this;
     }
+
+   
 
 }
