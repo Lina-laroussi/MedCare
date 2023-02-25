@@ -6,6 +6,8 @@ use App\Form\EditFormMedecinType;
 use App\Form\EditFormUserType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\MailerService;
+use App\Service\RecaptchaService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,7 +28,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/registerPatient', name: 'app_registration_patient')]
-    public function registerPatient(Request $request,ManagerRegistry $rm)
+    public function registerPatient(Request $request,ManagerRegistry $rm,MailerService $mailer)
     {
         $user = new User();
 
@@ -45,7 +47,8 @@ class RegistrationController extends AbstractController
             $em =$rm->getManager();
             $em->persist($user);
             $em->flush();
-
+            $mailer->sendEmail(content:'votre compte a été crées avec succées');
+            $this->addFlash('success', "La personne a été inscrite avec succées");
             return $this->redirectToRoute('app_login');
 
         }

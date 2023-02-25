@@ -93,7 +93,6 @@ class EditFormMedecinType extends AbstractType
                         'mimeTypesMessage' => 'Veuillez renseigner votre Image',
 
                     ]),
-                    new NotBlank(['message'=>('Veuillez renseigner votre image')])
                 ],
             ])
         ;

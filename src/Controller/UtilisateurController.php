@@ -15,9 +15,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+#[
+    Route('admin'),
+    IsGranted('ROLE_ADMIN')
+]
 class UtilisateurController extends AbstractController
 {
-    #[Route('/admin', name: 'app_admin')]
+    #[Route('/', name: 'app_admin')]
     public function admin(): Response
     {
         $currentuser = $this->getUser();
@@ -73,6 +77,7 @@ class UtilisateurController extends AbstractController
                 // updates the 'brochureFilename' property to store the PDF file name
                 // instead of its contents
                 $user->setImage($newFilename);
+                $user->setDateDeModification(new \DateTime());
             }
             $result = $rg->getManager();
             $result->persist($user);
@@ -115,6 +120,7 @@ class UtilisateurController extends AbstractController
                 // updates the 'brochureFilename' property to store the PDF file name
                 // instead of its contents
                 $user->setImage($newFilename);
+                $user->setDateDeModification(new \DateTime());
             }
             $result = $rg->getManager();
             $result->persist($user);

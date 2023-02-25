@@ -73,9 +73,7 @@ class EditFormUserType extends AbstractType
                             'image/jpg',
                         ],
                         'mimeTypesMessage' => 'Veuillez renseigner votre Image',
-
-                    ]),
-                    new NotBlank(['message'=>('Veuillez renseigner votre image')])
+                    ])
                 ],
             ])
 

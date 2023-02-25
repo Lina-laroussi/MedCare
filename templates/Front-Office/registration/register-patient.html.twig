@@ -15,6 +15,11 @@
                                 <img src="{{ asset('FrontOffice/img/login-banner.png') }}" class="img-fluid" alt="Doccure Register">
                             </div>
                             <div class="col-md-12 col-lg-6 login-right">
+                                {% for message in app.flashes('success') %}
+                                    <div class="alert alert-success">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
                                 <div class="login-header">
                                     <h3>Inscription Patient <a href="{{ path('app_registration_doctor') }}">Vous êtes médecin?</a></h3>
                                 </div>
