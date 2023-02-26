@@ -24,6 +24,7 @@ class FactureController extends AbstractController
             'factures' => $factureRepository->findAll(),
         ]);
     }
+    
 
     #[Route('/new', name: 'app_facture_new', methods: ['GET', 'POST'])]
     public function new(Request $request, FactureRepository $factureRepository, SluggerInterface $slugger): Response
