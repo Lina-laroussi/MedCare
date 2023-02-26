@@ -32,7 +32,9 @@ class CalendarController extends AbstractController
                 'end'=> $rendezVous->getDate()->format('Y-m-d ').$rendezVous->getHeureFin()->format('H:i:s'),
                 'title'=> $rendezVous->getPatient()->getNom()." ".$rendezVous->getPatient()->getPrenom(),
                 'type'=>'rendezVous',
-                'symptomes'=> $rendezVous->getSymptomes()
+                'height' => '50',
+                'allDay' => true,
+                'symptomes'=> $rendezVous->getSymptomes(),
             ];
         }
         $getPlannings = $planningRepository->findAll();
@@ -62,6 +64,32 @@ class CalendarController extends AbstractController
                 'rendering'=> 'background',
                 
             ];}
+            
+        }
+        foreach($getPlannings as $planning){
+            $startDate =new \DateTime( $planning->getDateDebut()->format('Y-m-d ').$planning->getHeureDebut()->format('H:i:s'));
+            $endDate = new \DateTime($planning->getDateFin()->format('Y-m-d ').$planning->getHeurefin()->format('H:i:s'));
+            $startTime = $planning->getHeureDebut()->format('H:i:s');
+            $endTime = $planning->getHeureFin()->format('H:i:s');
+
+            for ($date = clone $startDate; $date <= $endDate; $date->modify('+1 day')) {
+            $rendeVouses[] = [
+                'id'=> $planning->getId(),
+                'start' => $date->format('Y-m-d ').$startTime,
+                'end' => $date->format('Y-m-d ').$endTime,
+                'startTime'=>$startTime,
+                'endeTime'=>$endTime,
+                'planningId'=>$planning->getId(),
+                'type'=>'planningAllDay',
+                'allDay' => true,
+                'extendedProps' => [
+                    'type' => 'recurring',
+                ],
+        
+                'rendering'=> 'background',
+                
+            ];}
+            
         }
         $data = json_encode($rendeVouses);
         $rendezVou = new RendezVous();

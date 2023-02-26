@@ -1,4 +1,3 @@
-
 !function($) {
     "use strict";
 
@@ -158,7 +157,11 @@
             defaultView: 'month',  
             handleWindowResize: true,   
              
-            $(this).data('eventObject', eventObject);
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
             events: defaultEvents,
             editable: true,
             droppable: true, // this allows things to be dropped onto the calendar !!!

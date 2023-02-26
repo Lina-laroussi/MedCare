@@ -4,7 +4,13 @@
 {% endblock %}
 {% block calendarStyle %}
 <link rel="stylesheet" href="{{asset('FrontOffice/plugins/fullcalendar/fullcalendar.min.css')}}">
+<link rel="stylesheet" href="{{asset('FrontOffice/css/bootstrap-datetimepicker.min.css')}}">
 
+<link rel="stylesheet" href="{{asset('FrontOffice/plugins/fullcalendar/fullcalendar.min.css')}}">
+
+<link rel="stylesheet" href="{{asset('FrontOffice/css/feather.css')}}">
+
+<link rel="stylesheet" href="{{asset('FrontOffice/css/style.css')}}">
 {% endblock %}
 {% block content %}
 
@@ -13,9 +19,7 @@
 </div>
 {% endblock %}
 {% block calendarScript %}
-<script src="{{asset('FrontOffice/js/bootstrap.bundle.min.js')}}"></script>
 
-<script src="{{asset('FrontOffice/plugins/theia-sticky-sidebar/ResizeSensor.js')}}"></script>
 <script src="{{asset('FrontOffice/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js')}}"></script>
 
 <script src="{{asset('FrontOffice/js/moment.min.js')}}"></script>
@@ -29,33 +33,33 @@
 <script src="{{asset('FrontOffice/js/script.js')}}"></script>
 <script>
 $('#calendar').fullCalendar({
+    timezone: 'UTC',
     header: {
     left: 'prev,next today',
     center: 'title',
     right: 'month,agendaWeek,agendaDay'
 },
     navLinks: true,
+   eventLimit: true, // allow "more" link when too many events
 
     selectable: true,
-    slotDuration: '00:15:00', /* If we want to split day time each 15minutes */
+    slotDuration: '00:60:00', /* If we want to split day time each 15minutes */
     defaultView: 'month',  
-    handleWindowResize: true,   
-  
+    handleWindowResize: true, 
+    eventLimit: true, // allow "more" link when too many events
+    minTime: '06:00:00',
+    maxTime: '21:00:00',  
     events:{{ data | raw }},
-    viewRender: function(view, element) {
-    $('#calendar').fullCalendar('refetchEvents');
-    },
-    // lazyFetching: false, // add this option to fetch all events for all views when calendar is initialized
-
- 
+    lazyFetching: true, // add this option to fetch all events for all views when calendar is initialized
+// display time labels every hour
+ slotEventOverlap : false,
     dayClick: function(date, jsEvent, view) {
         var events = $('#calendar').fullCalendar('clientEvents', function(event) {
-          return date.isBetween(event.start, event.end) &&
+          return date.isBetween(event.start.subtract(5, 'minutes'), event.end) &&
             (event.rendering === 'background');
         });
     if (events.length > 0) {
       var event = events[0];
-    //  $(this).data('event', event);
       if (event.rendering === 'background') {
         // handle click on planning event
         // show a modal to allow user to create a new rendezVous event
@@ -65,10 +69,6 @@ $('#calendar').fullCalendar({
             $.ajax({
                 url: '/calendar/new/'+ event.planningId,
                 method: 'GET',
-               // data: {
-                      //'date': event.start._d,
-                     // 'planningId': event.planningId
-               //   },
           success: function(response) {
             // create the modal and add the form HTML to the body
             var $modal = $('<div>').addClass('modal fade')
@@ -86,6 +86,10 @@ $('#calendar').fullCalendar({
             var $body = $('<div>').addClass('modal-body')
               .html(response)
               .appendTo($content);
+              $body.find('form');
+              $body.find('#rendez_vous_calendar_date').val(date.format('YYYY-MM-DD'));
+              $body.find('#rendez_vous_calendar_heure_debut').val(date.format('hh:mm'));
+              $body.find('#rendez_vous_calendar_heure_fin').val(date.add(1,'hour').format('hh:mm'));
             var $footer = $('<div>').addClass('modal-footer')
               .appendTo($content);
             //var $submit = $('<button>').addClass('btn btn-primary')
@@ -100,9 +104,7 @@ $('#calendar').fullCalendar({
             });
             // bind the form submission to an AJAX request
            console.log(date.format('H:mm:ss'));
-            $body.find('#rendez_vous_calendar_date').val(date.format('YYYY-MM-DD'));
-            $body.find('#rendez_vous_calendar_heure_debut').val(date.format('hh:mm'));
-            $body.find('#rendez_vous_calendar_heure_fin').val(date.add(1,'hour').format('hh:mm'));
+
             //$body.find('#rendez_vous_calendar_date').attr('disabled', 'disabled');
 
             $body.find('form').on('submit', function(info) {
@@ -113,6 +115,7 @@ $('#calendar').fullCalendar({
                 console.log(formValues)
                   // serialize the array as a query string
                 var formData = $.param(formValues);
+                
               $.ajax({
                 url: '/calendar/new/'+ event.planningId,
                 method: 'POST',
@@ -123,7 +126,6 @@ $('#calendar').fullCalendar({
                 success: function(response) {
                   console.log('success');
                   $modal.modal('hide');
-                  calendar.refetchEvents();
                 },
                 error: function(xhr, status, error) {
                   console.log('error');
@@ -139,7 +141,7 @@ $('#calendar').fullCalendar({
             }
         })
         console.log('eventtttt',event)
-          $('#calendar').fullCalendar('renderEvent', event, true);
+        $('#calendar').fullCalendar('renderEvent', event, true);
         }
         }else{
             console.log("no events")
