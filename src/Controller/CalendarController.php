@@ -33,7 +33,7 @@ class CalendarController extends AbstractController
                 'title'=> $rendezVous->getPatient()->getNom()." ".$rendezVous->getPatient()->getPrenom(),
                 'type'=>'rendezVous',
                 'height' => '50',
-                'allDay' => true,
+               // 'allDay' => true,
                 'symptomes'=> $rendezVous->getSymptomes(),
             ];
         }

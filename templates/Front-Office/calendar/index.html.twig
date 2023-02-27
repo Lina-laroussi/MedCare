@@ -88,8 +88,8 @@ $('#calendar').fullCalendar({
               .appendTo($content);
               $body.find('form');
               $body.find('#rendez_vous_calendar_date').val(date.format('YYYY-MM-DD'));
-              $body.find('#rendez_vous_calendar_heure_debut').val(date.format('hh:mm'));
-              $body.find('#rendez_vous_calendar_heure_fin').val(date.add(1,'hour').format('hh:mm'));
+              $body.find('#rendez_vous_calendar_heure_debut').val(date.format('HH:mm'));
+              $body.find('#rendez_vous_calendar_heure_fin').val(date.add(1,'hour').format('HH:mm'));
             var $footer = $('<div>').addClass('modal-footer')
               .appendTo($content);
             //var $submit = $('<button>').addClass('btn btn-primary')
