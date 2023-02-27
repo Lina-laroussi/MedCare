@@ -97,6 +97,7 @@
                                         <th>Adresse</th>
                                         <th></th>
                                         <th></th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -125,8 +126,17 @@
                                                     <td>{{ user.sexe }}</td>
                                                     <td>{{ user.numTel }}</td>
                                                     <td>{{ user.adresse }}</td>
-                                                    <td><a class="btn btn-outline-info" href="{{path('update_utilisateur',{'id':user.id})}}"/>Modifier</td>
-                                                    <td><a class="btn btn-outline-danger" onclick="return confirm('vous etes sure de vouloir supprimer ?');" href="{{path('remove_utilisateur',{'id':user.id})}}"/>supprimer</td>
+                                                    {% if user.etat == "non valide" %}
+                                                        <td><span class="badge bg-badge-grey text-danger"><i class="fas fa-circle me-1"></i> non validé </span></td>
+                                                    {% else %}
+                                                        <td><span class="badge bg-badge-grey text-success"><i class="fas fa-circle me-1"></i> validé </span></td>
+                                                    {% endif %}
+                                                    {% if user.etat == "non valide" %}
+                                                        <td><a class="text-success" href="{{path('validate_utilisateur',{'id':user.id})}}"><i class="feather-check"></i>Valider</a></td>
+                                                    {% else %}
+                                                        <td><a class="text-bg-primary" href="{{path('update_utilisateur',{'id':user.id})}}"><i class="feather-edit-2"></i>Modifier</a></td>
+                                                    {% endif %}
+                                                        <td><a class="text-danger" onclick="return confirm('vous etes sure de vouloir supprimer ?');" href="{{path('remove_utilisateur',{'id':user.id})}}"><i class="feather-trash-2"></i>supprimer</a></td>
                                                 </tr>
                                             {% endif %}
                                         {% endfor %}

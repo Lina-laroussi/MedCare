@@ -45,6 +45,27 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
+    #[Route('/validate/{id}', name: 'validate_utilisateur')]
+    public function validate_utilisateur($id,ManagerRegistry $rg, Request $req,UserRepository $repo):Response
+    {
+        $user = $repo->find($id);
+        $user->setEtat("valide");
+        $result = $rg->getManager();
+        $result->persist($user);
+        $result->flush();
+
+        if (in_array('ROLE_MEDECIN', $user->getRoles(), true)) {
+            return $this->redirectToRoute('list_medecins');
+        } elseif (in_array('ROLE_ASSUREUR', $user->getRoles(), true)){
+            return $this->redirectToRoute('list_assureurs');
+        }elseif (in_array('ROLE_PHARMACIEN', $user->getRoles(), true)){
+            return $this->redirectToRoute('list_pharmaciens');
+        }else {
+            return $this->redirectToRoute('list_patients');
+        }
+    }
+
+
     #[Route('/updateUser/{id}', name: 'update_utilisateur')]
     public function update_utilisateur($id, ManagerRegistry $rg, Request $req, UserRepository $repo, SluggerInterface $slugger): Response
     {

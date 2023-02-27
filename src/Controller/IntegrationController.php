@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\EditFormUserType;
 use App\Form\ForgotPasswordFormType;
+use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,16 +28,11 @@ class IntegrationController extends AbstractController
         ]);
     }
 
-
-    #[Route('/forgot', name: 'app_integration2')]
-    public function forgot(): Response
+    #[Route('/send', name: 'app_send')]
+    public function sendEmail(MailerService $mailer)
     {
-        $form = $this->createForm(ForgotPasswordFormType::class );
-        return $this->render('Front-Office/forgot-password.html.twig', [
-            'controller_name' => 'IntegrationController',
-            'form'=>$form->createView()
-        ]);
+        $mailer->sendEmail(content: 'votre mail est envoyé');
+        return new Response("votre mail été envoyé");
     }
-
 
 }

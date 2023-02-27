@@ -48,6 +48,21 @@
                         <i class="fas fa-times"></i>
                     </a>
                 </div>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <ul class="main-nav">
+                    <li class="has-submenu active">
+                        <a href="{{ path('app_user_home') }}">Accueil </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="#">Médecin</a>
+                    <li class="has-submenu">
+                        <a href="#" >Pharmacie</a>
+
+                    <li class="has-submenu">
+                        <a href="#">Doctoshop </a>
+                    </li>
+                </ul>
+                {% else %}
                 <ul class="main-nav">
                     <li class="has-submenu active">
                         <a href="{{ path('app_home') }}">Accueil </a>
@@ -58,21 +73,15 @@
                         <a href="#" >Pharmacie</a>
 
                     <li class="has-submenu">
-                        <a href="#">Médicaments </a>
-
-                    <li class="has-submenu">
                         <a href="#">Doctoshop </a>
                     </li>
                 </ul>
+                {% endif %}
             </div>
             <ul class="nav header-navbar-rht">
                 <li class="nav-item contact-item">
                     <div class="header-contact-img">
                         <i class="far fa-hospital"></i>
-                    </div>
-                    <div class="header-contact-detail">
-                        <p class="contact-header">Contact</p>
-                        <p class="contact-info-header"> +1 315 369 5943</p>
                     </div>
                 </li>
 
@@ -103,8 +112,11 @@
                                         {% endif %}
                                     </div>
                                 </div>
-                                <a class="dropdown-item" href="patient-dashboard.html">Tableau de Bord</a>
-                                <a class="dropdown-item" href="{{ path('app_user_profile') }}"><i class="feather-edit me-1"></i>Profile</a>
+                                {% if is_granted("ROLE_MEDECIN") %}
+                                <a class="dropdown-item" href="{{ path('app_medecin_profile') }}">Tableau de Bord</a>
+                                {% else %}
+                                <a class="dropdown-item" href="{{ path('app_user_profile') }}">Tableau de Bord</a>
+                                {% endif %}
                                 <a class="dropdown-item" href="{{ path('app_logout') }}"><i class="feather-log-out me-1"></i>Se déconnecter</a>
                             </div>
                         </li>

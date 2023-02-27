@@ -6,6 +6,7 @@ use App\Form\EditFormMedecinType;
 use App\Form\EditFormUserType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\MailerService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,6 +42,7 @@ class RegistrationController extends AbstractController
             // Set their role
             $user->setRoles(['ROLE_PATIENT']);
             $user->setDateDeCreation(new \DateTime());
+            $user->setEtat("non valide");
             // Save
             $em =$rm->getManager();
             $em->persist($user);
@@ -70,6 +72,7 @@ class RegistrationController extends AbstractController
             // Set their role
             $user->setRoles(['ROLE_MEDECIN']);
             $user->setDateDeCreation(new \DateTime());
+            $user->setEtat("non valide");
             // Save
             $em =$rm->getManager();
             $em->persist($user);
@@ -100,6 +103,7 @@ class RegistrationController extends AbstractController
             // Set their role
             $user->setRoles(['ROLE_PHARMACIEN']);
             $user->setDateDeCreation(new \DateTime());
+            $user->setEtat("non valide");
             // Save
             $em =$rm->getManager();
             $em->persist($user);
@@ -116,7 +120,7 @@ class RegistrationController extends AbstractController
 
 
     #[Route('/registerAssureur', name: 'app_registration_assureur')]
-    public function registerAssureur(Request $request,ManagerRegistry $rm)
+    public function registerAssureur(Request $request,ManagerRegistry $rm,MailerService $mailer)
     {
         $user = new User();
 
@@ -131,11 +135,12 @@ class RegistrationController extends AbstractController
             // Set their role
             $user->setRoles(['ROLE_ASSUREUR']);
             $user->setDateDeCreation(new \DateTime());
+            $user->setEtat("non valide");
             // Save
             $em =$rm->getManager();
             $em->persist($user);
             $em->flush();
-
+            $mailer->sendEmail(content:'votre compte a été bien crée');
             return $this->redirectToRoute('app_login');
 
         }
