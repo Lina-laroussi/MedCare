@@ -28,6 +28,32 @@ class PharmacieType extends AbstractType
             'required' => true
             ])
             ->add('matricule')
+            ->add('gouvernorat',ChoiceType::class, [
+                'choices'  => [
+             'Ariana' =>"v1",
+           'Béja'=>"v2",
+             'Ben Arous'=>"v3",
+              'Bizerte'=>"v4",
+             'Gabès'=>"v5",
+              'Gafsa'=>"v6",
+              'Jendouba'=>"v7",
+             'Kairouan'=>"v8",
+             'Kasserine'=>"v9",
+             'Kébili'=>"v10",
+             'Kef'=>"v11",
+             'Mahdia'=>"v12",
+             'Manouba'=>"v13",
+            'Médenine'=>"v14",
+             'Monastir'=>"v15",
+           'Nabeul'=>"v16",
+             'Sfax'=>"v17",
+            'Sidi Bouzid'=>"v18",
+           'Siliana'=>"v19",
+           'Sousse'=>"v20",
+            'Tataouine'=>"v21",
+             'Tozeur'=>"v22",
+           'Tunis'=>"v23",
+           'Zaghouan'=>"v24"   ]]) 
 
             ->add('horaire')
             ->add('etat',ChoiceType::class, [

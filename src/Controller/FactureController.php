@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Facture;
 use App\Form\FactureType;
 use App\Repository\FactureRepository;
+use App\Service\PdfService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,6 +84,15 @@ class FactureController extends AbstractController
             'facture' => $facture,
         ]);
     }
+
+    #[Route('/{id}/pdf', name: 'app_facture_pdf')]
+    public function generatepdffacture(Facture $facture = null, PdfService $pdf ) {
+
+$html = $this->render('facture/showpdf.html.twig',['facture' => $facture]) ;
+$pdf->showPdfFile($html);
+
+    }
+
 
     #[Route('/{id}/edit', name: 'app_facture_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Facture $facture, FactureRepository $factureRepository): Response

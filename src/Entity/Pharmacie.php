@@ -66,8 +66,11 @@ class Pharmacie
     #[ORM\OneToOne(inversedBy: 'pharmacie', cascade: ['persist', 'remove'])]
     private ?User $pharmacien = null;
 
-    #[ORM\OneToMany(mappedBy: 'pharmacie', targetEntity: Facture::class)]
+    #[ORM\OneToMany(mappedBy: 'pharmacie', targetEntity: Facture::class , cascade: ['persist', 'remove'])]
     private Collection $factures;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Gouvernorat = null;
 
     public function __construct()
     {
@@ -230,5 +233,17 @@ class Pharmacie
     }
     public function __toString() :string {
         return $this->nom;
+    }
+
+    public function getGouvernorat(): ?string
+    {
+        return $this->Gouvernorat;
+    }
+
+    public function setGouvernorat(string $Gouvernorat): self
+    {
+        $this->Gouvernorat = $Gouvernorat;
+
+        return $this;
     }
 }
