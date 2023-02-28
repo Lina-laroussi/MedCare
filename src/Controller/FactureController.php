@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Facture;
 use App\Form\FactureType;
 use App\Repository\FactureRepository;
-use App\Service\PdfService;
+use App\Service\DompdfService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,9 +24,9 @@ class FactureController extends AbstractController
         return $this->render('facture/index.html.twig', [
             'factures' => $factureRepository->findAll(),
         ]);
-    }
+        
     
-
+    }
     #[Route('/new', name: 'app_facture_new', methods: ['GET', 'POST'])]
     public function new(Request $request, FactureRepository $factureRepository, SluggerInterface $slugger): Response
     {
@@ -85,14 +85,22 @@ class FactureController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/pdf', name: 'app_facture_pdf')]
-    public function generatepdffacture(Facture $facture = null, PdfService $pdf ) {
-
+    #[Route('/{id}/pdf', name: 'app_facture_pdf', methods: ['GET'])]
+    public function generatepdffacture(Facture $facture = null, DompdfService $pdf ) {
 $html = $this->render('facture/showpdf.html.twig',['facture' => $facture]) ;
 $pdf->showPdfFile($html);
+$pdf->generateBinaryPdf($html) ;
 
     }
 
+
+    #[Route('/{id}/print', name: 'print_pdf')]
+    public function printfacture(Facture $facture): Response
+    {
+        return $this->render('facture/printpdf.html.twig', [
+            'facture' => $facture,
+        ]);
+    }
 
     #[Route('/{id}/edit', name: 'app_facture_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Facture $facture, FactureRepository $factureRepository): Response

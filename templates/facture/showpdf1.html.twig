@@ -1,0 +1,122 @@
+{% extends "base-pdf.html.twig" %}
+{% block title %}Facture{{facture.id}} {% endblock %}
+{% block body %}
+
+<div>
+ <img src="{{ absolute_url (asset('FrontOffice/img/logoMedB.png')) }}" class="img-fluid"   alt="Logo">
+
+<h1 align='center' style="color: blue">Facture</h1>
+
+
+ </div>
+
+ <div>
+<table width="100%" border="1">
+<tr>
+                <td colspan="2">
+<h3 style="color: blue" > Numéro Facture :{{ facture.id }}</h3>
+
+
+<li>Date: <span>{{ facture.date ? facture.date|date('Y-m-d') : '' }}</span></li>
+</div>
+
+<div>
+
+
+<table border=1>
+        <thead>
+            <tr>
+                <th scope="col" style="color: blue">Nom</th>
+                <th scope="col" style="color: blue">Adresse</th>
+                <th scope="col" style="color: blue">Gouvernorat</th>
+                <th scope="col" style="color: blue">E-mail</th>
+                <th scope="col" style="color: blue">Numéro</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ facture.pharmacie.nom }}</td>
+                <td>{{ facture.pharmacie.adresse }}</td>
+                <td>{{ facture.pharmacie.gouvernorat }}</td>
+                <td>{{ facture.pharmacie.email }}</td>
+                <td>{{ facture.pharmacie.numTel }}</td>
+
+            </tr>
+        </tbody>
+    </table>
+
+
+<table border=1>
+        <thead>
+            <tr>
+                <th scope="col" style="color: blue">Nom</th>
+                <th scope="col" style="color: blue">Prénom</th>
+                <th scope="col" style="color: blue">Adresse</th>
+                <th scope="col" style="color: blue">Numéro</th>
+                <th scope="col" style="color: blue">E-mail</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ facture.ordonnance.consultation.rendezvous.patient.nom}}</td>
+                <td>{{ facture.ordonnance.consultation.rendezvous.patient.prenom }}</td>
+                <td>{{ facture.ordonnance.consultation.rendezvous.patient.adresse}}</td>
+                <td>{{ facture.ordonnance.consultation.rendezvous.patient.numTel }}</td>
+                <td>{{ facture.ordonnance.consultation.rendezvous.patient.email }}</td>
+
+            </tr>
+        </tbody>
+    </table>
+
+<table border=1>
+        <thead>
+            <tr>
+                <th scope="col" style="color: blue">Liste des Médicaments</th>
+                
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ facture.ordonnance.medicaments }}</td>
+              
+
+            </tr>
+        </tbody>
+    </table>
+
+
+
+<div>
+
+<h5 style="color: blue"> Total: {{ facture.montant }} Dt</h5>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="invoice-info">
+ 
+                <h10 class="d-none d-sm-table-cell" >Image_signature</h10> 
+               
+
+        <img src ={{ absolute_url (asset('uploads/images/' ~ facture.imageSignature)) }}>
+
+
+            
+</div>
+
+
+
+
+
+
+{% endblock %}
+

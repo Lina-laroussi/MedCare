@@ -1,24 +1,12 @@
-{% extends 'Menu.html.twig' %}
-{% block stylesheets %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>MedCare</title>
+</head>
+<body>
+   
 
-    <link href="assets/img/favicon.png" rel="icon">
-    <link rel="stylesheet" href="{{ asset('FrontOffice/css/bootstrap.min.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/fontawesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/all.min.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('FrontOffice/css/feather.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('FrontOffice/css/bootstrap-datetimepicker.min.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
-
-{% endblock %}
-
-
-{% block content %}
     <h1>Facture</h1>
         <div class="col-md-7 col-lg-8 col-xl-9">
         <div class="card">
@@ -34,7 +22,7 @@
 </div>
 <div class="col-sm-6 m-b-20">
 <div class="invoice-details">
-<h3 > Numéro Facture :{{ facture.id }}</h3>
+ <h3 > Numéro Facture :{{ facture.id }}</h3> 
 <ul class="list-unstyled mb-0">
 <li>Date: <span>{{ facture.date ? facture.date|date('Y-m-d') : '' }}</span></li>
 </ul>
@@ -133,7 +121,6 @@
 
     <a href="{{ path('app_facture_edit', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Modifier') }}</a>
     <a href="{{ path('app_facture_pdf', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Imprimer facture') }}</a>
-    <a href="{{ path('app_fact', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Imprimer facture1') }}</a>
 
 </div>
  
@@ -156,5 +143,7 @@
 
 
 
-    {{ include('facture/_delete_form.html.twig') }}
-{% endblock %}
+  
+
+</body>
+</html>
