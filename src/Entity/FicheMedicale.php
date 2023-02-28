@@ -22,11 +22,9 @@ class FicheMedicale
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
     private ?string $allergies = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
     private ?string $pathologie = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+
 use App\Entity\Ordonnance;
 use App\Form\OrdonnanceType;
 use App\Repository\OrdonnanceRepository;
@@ -9,7 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Writer;
+
 
 #[Route('/ordonnance')]
 class OrdonnanceController extends AbstractController
@@ -22,6 +26,7 @@ class OrdonnanceController extends AbstractController
             'ordonnances' => $ordonnanceRepository->findAll(),
         ]);
     }
+
 // creation new ordenance
     #[Route('/new', name: 'app_ordonnance_new', methods: ['GET', 'POST'])]
     public function new(Request $request, OrdonnanceRepository $ordonnanceRepository): Response
@@ -33,14 +38,12 @@ class OrdonnanceController extends AbstractController
         $form = $this->createForm(OrdonnanceType::class, $ordonnance, [
             'pre_generated_code' => $preGeneratedCode, // pass the pre-generated code to the form builder
         ]);
-        $form->handleRequest($request);
 
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $ordonnanceRepository->save($ordonnance, true);
 
-            $previousUrl = $request->headers->get('referer');
-            return new RedirectResponse($previousUrl);
-            //return $this->redirectToRoute('app_ordonnance_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_ordonnance_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('Front-Office/ordonnance/new.html.twig', [
@@ -48,6 +51,9 @@ class OrdonnanceController extends AbstractController
             'form' => $form,
         ]);
     }
+
+
+    
 // afficher ordenance par id
     #[Route('/{id}', name: 'app_ordonnance_show', methods: ['GET'])]
     public function show(Ordonnance $ordonnance): Response
@@ -87,12 +93,40 @@ class OrdonnanceController extends AbstractController
         return $this->redirectToRoute('app_ordonnance_index', [], Response::HTTP_SEE_OTHER);
     }
 
-
+// print ordenance by id
     #[Route('/ordonnance/{id}/print', name: 'print_ordonnance')]
     public function printOrdonnance(Ordonnance $ordonnance): Response
     {
+        // Generate QR code
+        $renderer = new ImageRenderer(
+        new \BaconQrCode\Renderer\RendererStyle\RendererStyle(400),
+        new ImagickImageBackEnd()
+        );
+        $writer = new Writer($renderer);
+        $qrCodeData = sprintf(
+            "Medicaments: %s, Dosage: %s, Nombre de jours: %s",
+            $ordonnance->getMedicaments(),
+            $ordonnance->getDosage(),
+            $ordonnance->getNombreJours()
+        );
+        $qrCode = $writer->writeString($qrCodeData);
+        
+        // Save QR code image to public directory
+        $publicDir = $this->getParameter('kernel.project_dir') . '/public/FrontOffice/img/qr-code';
+        $qrCodeFilename = uniqid() . '.png';
+        $qrCodePath = $publicDir . '/' . $qrCodeFilename;
+        file_put_contents($qrCodePath, $qrCode);
+
         return $this->render('Front-Office/ordonnance/print_ordonnance.html.twig', [
-            'ordonnance' => $ordonnance,
+            'ordonnance' => $ordonnance, 
+            'qrCodeFilename' => $qrCodeFilename,
+            'qrCodeUrl' => '/FrontOffice/img/qr-code/' . $qrCodeFilename,
         ]);
     }
+
+
+
+
+
+
 }

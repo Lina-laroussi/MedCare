@@ -41,7 +41,7 @@
                     <div>
                         <div> 
                             <a href="{{ path('app_ordonnance_edit', {'id': ordonnance.id}) }}" class="add-new-btn"> Modifier</a>
-                            <a href="{{ path('print_ordonnance', { 'id': ordonnance.id }) }}" target="_blank" class="btn btn-sm bg-warning-light" > <i class="fas fa-print"></i> Imprimer </a>                                        
+                            <a href="{{ path('print_ordonnance', { 'id': ordonnance.id }) }}" target="_blank" class="add-new-btn" > <i class="fas fa-print"></i> Imprimer </a>                                        
                         </div>
                         <div>                            
                             {{ include('Front-Office/ordonnance/_delete_form.html.twig') }}

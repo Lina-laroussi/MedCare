@@ -5,9 +5,22 @@
     <h1>Fiche Medicale  </h1>
     <div class="card">
         <div class="card-body pt-0">            
-            <div class="tab-content">
-                <div class="text-end">
-                    <a href="{{ path('app_fiche_medicale_new') }}" class="add-new-btn"> Ajouter Fiche Med </a>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-sm-7">
+                    <form action="{{ path('app_fiche_medicale_index') }}" method="GET">
+                        <div class="input-group">
+                        <input type="text" class="form-control" placeholder="chercher un Fiche Medicale" name="search">
+                        <button type="submit" class="btn btn-primary">Chercher</button>
+                        </div>
+                    </form>
+                    </div>
+                    <div class="col-sm-5">
+                    <div class="text-end">
+                        <a href="{{ path('app_fiche_medicale_new') }}" class="add-new-btn"> Ajouter Fiche Med </a>                
+                    </div>
+                    </div>
+                </div>
                 </div>
                 <div class="card card-table mb-0">
                     <div class="card-body">

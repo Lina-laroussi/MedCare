@@ -15,13 +15,14 @@ class Ordonnance
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 10)]
+    #[Assert\NotBlank()]
+    private ?string $code_ordonnance ;
+
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
     private ?string $description = "examenr générale";
 
-    #[ORM\Column(length: 10)]
-    #[Assert\NotBlank()]
-    private ?string $code_ordonnance ;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
@@ -40,12 +41,16 @@ class Ordonnance
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_de_modification = null;
+    
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $qrCodeFilename = null;
 
     #[ORM\OneToOne(mappedBy: 'ordonnance', cascade: ['persist', 'remove'])]
     private ?Consultation $consultation = null;
 
     #[ORM\OneToOne(inversedBy: 'ordonnance', cascade: ['persist', 'remove'])]
     private ?Facture $facture = null;
+
 
     /**
      * @ORM\PrePersist
@@ -179,6 +184,18 @@ class Ordonnance
     public function setFacture(?Facture $facture): self
     {
         $this->facture = $facture;
+
+        return $this;
+    }
+
+    public function getQrCodeFilename(): ?string
+    {
+        return $this->qrCodeFilename;
+    }
+
+    public function setQrCodeFilename(?string $qrCodeFilename): self
+    {
+        $this->qrCodeFilename = $qrCodeFilename;
 
         return $this;
     }

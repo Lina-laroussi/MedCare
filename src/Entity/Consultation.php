@@ -60,7 +60,7 @@ class Consultation
     #[ORM\OneToOne(mappedBy: 'consultation', cascade: ['persist', 'remove'])]
     private ?RendezVous $rendezVous = null;
 
-    #[ORM\ManyToOne(inversedBy: 'consultations', cascade: ['persist', 'remove'])]//used to be= #[ORM\ManyToOne(inversedBy: 'consultations')]
+    #[ORM\ManyToOne(inversedBy: 'consultations')]
     private ?FicheMedicale $fiche_medicale = null;
 
     #[ORM\OneToOne(inversedBy: 'consultation', cascade: ['persist', 'remove'])]

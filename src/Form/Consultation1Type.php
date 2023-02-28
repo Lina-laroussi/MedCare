@@ -56,7 +56,7 @@ class Consultation1Type extends AbstractType
             ])
             ->add('observation', TextType::class, [
                 'attr' => ['class' => 'form-control form-group']
-            ])
+            ])/*
             ->add('rendezVous', EntityType::class,[
                 'class' => RendezVous::class,
                 'choice_label' => 'date',
@@ -74,7 +74,7 @@ class Consultation1Type extends AbstractType
                 'choice_label' => 'medicaments',
                 'attr' => ['class' => 'form-control form-group']
                 ])
-                
+                */
                 ;
                 
             
