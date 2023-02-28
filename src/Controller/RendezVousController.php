@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use DateTimeImmutable;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 
 #[Route('/rendezVous')]
 class RendezVousController extends AbstractController
@@ -41,7 +43,7 @@ class RendezVousController extends AbstractController
     }
 
     #[Route('/{id}/new', name: 'app_rendez_vous_new', methods: ['GET', 'POST'])]
-    public function new(Request $request,Planning $planning,UserRepository $patientRep ,RendezVousRepository $rendezVousRepository): Response
+    public function new(Request $request,Planning $planning,UserRepository $patientRep ,RendezVousRepository $rendezVousRepository,HubInterface $hub): Response
     {
         $rendezVou = new RendezVous();
         $rendezVou->setPlanning($planning);
@@ -53,8 +55,24 @@ class RendezVousController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $rendezVousRepository->save($rendezVou, true);
 
+            $rendezVousRepository->save($rendezVou, true);
+            $data=[
+
+                    'date' => $rendezVou->getDate()->format('Y-m-d'),
+                    'heure'=>$rendezVou->getHeureDebut()->format('H:i:s'),
+                    'idPatient'=>$rendezVou->getPatient()->getId(),
+                    'nomPatient'=>$rendezVou->getPatient()->getNom().$rendezVou->getPatient()->getPrenom(),
+                    'idMedecin'=>$rendezVou->getPlanning()->getMedecin()->getId()
+
+                ]
+            ;
+            $update = new Update(
+                '/rdvAjouter',  //.$rendezVou->getPlanning()->getMedecin()->getId(),
+                json_encode($data)
+            );
+    
+            $hub->publish($update);
             return $this->redirectToRoute('app_rendez_vous_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -91,11 +109,29 @@ class RendezVousController extends AbstractController
     }
     
     #[Route('/{id}/confirm', name: 'app_rendez_vous_confirm', methods: ['GET', 'POST'])]
-    public function confirm(Request $request, RendezVous $rendezVou, RendezVousRepository $rendezVousRepository): Response
+    public function confirm(Request $request, RendezVous $rendezVou, RendezVousRepository $rendezVousRepository,HubInterface $hub): Response
     {
 
         $rendezVou->setEtat("confirmé");
         $rendezVousRepository->save($rendezVou, true);
+        $data=[
+
+            'date' => $rendezVou->getDate()->format('Y-m-d'),
+            'heure'=>$rendezVou->getHeureDebut()->format('H:i:s'),
+            'idPatient'=>$rendezVou->getPatient()->getId(),
+            'nomMedecin'=>$rendezVou->getPlanning()->getMedecin()->getNom().$rendezVou->getPlanning()->getMedecin()->getPrenom(),
+            'idMedecin'=>$rendezVou->getPlanning()->getMedecin()->getId(),
+            
+
+        ];
+            $update = new Update(
+                '/rdvConfirme',  //.$rendezVou->getPlanning()->getMedecin()->getId(),
+                json_encode($data)
+            );
+
+            $hub->publish($update);
+        
+
         return $this->redirectToRoute('app_rendez_vous_index', [], Response::HTTP_SEE_OTHER);
     }
     #[Route('/{id}/cancel', name: 'app_rendez_vous_cancel', methods: ['GET', 'POST'])]
@@ -115,4 +151,5 @@ class RendezVousController extends AbstractController
 
         return $this->redirectToRoute('app_rendez_vous_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }
