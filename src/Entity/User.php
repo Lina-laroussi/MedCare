@@ -108,6 +108,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'pharmacien', cascade: ['persist', 'remove'])]
     private ?Pharmacie $pharmacie = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $resetToken = null;
+
 
     public function __construct()
     {
@@ -493,6 +496,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->pharmacie = $pharmacie;
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
 
         return $this;
     }

@@ -40,12 +40,11 @@
                                         <label class="focus-label">Mot de passe</label>
                                     </div>
                                     <div class="text-end">
-                                        <a class="forgot-link" href="#">Mot de Passe oublié ?</a>
+                                        <a class="forgot-link" href="{{ path('app_forgot_password') }}">Mot de Passe oublié ?</a>
                                     </div>
                                     <button class="btn btn-primary w-100 btn-lg login-btn" type="submit">Se connecter</button>
                                     <div class="login-or">
                                         <span class="or-line"></span>
-
                                     </div>
 
                                     <div class="text-center dont-have">Vous n'avez pas de compte? <a href="{{ path('app_choose_profile') }}">créer un compte</a></div>

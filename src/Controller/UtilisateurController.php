@@ -8,6 +8,7 @@ use App\Form\EditFormUserType;
 use App\Form\SearchFormType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\MailerService;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,13 +56,14 @@ class UtilisateurController extends AbstractController
 
 
     #[Route('/validate/{id}', name: 'validate_utilisateur')]
-    public function validate_utilisateur($id,ManagerRegistry $rg, Request $req,UserRepository $repo):Response
+    public function validate_utilisateur($id,ManagerRegistry $rg, Request $req,UserRepository $repo,MailerService $mailer):Response
     {
         $user = $repo->find($id);
         $user->setEtat("valide");
         $result = $rg->getManager();
         $result->persist($user);
         $result->flush();
+        $mailer->sendEmail(to:$user->getEmail(),content:'votre compte a été bien vérifié par l\'admintrateur, vous pouvez accéder à votre compte',subject: 'Vérification réuissite');
 
         if (in_array('ROLE_MEDECIN', $user->getRoles(), true)) {
             return $this->redirectToRoute('list_medecins');

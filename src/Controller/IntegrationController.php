@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Form\EditFormUserType;
 use App\Form\ForgotPasswordFormType;
+use App\Form\ResetPasswordFormType;
 use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -28,11 +30,16 @@ class IntegrationController extends AbstractController
         ]);
     }
 
-    #[Route('/send', name: 'app_send')]
-    public function sendEmail(MailerService $mailer)
+    #[Route('/reset', name: 'app_send')]
+    public function sendEmail(Request $request)
     {
-        $mailer->sendEmail(content: 'votre mail est envoyé');
-        return new Response("votre mail été envoyé");
+        $form = $this->createForm(ResetPasswordFormType::class);
+
+        $form->handleRequest($request);
+        return $this->render('Front-Office/security/password-reset.html.twig', [
+            'controller_name' => 'IntegrationController',
+            'form'=>$form->createView()
+        ]);
     }
 
 }

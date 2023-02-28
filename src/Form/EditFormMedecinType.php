@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -30,7 +31,7 @@ class EditFormMedecinType extends AbstractType
                 'format' => 'yyyy-MM-dd',
                 'constraints' => [new NotBlank(['message'=>('Veuillez renseigner votre date de naissance')])]
             ])
-            ->add('email',TextType::class)
+            ->add('email',EmailType::class)
             ->add('num_tel',TextType::class,[
                 'constraints' => [new NotBlank(['message'=>('Veuillez renseigner votre numéro de téléphone')]),
                     new Regex(pattern:"/^[0-9]*$/", message:"Votre numéro de téléphone n'est pas valide")

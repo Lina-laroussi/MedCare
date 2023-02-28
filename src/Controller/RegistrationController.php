@@ -27,7 +27,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/registerPatient', name: 'app_registration_patient')]
-    public function registerPatient(Request $request,ManagerRegistry $rm)
+    public function registerPatient(Request $request,ManagerRegistry $rm,MailerService $mailer)
     {
         $user = new User();
 
@@ -47,7 +47,7 @@ class RegistrationController extends AbstractController
             $em =$rm->getManager();
             $em->persist($user);
             $em->flush();
-
+            $mailer->sendEmail(to:$user->getEmail(),content:'votre compte a été bien crée mais il faut attendre la validation de l\'adminstrateur',subject: 'Inscription réussite');
             return $this->redirectToRoute('app_login');
 
         }
@@ -58,7 +58,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/registerMedecin', name: 'app_registration_doctor')]
-    public function registerDoctor(Request $request,ManagerRegistry $rm)
+    public function registerDoctor(Request $request,ManagerRegistry $rm,MailerService $mailer)
     {
         $user = new User();
 
@@ -77,7 +77,7 @@ class RegistrationController extends AbstractController
             $em =$rm->getManager();
             $em->persist($user);
             $em->flush();
-
+            $mailer->sendEmail(to:$user->getEmail(),content:'votre compte a été bien crée mais il faut attendre la validation de l\'adminstrateur',subject: 'Inscription réussite');
             return $this->redirectToRoute('app_login');
 
         }
@@ -88,7 +88,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/registerPharmacien', name: 'app_registration_pharmacien')]
-    public function registerPharmacien(Request $request,ManagerRegistry $rm)
+    public function registerPharmacien(Request $request,ManagerRegistry $rm,MailerService $mailer)
     {
         $user = new User();
 
@@ -108,7 +108,7 @@ class RegistrationController extends AbstractController
             $em =$rm->getManager();
             $em->persist($user);
             $em->flush();
-
+            $mailer->sendEmail(to:$user->getEmail(),content:'votre compte a été bien crée mais il faut attendre la validation de l\'adminstrateur',subject: 'Inscription réussite');
             return $this->redirectToRoute('app_login');
 
         }
@@ -140,7 +140,7 @@ class RegistrationController extends AbstractController
             $em =$rm->getManager();
             $em->persist($user);
             $em->flush();
-            $mailer->sendEmail(content:'votre compte a été bien crée');
+            $mailer->sendEmail(to:$user->getEmail(),content:'votre compte a été bien crée mais il faut attendre la validation de l\'adminstrateur',subject: 'Inscription réussite');
             return $this->redirectToRoute('app_login');
 
         }

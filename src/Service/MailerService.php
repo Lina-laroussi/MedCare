@@ -8,13 +8,13 @@ class MailerService
 {
     public function __construct(private MailerInterface $mailer)
     {
-
+            $this->mailer = $mailer;
     }
 
     public function sendEmail(
-        $to = 'laroussilina056@gmail.com',
-        $content='<p>See Twig integration for better HTML integration!</p>',
-        $subject='Time for Symfony Mailer!'
+        $to ,
+        $content,
+        $subject
     ): void
     {
         $email = (new Email())
