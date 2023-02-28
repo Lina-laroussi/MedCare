@@ -49,35 +49,6 @@
                                     <div class="form-custom me-2">
                                         <div id="tableSearch" class="dataTables_wrapper"></div>
                                     </div>
-                                    <div class="SortBy">
-                                        <div class="selectBoxes order-by">
-                                            <p class="mb-0"><img src="{{ asset('BackAdmin/img/icon/sort.png') }}" class="me-2" alt="icon"> Order by </p>
-                                            <span class="down-icon"><i class="feather-chevron-down"></i></span>
-                                        </div>
-                                        <div id="checkBox">
-                                            <form action="https://doccure.dreamguystech.com/html/template/admin/pharmacy-list.html">
-                                                <p class="lab-title">Order By </p>
-                                                <label class="custom_radio w-100">
-                                                    <input type="radio" name="sort">
-                                                    <span class="checkmark"></span> ID
-                                                </label>
-                                                <label class="custom_radio w-100">
-                                                    <input type="radio" name="sort">
-                                                    <span class="checkmark"></span> Date Created
-                                                </label>
-                                                <p class="lab-title">Sort By</p>
-                                                <label class="custom_radio w-100">
-                                                    <input type="radio" name="sort">
-                                                    <span class="checkmark"></span> Ascending
-                                                </label>
-                                                <label class="custom_radio w-100 mb-4">
-                                                    <input type="radio" name="sort">
-                                                    <span class="checkmark"></span> Descending
-                                                </label>
-                                                <button type="submit" class="btn w-100 btn-primary">Apply</button>
-                                            </form>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -122,14 +93,14 @@
                                                         </h2>
                                                     </td>
                                                     <td>{{ user.email }}</td>
-                                                    <td><span class="d-block">{{ user.dateDeNaissance |date }}</span></td>
+                                                    <td><span class="d-block">{{ user.dateDeNaissance |date("m/d/Y") }}</span></td>
                                                     <td>{{ user.sexe }}</td>
                                                     <td>{{ user.numTel }}</td>
                                                     <td>{{ user.adresse }}</td>
                                                     {% if user.etat == "non valide" %}
-                                                        <td><span class="badge bg-badge-grey text-danger"><i class="fas fa-circle me-1"></i> non validé </span></td>
+                                                        <td><span class="badge bg-badge-grey text-danger"><i class="fas fa-circle me-1"></i> désactivé </span></td>
                                                     {% else %}
-                                                        <td><span class="badge bg-badge-grey text-success"><i class="fas fa-circle me-1"></i> validé </span></td>
+                                                        <td><span class="badge bg-badge-grey text-success"><i class="fas fa-circle me-1"></i> activé </span></td>
                                                     {% endif %}
                                                     {% if user.etat == "non valide" %}
                                                         <td><a class="text-success" href="{{path('validate_utilisateur',{'id':user.id})}}"><i class="feather-check"></i>Valider</a></td>

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -59,17 +60,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
    /**
 //     * @return User[] Returns an array of User objects
 //     */
-   /*public function findUsersByRole($role): array
+   public function findUsersBySearchTerm($searchTerm): array
     {
        return $this->createQueryBuilder('u')
-            ->andWhere('u.roles = :val')
-           ->setParameter('val', $role)
-           ->orderBy('u.id', 'ASC')
-           ->setMaxResults(10)
+           ->where('u.nom LIKE :searchTerm OR
+            u.prenom LIKE :searchTerm OR
+            u.email Like :searchTerm OR
+            u.specialite LIKE :searchTerm OR 
+            u.adresse Like :searchTerm OR
+            u.sexe LIKE :searchTerm OR
+            u.etat LIKE :searchTerm' )
+           ->setParameter('searchTerm', $searchTerm)
            ->getQuery()
            ->getResult()
        ;
-    }*/
+    }
 
     public function findOneByEmail($email): ?User
     {

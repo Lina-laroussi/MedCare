@@ -12,7 +12,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+#[
+    Route('profile'),
+    IsGranted ('IS_AUTHENTICATED_FULLY'),
+]
 class ProfileController extends AbstractController
 {
     #[Route('/p', name: 'app_profile')]
@@ -33,6 +38,7 @@ class ProfileController extends AbstractController
         ]);
     }
 
+
     #[Route('/homeUser', name: 'app_user_home')]
     public function home(UserRepository $repo): Response
     {
@@ -49,7 +55,7 @@ class ProfileController extends AbstractController
     }
 
 
-    #[Route('/profile', name: 'app_user_profile')]
+    #[Route('/Settings', name: 'app_user_profile')]
     public function update_profile_utilisateur( ManagerRegistry $rg, Request $req,  SluggerInterface $slugger): Response
     {
        // $user = $repo->find($id);
@@ -95,7 +101,7 @@ class ProfileController extends AbstractController
     }
 
 
-    #[Route('/profileM', name: 'app_medecin_profile')]
+    #[Route('/MSettings', name: 'app_medecin_profile')]
     public function update_profile_medecin(ManagerRegistry $rg, Request $req, SluggerInterface $slugger): Response
     {
         //$user = $repo->find($id);

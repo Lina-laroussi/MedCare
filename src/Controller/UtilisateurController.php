@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\EditFormMedecinType;
 use App\Form\EditFormUserType;
+use App\Form\SearchFormType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +17,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+
+#[
+    Route('admin'),
+    IsGranted ('ROLE_ADMIN')
+]
 class UtilisateurController extends AbstractController
 {
-    #[Route('/admin', name: 'app_admin')]
+    #[Route('/', name: 'app_admin')]
     public function admin(): Response
     {
         $currentuser = $this->getUser();
@@ -44,6 +51,8 @@ class UtilisateurController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
 
     #[Route('/validate/{id}', name: 'validate_utilisateur')]
     public function validate_utilisateur($id,ManagerRegistry $rg, Request $req,UserRepository $repo):Response
@@ -170,42 +179,69 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/listMedecins', name: 'list_medecins')]
-    public function list_medecin(UserRepository $repo): Response
+    public function list_medecin(UserRepository $repo,Request $req)
     {
         $users = $repo->findAll();
-
+        //$count=$repo->findUsersByRole('ROLE_MEDECIN');
+        $form = $this->createForm(SearchFormType::class);
+        $form->handleRequest($req);
+        if($form->isSubmitted() ) {
+            $searchTerm = $form->getData();
+            $users = $repo->findUsersBySearchTerm($searchTerm);
+        }
         return $this->render('Back-Office/list-medecins.html.twig', [
-            'users' => $users
+            'users' => $users,
+            'form'=>$form->createView(),
         ]);
     }
 
     #[Route('/listAssureurs', name: 'list_assureurs')]
-    public function list_assureur(UserRepository $repo): Response
+    public function list_assureur(UserRepository $repo,Request $req): Response
     {
         $users = $repo->findAll();
-
+        $form = $this->createForm(SearchFormType::class);
+        $form->handleRequest($req);
+        if($form->isSubmitted() ) {
+            $searchTerm = $form->getData();
+            $users = $repo->findUsersBySearchTerm($searchTerm);
+        }
         return $this->render('Back-Office/list-assureurs.html.twig', [
-            'users' => $users
+            'users' => $users,
+            'form'=>$form->createView(),
         ]);
     }
 
     #[Route('/listPatients', name: 'list_patients')]
-    public function list_patient(UserRepository $repo): Response
+    public function list_patient(UserRepository $repo,Request $req): Response
     {
         $users = $repo->findAll();
+        $form = $this->createForm(SearchFormType::class);
+        $form->handleRequest($req);
+        if($form->isSubmitted() ) {
+            $searchTerm = $form->getData();
+            $users = $repo->findUsersBySearchTerm($searchTerm);
+        }
 
         return $this->render('Back-Office/list-patients.html.twig', [
-            'users' => $users
+            'users' => $users,
+            'form'=>$form->createView(),
         ]);
     }
 
     #[Route('/listPharmaciens', name: 'list_pharmaciens')]
-    public function list_pharmacien(UserRepository $repo): Response
+    public function list_pharmacien(UserRepository $repo,Request $req): Response
     {
         $users = $repo->findAll();
+        $form = $this->createForm(SearchFormType::class);
+        $form->handleRequest($req);
+        if($form->isSubmitted() ) {
+            $searchTerm = $form->getData();
+            $users = $repo->findUsersBySearchTerm($searchTerm);
+        }
 
         return $this->render('Back-Office/list-pharmaciens.html.twig', [
-            'users' => $users
+            'users' => $users,
+            'form'=>$form->createView(),
         ]);
     }
 }
