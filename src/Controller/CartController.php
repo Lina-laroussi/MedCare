@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controller;
-
 use App\Entity\Produit;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,63 +12,79 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CartController extends AbstractController
 {
-    /**
+     /**
      * @Route("/", name="index")
      */
-    public function index(SessionInterface $session, ProduitRepository $ProduitRepository)
+    public function index(SessionInterface $session, ProduitRepository $produitRepository)
     {
         $panier = $session->get("panier", []);
-
+    
         // On "fabrique" les données
         $dataPanier = [];
-        $total = 0;
-
+        $total =0;
+    
         foreach($panier as $id => $quantite){
-            $produit = $ProduitRepository->find($id);
-            $dataPanier[] = [
-                "produit" => $produit,
-                "quantite" => $quantite
-            ];
-            $total += $produit->getPrix() * $quantite;
+            $produit = $produitRepository->find($id);
+            if ($produit !== null) {
+                $dataPanier[] = [
+                    "produit" => $produit,
+                    "quantite"   => $quantite
+                ];
+                
+                $produitPrix = $produit->getPrix();
+                var_dump($produitPrix);
+                $total += $produitPrix * $quantite;
+             }
         }
-
+    
         return $this->render('cart/index.html.twig', compact("dataPanier", "total"));
     }
+    
 
-    /**
-     * @Route("/add/{id}", name="add")
-     */
-    public function add(Produit $produit, SessionInterface $session)
-    {
-        // On récupère le panier actuel
-        $panier = $session->get("panier", []);
-        $id = $produit->getId();
+   /**      
+ * @Route("/add/{id}", name="add")
+ */
+public function add($id, ProduitRepository $produitRepository, SessionInterface $session)
+{
+    $produit = $produitRepository->find($id);
 
-        if(!empty($panier[$id])){
-            $panier[$id]++;
-        }else{
-            $panier[$id] = 1;
-        }
-
-        // On sauvegarde dans la session
-        $session->set("panier", $panier);
-
-        return $this->redirectToRoute("cart_index");
+    // Vérifie si le produit existe
+    if (!$produit) {
+        throw $this->createNotFoundException('Le produit n\'existe pas');
     }
+
+    // On récupère le panier actuel
+    $panier = $session->get("panier", []);
+
+    if(!empty($panier[$id])){
+        $panier[$id]++;
+    }else{
+        $panier[$id] = 1;
+    }
+
+    // On sauvegarde dans la session
+    $session->set("panier", $panier);
+
+    return $this->redirectToRoute("cart_index");
+}
 
     /**
      * @Route("/remove/{id}", name="remove")
      */
-    public function remove(Produit $produit, SessionInterface $session)
+    public function remove(int $id, SessionInterface $session, ProduitRepository $produitRepository)
     {
+        $produit = $produitRepository->find($id);
+        if (!$produit) {
+            throw $this->createNotFoundException('Le produit n\'existe pas');
+        }
+
         // On récupère le panier actuel
         $panier = $session->get("panier", []);
-        $id = $produit->getId();
 
-        if(!empty($panier[$id])){
-            if($panier[$id] > 1){
+        if (isset($panier[$id])) {
+            if ($panier[$id] > 1) {
                 $panier[$id]--;
-            }else{
+            } else {
                 unset($panier[$id]);
             }
         }
@@ -79,6 +94,8 @@ class CartController extends AbstractController
 
         return $this->redirectToRoute("cart_index");
     }
+
+
 
     /**
      * @Route("/delete/{id}", name="delete")
@@ -109,4 +126,22 @@ class CartController extends AbstractController
         return $this->redirectToRoute("cart_index");
     }
 
+    public function checkout(SessionInterface $session)
+    {
+        // récupérer le panier depuis la session
+        $cart = $session->get('panier', []);
+
+        // calculer le montant total des produits dans le panier
+        $total = 0;
+        foreach ($cart as $id => $product) {
+            $total += $product['prix'] * $product['quantite'];
+        }
+
+        // rendre la vue avec le montant total
+        return $this->render('cart/checkout.html.twig', [
+            'stripe_key' => $this->getParameter('stripe_public_key'),
+            'total' => $total
+        ]);
+    }
+    
 }
