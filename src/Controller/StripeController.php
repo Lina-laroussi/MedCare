@@ -1,40 +1,59 @@
 <?php
  
 namespace App\Controller;
+
 use App\Controller\CartController;
 use App\Entity\Produit;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Stripe;
- 
+
 class StripeController extends AbstractController
 {
+
+
+
     #[Route('/stripe', name: 'app_stripe')]
-    public function index(): Response
+    public function index(Request $request, CartController $cartController): Response
     {
+        $total = $cartController->index($request->getSession(), $this->getDoctrine()->getRepository(Produit::class));
+        
         return $this->render('stripe/index.html.twig', [
             'stripe_key' => $_ENV["STRIPE_KEY"],
+            'total' => $total,
         ]);
     }
  
 
     #[Route('/stripe/create-charge', name: 'app_stripe_charge', methods: ['POST'])]
-    public function createCharge(Request $request,  CartController $cartController)
+    public function createCharge(Request $request , EntityManagerInterface $entityManager)
     {
-        $total = $cartController->index($request->getSession(),$this->getDoctrine()->getRepository(Produit::class));
+        $cartController = new CartController($entityManager);
+         $panier = $this->get('session')->get('panier', []);
+        $produitRepository = $this->getDoctrine()->getRepository(Produit::class);
+        
+        $total = 0;
+        foreach ($panier as $id => $quantity) {
+            $produit = $produitRepository->find($id);
+            if (!$produit) {
+                throw $this->createNotFoundException('Produit non trouvé pour l\'id '.$id);
+            }
+            $total += $produit->getPrix() * $quantity;
+        }
         Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
         Stripe\Charge::create ([
-                "amount" => $total * 100,
-                "currency" => "usd",
-                "source" => $request->request->get('stripeToken'),
-                "description" => "Binaryboxtuts Payment Test"
+            "amount" => $total * 100,
+            "currency" => "usd",
+            "source" => $request->request->get('stripeToken'),
+            "description" => "Binaryboxtuts Payment Test"
         ]);
         $this->addFlash(
             'success',
-            'Payment Successful!'
+            'Payment Successful! Total amount: ' . $total
         );
-        return $this->redirectToRoute('app_stripe', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_stripe',['total' => $total], Response::HTTP_SEE_OTHER);
     }
 }

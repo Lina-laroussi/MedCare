@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\Produit;
 use App\Repository\ProduitRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,6 +13,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CartController extends AbstractController
 {
+
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+
      /**
      * @Route("/", name="index")
      */
@@ -126,17 +136,20 @@ public function add($id, ProduitRepository $produitRepository, SessionInterface 
         return $this->redirectToRoute("cart_index");
     }
 
-    public function checkout(SessionInterface $session)
+    public function checkout(SessionInterface $session ,  ProduitRepository $produitRepository)
     {
         // récupérer le panier depuis la session
         $cart = $session->get('panier', []);
-
+    
         // calculer le montant total des produits dans le panier
         $total = 0;
-        foreach ($cart as $id => $product) {
-            $total += $product['prix'] * $product['quantite'];
+        foreach ($cart as $id => $quantity) {
+            $product = $produitRepository->find($id);
+            if ($product) {
+                $total += $product->getPrix() * $quantity;
+            }
         }
-
+    
         // rendre la vue avec le montant total
         return $this->render('cart/checkout.html.twig', [
             'stripe_key' => $this->getParameter('stripe_public_key'),
