@@ -4,8 +4,17 @@ namespace App\Controller;
 
 use App\Entity\Facture;
 use App\Form\FactureType;
+use App\Entity\Pharmacie;
+use App\Entity\User;
+use App\Entity\Ordonnance;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Attachment;
+use App\Repository\PharmacieRepository;
+use App\Repository\UserRepository;
 use App\Repository\FactureRepository;
 use App\Service\DompdfService;
+use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,11 +37,13 @@ class FactureController extends AbstractController
     
     }
     #[Route('/new', name: 'app_facture_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, FactureRepository $factureRepository, SluggerInterface $slugger): Response
+    public function new(Request $request, FactureRepository $factureRepository, UserRepository $userrepository, SluggerInterface $slugger , MailerService $mailer , PharmacieRepository $pharmacieRepository): Response
     {
         $facture = new Facture();
         $form = $this->createForm(FactureType::class, $facture);
         $form->handleRequest($request);
+        $pharmacie = $form->get('pharmacie')->getData();
+        //$facture->getPatient($userrepository->getData());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $image = $form->get('image')->getData();
@@ -65,8 +76,19 @@ class FactureController extends AbstractController
 
 
 
+          //  $mailer->sendEmail(content:'voila votre facture');
+            //$mailer->sendEmail(from:'pharmacoemedcare@gmail.com',to:'feryelouerfelli@gmail.com',content:'votre facture',subject: 'Facture Pharmacie');
+            $mailer->sendEmail(from:$facture->getPharmacie()->getEmail(),to:$facture->getOrdonnance()->getConsultation()->getRendezvous()->getPatient()->getEmail(),content:'votre facture',subject: 'Facture Pharmacie', fichier:'document.pdf');
 
             $factureRepository->save($facture, true);
+            $data=[
+
+                'idPatient'=>$facture->getOrdonnance()->getConsultation()->getRendezvous()->getPatient()->getId(),
+                'mailPatient'=>$facture->getOrdonnance()->getConsultation()->getRendezvous()->getPatient()->getEmail(),
+                'mailPharmacie'=>$facture->getPharmacie()->getEmail(),
+
+            ]
+        ;
 
             return $this->redirectToRoute('app_facture_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -87,9 +109,11 @@ class FactureController extends AbstractController
 
     #[Route('/{id}/pdf', name: 'app_facture_pdf', methods: ['GET'])]
     public function generatepdffacture(Facture $facture = null, DompdfService $pdf ) {
-$html = $this->render('facture/showpdf.html.twig',['facture' => $facture]) ;
-$pdf->showPdfFile($html);
-$pdf->generateBinaryPdf($html) ;
+        return$this->render('facture/showpdf1.html.twig',['facture' => $facture]) ;
+ // $html = $this->render('facture/showpdf1.html.twig',['facture' => $facture]) ;
+
+//$pdf->showPdfFile($html);
+//$pdf->generateBinaryPdf($html) ;
 
     }
 

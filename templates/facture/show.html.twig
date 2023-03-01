@@ -134,6 +134,7 @@
     <a href="{{ path('app_facture_edit', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Modifier') }}</a>
     <a href="{{ path('app_facture_pdf', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Imprimer facture') }}</a>
     <a href="{{ path('app_fact', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Imprimer facture1') }}</a>
+    <a href="{{ path('app_send', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Envoyer Mail') }}</a>
 
 </div>
  

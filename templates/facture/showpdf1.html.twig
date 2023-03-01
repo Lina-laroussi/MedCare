@@ -3,7 +3,9 @@
 {% block body %}
 
 <div>
- <img src="{{ absolute_url (asset('FrontOffice/img/logoMedB.png')) }}" class="img-fluid"   alt="Logo">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css">
+
+
 
 <h1 align='center' style="color: blue">Facture</h1>
 
@@ -14,15 +16,17 @@
 <table width="100%" border="1">
 <tr>
                 <td colspan="2">
-<h3 style="color: blue" > Numéro Facture :{{ facture.id }}</h3>
+                
+ <img  src="{{ absolute_url (asset('FrontOffice/img/logoMedB.png')) }}" class="img-fluid"  align='right' alt="Logo">
+ <img src="{{ absolute_url (asset('FrontOffice/img/logoMedB.png')) }}" class="img-fluid"  align='left'   alt="Logo">
 
+<h3 style="color: blue" align='center' > Numéro Facture :{{ facture.id }}</h3>
+<h3 style="color: blue" align='center' >Date: <span>{{ facture.date ? facture.date|date('d-m-Y') : '' }}</span></li>
 
-<li>Date: <span>{{ facture.date ? facture.date|date('Y-m-d') : '' }}</span></li>
 </div>
 
 <div>
-
-
+<h3 align='center' style="color: blue">Pharmacie</h3>
 <table border=1>
         <thead>
             <tr>
@@ -31,7 +35,6 @@
                 <th scope="col" style="color: blue">Gouvernorat</th>
                 <th scope="col" style="color: blue">E-mail</th>
                 <th scope="col" style="color: blue">Numéro</th>
-
             </tr>
         </thead>
         <tbody>
@@ -41,11 +44,11 @@
                 <td>{{ facture.pharmacie.gouvernorat }}</td>
                 <td>{{ facture.pharmacie.email }}</td>
                 <td>{{ facture.pharmacie.numTel }}</td>
-
             </tr>
         </tbody>
     </table>
 
+<h3 align='center' style="color: blue">Client</h3>
 
 <table border=1>
         <thead>
@@ -53,8 +56,9 @@
                 <th scope="col" style="color: blue">Nom</th>
                 <th scope="col" style="color: blue">Prénom</th>
                 <th scope="col" style="color: blue">Adresse</th>
-                <th scope="col" style="color: blue">Numéro</th>
                 <th scope="col" style="color: blue">E-mail</th>
+                <th scope="col" style="color: blue">Numéro</th>
+
 
             </tr>
         </thead>
@@ -63,8 +67,8 @@
                 <td>{{ facture.ordonnance.consultation.rendezvous.patient.nom}}</td>
                 <td>{{ facture.ordonnance.consultation.rendezvous.patient.prenom }}</td>
                 <td>{{ facture.ordonnance.consultation.rendezvous.patient.adresse}}</td>
-                <td>{{ facture.ordonnance.consultation.rendezvous.patient.numTel }}</td>
                 <td>{{ facture.ordonnance.consultation.rendezvous.patient.email }}</td>
+                <td>{{ facture.ordonnance.consultation.rendezvous.patient.numTel }}</td>
 
             </tr>
         </tbody>
@@ -88,26 +92,12 @@
     </table>
 
 
-
-<div>
-
-<h5 style="color: blue"> Total: {{ facture.montant }} Dt</h5>
-
-
 </div>
+<div class ="left">
 
+<h3 style="color: blue"> Total: {{ facture.montant }} Dt</h3>
 
-
-
-
-
-
-<div class="invoice-info">
- 
-                <h10 class="d-none d-sm-table-cell" >Image_signature</h10> 
-               
-
-        <img src ={{ absolute_url (asset('uploads/images/' ~ facture.imageSignature)) }}>
+        <img src ="{{ absolute_url (asset('uploads/images/' ~ facture.imageSignature))  }}"  >
 
 
             

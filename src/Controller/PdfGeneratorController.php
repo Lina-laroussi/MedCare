@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
-
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Attachment;
 use App\Entity\Facture;
 use App\Form\FactureType;
 use App\Repository\FactureRepository;
@@ -20,12 +22,14 @@ class PdfGeneratorController extends AbstractController
 #[Route('/print/{id}', name: 'app_fact', methods: ['GET'])]
 
 public function generatePdf(Facture $facture = null)
-{   //$pdfOptions = new Options();
-    //$pdfOptions->set('defaultFont', 'Arial');
-    //$pdfOptions->setChroot (__DIR__);
-    $dompdf = new Dompdf();
-    $dompdf->set_option('isRemoteEnabled',TRUE);
-    $dompdf->set_option('isHtmlParserEnabled',TRUE);
+{   $pdfOptions = new Options();
+    $pdfOptions->set('defaultFont', 'Arial');
+    $pdfOptions->setChroot (__DIR__);
+    $pdfOptions->setIsRemoteEnabled(true);
+    $dompdf = new Dompdf($pdfOptions);
+
+    //$dompdf->set_option('isRemoteEnabled',TRUE);
+    //$dompdf->set_option('isHtmlParserEnabled',TRUE);
 
  
 
@@ -42,20 +46,27 @@ public function generatePdf(Facture $facture = null)
     $dompdf->loadHtml($html);
     $dompdf->render();
     $fichier = 'Facture.pdf';
-
+    $pdf = $dompdf->output();
      $dompdf->stream($fichier, [
         'Attachment' => true
     ]);
+    $fichier = $dompdf->output();
+    file_put_contents("file.pdf", $fichier);
+   // $tmpFile = tempnam(sys_get_temp_dir(), 'pdf');
+    //file_put_contents($tmpFile, $fichier);
+    //unlink($tmpFile);
 
-    $output = $dompdf->output();
-file_put_contents("file.pdf", $output);
-    return new Response();
-}
+
+   // $output = $dompdf->output();
+//file_put_contents("file.pdf", $output);
+  //  return new Response();
 
 
-   /* return new Response($dompdf->output(), 200, [
+
+ return new Response($dompdf->output(), 200, [
         'Content-Type' => 'application/pdf',
         'Content-Disposition' => 'inline; filename="document.pdf"',
     ]);
-    */
+   
+}
 }
