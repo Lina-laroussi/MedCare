@@ -12,6 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Twilio\Rest\Client;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 #[Route('/consultation')]
 class ConsultationController extends AbstractController
@@ -176,6 +179,117 @@ class ConsultationController extends AbstractController
     }
 
 
+    #[Route('/consultation/export/csv', name: 'consultation_export_csv')]
+    public function exportCsv(EntityManagerInterface $entityManager): Response
+    {
+        $consultations = $entityManager->getRepository(Consultation::class)->findAll();
+
+        $array = [
+            ['ID', 'Patient Name', 'Immatricule', 'Poids', 'Taille', 'Temperature', 'Pression Arterielle',
+             'Frequence Cardiaque','Taux Glycemie', 'Symptomes', 'Traitement', 'Prix','Date'
+             //,'Allergies', 'Code Ordonnance','Medicaments', 'Dosage', 'Nombre de Jours','Observation','ID Facture'
+             ]
+        ];
+        foreach ($consultations as $consultation) {
+            $csvData[] = [
+                $consultation->getId(),
+                $consultation->getRendezVous() ? $consultation->getRendezVous()->getPatient()->getNom() : 'MedCare',
+                $consultation->getImc(),
+                $consultation->getPoids(),
+                $consultation->getTaille(),
+                $consultation->getTemperature(),
+                $consultation->getPressionArterielle(),
+                $consultation->getFrequenceCardiaque(),
+                $consultation->getTauxGlycemie(),
+                $consultation->getSymptomes(),
+                $consultation->getTraitement(),
+                $consultation->getPrix(),//  ? to chek if get... is not null
+                $consultation->getRendezVous() ? $consultation->getRendezVous()->getDate()->format('Y-m-d H:i:s') : (new \DateTime())->format('Y-m-d H:i:s'),
+                //$consultation->getFicheMedicale()-> getAllergies(),
+                //$consultation->getOrdonnance()-> getCodeOrdonnance(),
+                //$consultation->getOrdonnance()-> getMedicaments(),
+                //$consultation->getOrdonnance()-> getDosage(),
+                //$consultation->getOrdonnance()-> getNombreJours(),                
+                //$consultation->getObservation()
+                //$consultation->getOrdonnance()-> getFacture()-> getId()
+            ];
+        }        
+        $data = $csvData;
+       
+/*
+        $csvData = [
+            ['ID', 'Patient Name', 'Date', 'Prix']
+        ];
+        foreach ($consultations as $consultation) {
+            $rowData = [
+                $consultation->getId(),
+                $consultation->getRendezVous() ? $consultation->getRendezVous()->getPatient()->getNom() : 'MedCare',
+                $consultation->getRendezVous() ? $consultation->getRendezVous()->getDate()->format('Y-m-d H:i:s') : (new \DateTime())->format('Y-m-d H:i:s'),
+                //$consultation->getDuree(),
+                $consultation->getPrix()
+            ];
+            $csvData[] = $rowData; //This will create a new variable $rowData and assign the value to it.
+        }   
+         i will change it to this code later when the merge happen
+        foreach ($consultations as $consultation) {
+            $csvData[] = [
+                $consultation->getId(),
+                //$consultation->getRendezVous()->getPatient()->getNom(),
+                $consultation->getRendezVous()->getDate()->format('Y-m-d H:i:s'),
+                //$consultation->getDuree(),
+                $consultation->getPrix()
+            ];
+        }
+*/
+        $response = new Response($this->arrayToCsv($array, $data));
+        $filename = 'consultations' . date('Ymd_His') . '.csv'; // e.g. consultations20230222.csv
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            $filename
+        );
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
+    }
+
     
+    //this function will replace the csv file to excel 
+    private function arrayToCsv(array $array, array $data): string
+
+    {
+    $spreadsheet = new Spreadsheet();
+    $worksheet = $spreadsheet->getActiveSheet();
+
+    // Add headers to the worksheet
+    $headers = array_shift($array);
+    foreach ($headers as $col => $header) {
+        $cell = chr(65+$col).'1';
+        $worksheet->setCellValue($cell, $header);
+    }  
+
+    // Add data
+    foreach ($data as $rowIndex => $row) {
+        foreach ($row as $col => $cell) {
+            $cell = $cell ?? ''; // Set empty cells to an empty string
+            $cellIndex = chr(65+$col).($rowIndex+2); // Increment row index by 2 to account for headers
+            $worksheet->setCellValue($cellIndex, $cell);
+        }
+    } 
+
+    // Save to a file
+    $writer = new Xlsx($spreadsheet);
+    $tempFile = tmpfile();
+    $filePath = stream_get_meta_data($tempFile)['uri'];
+    $writer->save($filePath);
+
+    // Read the file contents and return them
+    $csv = file_get_contents($filePath);
+    fclose($tempFile);
+    return $csv;
+}
+
+
+
+
 
 }
