@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 
 #[Route('/calendar')]
 class CalendarController extends AbstractController
@@ -97,7 +99,7 @@ class CalendarController extends AbstractController
         return $this->render('Front-Office/calendar/index.html.twig', compact('data'));
     }
     #[Route('/new/{planningId}', name: 'app_rendez_vous_calendar_new', methods: ['GET', 'POST'])]
-    public function new($planningId,Request $request,PlanningRepository $planningRep,UserRepository $patientRep ,RendezVousRepository $rendezVousRepository): Response
+    public function new($planningId,Request $request,PlanningRepository $planningRep,UserRepository $patientRep ,RendezVousRepository $rendezVousRepository,HubInterface $hub): Response
     {
         $rendezVou = new RendezVous();
         $planning= $planningRep->find($planningId);
@@ -111,6 +113,22 @@ class CalendarController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $rendezVousRepository->save($rendezVou, true);
+            $data=[
+
+                'date' => $rendezVou->getDate()->format('Y-m-d'),
+                'heure'=>$rendezVou->getHeureDebut()->format('H:i:s'),
+                'idPatient'=>$rendezVou->getPatient()->getId(),
+                'nomPatient'=>$rendezVou->getPatient()->getNom().$rendezVou->getPatient()->getPrenom(),
+                'idMedecin'=>$rendezVou->getPlanning()->getMedecin()->getId()
+
+            ]
+        ;
+        $update = new Update(
+            '/rdvAjouter',  //.$rendezVou->getPlanning()->getMedecin()->getId(),
+            json_encode($data)
+        );
+
+        $hub->publish($update);
 
            return $this->redirectToRoute('app_calendar', [], Response::HTTP_SEE_OTHER);
         }
