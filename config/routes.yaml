@@ -2,3 +2,9 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
+# app/routes.yaml
+
+app_produit_search:
+    path: /produit/search
+    methods: [GET]
+    controller: App\Controller\ProduitController::search

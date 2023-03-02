@@ -5,17 +5,15 @@ namespace App\Controller;
 use App\Controller\CartController;
 use App\Entity\Produit;
 use Doctrine\ORM\EntityManagerInterface;
+use Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Stripe;
+use Twilio\Rest\Client;
 
 class StripeController extends AbstractController
 {
-
-
-
     #[Route('/stripe', name: 'app_stripe')]
     public function index(Request $request, CartController $cartController): Response
     {
@@ -50,10 +48,28 @@ class StripeController extends AbstractController
             "source" => $request->request->get('stripeToken'),
             "description" => "Binaryboxtuts Payment Test"
         ]);
+
+       // Envoi du SMS avec Twilio
+        $twilioAccountSid = 'AC06a7ae78f874c7535e54f2ef9208fe14';
+        $twilioAuthToken = 'e7d80e35c5b76b6a4ee73412c6c9f0d4';
+        $twilioFromNumber = '+12764962925';
+        $twilioToNumber = '+21652999421';
+
+
+        $client = new Client($twilioAccountSid, $twilioAuthToken);
+        $message = $client->messages->create(
+            $twilioToNumber,
+            [
+                'from' => $twilioFromNumber,
+                'body' => 'Payment successful! Total amount: ' . $total
+            ]
+        );
+        
         $this->addFlash(
             'success',
             'Payment Successful! Total amount: ' . $total
         );
         return $this->redirectToRoute('app_stripe',['total' => $total], Response::HTTP_SEE_OTHER);
     }
+
 }
