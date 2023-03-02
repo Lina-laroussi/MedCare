@@ -25,21 +25,14 @@ class IntegrationController extends AbstractController
     #[Route('/connect', name: 'app_choose_profile')]
     public function profile(): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_user_home');
+        }
         return $this->render('Front-Office/choose_profile.html.twig', [
             'controller_name' => 'IntegrationController',
         ]);
     }
 
-    #[Route('/reset', name: 'app_send')]
-    public function sendEmail(Request $request)
-    {
-        $form = $this->createForm(ResetPasswordFormType::class);
 
-        $form->handleRequest($request);
-        return $this->render('Front-Office/security/password-reset.html.twig', [
-            'controller_name' => 'IntegrationController',
-            'form'=>$form->createView()
-        ]);
-    }
 
 }

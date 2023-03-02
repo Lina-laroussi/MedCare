@@ -108,7 +108,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'pharmacien', cascade: ['persist', 'remove'])]
     private ?Pharmacie $pharmacie = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $resetToken = null;
 
 

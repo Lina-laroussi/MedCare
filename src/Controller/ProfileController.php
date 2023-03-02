@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[
     Route('profile'),
-    IsGranted ('IS_AUTHENTICATED_FULLY'),
+    IsGranted ('IS_AUTHENTICATED_FULLY')
 ]
 class ProfileController extends AbstractController
 {

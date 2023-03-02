@@ -37,9 +37,9 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+        if ($this->getUser()) {
+             return $this->redirectToRoute('app_user_home');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -72,10 +72,14 @@ class SecurityController extends AbstractController
 
                 $url = $this->generateUrl('app_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
 
+                //$context = compact('url', 'user');
+                $context = ['url'=>$url , 'user' =>$user];
+
                 $mailer->sendEmail(
                     to: $user->getEmail(),
-                    content: $url,
+                    template: 'forgot-password',
                     subject: 'Réinitialisation de mot de passe',
+                    context: $context
                 );
                 return $this->redirectToRoute('app_login');
             }
@@ -89,7 +93,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/resetPass{token}', name: 'app_reset_password')]
-    public function resetPass($token , UserRepository $repo,Request $request,ManagerRegistry $rm): Response
+    public function resetPass($token , UserRepository $repo,Request $request,ManagerRegistry $rm,MailerService $mailer): Response
     {
         $user = $repo->findOneByResetToken($token);
 
@@ -103,6 +107,15 @@ class SecurityController extends AbstractController
                 $em=$rm->getManager();
                 $em->persist($user);
                 $em->flush();
+
+                $context = ['user' =>$user];
+
+                $mailer->sendEmail(
+                    to: $user->getEmail(),
+                    template: 'confirmation-password',
+                    subject: ' Confirmation du changement de mot de passe',
+                    context: $context
+                );
 
                 return $this->redirectToRoute('app_login');
             }

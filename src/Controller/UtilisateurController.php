@@ -21,7 +21,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[
     Route('admin'),
-    IsGranted ('ROLE_ADMIN')
+    IsGranted ('IS_AUTHENTICATED_FULLY')
 ]
 class UtilisateurController extends AbstractController
 {
@@ -63,7 +63,15 @@ class UtilisateurController extends AbstractController
         $result = $rg->getManager();
         $result->persist($user);
         $result->flush();
-        $mailer->sendEmail(to:$user->getEmail(),content:'votre compte a été bien vérifié par l\'admintrateur, vous pouvez accéder à votre compte',subject: 'Vérification réuissite');
+
+        $context = ['user' =>$user];
+
+        $mailer->sendEmail(
+            to: $user->getEmail(),
+            template: 'confirmation-validation',
+            subject: ' Validation Compte',
+            context: $context
+        );
 
         if (in_array('ROLE_MEDECIN', $user->getRoles(), true)) {
             return $this->redirectToRoute('list_medecins');
