@@ -210,6 +210,25 @@ class Consultation
         return $this->rendezVous;
     }
 
+    public function getDateRendezVous(): ?\DateTimeInterface
+    {
+    $date = $heureDebut = null;
+    $rendezVous = $this->getRendezVous();
+        if ($rendezVous !== null) {
+            $date = $rendezVous->getDate();
+            $heureDebut = $rendezVous->getHeureDebut();
+        } else {
+            // set default values if $rendezVous is null
+            $date = new \DateTime();
+            $heureDebut = new \DateTime();
+        }
+
+    $rendezVousDateTime = new \DateTime();
+    $rendezVousDateTime->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
+    $rendezVousDateTime->setTime($heureDebut->format('H'), $heureDebut->format('i'));
+
+    return $rendezVousDateTime;
+    }
     public function setRendezVous(?RendezVous $rendezVous): self
     {
         // unset the owning side of the relation if necessary

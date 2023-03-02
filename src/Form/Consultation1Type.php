@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -56,26 +57,32 @@ class Consultation1Type extends AbstractType
             ])
             ->add('observation', TextType::class, [
                 'attr' => ['class' => 'form-control form-group']
-            ])/*
-            ->add('rendezVous', EntityType::class,[
-                'class' => RendezVous::class,
-                'choice_label' => 'date',
-                'attr' => ['class' => 'form-control form-group']
             ])
-            
-            ->add('fiche_medicale', EntityType::class,[
-                'class' => FicheMedicale::class,
-                'choice_label' => 'description',
-                'attr' => ['class' => 'form-control form-group']
-                ])
-
             ->add('ordonnance', EntityType::class,[
                 'class' => Ordonnance::class,
                 'choice_label' => 'medicaments',
                 'attr' => ['class' => 'form-control form-group']
                 ])
+            ->add('rendezVous', EntityType::class,[
+                'class' => RendezVous::class,
+                'choice_label' => 'date',
+                'attr' => ['class' => 'form-control form-group']
+            ])            
+            ->add('fiche_medicale', EntityType::class,[
+                'class' => FicheMedicale::class,
+                'choice_label' => 'Description',
+                'attr' => ['class' => 'form-control form-group']
+                ])
+            /*    
+            ->add('date_consultation', DateType::class,[
+                'widget' => 'single_text',
+                'html5' => false,
+                'data' => new \DateTime(),
+                'format' => 'dd/MM/yyyy H:i:s',
+                'attr' => ['class' => 'form-control form-group']
+            ])           
                 */
-                ;
+            ;
                 
             
     }

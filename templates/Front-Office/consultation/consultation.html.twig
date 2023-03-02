@@ -8,6 +8,7 @@
             <div class="tab-content">
                 <div class="text-end">
                     <a href="{{ path('app_consultation_new') }}" class="add-new-btn"> Ajouter consultation </a>
+                    <a href="{{ path('consultation_export_csv') }}" class="add-new-btn bg-info-light"><i class="fas fa-download"></i> télecharger liste</a>
                 </div>
                 <div class="card card-table mb-0">
                     <div class="card-body">
@@ -18,8 +19,8 @@
                                         <th>Patient</th>    
                                         <th>Symptomes</th>
                                         <th>Traitement</th>
-                                        <th>Observation</th>
-                                        <th>date Rendez-vous</th>
+                                        <th>Medicament</th>
+                                        <th>date consultation</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -28,14 +29,17 @@
                                         <td>{{ consultation.id }}</td>              
                                         <td>{{ consultation.symptomes }}</td>
                                         <td>{{ consultation.traitement }}</td>
-                                        <td>{{ consultation.observation }}</td>
+                                        <td>{% if consultation.ordonnance %}
+                                            {{ consultation.ordonnance.medicaments }}   
+                                            {% endif %}
+                                        </td>
                                         <td>{% if consultation.rendezVous %}                                                                                        
                                                 {{ consultation.rendezVous.date }}
                                             {% endif %}</td>
                                         <td>
                                             <a href="{{ path('app_consultation_show', {'id': consultation.id}) }}" class="btn btn-sm bg-primary-light" > <i class="fas fa-eye"></i> Afficher</a>
                                             <a href="{{ path('app_consultation_edit', {'id': consultation.id}) }}" class="btn btn-sm bg-success-light" > <i class="fas fa-edit"></i> Modifier</a>
-                                            <a href="{{ path('app_consultation_delete', {'id': consultation.id}) }}" class="btn btn-sm bg-danger-light" > <i class="fas fa-edit"></i> Supprimer</a>
+                                            <a href="{{ path('app_consultation_delete', {'id': consultation.id}) }}" class="btn btn-sm bg-danger-light" > <i class="fas fa-trash-alt"></i> Supprimer</a>
                                                                                                                     
                                         </td>
                                     </tr>

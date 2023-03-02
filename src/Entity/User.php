@@ -43,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $num_tel = null;
+    private ?string $num_tel ='+21696082716';
 
     #[ORM\Column(length: 255)]
     private ?string $age = null;
