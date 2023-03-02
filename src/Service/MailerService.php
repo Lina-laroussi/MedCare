@@ -18,7 +18,7 @@ class MailerService
         $to ,
         $content,
         $subject,
-        $fichier
+        $tmpFile
     ): void
     {
         $email = (new Email())
@@ -31,7 +31,7 @@ class MailerService
             ->subject($subject)
             ->text('Sending emails is fun again!')
             ->html($content)
-            ->attach($fichier, 'document.pdf');
+            ->attach($tmpFile, 'ab.pdf', 'application/pdf');
 
             //->addPart(new DataPart(new File('/path/to/documents/terms-of-use.pdf')))
 

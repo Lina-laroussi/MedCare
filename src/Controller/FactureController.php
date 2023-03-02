@@ -78,7 +78,7 @@ class FactureController extends AbstractController
 
           //  $mailer->sendEmail(content:'voila votre facture');
             //$mailer->sendEmail(from:'pharmacoemedcare@gmail.com',to:'feryelouerfelli@gmail.com',content:'votre facture',subject: 'Facture Pharmacie');
-            $mailer->sendEmail(from:$facture->getPharmacie()->getEmail(),to:$facture->getOrdonnance()->getConsultation()->getRendezvous()->getPatient()->getEmail(),content:'votre facture',subject: 'Facture Pharmacie', fichier:'document.pdf');
+            $mailer->sendEmail(from:$facture->getPharmacie()->getEmail(),to:$facture->getOrdonnance()->getConsultation()->getRendezvous()->getPatient()->getEmail(),content:'votre facture',subject: 'Facture Pharmacie', tmpFile:'document.pdf');
 
             $factureRepository->save($facture, true);
             $data=[

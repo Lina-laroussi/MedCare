@@ -45,16 +45,15 @@ public function generatePdf(Facture $facture = null)
     $html = $this->render('facture/showpdf1.html.twig',['facture' => $facture]) ;
     $dompdf->loadHtml($html);
     $dompdf->render();
-    $fichier = 'Facture.pdf';
+    $fichier = 'aaa.pdf';
     $pdf = $dompdf->output();
      $dompdf->stream($fichier, [
         'Attachment' => true
     ]);
-    $fichier = $dompdf->output();
-    file_put_contents("file.pdf", $fichier);
-   // $tmpFile = tempnam(sys_get_temp_dir(), 'pdf');
-    //file_put_contents($tmpFile, $fichier);
-    //unlink($tmpFile);
+   // $fichier = $dompdf->output();
+    //file_put_contents("file.pdf", $fichier);
+    $tmpFile = tempnam(sys_get_temp_dir(), 'pdf');
+    file_put_contents($tmpFile, $fichier);
 
 
    // $output = $dompdf->output();

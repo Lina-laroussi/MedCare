@@ -35,7 +35,7 @@ class DompdfService
         $html = $this->render('facture/showpdf1.html.twig',['facture' => $facture]) ;
         $dompdf->loadHtml($html);
         $dompdf->render();
-        $fichier = 'Facture.pdf';
+        $fichier = 'bbb.pdf';
     
          $dompdf->stream($fichier, [
             'Attachment' => true
@@ -45,12 +45,12 @@ class DompdfService
         $fichier = $dompdf->output();
         file_put_contents("file.pdf", $fichier);
     
-       // $tmpFile = tempnam(sys_get_temp_dir(), 'pdf');
-        //file_put_contents($tmpFile, $fichier);
-        //unlink($tmpFile);
-       // $output = $dompdf->output();
-    //file_put_contents("file.pdf", $output);
-      //  return new Response();
+        $tmpFile = tempnam(sys_get_temp_dir(), 'pdf');
+        file_put_contents($tmpFile, $fichier);
+        unlink($tmpFile);
+        $output = $dompdf->output();
+       file_put_contents("file.pdf", $output);
+        return new Response();
     
     
     

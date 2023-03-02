@@ -3,7 +3,6 @@
 
 {% block body %}
 
- 
 
 <div class="breadcrumb-bar-six">
 <div class="container">
@@ -35,7 +34,7 @@
 </a>
 </div>
 <div class="doc-info-cont">
-<h4 class="doc-name"><a href="pharmacy-details.html">{{ pharmacie.nom }}</a></h4>
+<h4 class="doc-name"><a href="pharmacy-details.html">Medicare Pharmacy</a></h4>
 <div class="rating">
 <i class="fas fa-star filled"></i>
 <i class="fas fa-star filled"></i>
@@ -47,41 +46,21 @@
 <div class="clinic-details">
 <div class="clini-infos">
 <p class="doc-location">
-<i class="feather-map-pin"></i> {{pharmacie.adresse}}
+<i class="feather-map-pin"></i> 132, My Street, Kingston, New York 12401.
 </p>
 <p class="doc-location text-ellipse">
-<i class="feather-tag"></i> {{pharmacie.gouvernorat}}
+<i class="feather-tag"></i> Supplements, Sports nutritions
+</p>
 </div>
 </div>
-<div class="pharmacy-social-links">
-<ul class="nav">
-<li>
-<a href="#" target="_blank">
-<i class="fab fa-facebook"></i>
-</a>
-</li>
-<li>
-<a href="#" target="_blank">
-<i class="fab fa-twitter"></i>
-</a>
-</li>
-<li>
-<a href="#" target="_blank">
-<i class="fab fa-instagram"></i>
-</a>
-</li>
-<li>
-<a href="#" target="_blank">
-<i class="fab fa-linkedin"></i>
-</a>
-</li>
-</ul>
-</div>
+
 </div>
 </div>
 <div class="doc-info-right d-flex align-items-center justify-content-center">
 <div class="pharmacy-booking pharmacy-booking-right">
-
+<a class="btn view-details-btn" href="chat.html">
+<i class="feather-message-square"></i> Message
+</a>
 <a class="btn browse-products-btn" href="#" data-bs-toggle="modal" data-bs-target="#voice_call">
 <i class="feather-phone-call"></i> Call Now
 </a>
@@ -99,7 +78,9 @@
 <li class="nav-item">
 <a class="nav-link description-link active" href="#about_store" data-bs-toggle="tab">About Store</a>
 </li>
-
+<li class="nav-item">
+<a class="nav-link" href="#pharmacy_locations" data-bs-toggle="tab">Locations</a>
+</li>
  <li class="nav-item">
 <a class="nav-link reviews-link" href="#pharmacy_reviews" data-bs-toggle="tab">Reviews (125)</a>
 </li>
@@ -114,14 +95,126 @@
 <div class="col-md-12">
 
 <div class="widget about-widget">
-<h4 class="widget-title">{{pharmacie.nom}}</h4>
-<p>Cette Pharmcie ouvre de {{pharmacie.horaire}} , elle se situ {{pharmacie.adresse}} , {{pharmacie.gouvernorat}} 
-Elle actuellement {{pharmacie.etat}}.
-Veuillez nous contacter sur notre mail {{pharmacie.email}} ou notre Numéro de télephone {{pharmacie.numTel}}</p>
+<h4 class="widget-title">Medicare Pharmacy</h4>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliquat enim ad minim veniam, quriesstrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in volueryptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proi dent, sunt in culpa qui offici area follow deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptate.</p>
 </div>
 
 
 
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+
+
+<div role="tabpanel" id="pharmacy_locations" class="tab-pane fade">
+
+<div class="card pharmacy-card">
+<div class="card-body">
+<div class="doctor-widget pharmacy-widget">
+<div class="doc-info-left">
+<div class="doctor-img1">
+<a href="pharmacy-details.html">
+<img src="assets/img/pharmacy/pharmacy-02.jpg" class="img-fluid" alt="">
+</a>
+<div class="pharmacy-pro-tags">
+<span class="pharmacy-closed">Closed</span>
+</div>
+</div>
+<div class="doc-info-cont">
+<h4 class="doc-name"><a href="pharmacy-details.html">Furia Pharmacy</a></h4>
+<div class="rating">
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star"></i>
+<span class="d-inline-block average-rating">(150)</span>
+</div>
+<div class="clinic-details">
+<div class="clini-infos">
+<p class="doc-location">
+<i class="feather-map-pin"></i> 132, My Street, Kingston, Los Angeles 12401.
+</p>
+<p class="doc-location text-ellipse">
+<i class="feather-tag"></i> Hospital Equipment
+</p>
+<p class="doc-location">
+<i class="feather-clock"></i> 24Hrs (Mon - Sun)
+</p>
+</div>
+</div>
+<div class="pharmacy-booking">
+<a class="btn view-details-btn" href="javascript:void(0);">Get Direction</a>
+<a class="btn view-details-btn business-btn" href="javascript:void(0);">Business Hours</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="card pharmacy-card">
+<div class="card-body">
+<div class="doctor-widget pharmacy-widget">
+<div class="doc-info-left">
+<div class="doctor-img1">
+<a href="pharmacy-details.html">
+<img src="assets/img/pharmacy/pharmacy-03.jpg" class="img-fluid" alt="">
+</a>
+<div class="pharmacy-pro-tags">
+<span class="pharmacy-opened">Opened</span>
+</div>
+</div>
+<div class="doc-info-cont">
+<h4 class="doc-name"><a href="pharmacy-details.html">Medicare Pharmacy</a></h4>
+<div class="rating">
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<span class="d-inline-block average-rating">(78)</span>
+</div>
+<div class="clinic-details">
+<div class="clini-infos">
+<p class="doc-location">
+<i class="feather-map-pin"></i> 132, Satrkey Street, Pretoria, Los Angeles 12401.
+</p>
+<p class="doc-location text-ellipse">
+<i class="feather-tag"></i> Supplements, Sports nutritions
+</p>
+<p class="doc-location">
+<i class="feather-clock"></i> 10 AM - 10 PM (Mon - Sat)
+</p>
+</div>
+</div>
+<div class="pharmacy-booking">
+<a class="btn view-details-btn" href="javascript:void(0);">Get Direction</a>
+<a class="btn browse-products-btn" href="javascript:void(0);">Business Hours</a>
+</div>
+</div>
+</div>
+<div class="pharmacy-business-hours">
+<h4>Business Hours</h4>
+<p>
+<i class="feather-clock"></i> Mon - Sat (07:00 AM - 09:00 PM)
+</p>
+<p class="mb-0">
+<i class="feather-clock"></i> <span>Sunday Holiday</span>
+</p>
+</div>
+</div>
+</div>
+</div>
 
 </div>
 
@@ -508,20 +601,6 @@ Show More Feedback (25)
 
 </div>
 </div>
-
-
-
-
-</div>
-
-
-</div>
-
-</div>
-</div>
-</div>
-</div>
-
 
 
 {% endblock %}

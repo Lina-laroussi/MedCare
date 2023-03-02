@@ -5,14 +5,6 @@
 
 
 
-
-
-   
-
-
-
-
-
 <div class="breadcrumb-bar-six">
 <div class="container">
 <div class="row align-items-center">
@@ -21,10 +13,9 @@
 <nav aria-label="breadcrumb" class="page-breadcrumb">
 <ol class="breadcrumb">
 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-<li class="breadcrumb-item active" aria-current="page">Liste des pharmacies</li>
+<li class="breadcrumb-item active" aria-current="page">Pharmacy Search</li>
 </ol>
 </nav>
-</div>
 </div>
 </div>
 </div>
@@ -203,7 +194,6 @@
 </div>
 
 
-{% for pharmacie in pharmacies %}
 <div class="card pharmacy-card">
 <div class="card-body">
 <div class="doctor-widget pharmacy-widget">
@@ -216,7 +206,7 @@
 </div>
 </div>
 <div class="doc-info-cont">
-<h4 class="doc-name"><a href="pharmacy-details.html">{{ pharmacie.nom }}</a></h4>
+<h4 class="doc-name"><a href="pharmacy-details.html">Medicone Pharmacy</a></h4>
 <div class="rating">
 <i class="fas fa-star filled"></i>
 <i class="fas fa-star filled"></i>
@@ -228,19 +218,17 @@
 <div class="clinic-details">
 <div class="clini-infos">
 <p class="doc-location">
-<i class="feather-map-pin"></i> {{ pharmacie.adresse }}
+<i class="feather-map-pin"></i> 1430 Pretoria, Los Angeles 12401.
 </p>
 <p class="doc-location text-ellipse">
-<i class="feather-tag"></i>                 <td>{{ pharmacie.numTel }}</td>
-
+<i class="feather-tag"></i> Hospital Equipment
 </p>
 <p class="doc-location">
-<i class="feather-clock"></i>                 <td>{{ pharmacie.horaire }}</td>
-
+<i class="feather-clock"></i> 9 AM - 8 PM (Mon - Sat)
 </p>
 
 <div class="pharmacy-pro-tags">
-<span class="pharmacy-closed">{{ pharmacie.etat }}</span>
+<span class="pharmacy-closed">Closed</span>
 </div>
 
 
@@ -248,27 +236,155 @@
 </div>
 </div>
 <div class="pharmacy-booking">
-  <a href="{{ path('app_integration4', {'id': pharmacie.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Voir Détails') }}</a>
-
+<a class="btn view-details-btn" href="{{path('app_integration4')}}">View Details</a>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-       
-                              
-             
-           
-        {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
 
+<div class="card pharmacy-card">
+<div class="card-body">
+<div class="doctor-widget pharmacy-widget">
+<div class="doc-info-left">
+<div class="doctor-img1">
+<a href="pharmacy-details.html">
+<img src="assets/img/pharmacy/pharmacy-02.jpg" class="img-fluid" alt="">
+</a>
+<div class="pharmacy-pro-tags">
+</div>
+</div>
+<div class="doc-info-cont">
+<h4 class="doc-name"><a href="{{path('app_integration4')}}">Furia Pharmacy</a></h4>
+<div class="rating">
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star"></i>
+<span class="d-inline-block average-rating">(150)</span>
+</div>
+<div class="clinic-details">
+<div class="clini-infos">
+<p class="doc-location">
+<i class="feather-map-pin"></i> 132, My Street, Kingston, Los Angeles 12401.
+</p>
+<p class="doc-location text-ellipse">
+<i class="feather-tag"></i> Hospital Equipment
+</p>
+<p class="doc-location">
+<i class="feather-clock"></i> 24Hrs (Mon - Sun)
+</p>
+<div class="pharmacy-pro-tags">
+<span class="pharmacy-opened">Opened</span>
+</div>
+</div>
+</div>
+<div class="pharmacy-booking">
+<a class="btn view-details-btn" href="{{path('app_integration4')}}">View Details</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="card pharmacy-card">
+<div class="card-body">
+<div class="doctor-widget pharmacy-widget">
+<div class="doc-info-left">
+<div class="doctor-img1">
+<a href="pharmacy-details.html">
+<img src="assets/img/pharmacy/pharmacy-03.jpg" class="img-fluid" alt="">
+</a>
+<div class="pharmacy-pro-tags">
+</div>
+</div>
+<div class="doc-info-cont">
+<h4 class="doc-name"><a href="{{path('app_integration4')}}">Medicare Pharmacy</a></h4>
+<div class="rating">
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<span class="d-inline-block average-rating">(78)</span>
+ </div>
+<div class="clinic-details">
+<div class="clini-infos">
+<p class="doc-location">
+<i class="feather-map-pin"></i> 132, Satrkey Street, Pretoria, Los Angeles 12401.
+</p>
+<p class="doc-location text-ellipse">
+<i class="feather-tag"></i> Supplements, Sports nutritions
+</p>
+<p class="doc-location">
+<i class="feather-clock"></i> 10 AM - 10 PM (Mon - Sat)
+</p>
+<div class="pharmacy-pro-tags">
+<span class="pharmacy-closed">Closed</span>
+</div>
+</div>
+</div>
+<div class="pharmacy-booking">
+<a class="btn view-details-btn" href="{{path('app_integration4')}}">View Details</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="card pharmacy-card">
+<div class="card-body">
+<div class="doctor-widget pharmacy-widget">
+<div class="doc-info-left">
+<div class="doctor-img1">
+<a href="pharmacy-details.html">
+<img src="assets/img/pharmacy/pharmacy-04.jpg" class="img-fluid" alt="">
+</a>
+<div class="pharmacy-pro-tags">
+</div>
+</div>
+<div class="doc-info-cont">
+<h4 class="doc-name"><a href="{{path('app_integration4')}}">Mallon Pharma</a></h4>
+
+<div class="rating">
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star"></i>
+<span class="d-inline-block average-rating">(358)</span>
+</div>
+<div class="clinic-details">
+<div class="clini-infos">
+<p class="doc-location">
+<i class="feather-map-pin"></i> 132, Laghouat, Algeria, Los Angeles 12401.
+</p>
+<p class="doc-location text-ellipse">
+<i class="feather-tag"></i> Hospital Equipment
+</p>
+<p class="doc-location">
+<i class="feather-clock"></i> 24Hrs (Mon - Sun)d
+</p>
+<div class="pharmacy-pro-tags">
+<span class="pharmacy-opened">Opened</span>
+</div>
+</div>
+</div>
+<div class="pharmacy-booking">
+<a class="btn view-details-btn" href="{{path('app_integration4')}}">View Details</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="col-md-12 text-center">
 <div class="product-pagination pharmacy-search-pagination">
 <nav>
