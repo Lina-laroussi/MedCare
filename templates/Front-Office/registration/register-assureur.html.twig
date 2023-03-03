@@ -59,8 +59,8 @@
                                 </div>
                                 <div class="form-group">
                                     {{ form_errors(form.password.second,{attr:{'class':'text-danger'}})  }}
-
                                 </div>
+                                <input type="hidden" id="form_captcha" name="form[captcha]" />
                                 <div class="text-end">
                                     <a class="forgot-link" href="{{ path('app_login')}}">Vous avez déjà un compte?</a>
                                 </div>
@@ -75,4 +75,31 @@
         </div>
     </div>
     </body>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdeQs4kAAAAAFYyjg2TIXxufYFxIGaUjRMEk_U8&onload=recaptchaCallback_form_captcha" async defer></script>
+
+    <script>
+        var recaptchaCallback_form_captcha = function() {
+            grecaptcha.execute('6LdeQs4kAAAAAFYyjg2TIXxufYFxIGaUjRMEk_U8', {action: 'registration_form_submission'}).then(function(token) {
+                document.getElementById('form_captcha').value = token;
+            });
+        };
+    </script>
+
+    </script><script src="FrontOffice/js/jquery-3.6.0.min.js"></script>
+
+    <script src="{{ asset('FrontOffice/js/bootstrap.bundle.min.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/plugins/swiper/js/swiper.min.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/js/slick.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/js/aos.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/js/script.js') }}"></script>
+
+
 {% endblock %}
