@@ -1,0 +1,22 @@
+{% extends 'base-front.html.twig' %}
+
+{% block javascripts%}
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script src="{{ asset ('js/rechercheajax.js')}}"></script>
+{% endblock %}
+{% block body %}
+
+<center>
+<center>        <input type="text" id="input_text" class="form-control" placeholder="Search for a pharmacy...">
+</center>
+   <br>
+
+<center>   <div id="display">
+    </div></center>
+
+
+</center>
+
+{% endblock %}

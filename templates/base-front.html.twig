@@ -164,6 +164,9 @@
         </nav>
     </header>
 {% endblock %}
+{% block javascripts%}
+{% endblock %}
+
 
 {% block body %}
 
@@ -291,32 +294,4 @@
 </div>
 
 {% endblock %}
-{% block javascripts%}
-    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="FrontOffice/js/jquery-3.6.0.min.js"></script>
 
-    <script src="{{ asset('FrontOffice/js/bootstrap.bundle.min.js') }}"></script>
-
-    <script src="{{ asset('FrontOffice/plugins/swiper/js/swiper.min.js') }}"></script>
-
-    <script src="{{ asset('FrontOffice/js/slick.js') }}"></script>
-
-    <script src="{{ asset('FrontOffice/js/aos.js') }}"></script>
-
-    <script src="{{ asset('FrontOffice/js/script.js') }}"></script>
-{% endblock %}
-</body>
-<!-- Mirrored from doccure.dreamguystech.com/laravel/template/public/index by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 07 Feb 2023 19:57:01 GMT -->
-</html>
-<script>
-    $(document).ready(function(){
-        // alert(1);
-        /*$('.submenu li a').click(function(){
-          $(.submenu li a).removeClass("active");
-          $(this).addClass("active");
-          $('.has-submenu a').removeClass("active");
-          $('.has-submenu a').addClass("active");
-
-          //$(this).toggleClass("active");
-        });*/
-    });
-</script>

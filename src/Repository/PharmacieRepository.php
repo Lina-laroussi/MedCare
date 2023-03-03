@@ -39,6 +39,78 @@ class PharmacieRepository extends ServiceEntityRepository
         }
     }
 
+    public function findEntitiesByString($str){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT p
+                FROM AppBundle:Post p
+                WHERE p.title LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
+    }
+
+    
+   /*public function findBeginWith($value, $userId)
+    {
+        if($userId == null) {
+            return $this->createQueryBuilder('a')
+                ->andWhere('a.title LIKE :val or a.description LIKE :val')
+                ->setParameter('val', '%'.$value.'%')
+                ->orderBy('a.id', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult()
+            ;
+        }
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.user = :id')
+            ->setParameter('id', $userId)
+            ->andWhere('a.title LIKE :val or a.description LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*public function findNom($searchquery)
+{
+            return $this->createQueryBuilder('p')
+                ->andWhere('p.nom LIKE :searchTerm')
+                ->setParameter('searchTerm', '%'.$searchquery.'%')
+                ->orderBy('p.id', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult()
+          ;
+        }
+
+/*
+
+
+
 //    /**
 //     * @return Pharmacie[] Returns an array of Pharmacie objects
 //     */

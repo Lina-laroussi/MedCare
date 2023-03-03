@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Attachment;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/pharmacie')]
 class PharmacieController extends AbstractController
@@ -80,4 +81,26 @@ class PharmacieController extends AbstractController
     }
 
 
+    /*#[Route('/ph', name: 'search_pharmacies', methods: ['POST'])]
+    public function search_pharmacies(Request $request, Pharmacie $pharmacie, PharmacieRepository $pharmacieRepository)
+    {
+        $searchQuery = $request->get('search_query');
+        $pharmacies = $this->getDoctrine()
+            ->getRepository(Pharmacie::class)
+            ->findNom($searchQuery); // replace findBySearchQuery with your custom repository method
+        
+        // create an array of data to return as JSON
+        $data = [];
+        foreach ($pharmacies as $pharmacie) {
+            $data[] = [
+                'id' => $pharmacie->getId(),
+                'name' => $pharmacie->getNom(),
+                'address' => $pharmacie->getAdresse(),
+                // add other fields you want to return
+            ];
+        }
+        
+        return new JsonResponse($data);
+    }
+*/
 }
