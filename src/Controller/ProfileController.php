@@ -38,6 +38,16 @@ class ProfileController extends AbstractController
         ]);
     }
 
+    #[Route('/blocked', name: 'app_blocked')]
+    public function blocked(): Response
+    {
+        $user=$this->getUser();
+        return $this->render('Front-Office/profile/blocked-user.html.twig', [
+            'controller_name' => 'ProfileController',
+            'user'=>$user
+        ]);
+    }
+
 
     #[Route('/homeUser', name: 'app_user_home')]
     public function home(UserRepository $repo): Response
@@ -47,6 +57,9 @@ class ProfileController extends AbstractController
         $currentUser = $repo->findOneByEmail($email);
         if($currentUser->getEtat() == "non valide"){
             return $this->redirectToRoute('app_denied');
+        }
+        if($currentUser->isIsBlocked()){
+            return $this->redirectToRoute('app_blocked');
         }
         return $this->render('Front-Office/profile/home-user.html.twig', [
             'controller_name' => 'ProfileController',

@@ -111,6 +111,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255,nullable: true)]
     private ?string $resetToken = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isBlocked = null;
+
 
     public function __construct()
     {
@@ -508,6 +511,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setResetToken(string $resetToken): self
     {
         $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    public function isIsBlocked(): ?bool
+    {
+        return $this->isBlocked;
+    }
+
+    public function setIsBlocked(?bool $isBlocked): self
+    {
+        $this->isBlocked = $isBlocked;
 
         return $this;
     }

@@ -10,12 +10,6 @@
 
     <link rel="stylesheet" href="{{ asset('BackAdmin/css/feather.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/daterangepicker/daterangepicker.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/select2/css/select2.min.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('BackAdmin/plugins/datatables/datatables.min.css') }}">
-
     <link rel="stylesheet" href="{{ asset('BackAdmin/css/style.css') }}">
 
 {% endblock %}
@@ -26,105 +20,104 @@
 
     <div class="page-wrapper">
         <div class="content container-fluid">
-
-            <div class="page-header">
-                <div class="row align-items-center">
-                    <div class="col-md-12 d-flex justify-content-end">
-                        <div class="doc-badge me-3">Total Médecins <span class="ms-1">22</span></div>
-                        <a href="#" class="btn btn-primary btn-add" data-bs-toggle="modal" data-bs-target="#addModal"><i class="feather-plus-square me-1"></i> Ajouter</a>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-header border-bottom-0">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h5 class="card-title">Médecins</h5>
-                                </div>
-                                <div class="col-auto custom-list d-flex">
-                                    <div class="form-custom me-2">
-                                        <div id="tableSearch" class="dataTables_wrapper"></div>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Médecins</h4>
+                        <div class="d-flex justify-content-end">
+                            {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                            {{ form_end(form) }}
                         </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table class="datatable table table-borderless hover-table" id="data-table">
-                                    <thead class="thead-light">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Photo</th>
-                                        <th>Nom</th>
-                                        <th>Prénom</th>
-                                        <th>Email</th>
-                                        <th>Spécialité</th>
-                                        <th>Date de Naissance</th>
-                                        <th>Sexe</th>
-                                        <th>Téléphone</th>
-                                        <th>Adresse</th>
-                                        <th>Etat</th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for user in users %}
-                                        {% for role in user.roles %}
-                                            {% if  role == "ROLE_MEDECIN"  %}
-                                                <tr>
-                                                    <td>{{ user.id }}</td>
-                                                    <td>
-                                                        <h2 class="table-avatar">
-                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#editModal"><img class="avatar avatar-img" src="{{ asset('uploads/utilisateurs/' ~ user.image|default('uploads/utilisateurs/user.png') ) }}" alt="User Image"></a>
-                                                        </h2>
-                                                    </td>
-                                                    <td>
-                                                        <h2 class="table-avatar">
-                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#editModal"><span>{{ user.nom |capitalize }}</span></a>
-                                                        </h2>
-                                                    </td>
-                                                    <td>
-                                                        <h2 class="table-avatar">
-                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#editModal"><span>{{ user.prenom |capitalize }}</span></a>
-                                                        </h2>
-                                                    </td>
-                                                    <td>{{ user.email }}</td>
-                                                    <td>{{ user.specialite }}</td>
-                                                    <td><span class="d-block">{{ user.dateDeNaissance |date("m/d/Y") }}</span></td>
-                                                    <td>{{ user.sexe }}</td>
-                                                    <td>{{ user.numTel }}</td>
-                                                    <td>{{ user.adresse }}</td>
-                                                    {% if user.etat == "non valide" %}
-                                                        <td><span class="badge bg-badge-grey text-danger"><i class="fas fa-circle me-1"></i> désactivé </span></td>
-                                                    {% else %}
-                                                        <td><span class="badge bg-badge-grey text-success"><i class="fas fa-circle me-1"></i> activé </span></td>
-                                                    {% endif %}
-                                                    {% if user.etat == "non valide" %}
-                                                        <td><a class="text-success" href="{{path('validate_utilisateur',{'id':user.id})}}"><i class="feather-check"></i>Valider</a></td>
-                                                    {% else %}
-                                                        <td><a class="text-bg-primary" href="{{path('update_medecin',{'id':user.id})}}"><i class="feather-edit-2"></i>Modifier</a></td>
-                                                    {% endif %}
-                                                    <td><a class="text-danger" onclick="return confirm('vous etes sure de vouloir supprimer ?');" href="{{path('remove_utilisateur',{'id':user.id})}}"><i class="feather-trash-2"></i>supprimer</a></td>
-                                                </tr>
-                                            {% endif %}
-                                        {% endfor %}
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-nowrap mb-0">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Photo</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Email</th>
+                                    <th>Spécialité</th>
+                                    <th>Date de Naissance</th>
+                                    <th>Sexe</th>
+                                    <th>Téléphone</th>
+                                    <th>Adresse</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for user in users %}
+                                    {% for role in user.roles %}
+                                        {% if  role == "ROLE_MEDECIN"  %}
+                                            <tr>
+                                                <td>{{ user.id }}</td>
+                                                {% if user.image %}
+                                                    <td><img class="avatar avatar-img" src="{{ asset('uploads/utilisateurs/' ~ user.image ) }}" alt="Image"></td>
+                                                {% else %}
+                                                    <td><img class="avatar avatar-img" src="{{ asset('uploads/utilisateurs/user1.png' ) }}" alt="Image"></td>
+                                                {% endif %}
+
+                                                <td><span>{{ user.nom |capitalize }}</span></td>
+                                                <td><span>{{ user.prenom |capitalize }}</span></td>
+                                                <td>{{ user.email }}</td>
+                                                <td>{{ user.specialite }}</td>
+                                                <td><span class="d-block">{{ user.dateDeNaissance |date("m/d/Y") }}</span></td>
+                                                <td>{{ user.sexe }}</td>
+                                                <td>{{ user.numTel }}</td>
+                                                <td>{{ user.adresse }}</td>
+                                                {% if user.etat == "non valide" %}
+                                                    <td><span class="badge bg-badge-grey text-danger"><i class="fas fa-circle me-1"></i> Non valide </span></td>
+                                                {% else %}
+                                                    <td><span class="badge bg-badge-grey text-success"><i class="fas fa-circle me-1"></i> Valide </span></td>
+                                                {% endif %}
+
+                                                {% if user.isBlocked == true %}
+                                                    <td><span class="badge bg-badge-grey text-danger"><i class="fas fa-circle me-1"></i> Bloqué </span></td>
+                                                {% else %}
+                                                    <td><span class="badge bg-badge-grey text-success"><i class="fas fa-circle me-1"></i> débloqué </span></td>
+                                                {% endif %}
+
+                                                {% if user.etat == "non valide" %}
+                                                    <td><a class="text-success" href="{{path('validate_utilisateur',{'id':user.id})}}"><i class="feather-check"></i>Valider</a></td>
+                                                {% else %}
+                                                    <td><a class="text-bg-primary" href="{{path('update_medecin',{'id':user.id})}}"><i class="feather-edit-2"></i>Modifier</a></td>
+                                                {% endif %}
+                                                <td><a class="text-danger" onclick="return confirm('vous etes sure de vouloir supprimer ?');" href="{{path('remove_utilisateur',{'id':user.id})}}"><i class="feather-trash-2"></i>supprimer</a></td>
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
+                                {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div id="tablepagination" class="dataTables_wrapper"></div>
                 </div>
             </div>
-
+            <div class="d-flex justify-content-center">
+                <nav aria-label="..." >
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
+
 
 {% endblock %}
 
@@ -137,15 +130,6 @@
 
     <script src="{{ asset('BackAdmin/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
 
-    <script src="{{ asset('BackAdmin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('BackAdmin/plugins/datatables/datatables.min.js') }}"></script>
-
-    <script src="{{ asset('BackAdmin/js/moment.min.js') }}"></script>
-    <script src="{{ asset('BackAdmin/plugins/daterangepicker/daterangepicker.js') }}"></script>
-
-    <script src="{{ asset('BackAdmin/plugins/select2/js/select2.min.js') }}"></script>
-
     <script src="{{ asset('BackAdmin/js/script.js') }}"></script>
-
 
 {% endblock %}

@@ -48,6 +48,13 @@
                 {{ form_start(form, {attr: {'novalidate': 'novalidate'}}) }}
                 <div class="row form-row">
                     <div class="col-12 col-md-12">
+                        <div class="d-flex justify-content-end">
+                            {% if user.isBlocked == false %}
+                                <a class="btn btn-danger submit-btn" href="{{ path('bloquer_utilisateur',{'id':user.id}) }}">Bloquer</a>
+                            {% else %}
+                                <a  class="btn btn-success submit-btn" href="{{ path('debloquer_utilisateur',{'id':user.id}) }}">Débloquer</a>
+                            {% endif %}
+                        </div>
                         <div class="form-group">
                             <div class="change-avatar">
                                 <div class="profile-img">
@@ -142,7 +149,7 @@
                     </div>
                 </div>
                 <div class="submit-section">
-                    <button type="submit" class="btn btn-primary submit-btn" >Confirmer</button>
+                    <button type="submit" class="btn btn-primary submit-btn" >Modifier</button>
                 </div>
                 {{ form_end(form) }}
 

@@ -84,6 +84,46 @@ class UtilisateurController extends AbstractController
         }
     }
 
+    #[Route('/bloquer/{id}', name: 'bloquer_utilisateur')]
+    public function bloquer_utilisateur($id,ManagerRegistry $rg, Request $req,UserRepository $repo,MailerService $mailer):Response
+    {
+        $user = $repo->find($id);
+        $user->setIsBlocked(true);
+        $result = $rg->getManager();
+        $result->persist($user);
+        $result->flush();
+
+        if (in_array('ROLE_MEDECIN', $user->getRoles(), true)) {
+            return $this->redirectToRoute('list_medecins');
+        } elseif (in_array('ROLE_ASSUREUR', $user->getRoles(), true)){
+            return $this->redirectToRoute('list_assureurs');
+        }elseif (in_array('ROLE_PHARMACIEN', $user->getRoles(), true)){
+            return $this->redirectToRoute('list_pharmaciens');
+        }else {
+            return $this->redirectToRoute('list_patients');
+        }
+    }
+
+
+    #[Route('/debloquer/{id}', name: 'debloquer_utilisateur')]
+    public function debloquer_utilisateur($id,ManagerRegistry $rg, Request $req,UserRepository $repo,MailerService $mailer):Response
+    {
+        $user = $repo->find($id);
+        $user->setIsBlocked(false);
+        $result = $rg->getManager();
+        $result->persist($user);
+        $result->flush();
+
+        if (in_array('ROLE_MEDECIN', $user->getRoles(), true)) {
+            return $this->redirectToRoute('list_medecins');
+        } elseif (in_array('ROLE_ASSUREUR', $user->getRoles(), true)){
+            return $this->redirectToRoute('list_assureurs');
+        }elseif (in_array('ROLE_PHARMACIEN', $user->getRoles(), true)){
+            return $this->redirectToRoute('list_pharmaciens');
+        }else {
+            return $this->redirectToRoute('list_patients');
+        }
+    }
 
     #[Route('/updateUser/{id}', name: 'update_utilisateur')]
     public function update_utilisateur($id, ManagerRegistry $rg, Request $req, UserRepository $repo, SluggerInterface $slugger): Response
@@ -189,7 +229,7 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/listMedecins', name: 'list_medecins')]
-    public function list_medecin(UserRepository $repo,Request $req)
+    public function list_medecin(UserRepository $repo,Request $req, ManagerRegistry $rm)
     {
         $users = $repo->findAll();
         //$count=$repo->findUsersByRole('ROLE_MEDECIN');
@@ -218,6 +258,7 @@ class UtilisateurController extends AbstractController
         return $this->render('Back-Office/list-assureurs.html.twig', [
             'users' => $users,
             'form'=>$form->createView(),
+            'isPaginated'=>true
         ]);
     }
 
