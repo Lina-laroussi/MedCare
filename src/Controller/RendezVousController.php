@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Planning;
 use App\Entity\RendezVous;
+use App\Form\RendezVousRechercheType;
 use App\Form\RendezVousType;
 use App\Repository\RendezVousRepository;
 use App\Repository\UserRepository;
@@ -19,15 +20,27 @@ use Symfony\Component\Mercure\Update;
 #[Route('/rendezVous')]
 class RendezVousController extends AbstractController
 {
-    #[Route('/', name: 'app_rendez_vous_index', methods: ['GET'])]
-    public function index(RendezVousRepository $rendezVousRepository): Response
+    #[Route('/', name: 'app_rendez_vous_index', methods: ['GET','POST'])]
+    public function index(RendezVousRepository $rendezVousRepository,Request $req): Response
     {
         $date = new DateTime('today');
         $todaysDate = $date->format('Y-m-d');
+        $form = $this->createForm(RendezVousRechercheType::class);
+        $form->HandleRequest($req);
+        
+        if ($form -> isSUbmitted()) {
+            $data=  $form->getData();
+            $rech = $rendezVousRepository->rechercherRDV($data);
+             return $this->render('Front-Office/rendez_vous/index2.html.twig', [
+                 'rendez_vouses' => $rech,
+                 'form'=>$form->createView()
+             ]);
+         }
         return $this->render('Front-Office/rendez_vous/index.html.twig', [
             'rendez_vouses' => $rendezVousRepository->findUpcomingRendezVouses($todaysDate),
             'today_rendez_vouses' => $rendezVousRepository->findRendezVousesBydate($todaysDate),
             'date'=> $todaysDate,
+            'form'=>$form->createView()
 
         ]);
     }
@@ -151,5 +164,23 @@ class RendezVousController extends AbstractController
 
         return $this->redirectToRoute('app_rendez_vous_index', [], Response::HTTP_SEE_OTHER);
     }
-
+    #[Route('/recherche', name: 'app_rendez_vous_recherche', methods: ['GET' ,'POST'])]
+    public function chercherRDV(RendezVousRepository $rendezVousRepository,Request $req): Response
+    {
+        $form = $this->createForm(RendezVousRechercheType::class);
+        $form->HandleRequest($req);
+        
+        if ($form -> isSUbmitted()) {
+            $data=  $form->getData();
+            $rech = $rendezVousRepository->rechercherRDV($data);
+             return $this->render('Front-Office/rendez_vous/index.html.twig', [
+                 'rendez_vouses' => $rech,
+             ]);
+         }
+         $result = $rendezVousRepository->findAll();
+         return $this->render('Front-Office/rendez_vous/index.html.twig', [
+            'rendez_vouses' => $result,
+            'f'=>$form->createView()
+        ]);
+    }
 }

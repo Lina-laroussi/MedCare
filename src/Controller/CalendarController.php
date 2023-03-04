@@ -28,15 +28,23 @@ class CalendarController extends AbstractController
         $getRendezVous = $rendezVousRepository->findUpcomingRendezVouses(new DateTime('today'));
         $rendeVouses = [];
         foreach($getRendezVous as $rendezVous){
+            $datetimeStart = new DateTime($rendezVous->getDate()->format('Y-m-d ').$rendezVous->getHeureDebut()->format('H:i:s'));
+            $datetimeEnd = new DateTime($rendezVous->getDate()->format('Y-m-d ').$rendezVous->getHeureFin()->format('H:i:s'));
+
             $rendeVouses[] = [
                 'id'=> $rendezVous->getId(),
-                'start'=> $rendezVous->getDate()->format('Y-m-d ').$rendezVous->getHeureDebut()->format('H:i:s'),
-                'end'=> $rendezVous->getDate()->format('Y-m-d ').$rendezVous->getHeureFin()->format('H:i:s'),
+                'date'=>$rendezVous->getDate()->format('Y-m-d'),
+                'heureDebut'=>$rendezVous->getHeureDebut()->format('H:i:s'),
+                'heureFin'=>$rendezVous->getHeureFin()->format('H:i:s'),
+                'start'=> $datetimeStart->format(DateTime::ATOM),
+                'end'=> $datetimeEnd->format(DateTime::ATOM),
                 'title'=> $rendezVous->getPatient()->getNom()." ".$rendezVous->getPatient()->getPrenom(),
                 'type'=>'rendezVous',
-                'height' => '50',
+                'overlap'=>true,
+                'planningId'=> $rendezVous->getPlanning()->getId(),
                // 'allDay' => true,
                 'symptomes'=> $rendezVous->getSymptomes(),
+                'constraint'=>'availableForRDV'
             ];
         }
         $getPlannings = $planningRepository->findAll();
@@ -46,57 +54,34 @@ class CalendarController extends AbstractController
             $startTime = $planning->getHeureDebut()->format('H:i:s');
             $endTime = $planning->getHeureFin()->format('H:i:s');
 
-            for ($date = clone $startDate; $date <= $endDate; $date->modify('+1 day')) {
+
             $rendeVouses[] = [
                 'id'=> $planning->getId(),
-                'planningStart'=>$startDate->modify('-1 day')->format('Y-m-d H:i:s'),
-                'planningEnd'=>$endDate->format('Y-m-d H:i:s'),
-                'start' => $date->format('Y-m-d ').$startTime,
-                'end' => $date->format('Y-m-d ').$endTime,
                 'startTime'=>$startTime,
-                'endeTime'=>$endTime,
+                'endTime'=>$endTime,
+                'startRecur'=>$startDate->format('Y-m-d'),
+                'endRecur'=>$endDate->modify('+1 day')->format('Y-m-d'),
                 'description'=> $planning->getDescription(),
-                'planningId'=>$planning->getId(),
                 'type'=>'planning',
                 //'allDay' => true,
                 'extendedProps' => [
                     'type' => 'recurring',
                 ],
         
-                'rendering'=> 'background',
-                
-            ];}
-            
-        }
-        foreach($getPlannings as $planning){
-            $startDate =new \DateTime( $planning->getDateDebut()->format('Y-m-d ').$planning->getHeureDebut()->format('H:i:s'));
-            $endDate = new \DateTime($planning->getDateFin()->format('Y-m-d ').$planning->getHeurefin()->format('H:i:s'));
-            $startTime = $planning->getHeureDebut()->format('H:i:s');
-            $endTime = $planning->getHeureFin()->format('H:i:s');
+                'display'=> 'background',
+                'groupId'=> 'availableForRDV',
 
-            for ($date = clone $startDate; $date <= $endDate; $date->modify('+1 day')) {
-            $rendeVouses[] = [
-                'id'=> $planning->getId(),
-                'start' => $date->format('Y-m-d ').$startTime,
-                'end' => $date->format('Y-m-d ').$endTime,
-                'startTime'=>$startTime,
-                'endeTime'=>$endTime,
-                'planningId'=>$planning->getId(),
-                'type'=>'planningAllDay',
-                'allDay' => true,
-                'extendedProps' => [
-                    'type' => 'recurring',
-                ],
-        
-                'rendering'=> 'background',
                 
-            ];}
+                
+            ];
+    
+            
             
         }
         $data = json_encode($rendeVouses);
         $rendezVou = new RendezVous();
 
-        return $this->render('Front-Office/calendar/index.html.twig', compact('data'));
+        return $this->render('Front-Office/calendar/index2.html.twig', compact('data'));
     }
     #[Route('/new/{planningId}', name: 'app_rendez_vous_calendar_new', methods: ['GET', 'POST'])]
     public function new($planningId,Request $request,PlanningRepository $planningRep,UserRepository $patientRep ,RendezVousRepository $rendezVousRepository,HubInterface $hub): Response
@@ -137,6 +122,18 @@ class CalendarController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/{id}/edit', name: 'app_calendar_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, RendezVous $rendezVou, RendezVousRepository $rendezVousRepository,PlanningRepository $planningRep): Response
+    {
+        $donnes = json_decode($request->getContent());
+        $rendezVou->setPlanning($planningRep->find($donnes->planningId));
+        $rendezVou->setDate(new DateTime($donnes->date));
+        $rendezVou->setHeureDebut(new DateTime($donnes->heureDebut));
+        $rendezVou->setHeureFin(new DateTime($donnes->heureFin));
+        $rendezVou->setSymptomes($donnes->symptomes);
+        $rendezVousRepository->save($rendezVou, true);
+        return new Response('added');
 
+    }
 
 }

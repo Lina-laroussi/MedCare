@@ -86,7 +86,20 @@ class RendezVousRepository extends ServiceEntityRepository
       ->getResult();
       //return $req;
 
-    }
+  }
+  public function rechercherRDV($value)
+  {
+    if($value!=null){
+      return $this->createQueryBuilder('r')
+      ->join('r.planning','p')
+      ->join('p.medecin','m')
+      ->join('r.patient','pat')
+      ->Where('r.date = :val OR r.patient = :val OR m.nom= :val OR pat.nom = :val OR m.prenom= :val OR pat.prenom = :val OR r.etat = :val')
+      ->setParameter('val', $value)
+      ->getQuery()
+      ->getResult()
+      ;}
+ }
 /*public function findByDate($cin)
     {
 
