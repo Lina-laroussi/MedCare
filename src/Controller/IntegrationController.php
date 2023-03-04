@@ -15,7 +15,6 @@ use App\Entity\Pharmacie;
 use App\Form\PharmacieType;
 use App\Repository\PharmacieRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 
 
@@ -45,29 +44,39 @@ class IntegrationController extends AbstractController
             'controller_name' => 'IntegrationController',
         ]);
     }
+    #[Route('/searchpharmacie/{id}', name: 'app_integration4', methods: ['GET'])]
+    public function  detailspharmacie(Pharmacie $pharmacie): Response
+    {
+        return $this->render('pharmacie/pharmacy-details.html.twig', [
+            'pharmacie' => $pharmacie,
+            'controller_name' => 'IntegrationController',
+ 
+        ]);
+    }
     #[Route('/searchpharmacie', name: 'app_integration3')]
     public function searchpharmacie(PharmacieRepository $pharmacieRepository): Response
     {
         
-        return $this->render('Front-Office/pharmacy-search.html.twig', [
+        return $this->render('pharmacie/pharmacy-search.html.twig', [
             'controller_name' => 'IntegrationController',
             'pharmacies' => $pharmacieRepository->findAll(),
-
+ 
         ]);
     }
-   /* #[Route('/searchpharmacieajax', name: 'app_integration7')]
 
-    public function searchpharmacieajax (Request $request)
+    #[Route('/searchpharmacieajax', name: 'app_searchpharmacieajax' )]
+
+ public function searchpharmacieajax (Request $request)
     {
         $search =$request->get('info');
-        $pharmacies =$this->getDoctrine()->getRepository(Pharmacie::class)->findNom($search);
+        $pharmacies =$this->getDoctrine()->getRepository(Pharmacie::class)->findName($search);
         $jsonData =array();
         $idx = 0 ;
         foreach($pharmacies as $pharmacie)
         {
               $temp = array(
 
-                  //  'id' => $pharmacie->getId(),
+                    //  'id' => $pharmacie->getId(),
                     'name' => $pharmacie->getNom(),
                     //'address' => $pharmacie->getAdresse(),
               );
@@ -79,7 +88,7 @@ class IntegrationController extends AbstractController
 
 
 
-
+/*
 #[Route('/ph', name: 'app_integration15')]
 
 public function searchPharmacies(Request $request)
@@ -109,21 +118,15 @@ public function searchPharmacies(Request $request)
 
 */
 
-   #[Route('/searchpharmacie/{id}', name: 'app_integration4', methods: ['GET'])]
-    public function  detailspharmacie(Pharmacie $pharmacie): Response
-    {
-        return $this->render('Front-Office/pharmacy-details.html.twig', [
-            'pharmacie' => $pharmacie,
-            'controller_name' => 'IntegrationController',
-
-        ]);
-    }
+  
     #[Route('/send', name: 'app_send')]
     public function sendEmail(MailerService $mailer )
     {   $mailer->sendEmail(from:'pharmaciemedcare@gmail.com',to:'feryelouerfelli@gmail.com' , content:'votre facture',subject: 'Facture Pharmacie', tmpFile:'document.pdf');
         return new Response("Success");
     }
-    #[Route('/search', name: 'ajax_search')]
+
+   
+    /*#[Route('/search', name: 'ajax_search')]
 
     public function searchAction(Request $request)
     {
@@ -143,5 +146,6 @@ public function searchPharmacies(Request $request)
 
         }
         return $realEntities;
-    }
+    }*/
+    
 }

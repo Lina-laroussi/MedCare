@@ -38,19 +38,20 @@ class PharmacieRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+   
+    public function findName(string $term): array
+    {
 
-    public function findEntitiesByString($str){
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT p
-                FROM AppBundle:Post p
-                WHERE p.title LIKE :str'
-            )
-            ->setParameter('str', '%'.$str.'%')
+        $qb = $this->createQueryBuilder('p');
+
+        return $qb->where($qb->expr()->like('p.nom', ':term'))
+            ->setParameter('term', '%' . $term . '%')
+            ->getQuery()
             ->getResult();
     }
+}
+ 
 
-    
    /*public function findBeginWith($value, $userId)
     {
         if($userId == null) {
@@ -135,4 +136,4 @@ class PharmacieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-}
+

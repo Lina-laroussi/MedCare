@@ -24,6 +24,21 @@ class PharmacieController extends AbstractController
             'pharmacies' => $pharmacieRepository->findAll(),
         ]);
     }
+    #[Route('/detailpharmacie/{id}', name: 'app_pharmacie_details', methods: ['GET'])]
+    public function  detailspharmacie(Pharmacie $pharmacie): Response
+    {
+        return $this->render('pharmacie/detailsearch.html.twig', [
+            'pharmacie' => $pharmacie,
+ 
+        ]);
+    }
+    #[Route('/search', name: 'app_pharmacie_search', methods: ['GET'])]
+    public function search(PharmacieRepository $pharmacieRepository): Response
+    {
+        return $this->render('pharmacie/search.html.twig', [
+            'pharmacies' => $pharmacieRepository->findAll(),
+        ]);
+    }
 
     #[Route('/new', name: 'app_pharmacie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PharmacieRepository $pharmacieRepository): Response
@@ -81,6 +96,28 @@ class PharmacieController extends AbstractController
     }
 
 
+    
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
     /*#[Route('/ph', name: 'search_pharmacies', methods: ['POST'])]
     public function search_pharmacies(Request $request, Pharmacie $pharmacie, PharmacieRepository $pharmacieRepository)
     {
@@ -102,5 +139,31 @@ class PharmacieController extends AbstractController
         
         return new JsonResponse($data);
     }
-*/
+
+
+
+    #[Route('/search', name: 'app_pharmacie_search', )]
+
+    public function search(Request $request): JsonResponse
+    {
+        $term = $request->query->get('term');
+        
+        $pharmacies = $this->getDoctrine()->getRepository(Pharmacie::class)
+            ->searchByNom($term); // implement a custom repository method to search by name
+        
+        $results = [];
+        foreach ($pharmacies as $pharmacie) {
+            $results[] = [
+                'id' => $pharmacie->getId(),
+                'name' => $pharmacie->getNom(),
+                'address' => $pharmacie->getAdresse(),
+                'phone' => $pharmacie->gernumTel(),
+            ];
+        }
+        
+        return new JsonResponse($results);
+    }
 }
+
+*/
+

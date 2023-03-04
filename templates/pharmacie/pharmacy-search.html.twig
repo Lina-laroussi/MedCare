@@ -1,12 +1,25 @@
+
 {% extends 'base-front.html.twig' %}
-{% block javascripts%}
-<script
-  src="https://code.jquery.com/jquery-3.6.3.js"></script>
+
+    {% block javascripts %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="{{ asset ('js/rechercheajax.js')}}"></script>
+
 {% endblock %}
-
-
 {% block body %}
+ 
+<form id="search-form">
+<br>
+ <hr>
+ <center>
+<h4>Search</h4>
+<center><input type="text" id="input_text" >
+</center>
+<center><div id="resultato2"></div> </center>
+</center>
+</br>
+ </hr>
 
 
 <div class="breadcrumb-bar-six">
@@ -25,76 +38,8 @@
 </div>
 </div>
 </div>
-<center>
-<center>        <input type="text" id="input_text" class="form-control" placeholder="Search for a pharmacy...">
-</center>
-<center>   <div id="resultado2">
-    </div></center>
 
 
-</center>
-
-<h2>Search A Post !!</h2>
-
-            <div class="sidebar-search">
-
-                <div class="input-group custom-search-form">
-
-                    <input type="text" id="search" class="form-control" placeholder="Search here">
-                </div>
-                <!-- /input-group -->
-            </div>
-            <ul class="nav" id="side-menu">
-                <li>
-                    <a href="#"> Entities<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level" id="entitiesNav">
-                    </ul>
-                </li>
-            </ul><br><br><br><br>
-
-            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-            <script type="text/javascript">
-                jQuery(document).ready(function() {
-                    var searchRequest = null;
-                    $("#search").keyup(function() {
-                        var minlength = 1;
-                        var that = this;
-                        var value = $(this).val();
-                        var entitySelector = $("#entitiesNav").html('');
-                        if (value.length >= minlength ) {
-                            if (searchRequest != null)
-                                searchRequest.abort();
-                            searchRequest = $.ajax({
-                                type: "GET",
-                                url: "{{ path('ajax_search') }}",
-                                data: {
-                                    'q' : value
-                                },
-                                dataType: "text",
-                                success: function(msg){
-                                    //we need to check if the value is the same
-                                    if (value===$(that).val()) {
-                                        var result = JSON.parse(msg);
-                                        $.each(result, function(key, arr) {
-                                            $.each(arr, function(id, value) {
-                                                if (key === 'posts') {
-                                                    if (id !== 'error') {
-                                                        console.log(value[1]);
-                                                        entitySelector.append('<li><b>'+value[1]+'</b><a href="/detailedpost/'+id+'">'+'<img src="/uploads/post/'+value[0]+'" style="width: 50px; height: 50px"/>'+'</a></li>');
-                                                    } else {
-                                                        entitySelector.append('<li class="errorLi">'+value+'</li>');
-                                                    }
-                                                }
-                                            });
-                                        });
-                                    }
-                                }
-                            });
-                        }
-                    });
-                });
-            </script>
 
 
 <div class="content pharmacy-cart-content">
@@ -249,7 +194,6 @@
 <div class="row align-items-center">
 <div class="col-md-7 col-12 d-md-block custom-short-by">
 <div class="pharm-viewicon">
-<p><span>10</span> matches found for Pharmacy in Los Angeles</p>
 </div>
 </div>
 <div class="col-md-5 col-12 d-md-block custom-short-by">
@@ -282,7 +226,7 @@
 </div>
 </div>
 <div class="doc-info-cont">
-<h4 class="doc-name"><a href="pharmacy-details.html">{{ pharmacie.nom }}</a></h4>
+<h4 class="doc-name"><a href="pharmacy-details1.html">{{ pharmacie.nom }}</a></h4>
 <div class="rating">
 <i class="fas fa-star filled"></i>
 <i class="fas fa-star filled"></i>
