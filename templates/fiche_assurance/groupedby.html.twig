@@ -1,0 +1,26 @@
+
+{% extends 'base-back.html.twig' %}
+{% block body %}
+<div style="margin-left:30%">
+<table>
+    <thead>
+        <tr>
+            <th>Etat</th>
+            <th>Nombre de fiches</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for fiche in fiches %}
+            <tr>
+                <td>{{ fiche.etat }}</td>
+                <td>{{ fiche.num_adherent }}</td>
+                <td>{{ fiche.description }}</td>
+                <td>{{ fiche.description }}</td>
+                <td>{{ fiche.image_facture }}</td>
+
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

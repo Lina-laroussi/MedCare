@@ -38,6 +38,21 @@ class FicheAssuranceRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+/*
+    public function findFicheAssuranceGroupByEtat()
+    {
+        return $this->createQueryBuilder('fa')
+            ->select('fa.etat, COUNT(fa.id) as nbFiches')
+            ->groupBy('fa.etat')
+            ->getQuery()
+            ->getResult();
+    }
+
+*/
+
+
+
+
 
 //    /**
 //     * @return FicheAssurance[] Returns an array of FicheAssurance objects

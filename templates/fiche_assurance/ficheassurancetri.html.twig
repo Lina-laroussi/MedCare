@@ -1,0 +1,71 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Fiche Assurance index{% endblock %}
+
+{% block body %}
+<div style="margin-left:15%">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h1>Fiche Assurance index</h1>
+    <br>
+    <br>
+
+    <form class="form-inline my-2 my-lg-0" action="{{ path('app_fiche_assurance_index') }}">
+        <input class="form-control mr-sm-2" type="search" placeholder="Recherche" aria-label="Recherche" name="q" value="{{ q }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
+    </form>
+
+    <br>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="font-weight-bold">Id</th>
+                <th class="font-weight-bold">numAdherent </th>
+                <th class="font-weight-bold">description</th>
+                <th class="font-weight-bold">imageFacture</th>
+                <th class="font-weight-bold">etat</th>
+                <th class="font-weight-bold">dateCreation</th>
+                <th class="font-weight-bold">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fiche in fiche_assurances %}
+                <tr>
+                    <td>{{ fiche.id }}</td>
+                    <td>{{ fiche.numAdherent }}</td>
+                    <td>{{ fiche.description }}</td>
+                    <td>{{ fiche.imageFacture }}</td>
+                    <td>{{ fiche.etat }}</td>
+                    <td>{{ fiche.dateCreation ? fiche.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>
+                        <a href="{{ path('app_fiche_assurance_show', {'id': fiche.id}) }}">show</a>
+                        <a href="{{ path('app_fiche_assurance_edit', {'id': fiche.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if fiche_assurances|length > 0 %}
+        <ul class="pagination justify-content-center">
+            {% for page in fiche_assurances.page %}
+                <li {% if page.isCurrentPage %}class="active"{% endif %}>
+                    <a href="{{ path('app_fiche_assurance_index', {'page': page.number, 'variableRecherche': q}) }}">{{ page.number }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+   
+        {{ knp_pagination_render(fiche_assurances) }}
+    {% endif %}
+
+    <a class="btn btn-primary" href="{{ path('app_fiche_assurance_new') }}">Create new</a>
+    </div>
+{% endblock %}

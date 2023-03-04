@@ -8,6 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>{% block title %}MedCare{% endblock %}</title>
 {% block stylesheets %}
+
+ <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+
+
+
     <link type="image/x-icon" href="{{asset('FrontOffice/img/favicon.png') }}" rel="icon">
 
     <link rel="stylesheet" href="{{asset('FrontOffice/css/bootstrap.min.css')}}">
@@ -307,6 +312,11 @@
 
 {% endblock %}
 {% block javascripts%}
+  <!-- Flashy depends on jQuery -->
+    <script src="//code.jquery.com/jquery.js"></script>
+ <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+
+
     <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="FrontOffice/js/jquery-3.6.0.min.js"></script>
 
     <script src="{{ asset('FrontOffice/js/bootstrap.bundle.min.js') }}"></script>
@@ -319,6 +329,7 @@
 
     <script src="{{ asset('FrontOffice/js/script.js') }}"></script>
 {% endblock %}
+{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
 </body>
 <!-- Mirrored from doccure.dreamguystech.com/laravel/template/public/index by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 07 Feb 2023 19:57:01 GMT -->
 </html>
