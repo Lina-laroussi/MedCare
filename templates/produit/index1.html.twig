@@ -10,7 +10,15 @@
     <section class="bg-light p-3">
         <h1>Les produits</h1>
     </section>
-
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+     {% for produit in produits %}
+    <li class="page-item"><a class="page-link"<a href="{{path("cart_add", {id: produit.id})}}"  class="btn btn-primary">{{ produit.nom}}</a></a></li>
+     {% endfor %}
+          
+  </ul>
+</nav>
+</nav>
     <section class="row">
         {% for produit in categorie.produits %}
             <div class="col-4 mt-4">

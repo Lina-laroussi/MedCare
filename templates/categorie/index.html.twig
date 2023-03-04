@@ -2,9 +2,21 @@
 
 {% block body %}
     <h1>Categorie index</h1>
+
  <div class="container"
 
  <div class="row justify-content-center">
+
+     <nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link"  href="{{ path('app_categorie_new') }}" >Ajouter</a></li>
+        {% for categorie in categories %}
+    <li class="page-item"><a class="page-link"<a href="{{ path('app_categorie_show', {'id': categorie.id}) }}"  class="btn btn-primary">{{ categorie.id }}</a></a></li>
+     {% endfor %}
+          
+  </ul>
+</nav>
+
     <table class="table">
         <thead>
             <tr>

@@ -7,6 +7,7 @@ use App\Entity\Produit;
 use App\Form\ProduitType;
 use App\Repository\CategorieRepository;
 use App\Repository\ProduitRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,7 +45,7 @@ class ProduitController extends AbstractController
             throw $this->createNotFoundException(sprintf('Category with ID %s not found', $categorieId));
         }
     
-        // Get the products associated with the category
+        // Get the produits associated with the category
         $produits = $produitRepository->findByCategorie($categorie);
     
         return $this->render('produit/index1.html.twig', [
@@ -134,6 +135,7 @@ if ($file) {
         ]);
     }
 
+
     #[Route('/{id}', name: 'app_produit_delete', methods: ['POST'])]
     public function delete(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
     {
@@ -146,5 +148,30 @@ if ($file) {
         return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
         }
 
-       
-    }
+
+  
+// #[Route('/list', name: 'app_list_index', methods: ['GET'])]
+//     public function list(ProduitRepository $ProduitRepository , Request $request): Response
+//     {
+//         $entityManager = $this->getDoctrine()->getManager();
+//            // récupérer les paramètres de la requête
+//         $limit = $request->query->getInt('limit',5);
+//         $page = $request->query->getInt('page',1);
+//         $q = $request->query->get('q');
+//           // construire la requête pour récupérer les ficheAssurances
+//         $queryBuilder = $ProduitRepository->createQueryBuilder('t');
+//         $queryBuilder->orderBy('t.id', 'ASC');
+//         if ($q) {
+//             $queryBuilder->andWhere('t.etat LIKE :q')
+//                          ->setParameter('q', '%'.$q.'%'); 
+//         }
+//         $query = $queryBuilder->getQuery();
+//        
+//         return $this->render('produit/index.html.twig', [
+//             'produits' => $produit,
+//             'q' => $q,
+//         ]);
+//     }
+
+
+}?>

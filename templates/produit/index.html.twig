@@ -3,11 +3,27 @@
 
 
 {% block body %}
-
+  
  <div class="container" style="margin-left: 10%" >
-    <h1>Produit index</h1>
+    <h1>Produit</h1>
+ 
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link"  href="{{ path('app_produit_new') }}" >Ajouter</a></li>
+     {% for produit in produits %}
+    <li class="page-item"><a class="page-link"<a href="{{ path('app_produit_show', {'id': produit.id}) }}"  class="btn btn-primary">{{ produit.id }}</a></a></li>
+     {% endfor %}
+          
+  </ul>
+</nav>
+
+
+
+
 
     <table class="table">
+   
         <thead>
             <tr>
                 <th>Id</th>
@@ -21,7 +37,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for produit in produits %}
+      {% for produit in produits %}
             <tr>
                 <td>{{ produit.id }}</td>
                 <td>{{ produit.nom }}</td>
@@ -52,4 +68,11 @@
 
     <a href="{{ path('app_produit_new') }}"  class="btn btn-primary" >Create new</a>
                 </div>
+
 {% endblock %}
+
+
+
+
+
+
