@@ -6,6 +6,7 @@ use App\Repository\CategorieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -15,6 +16,7 @@ class Categorie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("categories")]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -25,6 +27,7 @@ class Categorie
         minMessage: "Le nom doit avoir au moins {{ limit }} caractères",
         maxMessage: "Le nom ne doit pas dépasser {{ limit }} caractères"
     )]
+    #[Groups("categories")]
     private ?string $nom = null;
 
     public function __toString()
@@ -34,16 +37,20 @@ class Categorie
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank (message:" Le description ne peut pas être vide")]  
-    private ?string $description = null;
+    #[Groups("categories")]
+        private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
+     #[ORM\Column(length: 255)]
+     #[Groups("categories")]
     private ?string $etat = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank (message:" La marque ne peut pas être vide")]  
+    #[Groups("categories")]
     private ?string $marque = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("categories")]
     private ?string $groupe_age = null;
 
     #[ORM\ManyToOne]

@@ -1,0 +1,23 @@
+Categorie_get_detail:
+  path: /Categorie/{id}/detail
+  controller: App\Controller\CategorieController::getCategoriedetail
+  methods: GET
+
+all_Categories:
+  path: /AllCategories
+  controller: App\Controller\CategorieController::AllCategories
+  methods: [GET]
+
+add_Categorie:
+    path: '/addCategorie/new'
+    controller: 'App\Controller\CategorieController::addCategorie'
+
+update_Categorie:
+    path: /updateCategorie/{id}
+    controller: App\Controller\CategorieController::updateCategorie
+    methods: [GET, POST] # define the HTTP methods that are allowed for this route
+
+
+delete_Categorie:
+    path: /deleteCategorie/{id}
+    controller: 'App\Controller\CategorieController::deleteCategorie'

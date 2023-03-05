@@ -8,3 +8,49 @@ app_produit_search:
     path: /produit/search
     methods: [GET]
     controller: App\Controller\ProduitController::search
+
+# config/routes.yaml
+produit_get_detail:
+  path: /produit/{id}/detail
+  controller: App\Controller\ProduitController::getProduitDetail
+  methods: GET
+
+all_produits:
+  path: /AllProduits
+  controller: App\Controller\ProduitController::AllProduits
+  methods: [GET]
+
+add_produit:
+    path: '/addProduit/new'
+    controller: 'App\Controller\ProduitController::addProduit'
+
+update_produit:
+    path: /updateProduit/{id}
+    controller: App\Controller\ProduitController::updateProduit
+    methods: [GET, POST] # define the HTTP methods that are allowed for this route
+
+
+delete_Produit:
+    path: /deleteProduit/{id}
+    controller: 'App\Controller\ProduitController::deleteProduit'
+
+
+
+all_Categories:
+  path: /AllCategorie
+  controller: App\Controller\CategorieController::AllCategories
+  methods: [GET]
+
+add_Categorie:
+    path: '/addCategorie/new'
+    controller: 'App\Controller\CategorieController::addCategorie'
+
+update_Categorie:
+    path: /updateCategorie/{id}
+    controller: App\Controller\CategorieController::updateCategorie
+    methods: [GET, POST] # define the HTTP methods that are allowed for this route
+
+
+delete_Categorie:
+    path: /delateCategorie/{id}
+    controller: 'App\Controller\CategorieController::delateCategorie'

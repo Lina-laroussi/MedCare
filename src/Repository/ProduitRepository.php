@@ -39,6 +39,26 @@ class ProduitRepository extends ServiceEntityRepository
         }
     }
 
+    public function countByCategorie()
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->select('p.categorie, COUNT(p.id) as count')
+            ->groupBy('p.categorie');
+
+        $results = $queryBuilder->getQuery()->getResult();
+
+        $categoriesCount = [];
+
+        foreach ($results as $result) {
+            $categorie = $result['categorie'];
+            $count = $result['count'];
+
+            $categoriesCount[$categorie] = $count;
+        }
+
+        return $categoriesCount;
+    }
+
 //    /**
 //     * @return Produit[] Returns an array of Produit objects
 //     */

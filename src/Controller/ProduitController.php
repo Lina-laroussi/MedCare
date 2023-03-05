@@ -12,6 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/produit')]
 class ProduitController extends AbstractController
@@ -72,7 +75,7 @@ $fileName = md5(uniqid()) . '.' . $file->guessExtension();
 
 // Move the file to the directory where images are stored
 $file->move(
-    $this->getParameter('product_images_directory'),
+    $this->getParameter('Produit_images_directory'),
     $fileName
 );
 
@@ -117,7 +120,7 @@ if ($file) {
 
     // Move the file to the directory where images are stored
     $file->move(
-        $this->getParameter('product_images_directory'),
+        $this->getParameter('Produit_images_directory'),
         $fileName
     );
 
@@ -148,30 +151,89 @@ if ($file) {
         return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
         }
 
+    //*-**-*-*-*-**-*-*-*-*-**-*-*-*-*-**-*-*-*-*-***-*-*--**-*-**-*-*--*
 
-  
-// #[Route('/list', name: 'app_list_index', methods: ['GET'])]
-//     public function list(ProduitRepository $ProduitRepository , Request $request): Response
-//     {
-//         $entityManager = $this->getDoctrine()->getManager();
-//            // récupérer les paramètres de la requête
-//         $limit = $request->query->getInt('limit',5);
-//         $page = $request->query->getInt('page',1);
-//         $q = $request->query->get('q');
-//           // construire la requête pour récupérer les ficheAssurances
-//         $queryBuilder = $ProduitRepository->createQueryBuilder('t');
-//         $queryBuilder->orderBy('t.id', 'ASC');
-//         if ($q) {
-//             $queryBuilder->andWhere('t.etat LIKE :q')
-//                          ->setParameter('q', '%'.$q.'%'); 
-//         }
-//         $query = $queryBuilder->getQuery();
-//        
-//         return $this->render('produit/index.html.twig', [
-//             'produits' => $produit,
-//             'q' => $q,
-//         ]);
-//     }
+       
+        //en JSON 
 
+    //https://localhost:8000/AllProduits
+        #[Route("/AllProduits", name: "AllProduits")]
+        public function AllProduits(ProduitRepository $repo, SerializerInterface $serializer)
+        {
+            $produits = $repo->findAll();
+            $json = $serializer->serialize($produits, 'json', ['groups' => "produits"]);
 
-}?>
+            return new Response($json);
+        }
+
+        //https://127.0.0.1:8000/produit/1/detail
+            #[Route("getProduitDetail", name: "getProduitDetail")]
+            public function getProduitDetail($id, NormalizerInterface $normalizer, ProduitRepository $repo)
+            {
+                $produit = $repo->find($id);
+                $produitNormalise = $normalizer->normalize($produit, 'json', ['groups' => "produits"]);
+                return new Response(json_encode($produitNormalise));
+            }
+    
+    //https://localhost:8000/addProduit/new
+        #[Route("addProduit/new", name: "add_produit")]
+        public function addProduit(Request $req, NormalizerInterface $Normalizer)
+        {
+            $em = $this->getDoctrine()->getManager();
+            $produit = new Produit();
+            $nom = $req->get('nom') ?? ''; // set default value to an empty string if $nom is null
+            $produit->setNom($nom);
+            $description = $req->get('description') ?? ''; // set default value to an empty string if $description is null
+            $produit->setDescription($description);
+            $prix = $req->get('prix') ?? 0.0; // set default value to 0.0 if $prix is null
+            $produit->setPrix(floatval($prix));
+            $etat = $req->get('etat') ?? 'disponible'; // set default value to 'pending' if $etat is null
+            $produit->setEtat($etat);
+            $quantite = $req->get('quantite') ?? 0.0; // set default value to 0.0 if $quantite is null
+            $produit->setQuantite($quantite);
+            $image = $req->get('image') ?? ''; // set default value to an empty string if $nom is null
+            $produit->setImage($image);       
+             $em->persist($produit);
+            $em->flush();
+    
+            $jsonContent = $Normalizer->normalize($produit, 'json', ['groups' => 'produits']);
+            return new Response(json_encode($jsonContent));
+        }
+    
+        #[Route("updateProduit/{id}", name: "update_produit")]
+        public function updateProduit(Request $req, $id, NormalizerInterface $Normalizer)
+        {
+    
+            $em = $this->getDoctrine()->getManager();
+            $produit = $em->getRepository(Produit::class)->find($id);
+            $nom = $req->get('nom') ?? ''; // set default value to an empty string if $nom is null
+            $produit->setNom($nom);
+            $description = $req->get('description') ?? ''; // set default value to an empty string if $description is null
+            $produit->setDescription($description);
+            $prix = $req->get('prix') ?? 0.0; // set default value to 0.0 if $prix is null
+            $produit->setPrix(floatval($prix));
+            $etat = $req->get('etat') ?? 'disponible'; // set default value to 'pending' if $etat is null
+            $produit->setEtat($etat);
+            $quantite = $req->get('quantite') ?? 0.0; // set default value to 0.0 if $quantite is null
+            $produit->setQuantite($quantite);
+            $image = $req->get('image') ?? ''; // set default value to an empty string if $nom is null
+            $produit->setImage($image);
+            $em->flush();
+    
+            $jsonContent = $Normalizer->normalize($produit, 'json', ['groups' => 'post:read']);
+            return new Response("Produit modifié avec succès" . json_encode($jsonContent));
+        }
+    
+        #[Route("deleteProduit/{id}", name: "delete_produit")]
+        public function deleteProduit(Request $req, $id, NormalizerInterface $Normalizer)
+        {
+    
+            $em = $this->getDoctrine()->getManager();
+            $produit = $em->getRepository(Produit::class)->find($id);
+            $em->remove($produit);
+            $em->flush();
+            $jsonContent = $Normalizer->normalize($produit, 'json', ['groups' => 'produits']);
+            return new Response("Produit supprimé avec succès" . json_encode($jsonContent));
+        }
+    }        
+?>

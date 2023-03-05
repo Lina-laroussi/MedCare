@@ -14,8 +14,7 @@
   <ul class="pagination">
      {% for produit in produits %}
     <li class="page-item"><a class="page-link"<a href="{{path("cart_add", {id: produit.id})}}"  class="btn btn-primary">{{ produit.nom}}</a></a></li>
-     {% endfor %}
-          
+     {% endfor %}        
   </ul>
 </nav>
 </nav>

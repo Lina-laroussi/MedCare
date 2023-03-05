@@ -6,7 +6,11 @@
   
  <div class="container" style="margin-left: 10%" >
     <h1>Produit</h1>
- 
+
+
+    <form action="{{ path('add_produit') }}" method="post">
+    <button type="submit">Submit</button>
+</form>
 
 <nav aria-label="Page navigation example">
   <ul class="pagination">
@@ -17,9 +21,6 @@
           
   </ul>
 </nav>
-
-
-
 
 
     <table class="table">
@@ -68,6 +69,9 @@
 
     <a href="{{ path('app_produit_new') }}"  class="btn btn-primary" >Create new</a>
                 </div>
+
+
+
 
 {% endblock %}
 

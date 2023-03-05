@@ -1,0 +1,15 @@
+
+{% extends 'base-back.html.twig' %}
+
+{% block body %}
+    <h1>Bienvenue sur notre site!</h1>
+    
+    <p>Nous avons {{ stats.totalProduits }} produits en stock.</p>
+
+    <h2>Produits par catégorie:</h2>
+    <ul>
+        {% for categorie, count in stats.produitsPerCategorie %}
+            <li>{{ categorie }}: {{ count }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
