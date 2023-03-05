@@ -117,7 +117,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_login');
 
         }
-        return $this->render('Front-Office/registration/register-pharmacien.html.twig', [
+        return $this->render('Front-Office/registration/register-doctor.html.twig', [
 
             'form' => $form->createView()
         ]);

@@ -228,11 +228,13 @@ class UtilisateurController extends AbstractController
         }
     }
 
-    #[Route('/listMedecins', name: 'list_medecins')]
-    public function list_medecin(UserRepository $repo,Request $req, ManagerRegistry $rm)
+    #[Route('/listMedecins/{page?1}/{nbre?5}', name: 'list_medecins')]
+    public function list_medecin(UserRepository $repo,Request $req,$nbre,$page):Response
     {
-        $users = $repo->findAll();
-        //$count=$repo->findUsersByRole('ROLE_MEDECIN');
+        $nbMedecins = $repo->countUsersByRole('ROLE_MEDECIN');
+        $nbrePage = ceil($nbMedecins / $nbre) ;
+        $users = $repo->findUsersByRole($page,$nbre,'ROLE_MEDECIN');
+
         $form = $this->createForm(SearchFormType::class);
         $form->handleRequest($req);
         if($form->isSubmitted() ) {
@@ -242,13 +244,20 @@ class UtilisateurController extends AbstractController
         return $this->render('Back-Office/list-medecins.html.twig', [
             'users' => $users,
             'form'=>$form->createView(),
+            'isPaginated'=>true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
         ]);
     }
 
-    #[Route('/listAssureurs', name: 'list_assureurs')]
-    public function list_assureur(UserRepository $repo,Request $req): Response
+    #[Route('/listAssureurs/{page?1}/{nbre?5}', name: 'list_assureurs')]
+    public function list_assureur(UserRepository $repo,Request $req,$page,$nbre):Response
     {
-        $users = $repo->findAll();
+        $nbAssureurs = $repo->countUsersByRole('ROLE_ASSUREUR');
+        $nbrePage = ceil($nbAssureurs / $nbre) ;
+        $users = $repo->findUsersByRole($page,$nbre,'ROLE_ASSUREUR');
+
         $form = $this->createForm(SearchFormType::class);
         $form->handleRequest($req);
         if($form->isSubmitted() ) {
@@ -258,14 +267,21 @@ class UtilisateurController extends AbstractController
         return $this->render('Back-Office/list-assureurs.html.twig', [
             'users' => $users,
             'form'=>$form->createView(),
-            'isPaginated'=>true
+            'isPaginated'=>true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
         ]);
     }
 
-    #[Route('/listPatients', name: 'list_patients')]
-    public function list_patient(UserRepository $repo,Request $req): Response
+    #[Route('/listPatients/{page?1}/{nbre?5}', name: 'list_patients')]
+    public function list_patient(UserRepository $repo,Request $req,$nbre,$page):Response
     {
-        $users = $repo->findAll();
+
+        $nbPatients = $repo->countUsersByRole('ROLE_PATIENT');
+        $nbrePage = ceil($nbPatients / $nbre) ;
+        $users = $repo->findUsersByRole($page,$nbre,'ROLE_PATIENT');
+
         $form = $this->createForm(SearchFormType::class);
         $form->handleRequest($req);
         if($form->isSubmitted() ) {
@@ -276,13 +292,20 @@ class UtilisateurController extends AbstractController
         return $this->render('Back-Office/list-patients.html.twig', [
             'users' => $users,
             'form'=>$form->createView(),
+            'isPaginated'=>true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
         ]);
     }
 
-    #[Route('/listPharmaciens', name: 'list_pharmaciens')]
-    public function list_pharmacien(UserRepository $repo,Request $req): Response
+    #[Route('/listPharmaciens/{page?1}/{nbre?5}', name: 'list_pharmaciens')]
+    public function list_pharmacien(UserRepository $repo,Request $req,$nbre,$page): Response
     {
-        $users = $repo->findAll();
+        $nbPharmaciens = $repo->countUsersByRole('ROLE_PHARMACIEN');
+        $nbrePage = ceil($nbPharmaciens / $nbre) ;
+        $users = $repo->findUsersByRole($page,$nbre,'ROLE_PHARMACIEN');
+
         $form = $this->createForm(SearchFormType::class);
         $form->handleRequest($req);
         if($form->isSubmitted() ) {
@@ -293,6 +316,10 @@ class UtilisateurController extends AbstractController
         return $this->render('Back-Office/list-pharmaciens.html.twig', [
             'users' => $users,
             'form'=>$form->createView(),
+            'isPaginated'=>true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
         ]);
     }
 }

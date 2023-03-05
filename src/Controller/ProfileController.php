@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\EditFormMedecinType;
 use App\Form\EditFormUserType;
+use App\Form\SearchFormType;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -155,6 +156,33 @@ class ProfileController extends AbstractController
         return $this->render('Front-Office/profile/profile-medecin.html.twig', [
             'form' => $form->createView(),
             'user'=>$user
+        ]);
+    }
+
+
+    #[Route('/listMedecins/{page?1}/{nbre?5}', name: 'app_list_medecins')]
+    public function listMedecins(UserRepository $repo,Request $req,$nbre,$page): Response
+    {
+        $user=$this->getUser();
+        $nbMedecins = $repo->countUsersByRole('ROLE_MEDECIN');
+        $nbrePage = ceil($nbMedecins / $nbre) ;
+        $medecins = $repo->findUsersByRole($page,$nbre,'ROLE_MEDECIN');
+
+        $form = $this->createForm(SearchFormType::class);
+        $form->handleRequest($req);
+        if($form->isSubmitted() ) {
+            $searchTerm = $form->getData();
+            $medecins = $repo->findUsersBySearchTerm($searchTerm);
+        }
+        return $this->render('Front-Office/profile/list-medecins.html.twig', [
+            'controller_name' => 'ProfileController',
+            'user'=>$user,
+            'medecins'=>$medecins,
+            'form'=>$form->createView(),
+            'isPaginated'=>true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
         ]);
     }
 

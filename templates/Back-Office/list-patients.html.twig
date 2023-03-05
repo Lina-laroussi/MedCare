@@ -51,8 +51,6 @@
                                 </thead>
                                 <tbody>
                                 {% for user in users %}
-                                    {% for role in user.roles %}
-                                        {% if  role == "ROLE_PATIENT"  %}
                                             <tr>
                                                 <td>{{ user.id }}</td>
                                                 {% if user.image %}
@@ -87,8 +85,6 @@
                                                 {% endif %}
                                                 <td><a class="text-danger" onclick="return confirm('vous etes sure de vouloir supprimer ?');" href="{{path('remove_utilisateur',{'id':user.id})}}"><i class="feather-trash-2"></i>supprimer</a></td>
                                             </tr>
-                                        {% endif %}
-                                    {% endfor %}
                                 {% endfor %}
                                 </tbody>
                             </table>
@@ -96,23 +92,29 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-center">
-                <nav aria-label="..." >
-                    <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active" aria-current="page">
-                            <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            {% if isPaginated  %}
+                <div class="d-flex justify-content-center">
+                    <nav aria-label="col Page navigation example">
+                        <ul class="pagination">
+                            {% if page != 1 %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ path('list_patients', {page: page - 1, nbre: nbre}) }}">Previous</a></li>
+                            {% endif %}
+                            {% for i in range(1, nbrePage) %}
+                                <li class="page-item">
+                                    <a class="page-link"  href="{{ path('list_patients', {page: i, nbre: nbre}) }}">{{ i }}</a>
+                                </li>
+                            {% endfor %}
+                            {% if page != nbrePage %}
+                                <li class="page-item">
+                                    <a class="page-link"  href="{{ path('list_patients', {page: page + 1, nbre: nbre}) }}">Next</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+
+                </div>
+            {% endif %}
         </div>
     </div>
 
