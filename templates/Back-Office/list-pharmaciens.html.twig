@@ -41,6 +41,7 @@
                                     <th>Prénom</th>
                                     <th>Email</th>
                                     <th>Date de Naissance</th>
+                                    <th>Membre depuis</th>
                                     <th>Sexe</th>
                                     <th>Téléphone</th>
                                     <th>Adresse</th>
@@ -63,6 +64,7 @@
                                                 <td><span>{{ user.prenom |capitalize }}</span></td>
                                                 <td>{{ user.email }}</td>
                                                 <td><span class="d-block">{{ user.dateDeNaissance |date("m/d/Y") }}</span></td>
+                                                <td><span class="d-block">{{ user.dateDeCreation |date("m/d/Y") }}</span></td>
                                                 <td>{{ user.sexe }}</td>
                                                 <td>{{ user.numTel }}</td>
                                                 <td>{{ user.adresse }}</td>

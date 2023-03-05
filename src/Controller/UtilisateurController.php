@@ -26,13 +26,21 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class UtilisateurController extends AbstractController
 {
     #[Route('/', name: 'app_admin')]
-    public function admin(): Response
+    public function admin(UserRepository $repo): Response
     {
         $currentuser = $this->getUser();
+        $nbMedecins = $repo->countUsersByRole('ROLE_MEDECIN');
+        $nbPatients = $repo->countUsersByRole('ROLE_PATIENT');
+        $nbPharmaciens = $repo->countUsersByRole('ROLE_PHARMACIEN');
+        $nbAssureurs = $repo->countUsersByRole('ROLE_ASSUREUR');
 
         return $this->render('Back-Office/DashboardAdmin.html.twig', [
             'controller_name' => 'UtilisateurController',
-            'user'=>$currentuser
+            'user'=>$currentuser,
+            'nbM'=>$nbMedecins,
+            'nbP'=>$nbPatients,
+            'nbPh'=>$nbPharmaciens,
+            'nbA'=>$nbAssureurs
         ]);
     }
 
