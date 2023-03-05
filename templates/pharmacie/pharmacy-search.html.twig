@@ -8,19 +8,6 @@
 
 {% endblock %}
 {% block body %}
- 
-<form id="search-form">
-<br>
- <hr>
- <center>
-<h4>Search</h4>
-<center><input type="text" id="input_text" >
-</center>
-<center><div id="resultato2"></div> </center>
-</center>
-</br>
- </hr>
-
 
 <div class="breadcrumb-bar-six">
 <div class="container">
@@ -38,10 +25,9 @@
 </div>
 </div>
 </div>
-
-
-
-
+<center>
+ <a href="{{ path('app_pharmacie_s') }}" class="btn btn-primary mt-3">{{ button_label|default('Trouver une pharmacie') }}</a>
+</center>
 <div class="content pharmacy-cart-content">
 <div class="container">
 <div class="row">

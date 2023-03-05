@@ -38,7 +38,20 @@ class PharmacieRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-   
+    public function findByString($nom){
+        return $this->createQueryBuilder('pharmacie')
+            ->where('pharmacie.nom like :nom')
+            ->setParameter('nom', '%'.$nom.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    public function __toString(){
+        //return $this->id;
+        return (string)$this->id;
+        
+    }
     public function findName(string $term): array
     {
 
@@ -48,6 +61,30 @@ class PharmacieRepository extends ServiceEntityRepository
             ->setParameter('term', '%' . $term . '%')
             ->getQuery()
             ->getResult();
+    }
+    public function findPharmacieBySearchTerm($searchTerm): array
+    {
+       return $this->createQueryBuilder('u')
+           ->where('u.nom LIKE :searchTerm OR
+            u.email Like :searchTerm OR
+            u.matricule LIKE :searchTerm OR 
+            u.adresse Like :searchTerm OR
+            u.gouvernorat LIKE :searchTerm OR
+            u.etat LIKE :searchTerm' )
+           ->setParameter('searchTerm', $searchTerm)
+           ->getQuery()
+           ->getResult()
+       ;
+    }
+
+    public function findOneByGouvernorat($gouvernorat): ?Facture
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.gouvernorat = :val')
+            ->setParameter('val', $gouvernorat)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
     }
 }
  

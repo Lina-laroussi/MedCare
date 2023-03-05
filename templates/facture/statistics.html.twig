@@ -1,0 +1,22 @@
+{% extends 'base-front.html.twig' %}
+
+{% block content %}
+    <h1>Facture Statistics</h1>
+
+    <canvas id="event-status-chart" width="400" height="400"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('factures-chart').getContext('2d');
+        var FacturesChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Factures', ],
+                datasets: [{
+                    data: [{{ factures }} ],
+                    backgroundColor: ['#36a2eb', '#ff6384']
+                }]
+            }
+        });
+    </script>
+{% endblock %}

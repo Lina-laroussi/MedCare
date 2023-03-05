@@ -154,7 +154,34 @@ class FactureController extends AbstractController
         return $this->redirectToRoute('app_facture_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/recherche', name: 'app_facture_recherche', methods: ['GET' ,'POST'])]
+    public function chercherRDV(FactureRepository $factureRepository,Request $req): Response
+    {
+        $form = $this->createForm(FactureRechercheType::class);
+        $form->HandleRequest($req);
+        
+        if ($form -> isSUbmitted()) {
+            $data=  $form->getData();
+            $rech = $factureRepository->rechercherFacture($data);
+             return $this->render('Front-Office/facture/index.html.twig', [
+                 'factures' => $rech,
+             ]);
+         }
+         $result = $factureRepository->findAll();
+         return $this->render('Front-Office/facture/index.html.twig', [
+            'factures' => $result,
+            'f'=>$form->createView()
+        ]);
+    }
+    #[Route('/stat', name: 'app_facture_stat')]
+    public function Statistics(Facture $facture, FactureRepository $factureRepository): Response
+    {
+        $factures = $this->getDoctrine()->getRepository(Facture::class)->count(['factures']);
 
-    
+        return $this->render('facture/statistics.html.twig', [
+            'factures' => $factures,
+        ]);
+    }
+
    
 }

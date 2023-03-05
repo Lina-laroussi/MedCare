@@ -24,6 +24,13 @@ class PharmacieController extends AbstractController
             'pharmacies' => $pharmacieRepository->findAll(),
         ]);
     }
+    #[Route('/searchlist', name: 'app_pharmacie_s', methods: ['GET'])]
+    public function searchph(PharmacieRepository $pharmacieRepository): Response
+    {
+        return $this->render('pharmacie/listsearchpharmacie.html.twig', [
+            'pharmacies' => $pharmacieRepository->findAll(),
+        ]);
+    }
     #[Route('/detailpharmacie/{id}', name: 'app_pharmacie_details', methods: ['GET'])]
     public function  detailspharmacie(Pharmacie $pharmacie): Response
     {
@@ -94,18 +101,46 @@ class PharmacieController extends AbstractController
 
         return $this->redirectToRoute('app_pharmacie_index', [], Response::HTTP_SEE_OTHER);
     }
+}
 
+  /*  #[Route('search', name: 'app_searchph', methods: ['GET'])]
+
+    public function searchAction(Request $request)
+    {
+      $repository = $this->getDoctrine()->getRepository(pharmacie::class);
+      $requestString= $request->get('searchValue');
+      $pharmacies = $repository->findBystring($requestString);
+      $jsonContent = $Normalizer->normalize($repas, 'json',['groups'=>'pharmacies']);
+      $retour=json_encode($jsonContent);
+      return new Response($retour);
+  
+    }
 
     
 
+    #[Route('/listepharma', name: 'list_pharmacie')]
+    public function list_pharmacie(PharmacieRepository $repo,Request $req): Response
+    {
+        $pharmacies = $repo->findAll();
+        $form = $this->createForm(SearchFormType::class);
+        $form->handleRequest($req);
+        if($form->isSubmitted() ) {
+            $searchTerm = $form->getData();
+            $pharmacies = $repo->findPharmaciesBySearchTerm($searchTerm);
+        }
+
+        return $this->render('Back-Office/pharmacie/index.html.twig', [
+            'pharmacies' => $pharmacies,
+            'form'=>$form->createView(),
+        ]);
+    }
 
 
 
 
 
 
-
-
+/*
 }
 
 
