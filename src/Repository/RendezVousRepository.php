@@ -54,23 +54,28 @@ class RendezVousRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function findRendezVousesBydate($date)
+    public function findRendezVousesBydate($page,$nbre,$date)
     {
         return $this->createQueryBuilder('r')
         ->Where('r.date = :val')
         ->setParameter('val', $date)
+        ->orderBy('r.heure_debut', 'ASC')
+        ->setFirstResult(($page - 1 ) * $nbre)
+        ->setMaxResults($nbre)
         ->getQuery()
-        ->getResult()
-        ;
+        ->getResult();
    }
-   public function findUpcomingRendezVouses($date)
+   public function findUpcomingRendezVouses($page,$nbre,$date)
    {
        return $this->createQueryBuilder('r')
        ->Where('r.date >= :val')
        ->setParameter('val', $date)
+       ->orderBy('r.date', 'ASC')
+       ->addOrderBy('r.heure_debut', 'ASC')
+       ->setFirstResult(($page - 1 ) * $nbre)
+       ->setMaxResults($nbre)
        ->getQuery()
-       ->getResult()
-       ;
+       ->getResult();
   }
   public function findByPlanning($planning_id)
   {
@@ -94,11 +99,23 @@ class RendezVousRepository extends ServiceEntityRepository
       ->join('r.planning','p')
       ->join('p.medecin','m')
       ->join('r.patient','pat')
-      ->Where('r.date = :val OR r.patient = :val OR m.nom= :val OR pat.nom = :val OR m.prenom= :val OR pat.prenom = :val OR r.etat = :val')
+      ->Where('r.date LIKE :val  OR m.nom LIKE :val OR pat.nom LIKE :val OR m.prenom LIKE :val OR pat.prenom LIKE :val OR r.etat LIKE :val')
       ->setParameter('val', $value)
+      ->orderBy('r.date', 'ASC')
+      ->addOrderBy('r.heure_debut', 'ASC')
       ->getQuery()
       ->getResult()
       ;}
+ }
+ public function countUpcommingRDVs($date): int
+ {
+     return $this->createQueryBuilder('r')
+         ->select('count(r.id)')
+         ->Where('r.date >= :val')
+         ->setParameter('val', $date)
+         ->getQuery()
+         ->getSingleScalarResult()
+         ;
  }
 /*public function findByDate($cin)
     {

@@ -6,10 +6,7 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ planning.id }}</td>
-            </tr>
+
             <tr>
                 <th>Date_debut</th>
                 <td>{{ planning.dateDebut ? planning.dateDebut|date('Y-m-d') : '' }}</td>
@@ -45,9 +42,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_planning_index') }}">back to list</a>
 
-    <a href="{{ path('app_planning_edit', {'id': planning.id}) }}">edit</a>
 
     {{ include('Front-Office/planning/_delete_form.html.twig') }}
 {% endblock %}

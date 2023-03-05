@@ -16,18 +16,31 @@ use DateTimeImmutable;
 #[Route('/planning')]
 class PlanningController extends AbstractController
 {
-    #[Route('/', name: 'app_planning_index', methods: ['GET'])]
-    public function index(PlanningRepository $planningRepository): Response
+    #[Route('/show/{page?1}/{nbre?5}', name: 'app_planning_index', methods: ['GET'])]
+    public function index(PlanningRepository $planningRepository,$nbre,$page): Response
     {
+        $nbPlanning = $planningRepository->countPlanning();
+        $nbrePage = ceil($nbPlanning / $nbre) ;
         return $this->render('Front-Office/planning/index.html.twig', [
-            'plannings' => $planningRepository->findAll(),
+            'plannings' => $planningRepository->findTous($page,$nbre),
+            'isPaginated'=>true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
         ]);
     }
-    #[Route('/admin', name: 'app_planning_index_admin', methods: ['GET'])]
-    public function indexAdmin(PlanningRepository $planningRepository): Response
+    #[Route('/admin/{page?1}/{nbre?5}', name: 'app_planning_index_admin', methods: ['GET'])]
+    public function indexAdmin(PlanningRepository $planningRepository,$page, $nbre): Response
     {
+        $plannings = $planningRepository->findBy([], [],$nbre, ($page - 1 ) * $nbre);
+        $nbPlannings = $planningRepository->count([]);
+        $nbrePage = ceil($nbPlannings / $nbre) ;
         return $this->render('Back-Office/planning/index.html.twig', [
-            'plannings' => $planningRepository->findAll(),
+            'plannings' => $plannings,
+            'isPaginated' => true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
         ]);
     }
 

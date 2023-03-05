@@ -20,11 +20,15 @@ use Symfony\Component\Mercure\Update;
 #[Route('/rendezVous')]
 class RendezVousController extends AbstractController
 {
-    #[Route('/', name: 'app_rendez_vous_index', methods: ['GET','POST'])]
-    public function index(RendezVousRepository $rendezVousRepository,Request $req): Response
+    #[Route('/show/{page?1}/{nbre?5}', name: 'app_rendez_vous_index', methods: ['GET','POST'])]
+    public function index(RendezVousRepository $rendezVousRepository,Request $req,$nbre,$page): Response
     {
         $date = new DateTime('today');
         $todaysDate = $date->format('Y-m-d');
+        $nbRDV = $rendezVousRepository->countUpcommingRDVs($todaysDate);
+        $nbrePage = ceil($nbRDV / $nbre) ;
+        $upcomingRDVs = $rendezVousRepository->findUpcomingRendezVouses($page,$nbre,$todaysDate);
+        $todaysRDVs = $rendezVousRepository->findRendezVousesBydate($page,$nbre,$todaysDate);
         $form = $this->createForm(RendezVousRechercheType::class);
         $form->HandleRequest($req);
         
@@ -37,20 +41,30 @@ class RendezVousController extends AbstractController
              ]);
          }
         return $this->render('Front-Office/rendez_vous/index.html.twig', [
-            'rendez_vouses' => $rendezVousRepository->findUpcomingRendezVouses($todaysDate),
-            'today_rendez_vouses' => $rendezVousRepository->findRendezVousesBydate($todaysDate),
+            'rendez_vouses' => $upcomingRDVs,
+            'today_rendez_vouses' =>$todaysRDVs ,
             'date'=> $todaysDate,
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'isPaginated'=>true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
 
         ]);
     }
-    #[Route('/admin', name: 'app_rendez_vous_admin_index', methods: ['GET'])]
-    public function indexAdmin(RendezVousRepository $rendezVousRepository): Response
+    #[Route('/admin/{page?1}/{nbre?5}', name: 'app_rendez_vous_admin_index', methods: ['GET'])]
+    public function indexAdmin(RendezVousRepository $rendezVousRepository,$page, $nbre): Response
     {
- 
+        $rendeVouses = $rendezVousRepository->findBy([], [],$nbre, ($page - 1 ) * $nbre);
+        $nbRDVs = $rendezVousRepository->count([]);
+        $nbrePage = ceil($nbRDVs / $nbre) ;
         return $this->render('Back-Office/rendez_vous/index.html.twig', [
-            'rendez_vouses' => $rendezVousRepository->findAll(),
-          
+            'rendez_vouses' => $rendeVouses,
+            'isPaginated' => true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
+            
 
         ]);
     }

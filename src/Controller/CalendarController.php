@@ -25,12 +25,18 @@ class CalendarController extends AbstractController
     #[Route('/', name: 'app_calendar', methods: ['GET', 'POST'])]
     public function index(Request $request,PlanningRepository $planningRepository,UserRepository $patientRep,RendezVousRepository $rendezVousRepository): Response
     {
-        $getRendezVous = $rendezVousRepository->findUpcomingRendezVouses(new DateTime('today'));
+        $getRendezVous = $rendezVousRepository->findAll();
         $rendeVouses = [];
         foreach($getRendezVous as $rendezVous){
             $datetimeStart = new DateTime($rendezVous->getDate()->format('Y-m-d ').$rendezVous->getHeureDebut()->format('H:i:s'));
             $datetimeEnd = new DateTime($rendezVous->getDate()->format('Y-m-d ').$rendezVous->getHeureFin()->format('H:i:s'));
-
+            if($rendezVous->getEtat() == "confirmé"){
+                $couleur = "rgb(130, 205, 71)";
+            }else if($rendezVous->getEtat() == "annulé"){
+                $couleur = "#e63c3c";
+            }else{
+                $couleur = "rgb(244, 164, 66)";
+            }
             $rendeVouses[] = [
                 'id'=> $rendezVous->getId(),
                 'date'=>$rendezVous->getDate()->format('Y-m-d'),
@@ -44,7 +50,8 @@ class CalendarController extends AbstractController
                 'planningId'=> $rendezVous->getPlanning()->getId(),
                // 'allDay' => true,
                 'symptomes'=> $rendezVous->getSymptomes(),
-                'constraint'=>'availableForRDV'
+                'constraint'=>'availableForRDV',
+                'color'=> $couleur
             ];
         }
         $getPlannings = $planningRepository->findAll();
@@ -132,7 +139,7 @@ class CalendarController extends AbstractController
         $rendezVou->setHeureFin(new DateTime($donnes->heureFin));
         $rendezVou->setSymptomes($donnes->symptomes);
         $rendezVousRepository->save($rendezVou, true);
-        return new Response('added');
+        return $this->redirectToRoute('app_calendar', [], Response::HTTP_SEE_OTHER);
 
     }
 
