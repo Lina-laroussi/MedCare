@@ -17,11 +17,21 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 #[Route('/pharmacie')]
 class PharmacieController extends AbstractController
 {
-    #[Route('/', name: 'app_pharmacie_index', methods: ['GET'])]
-    public function index(PharmacieRepository $pharmacieRepository): Response
-    {
+    #[Route('/show/{page?1}/{nbre?2}', name: 'app_pharmacie_index', methods: ['GET'])]
+    public function index(PharmacieRepository $pharmacieRepository ,$nbre, $page): Response
+    { 
+        $nbrePharmacies = $pharmacieRepository->countPharmacies();
+        $nbrePage = ceil($nbrePharmacies / $nbre) ;
+
         return $this->render('pharmacie/index.html.twig', [
-            'pharmacies' => $pharmacieRepository->findAll(),
+            
+     
+        
+            'pharmacies' => $pharmacieRepository->findTous($nbre,$page),
+           'isPaginated' => true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
         ]);
     }
     #[Route('/searchlist', name: 'app_pharmacie_s', methods: ['GET'])]

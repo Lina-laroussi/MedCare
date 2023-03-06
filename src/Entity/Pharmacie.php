@@ -72,6 +72,8 @@ class Pharmacie
     #[ORM\Column(length: 255)]
     private ?string $Gouvernorat = null;
 
+  
+
     public function __construct()
     {
         $this->factures = new ArrayCollection();
@@ -246,4 +248,6 @@ class Pharmacie
 
         return $this;
     }
+
+  
 }

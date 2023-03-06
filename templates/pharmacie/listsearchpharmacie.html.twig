@@ -1,6 +1,7 @@
 {% extends 'Menu.html.twig' %}
 
 {% block body %}
+
 <div class="breadcrumb-bar-six">
 <div class="container">
 <div class="row align-items-center">
@@ -30,6 +31,7 @@
                                                         <th class="wd-15p">Horaire</th>
 														<th class="wd-10p">Email</th>
                                                         <th class="wd-25p">Détails</th>
+                                                        <th class="wd-25p">Rate</th>
 
 													</tr>
 												</thead>
@@ -44,6 +46,8 @@
                 <td>{{ pharmacie.etat }}</td>
                 <td>{{ pharmacie.horaire }}</td>
                 <td>{{ pharmacie.email }}</td>
+         
+                
                 <td>
      <a href="{{ path('app_pharmacie_details', {'id': pharmacie.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Voir') }}</a>
 
@@ -71,5 +75,7 @@
         });
     	});
 		</script>
+   
+
 
 {% endblock %}

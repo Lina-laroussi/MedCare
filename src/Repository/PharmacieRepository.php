@@ -86,7 +86,29 @@ class PharmacieRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
             ;
     }
+    public function findTous($nbre , $page) 
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.id', 'ASC')
+            ->setFirstResult(($page - 1 )* $nbre)
+            ->setMaxResults($nbre)
+            ->getQuery()
+            ->getResult();
+            
+    }
+
+
+
+public function countPharmacies(): int
+{
+    return $this->createQueryBuilder('r')
+        ->select('count(r.id)')
+        ->getQuery()
+        ->getSingleScalarResult();
 }
+
+}
+
  
 
    /*public function findBeginWith($value, $userId)
