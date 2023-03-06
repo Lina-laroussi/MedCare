@@ -97,6 +97,37 @@ class CategorieController extends AbstractController
 
 
 
+
+    #[Route('/chercherr', name: 'app_categorie_chercher', methods: ['GET'])]
+    public function chercherParNom(Request $request, CategorieRepository $CategorieRepository): Response
+    {
+        $nom = $request->query->get('nom');
+        $categories = $CategorieRepository->findByNom($nom);
+    
+        return $this->render('categorie/chercher.html.twig', [
+            'nom' => $nom,
+            'categories' => $categories,
+        ]);
+    }
+    
+    
+    #[Route('/chercheretat', name: 'app_categorie_chercher_etat', methods: ['GET'])]
+    public function chercheretat(Request $request, CategorieRepository $CategorieRepository): Response
+    {
+        $etat = $request->query->get('etat');
+        $categories = $CategorieRepository->findByEtat($etat);
+    
+        return $this->render('categorie/chercher.html.twig', [
+            'etat' => $etat,
+            'categories' => $categories,
+        ]);
+    }
+
+
+
+
+
+
  //__________////////________________EN JSON _______________///////////
 
 

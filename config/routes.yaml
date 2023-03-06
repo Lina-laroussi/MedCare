@@ -59,7 +59,24 @@ delete_Categorie:
     path: /l/produits
     controller: App\Controller\ProduitController::pagi
 
-  
-search:
-   path: /search
-   controller: App\Controller\ProduitController::search
+app_produit_chercher:
+    path: /chercher
+    controller: App\Controller\ProduitController::chercherParNom
+    methods: [GET]
+
+app_categorie_chercher:
+    path: /chercherr
+    controller: App\Controller\CategorieController::chercherParNom
+    methods: [GET]
+
+
+app_categorie_chercher_etat:
+    path: /chercheretat
+    controller: App\Controller\CategorieController::chercheretat
+    methods: [GET]
+
+
+app_produit_chercher_etat:
+    path: /chercheretat
+    controller: App\Controller\CategorieController::chercheretat
+    methods: [GET]

@@ -19,6 +19,30 @@
   </ul>
 </nav>
 
+<div class="row">
+  <div class="col-md-6">
+    <form action="{{ path('app_categorie_chercher') }}" method="get" class="d-flex align-items-center">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Recherche..." name="nom" value="{{ app.request.query.get('nom') }}">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">Chercher par NOM</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <form action="{{ path('app_categorie_chercher_etat') }}" method="get" class="d-flex align-items-center">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Recherche..." name="etat" value="{{ app.request.query.get('etat') }}">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">Chercher par ETAT</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
     <table class="table">
         <thead>
             <tr>
@@ -63,7 +87,7 @@
 
         
 
-
+</div>
         
         
 {% endblock %}

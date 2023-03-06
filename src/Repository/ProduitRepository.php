@@ -59,7 +59,29 @@ class ProduitRepository extends ServiceEntityRepository
         return $categoriesCount;
     }
     
-    
+
+public function findByNom(string $nom): array
+{ return $this->createQueryBuilder('p')
+    ->where('p.nom LIKE :nom')
+    ->setParameter('nom', '%'.$nom.'%')
+    ->getQuery()
+    ->getResult();
+}
+
+public function findByEtat(string $etat): array
+{ return $this->createQueryBuilder('p')
+    ->where('p.etat LIKE :etat')
+    ->setParameter('etat', '%'.$etat.'%')
+    ->getQuery()
+    ->getResult();
+}
+   
+
+
+
+
+
+
 
 //    /**
 //     * @return Produit[] Returns an array of Produit objects

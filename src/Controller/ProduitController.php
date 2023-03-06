@@ -22,7 +22,6 @@ class ProduitController extends AbstractController
     #[Route('/', name: 'app_produit_index', methods: ['GET'])]
     public function index(ProduitRepository $produitRepository ,PaginatorInterface $paginator, Request $request): Response
     {
-        
         $produits = $produitRepository->findAll();
         $pagination = $paginator->paginate(
             $produits,
@@ -163,6 +162,32 @@ if ($file) {
 
         return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
         }
+
+
+
+        #[Route('/chercher', name: 'app_produit_chercher', methods: ['GET'])]
+public function chercherParNom(Request $request, ProduitRepository $produitRepository): Response
+{
+    $nom = $request->query->get('nom');
+    $produits = $produitRepository->findByNom($nom);
+
+    return $this->render('produit/chercher.html.twig', [
+        'nom' => $nom,
+        'produits' => $produits,
+    ]);
+}
+
+#[Route('/chercheretat', name: 'app_produit_chercher_etat', methods: ['GET'])]
+public function chercheretat(Request $request, ProduitRepository $ProduitRepository): Response
+{
+    $etat = $request->query->get('etat');
+    $produits = $ProduitRepository->findByEtat($etat);
+
+    return $this->render('produit/chercher.html.twig', [
+        'etat' => $etat,
+        'produits' => $produits,
+    ]);
+}
 
 
 
