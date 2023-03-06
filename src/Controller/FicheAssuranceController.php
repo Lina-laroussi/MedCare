@@ -45,7 +45,7 @@ class FicheAssuranceController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
     
         // récupérer les paramètres de la requête
-        $limit = $request->query->getInt('limit', 5);
+        $limit = $request->query->getInt('limit', 10);
         $page = $request->query->getInt('page', 1);
         $q = $request->query->get('q');
         
@@ -53,7 +53,9 @@ class FicheAssuranceController extends AbstractController
         $queryBuilder = $ficheAssuranceRepository->createQueryBuilder('t');
         $queryBuilder->orderBy('t.id', 'ASC');
         if ($q) {
-            $queryBuilder->andWhere('t.etat LIKE :q')
+            $queryBuilder->Where('t.etat LIKE :q')
+            ->orWhere('t.num_adherent LIKE :q')
+                         
            
             ->setParameter('q', '%'.$q.'%');
             
@@ -125,24 +127,60 @@ class FicheAssuranceController extends AbstractController
 
 
 
-
-
-
+//////////////////////////////////////////CHART JS /////////////////////
 #[Route('/fiches-assurance2', name: 'fiche_assurance_indexq')]
-public function exampleAction(EntityManagerInterface $entityManager)
-{
+public function exampleAction(EntityManagerInterface $entityManager,ChartBuilderInterface $chartBuilder)
+{   
     $fiches = $entityManager->createQueryBuilder()
-        ->select('f.num_adherent,f.description,f.date_creation,f.image_facture,f.etat')
+        ->select('f.etat,COUNT(f.etat) as nbFiches')
         ->from(FicheAssurance::class, 'f')
         ->where('f.etat = :etat')
-        ->setParameter('etat', 'Non confirmé')
+        ->setParameter('etat', 'non confirmé')
         ->groupBy('f.etat')
         ->getQuery()
         ->getResult();
 
 
+     
+
+
+        $count_non_confirmé  = $entityManager->createQueryBuilder()
+            ->select('COUNT(d) as count_confirmed_files')
+            ->from(FicheAssurance::class, 'd')
+            ->where('d.etat = :etat')
+            ->setParameter('etat', 'non confirmé')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+            $count_confirmé  = $entityManager->createQueryBuilder()
+            ->select('COUNT(d) as count_confirmed_files')
+            ->from(FicheAssurance::class, 'd')
+            ->where('d.etat = :etat')
+            ->setParameter('etat', 'confirmée')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+
+            $chart = $chartBuilder->createChart(Chart::TYPE_PIE);
+            $labels=["nombre des fiches confirmées","nombre des fiches non confirmées"];
+            $data=[$count_confirmé,$count_non_confirmé];
+                $chart->setData([
+                    
+                    'labels' => $labels,
+                    'datasets' => [
+                        [
+                            'label' => 'My First dataset',
+                            'backgroundColor' => ['rgb(164,222,2)','rgb(255,46,47)'  ],
+                            'data' => $data,
+                        ],
+                    ],
+                ]);
+                $chart->setOptions([]);
+
+
     return $this->render('fiche_assurance/groupedby.html.twig', [
-        'fiches' => $fiches,
+        'fiches' => $fiches,'count_non_confirmé' => $count_non_confirmé,'count_confirmé' => $count_confirmé,
+        'chart' => $chart
     ]);
 }
 
@@ -217,7 +255,7 @@ public function exampleAction(EntityManagerInterface $entityManager)
 #[Route('/json', name: 'app_fiche_assurance_index_json')]
 public function app_fiche_assurance_index_json(FicheAssuranceRepository $repo, SerializerInterface $serializer){
     $fichesAssurances=$repo->findAll();    
-    $json=$serializer->serialize($fichesAssurances, 'json', ['grqoups'=>"ficheAssurance"]);
+    $json=$serializer->serialize($fichesAssurances, 'json', ['groups'=>"ficheAssurance"]);
     return new Response($json);
 }
 

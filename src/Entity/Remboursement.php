@@ -49,7 +49,7 @@ class Remboursement
 
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_remboursement = null;
+    public ?\DateTimeInterface $date_remboursement = null;
     
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]

@@ -1,0 +1,42 @@
+{% extends 'base-back.html.twig' %}
+{% block body %}
+<div style="margin-left:30%" >
+    <h1>File Search</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.startDate) }}
+        {{ form_row(form.endDate) }}
+        <button type="submit">Search</button>
+    {{ form_end(form) }}
+
+    {% if files|length > 0 %}
+        <h2>Found {{ files|length }} files</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Creation Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in files %}
+                    <tr>
+                        <td>{{ file.id }}</td>
+                        <td>{{file.date_remboursement ? file.date_remboursement|date('Y-m-d ') : '' }}</td> 
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No files found.</p>
+    {% endif %}
+    </div>
+    {% endblock %}
+
+
+
+
+
+
+    
