@@ -54,3 +54,12 @@ update_Categorie:
 delete_Categorie:
     path: /delateCategorie/{id}
     controller: 'App\Controller\CategorieController::delateCategorie'
+
+/l/produits:
+    path: /l/produits
+    controller: App\Controller\ProduitController::pagi
+
+  
+search:
+   path: /search
+   controller: App\Controller\ProduitController::search

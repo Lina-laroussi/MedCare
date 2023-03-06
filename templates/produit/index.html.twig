@@ -6,12 +6,7 @@
   
  <div class="container" style="margin-left: 10%" >
     <h1>Produit</h1>
-
-
-    <form action="{{ path('add_produit') }}" method="post">
-    <button type="submit">Submit</button>
-</form>
-
+    
 <nav aria-label="Page navigation example">
   <ul class="pagination">
     <li class="page-item"><a class="page-link"  href="{{ path('app_produit_new') }}" >Ajouter</a></li>
@@ -21,6 +16,8 @@
           
   </ul>
 </nav>
+
+
 
 
     <table class="table">
@@ -49,6 +46,7 @@
                 <td> 
                 {% if produit.image %}
 <img src="{{ asset('uploads/' ~ produit.image) }}" alt="{{ produit.nom }}" />
+
 {% endif %}</td>
 
  <td>   
@@ -59,16 +57,22 @@
                     <a href="{{ path('app_produit_edit', {'id': produit.id}) }}"  class="btn btn-primary" >edit</a>
                 </td>
             </tr>
+            
         {% else %}
             <tr>
                 <td colspan="8">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
+        <div class="pagination">
+    {{ knp_pagination_render(pagination) }}
+</div>
     </table>
 
     <a href="{{ path('app_produit_new') }}"  class="btn btn-primary" >Create new</a>
                 </div>
+</div>
+
 
 
 

@@ -20,12 +20,25 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ProduitController extends AbstractController
 {
     #[Route('/', name: 'app_produit_index', methods: ['GET'])]
-    public function index(ProduitRepository $produitRepository): Response
+    public function index(ProduitRepository $produitRepository ,PaginatorInterface $paginator, Request $request): Response
     {
+        
+        $produits = $produitRepository->findAll();
+        $pagination = $paginator->paginate(
+            $produits,
+            $request->query->getInt('page', 1),
+            3
+        );
         return $this->render('produit/index.html.twig', [
-            'produits' => $produitRepository->findAll(),
+            'pagination' => $pagination,
+            'produits' => $pagination,
+
         ]);
     }
+
+
+  
+
     
     ///pour le Front 
 
@@ -151,9 +164,12 @@ if ($file) {
         return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
         }
 
-    //*-**-*-*-*-**-*-*-*-*-**-*-*-*-*-**-*-*-*-*-***-*-*--**-*-**-*-*--*
 
-       
+
+
+        //*-**-*-*-*-**-*-*-*-*-**-*-*-*-*-**-*-*-*-*-***-*-*--**-*-**-*-*--*
+
+        
         //en JSON 
 
     //https://localhost:8000/AllProduits

@@ -58,6 +58,8 @@ class ProduitRepository extends ServiceEntityRepository
 
         return $categoriesCount;
     }
+    
+    
 
 //    /**
 //     * @return Produit[] Returns an array of Produit objects
@@ -84,3 +86,4 @@ class ProduitRepository extends ServiceEntityRepository
 //        ;
 //    }
 }
+?>

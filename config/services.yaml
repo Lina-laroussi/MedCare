@@ -9,8 +9,8 @@ parameters:
   sms_from_number: '+12706790702'
   sms_to_number: '+21652999421'
 
-  product_images_directory: '%kernel.project_dir%/public/uploads'
-  product_images_url: '/uploads'
+  Produit_images_directory: '%kernel.project_dir%/public/uploads'
+  produit_images_url: '/uploads'
 
 services:
   App\Service\SmsService:
