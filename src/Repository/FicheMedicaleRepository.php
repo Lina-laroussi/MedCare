@@ -39,6 +39,25 @@ class FicheMedicaleRepository extends ServiceEntityRepository
         }
     }
 
+    public function findTous($page,$nbre)
+    {
+        
+        return $this->createQueryBuilder('p')
+        ->orderBy('p.id', 'ASC')
+        ->setFirstResult(($page - 1 ) * $nbre)
+        ->setMaxResults($nbre)
+        ->getQuery()
+        ->getResult();
+   }
+   public function countFichMed(): int
+   {
+       return $this->createQueryBuilder('p')
+           ->select('count(p.id)')
+           ->getQuery()
+           ->getSingleScalarResult()
+           ;
+   }
+
 //    /**
 //     * @return FicheMedicale[] Returns an array of FicheMedicale objects
 //     */

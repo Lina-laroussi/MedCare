@@ -13,16 +13,22 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/ficheMedicale')]
 class FicheMedicaleController extends AbstractController
 {
-// afficher tous les fiche med
-    #[Route('/', name: 'app_fiche_medicale_index', methods: ['GET'])]
-    public function index(FicheMedicaleRepository $ficheMedicaleRepository): Response
+// ----------------------------afficher tous les fiche med--------------------------------------------
+    #[Route('/show/{page?1}/{nbre?4}', name: 'app_fiche_medicale_index', methods: ['GET'])]
+    public function index(FicheMedicaleRepository $ficheMedicaleRepository, $nbre,$page ): Response
     {
+        $nbFich = $ficheMedicaleRepository->countFichMed();
+        $nbrePage = ceil((int)$nbFich/(int)$nbre) ;
         return $this->render('Front-Office/ficheMedicale/ficheMedicale.html.twig', [
-            'fiche_medicales' => $ficheMedicaleRepository->findAll(),
+            'fiche_medicales' => $ficheMedicaleRepository->findTous($page,$nbre),
+            'isPaginated'=>true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
         ]);
     }
 
-// Ajout/create new fiche med
+// -------------------------------Ajout/create new fiche med---------------------------------------------------
     #[Route('/new', name: 'app_fiche_medicale_new', methods: ['GET', 'POST'])]
     public function new(Request $request, FicheMedicaleRepository $ficheMedicaleRepository): Response
     {
@@ -42,7 +48,7 @@ class FicheMedicaleController extends AbstractController
         ]);
     }
 
-// afficher les fiche med par id
+// ----------------------------------------afficher les fiche med par id-----------------------------------
     #[Route('/{id}', name: 'app_fiche_medicale_show', methods: ['GET'])]
     public function show(FicheMedicale $ficheMedicale): Response
     {
@@ -51,7 +57,7 @@ class FicheMedicaleController extends AbstractController
         ]);
     }
 
-// modifier fiche med
+// ----------------------------------------modifier fiche med--------------------------------------------
     #[Route('/{id}/edit', name: 'app_fiche_medicale_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, FicheMedicale $ficheMedicale, FicheMedicaleRepository $ficheMedicaleRepository): Response
     {
@@ -69,7 +75,7 @@ class FicheMedicaleController extends AbstractController
             'form' => $form,
         ]);
     }
-// delete fiche med
+// ----------------------------------------delete fiche med----------------------------------------------
     #[Route('/{id}', name: 'app_fiche_medicale_delete', methods: ['POST'])]
     public function delete(Request $request, FicheMedicale $ficheMedicale, FicheMedicaleRepository $ficheMedicaleRepository): Response
     {

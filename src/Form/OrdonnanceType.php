@@ -50,12 +50,12 @@ class OrdonnanceType extends AbstractType
                     'html5' => false,
                     'data' => new \DateTime(),
                     'format' => 'dd/MM/yyyy H:m:s'
-            ])/*
+            ])
             ->add('consultation', EntityType::class,[
                     'class' => Consultation::class,
                     'choice_label' => 'traitement',
                     'attr' => ['class' => 'form-control form-group']
-            ])*/
+            ])
         ;
     }
 

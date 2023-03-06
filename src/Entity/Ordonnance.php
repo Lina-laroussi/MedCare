@@ -14,6 +14,10 @@ class Ordonnance
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+    
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    private ?string $medicaments = null;
 
     #[ORM\Column(length: 10)]
     #[Assert\NotBlank()]
@@ -24,9 +28,7 @@ class Ordonnance
     private ?string $description = "examenr générale";
 
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
-    private ?string $medicaments = null;
+    
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]

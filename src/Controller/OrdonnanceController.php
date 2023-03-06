@@ -18,16 +18,22 @@ use BaconQrCode\Writer;
 #[Route('/ordonnance')]
 class OrdonnanceController extends AbstractController
 {
-// afficher tous les ordenance
-    #[Route('/', name: 'app_ordonnance_index', methods: ['GET'])]
-    public function index(OrdonnanceRepository $ordonnanceRepository): Response
+// ------------------------------------ afficher tous les ordenance------------------------------
+    #[Route('/show/{page?1}/{nbre?5}', name: 'app_ordonnance_index', methods: ['GET'])]
+    public function index(OrdonnanceRepository $ordonnanceRepository, $nbre,$page): Response
     {
+        $nbOrdon = $ordonnanceRepository->countOrdonnance();
+        $nbrePage = ceil((int)$nbOrdon /(int)$nbre) ;
         return $this->render('Front-Office/ordonnance/ordonnance.html.twig', [
-            'ordonnances' => $ordonnanceRepository->findAll(),
+            'ordonnances' => $ordonnanceRepository->findTous($page,$nbre),
+            'isPaginated'=>true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
         ]);
     }
 
-// creation new ordenance
+// ------------------------creation new ordenance--------------------------------------
     #[Route('/new', name: 'app_ordonnance_new', methods: ['GET', 'POST'])]
     public function new(Request $request, OrdonnanceRepository $ordonnanceRepository): Response
     {
@@ -54,7 +60,7 @@ class OrdonnanceController extends AbstractController
 
 
     
-// afficher ordenance par id
+// ---------------------------afficher ordenance par id---------------------------------------------
     #[Route('/{id}', name: 'app_ordonnance_show', methods: ['GET'])]
     public function show(Ordonnance $ordonnance): Response
     {
@@ -63,7 +69,7 @@ class OrdonnanceController extends AbstractController
         ]);
     }
 
-// modifier ordenance
+// -------------------------------modifier ordenance---------------------------------------
     #[Route('/{id}/edit', name: 'app_ordonnance_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Ordonnance $ordonnance, OrdonnanceRepository $ordonnanceRepository): Response
     {
@@ -82,7 +88,7 @@ class OrdonnanceController extends AbstractController
         ]);
     }
 
-// delete ordenance
+// ----------------------------------delete ordenance---------------------------------------------
     #[Route('/{id}', name: 'app_ordonnance_delete', methods: ['POST'])]
     public function delete(Request $request, Ordonnance $ordonnance, OrdonnanceRepository $ordonnanceRepository): Response
     {
@@ -93,7 +99,7 @@ class OrdonnanceController extends AbstractController
         return $this->redirectToRoute('app_ordonnance_index', [], Response::HTTP_SEE_OTHER);
     }
 
-// print ordenance by id
+// ------------------------------------------print ordenance by id----------------------------------------
     #[Route('/ordonnance/{id}/print', name: 'print_ordonnance')]
     public function printOrdonnance(Ordonnance $ordonnance): Response
     {

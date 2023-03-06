@@ -38,6 +38,33 @@ class OrdonnanceRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findTous($page,$nbre)
+    {
+        
+        return $this->createQueryBuilder('p')
+        ->orderBy('p.id', 'ASC')
+        ->setFirstResult(($page - 1 ) * $nbre)
+        ->setMaxResults($nbre)
+        ->getQuery()
+        ->getResult();
+   }
+   public function countOrdonnance(): int
+   {
+       return $this->createQueryBuilder('p')
+           ->select('count(p.id)')
+           ->getQuery()
+           ->getSingleScalarResult()
+           ;
+   }
+/*
+    public function getTotalMedicaments(): int
+    {
+        $query = $this->createQueryBuilder('o')
+        ->select('SUM(o.medicaments) as totalMedicaments')
+        ->getQuery();
+        $result = $query->getSingleScalarResult();
+        return (int) $result;
+    }
 
 //    /**
 //     * @return Ordonnance[] Returns an array of Ordonnance objects

@@ -58,11 +58,6 @@ class Consultation1Type extends AbstractType
             ->add('observation', TextType::class, [
                 'attr' => ['class' => 'form-control form-group']
             ])
-            ->add('ordonnance', EntityType::class,[
-                'class' => Ordonnance::class,
-                'choice_label' => 'medicaments',
-                'attr' => ['class' => 'form-control form-group']
-                ])
             ->add('rendezVous', EntityType::class,[
                 'class' => RendezVous::class,
                 'choice_label' => 'date',
@@ -74,6 +69,12 @@ class Consultation1Type extends AbstractType
                 'attr' => ['class' => 'form-control form-group']
                 ])
             /*    
+            
+            ->add('ordonnance', EntityType::class,[
+                'class' => Ordonnance::class,
+                'choice_label' => 'medicaments',
+                'attr' => ['class' => 'form-control form-group']
+                ])
             ->add('date_consultation', DateType::class,[
                 'widget' => 'single_text',
                 'html5' => false,

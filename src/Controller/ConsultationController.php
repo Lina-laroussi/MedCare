@@ -19,16 +19,22 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 #[Route('/consultation')]
 class ConsultationController extends AbstractController
 {
-// afficher tous les consultation
-    #[Route('/', name: 'app_consultation_index', methods: ['GET'])]
-    public function index(ConsultationRepository $consultationRepository): Response
+// -----------------------afficher tous les consultation-----------------------------------
+    #[Route('/show/{page?1}/{nbre?3}', name: 'app_consultation_index', methods: ['GET'])]
+    public function index(ConsultationRepository $consultationRepository,$nbre,$page): Response
     {
+        $nbConsult = $consultationRepository->countConsult();
+        $nbrePage = ceil((int)$nbConsult /(int)$nbre) ;
         return $this->render('Front-Office/consultation/consultation.html.twig', [
-            'consultations' => $consultationRepository->findAll(),
+            'consultations' => $consultationRepository->findTous($page,$nbre),
+            'isPaginated'=>true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
         ]);
     }
 
-// ajouter/créer consultation
+// --------------------------------ajouter/créer consultation----------------------------------------
     #[Route('/new', name: 'app_consultation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ConsultationRepository $consultationRepository): Response
     {
@@ -37,54 +43,9 @@ class ConsultationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $consultationRepository->save($consultation, true);
-             // Get patient phone number : $consultation->getRendezVous()->getPatient()->getNumTel()
-        $patientPhoneNumber = '+21696082716';
+        $consultationRepository->save($consultation, true);        
 
-        // Get consultation date and time
-        $consultationDateTime = $consultation->getDateRendezVous();
-
-        // Get current time
-        $currentTime = new \DateTime('now');
-
-        // Calculate time difference in hours
-        $diff = $consultationDateTime->diff($currentTime);
-        $hoursDiff = $diff->h + ($diff->days * 24);
-
-
-        // Check if there's 24 hours or less until the consultation
-        if ($hoursDiff <= 24) {
-            // Send reminder SMS to patient
-            //require_once '/path/to/vendor/autoload.php';
-            $accountSid = 'ACf8d83ce8d583440b6c27987c10a0b106';
-            $authToken = '20227668e51bcd646b9e534b6b3405e1';
-            $twilio = new Client($accountSid, $authToken); 
- 
-            $message = $twilio->messages 
-                            ->create($patientPhoneNumber, // to : Patient phone number 
-                                    array(  
-                                        "messagingServiceSid" => "MG35ecb99459fed44b9da5124d3041ece9",      
-                                        "body" => "Rappel : Vous avez une consultation demain à ". $consultationDateTime->format('H:i') . '.' 
-                                    ) 
-                            ); 
-            
-            print($message->sid);
-            /*
-            $twilioNumber = '+13087304924';
-
-            $client = new Client($accountSid, $authToken);
-
-            $client->messages->create(
-                $patientPhoneNumber, // Patient phone number
-                array(
-                    'from' => $twilioNumber,
-                    'body' => 'You have a consultation tomorrow at ' . $consultationDateTime->format('H:i') . '.'
-                )
-            );*/
-        }
-
-
-            return $this->redirectToRoute('app_consultation_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_consultation_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('Front-Office/consultation/new.html.twig', [
@@ -93,7 +54,7 @@ class ConsultationController extends AbstractController
         ]);
     }
 
-// afficher consultation par id
+// ---------------------------------afficher consultation par id---------------------------------------
     #[Route('/{id}', name: 'app_consultation_show', methods: ['GET'])]
     public function show(Consultation $consultation): Response
     {
@@ -102,7 +63,7 @@ class ConsultationController extends AbstractController
         ]);
     }
 
-// modifier consultation
+// --------------------------------------modifier consultation---------------------------------------
     #[Route('/{id}/edit', name: 'app_consultation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Consultation $consultation, ConsultationRepository $consultationRepository): Response
     {
@@ -131,14 +92,14 @@ class ConsultationController extends AbstractController
             // Send reminder SMS to patient
             //require_once '/path/to/vendor/autoload.php';
             $accountSid = 'ACf8d83ce8d583440b6c27987c10a0b106';
-            $authToken = '20227668e51bcd646b9e534b6b3405e1';
+            $authToken = '4c6e49b373389a81c36227d2ee80dbac';
             $twilio = new Client($accountSid, $authToken); 
  
             $message = $twilio->messages 
                             ->create($patientPhoneNumber, // to : Patient phone number 
                                     array(  
                                         "messagingServiceSid" => "MG35ecb99459fed44b9da5124d3041ece9",      
-                                        "body" => "Rappel : Vous avez une consultation demain à ". $consultationDateTime->format('H:i') . '.' 
+                                        "body" => "Rappel : Vous avez une consultation demain à ". $consultationDateTime->format('H:i') . "avec docteur " . '.'
                                     ) 
                             ); 
             
@@ -167,7 +128,7 @@ class ConsultationController extends AbstractController
 }
 
 
-// delete consultation
+// -------------------------------------------delete consultation-------------------------------------------
     #[Route('/{id}', name: 'app_consultation_delete', methods: ['POST'])]
     public function delete(Request $request, Consultation $consultation, ConsultationRepository $consultationRepository): Response
     {
@@ -178,6 +139,7 @@ class ConsultationController extends AbstractController
         return $this->redirectToRoute('app_consultation_index', [], Response::HTTP_SEE_OTHER);
     }
 
+// -------------------------------------------download consultation en excel-------------------------------
 
     #[Route('/consultation/export/csv', name: 'consultation_export_csv')]
     public function exportCsv(EntityManagerInterface $entityManager): Response

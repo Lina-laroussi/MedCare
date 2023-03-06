@@ -1,139 +1,6 @@
 {% extends 'base-front.html.twig' %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{asset('FrontOffice/css/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{asset('FrontOffice/plugins/apex/apexcharts.css') }}">
-{% endblock %}
 
-{% block javascripts %}
-    <script src="{{ asset('FrontOffice/js/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('FrontOffice/js/circle-progress.min.js') }}"></script>
-    <script src="{{ asset('FrontOffice/js/feather.min.js') }}"></script>
-    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
-    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
-    <script src="{{ asset('FrontOffice/plugins/select2/js/select2.min.js') }}"></script>
-    <script src="{{ asset('FrontOffice/plugins/apex/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('FrontOffice/plugins/apex/chart-data.js') }}"></script>
-{% endblock %}
-
-
-
-
-{% block active_menu %}
-    <li class="has-submenu ">
-        <a href="/">Accueil </a>
-    </li>
-    <li class="has-submenu active" >
-        <a href="/dashboard">Médecin</a>
-    </li>      
-{% endblock %}
-
-{% block signup %}
-<li class="nav-item dropdown has-arrow logged-item">
-    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-        <span class="user-img">
-            <img class="rounded-circle" src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" width="31" alt="Darren Elder">
-        </span>
-    </a>
-    <div class="dropdown-menu dropdown-menu-end">
-        <div class="user-header">
-            <div class="avatar avatar-sm">
-                <img src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" alt="User Image" class="avatar-img rounded-circle">
-            </div>
-            <div class="user-text">
-                <h6>Darren Elder</h6>
-                <p class="text-muted mb-0">Doctor</p>
-            </div>
-        </div>
-        <a class="dropdown-item" href="/dashboard">Dashboard</a>
-        <a class="dropdown-item" href="doctor-profile-settings.html">Profile Settings</a>
-        <a class="dropdown-item" href="/">Logout</a>
-    </div>
-</li>        
-{% endblock %}
-
-{% block breadcrumbBar %}
-    <div class="breadcrumb-bar">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-md-12 col-12">
-                    {% block navBar %} 
-                    <nav aria-label="breadcrumb" class="page-breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item active"><a href="/"> Home > </a></li>
-                            <li> Dashboard </li>
-                        </ol>
-                    </nav>
-                    {% endblock %}
-                    <h2 class="breadcrumb-title">{% block nav %} Dashboard {% endblock %} </h2>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
-
-{% block sideBar %}
-<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
-    <div class="profile-sidebar"> 
-        <div class="widget-profile pro-widget-content">
-            <div class="profile-info-widget">
-                <a href="#" class="booking-doc-img">
-                    <img src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" alt="User Image">
-                </a>
-                <div class="profile-det-info">
-                    <h3>Dr. Darren Elder</h3>
-                    <div class="patient-details">
-                        <h5 class="mb-0">BDS, MDS - Oral et Maxillofacial Surgery</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="dashboard-widget">
-            <nav class="dashboard-menu">
-                <ul>
-                    <li class="active">
-                        <a href="/dashboard">
-                            <i class="fas fa-columns"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/consultation">
-                            <i class="fas fa-calendar-check"></i>
-                            <span> Consultation </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="my-patients.html">
-                            <i class="fas fa-user-injured"></i>
-                            <span>Mes Patients</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="doctor-profile-settings.html">
-                            <i class="fas fa-user-cog"></i>
-                            <span>Profile Settings</span>
-                        </a>
-                    </li>                                
-                    <li>
-                        <a href="doctor-change-password.html">
-                            <i class="fas fa-lock"></i>
-                            <span>Change Mot de passe</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="index.html">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Déconnecter</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</div>
-{% endblock %}
 {% block body %}
             <!--Section1 : head -->
             <div class="col-md-7 col-lg-8 col-xl-9">
@@ -258,41 +125,25 @@
             </div>         
             <!--Section3 : body : ordonnance -->   
             <div class="row">
-                <div class="col-lg-6 d-flex">
+                 <!--Section nombre de maladie courant --> 
+                 <div class="col-lg-6 d-flex">
                     <div class="card dash-cards flex-fill">
                         <div class="card-header">
                             <div class="today-appointment-title">
-                                <h5 class="mb-0"> Ordonnances de jour </h5>
-                                <a href="#"><h6 class="mb-0">Voir tout  <i class="feather-arrow-right"></i></h6></a>
+                                <h5 class="mb-0">Nombre de maladie courant</h5>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover table-center mb-0">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <a href="#" class="avatar-m avatar-tablet me-2 d-flex align-items-center justify-content-center">
-                                                        <img src="{{ asset('FrontOffice/img/icons/tablets.svg')}}" alt="">
-                                                    </a>
-                                                    <a href="#">Abacavir<span class="text-danger">#8995447</span></a>
-                                                </h2>
-                                            </td>
-                                            <td>Type : Onetime</td>
-                                            <td class="text-center"><a href="javascript:void(0);"><i class="fas fa-chevron-right"></i></a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <div class="earnings-chart"></div>
                         </div>
                     </div>
                 </div>
+                 <!--Section nombre de medicament -->
                 <div class="col-lg-6 d-flex">
                     <div class="card dash-cards flex-fill">
                         <div class="card-header">
                             <div class="today-appointment-title">
-                                <h5 class="mb-0"> Bénéfice total</h5>
+                                <h5 class="mb-0">nombre de medicament </h5>
                             </div>
                         </div>
                         <div class="card-body">
@@ -308,20 +159,15 @@
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h5 class="card-title">RDV</h5>
+                                    <h5 class="card-title">Nombre consultation par day </h5>
                                 </div>
                                 <div class="col-auto chart-select d-flex">
                                     <div class="me-2">
                                         <select class="select">
-                                            <option>consultation</option>
-                                            <option>ordonnance</option>
-                                            <option>RDV</option>
+                                            <option>per day</option>
+                                            <option>per month</option>
                                         </select>
                                     </div>
-                                    <select class="select">
-                                        <option>2022</option>
-                                        <option>2023</option>
-                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -331,5 +177,138 @@
                     </div>
                 </div>
             </div>
+            
+
 {% endblock %}                 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{asset('FrontOffice/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{asset('FrontOffice/plugins/apex/apexcharts.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('FrontOffice/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/js/circle-progress.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/js/feather.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/apex/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/apex/chart-data.js') }}"></script>
+{% endblock %}
+
+{% block active_menu %}
+    <li class="has-submenu ">
+        <a href="/">Accueil </a>
+    </li>
+    <li class="has-submenu active" >
+        <a href="/dashboard">Médecin</a>
+    </li>      
+{% endblock %}
+
+{% block signup %}
+<li class="nav-item dropdown has-arrow logged-item">
+    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+        <span class="user-img">
+            <img class="rounded-circle" src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" width="31" alt="Darren Elder">
+        </span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end">
+        <div class="user-header">
+            <div class="avatar avatar-sm">
+                <img src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" alt="User Image" class="avatar-img rounded-circle">
+            </div>
+            <div class="user-text">
+                <h6>Darren Elder</h6>
+                <p class="text-muted mb-0">Doctor</p>
+            </div>
+        </div>
+        <a class="dropdown-item" href="/dashboard">Dashboard</a>
+        <a class="dropdown-item" href="doctor-profile-settings.html">Profile Settings</a>
+        <a class="dropdown-item" href="/">Logout</a>
+    </div>
+</li>        
+{% endblock %}
+
+{% block breadcrumbBar %}
+    <div class="breadcrumb-bar">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-12 col-12">
+                    {% block navBar %} 
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active"><a href="/"> Home > </a></li>
+                            <li> Dashboard </li>
+                        </ol>
+                    </nav>
+                    {% endblock %}
+                    <h2 class="breadcrumb-title">{% block nav %} Dashboard {% endblock %} </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block sideBar %}
+<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+    <div class="profile-sidebar"> 
+        <div class="widget-profile pro-widget-content">
+            <div class="profile-info-widget">
+                <a href="#" class="booking-doc-img">
+                    <img src="{{ asset('FrontOffice/img/doctors/doctor-thumb-02.jpg')}}" alt="User Image">
+                </a>
+                <div class="profile-det-info">
+                    <h3>Dr. Darren Elder</h3>
+                    <div class="patient-details">
+                        <h5 class="mb-0">BDS, MDS - Oral et Maxillofacial Surgery</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-widget">
+            <nav class="dashboard-menu">
+                <ul>
+                    <li class="active">
+                        <a href="/dashboard">
+                            <i class="fas fa-columns"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/consultation/show">
+                            <i class="fas fa-calendar-check"></i>
+                            <span> Consultation </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="my-patients.html">
+                            <i class="fas fa-user-injured"></i>
+                            <span>Mes Patients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="doctor-profile-settings.html">
+                            <i class="fas fa-user-cog"></i>
+                            <span>Profile Settings</span>
+                        </a>
+                    </li>                                
+                    <li>
+                        <a href="doctor-change-password.html">
+                            <i class="fas fa-lock"></i>
+                            <span>Change Mot de passe</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Déconnecter</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}
  
