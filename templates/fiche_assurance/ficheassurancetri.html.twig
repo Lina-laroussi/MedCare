@@ -1,26 +1,23 @@
 {% extends 'base-back.html.twig' %}
 
-{% block title %}Fiche Assurance index{% endblock %}
-
 {% block body %}
-<div style="margin-left:15%">
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <h1>Fiche Assurance index</h1>
-    <br>
-    <br>
 
+   <div class="page-wrapper">
+    <div class="content container-fluid">   
+    <div class="appointment-tab">
+    <h1>fiche assurances index</h1>
     <form class="form-inline my-2 my-lg-0" action="{{ path('app_fiche_assurance_index') }}">
-        <input class="form-control mr-sm-2" type="search" placeholder="Recherche" aria-label="Recherche" name="q" value="{{ q }}">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
+        <div class="input-group mb-3">
+            <input class="form-control mr-sm-2" type="search" placeholder="Recherche" aria-label="Recherche" name="q" value="{{ q }}">
+            <div class="input-group-append"><button class="btn btn-outline-success my-2 my-sm-1" type="submit">Rechercher</button></div>
+        </div>
     </form>
-
-    <br>
-
-    <table class="table table-bordered">
+                <div class="tab-content pt-0">
+                <div id="upcoming-appointments" class="tab-pane fade show active" role="tabpanel">
+                <div class="card card-table mb-0">
+                <div class="card-body">
+                <div class="table-responsive">
+                <table class="table table-hover table-center mb-0">
         <thead>
             <tr>
                 <th class="font-weight-bold">Id</th>
@@ -34,27 +31,49 @@
         </thead>
         <tbody>
             {% for fiche in fiche_assurances %}
-                <tr>
-                    <td>{{ fiche.id }}</td>
-                    <td>{{ fiche.numAdherent }}</td>
-                    <td>{{ fiche.description }}</td>
-                    <td>{{ fiche.imageFacture }}</td>
-                    <td>{{ fiche.etat }}</td>
-                    <td>{{ fiche.dateCreation ? fiche.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+            <tr>
+                <td>{{ fiche.id }}</td>
+                <td>{{ fiche.numAdherent }}</td>
+                <td>{{ fiche.description }}</td>
+                <td>{{ fiche.imageFacture }}</td>
+               
+                <td>{{ fiche.dateCreation ? fiche.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+
+                
+                <td>
+                {% if fiche.etat !="confirmé" %}
+                <span class="badge rounded-pill bg-warning-light">
+                {% endif %}
+                {% if fiche.etat =="confirmé" %}
+                <span class="badge rounded-pill bg-success-light">
+                {% endif %}
+                {% if fiche.etat =="annulé" %}
+                <span class="badge rounded-pill bg-danger-light">
+                {% endif %}
+                {{ fiche.etat }}</span>
+                </td>
                     <td>
                         <a href="{{ path('app_fiche_assurance_show', {'id': fiche.id}) }}">show</a>
                         <a href="{{ path('app_fiche_assurance_edit', {'id': fiche.id}) }}">edit</a>
                     </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4">Il n'y a pas d'enregistrement correspondant à votre recherche, veuillez rechercher par le numéro d'adherent ou l'état</td>
-                </tr>
-            {% endfor %}
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">Pas de resultats</td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
-
-    {% if fiche_assurances|length > 0 %}
+    </div>
+    </div>
+</div>
+</div>
+</div>
+        </tbody>
+    </table>
+<br/>
+{% if fiche_assurances|length > 0 %}
         <ul class="pagination justify-content-center">
             {% for page in fiche_assurances.page %}
                 <li {% if page.isCurrentPage %}class="active"{% endif %}>
@@ -65,7 +84,7 @@
    
         {{ knp_pagination_render(fiche_assurances) }}
     {% endif %}
-
+    <br/>
     <a class="btn btn-primary" href="{{ path('app_fiche_assurance_new') }}">Create new</a>
     </div>
 {% endblock %}

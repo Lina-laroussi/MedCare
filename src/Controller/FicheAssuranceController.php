@@ -45,7 +45,7 @@ class FicheAssuranceController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
     
         // récupérer les paramètres de la requête
-        $limit = $request->query->getInt('limit', 10);
+        $limit = $request->query->getInt('limit', 5);
         $page = $request->query->getInt('page', 1);
         $q = $request->query->get('q');
         

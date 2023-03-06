@@ -10,6 +10,8 @@ use App\Form\RemboursementType;
 use App\Repository\FicheAssuranceRepository;
 use App\Repository\RemboursementRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +22,7 @@ use Symfony\Component\Mercure\Update;
 #[Route('/remboursement')]
 class RemboursementController extends AbstractController
 {
+    /*
     #[Route('/', name: 'app_remboursement_index', methods: ['GET'])]
     public function index(RemboursementRepository $remboursementRepository): Response
     {
@@ -27,9 +30,65 @@ class RemboursementController extends AbstractController
             'remboursements' => $remboursementRepository->findAll(),
         ]);
     }
+ */
+
+
+ #[Route('/', name: 'app_remboursement_index', methods: ['GET'])]
+ public function index(RemboursementRepository $RemboursementRepository , Request $request, PaginatorInterface $paginator,FlashyNotifier $Flashy): Response
+ {
+     $entityManager = $this->getDoctrine()->getManager();
+ 
+     // récupérer les paramètres de la requête
+     $limit = $request->query->getInt('limit', 5);
+     $page = $request->query->getInt('page', 1);
+     $q = $request->query->get('q');
+     
+     // construire la requête pour récupérer les ficheAssurances
+     $queryBuilder = $RemboursementRepository->createQueryBuilder('t');
+     $queryBuilder->orderBy('t.id', 'ASC');
+     if ($q) {
+         $queryBuilder->Where('t.etat LIKE :q')
+         ->orWhere('t.id LIKE :q')
+                      
+        
+         ->setParameter('q', '%'.$q.'%');
+         
+     }
+     $query = $queryBuilder->getQuery();
+ 
+     // paginer les résultats
+     $pagination = $paginator->paginate(
+         $query,
+         $page,
+         $limit
+     );
+ 
+     return $this->render('remboursement/index.html.twig', [
+         'remboursements' => $pagination,
+         'q' => $q,
+     ]);
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     #[Route('/new', name: 'app_remboursement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, RemboursementRepository $remboursementRepository): Response
+    public function new(Request $request, RemboursementRepository $remboursementRepository,FlashyNotifier $flashy ): Response
     {
         $remboursement = new Remboursement();
         $form = $this->createForm(RemboursementType::class, $remboursement);
@@ -38,7 +97,8 @@ class RemboursementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $remboursementRepository->save($remboursement, true);
-
+            // Add success flash message
+            $flashy->success("La fiche assurance a été créée avec succès", '');
             return $this->redirectToRoute('app_remboursement_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -46,7 +106,11 @@ class RemboursementController extends AbstractController
             'remboursement' => $remboursement,
             'form' => $form,
         ]);
-    }
+    } 
+   
+
+
+ 
 
     #[Route('/{id}', name: 'app_remboursement_show', methods: ['GET'])]
     public function show(Remboursement $remboursement): Response
