@@ -7,6 +7,7 @@ use App\Form\EditFormMedecinType;
 use App\Form\EditFormUserType;
 use App\Form\SearchFormType;
 use App\Form\UserType;
+use App\Repository\PlanningRepository;
 use App\Repository\UserRepository;
 use App\Service\MailerService;
 use Doctrine\Persistence\ManagerRegistry;
@@ -41,6 +42,21 @@ class UtilisateurController extends AbstractController
             'nbP'=>$nbPatients,
             'nbPh'=>$nbPharmaciens,
             'nbA'=>$nbAssureurs
+        ]);
+    }
+
+    #[Route('/listRendezVous/{page?1}/{nbre?5}', name: 'app_planning_index_admin', methods: ['GET'])]
+    public function indexAdmin(PlanningRepository $planningRepository,$page, $nbre): Response
+    {
+        $plannings = $planningRepository->findBy([], [],$nbre, ($page - 1 ) * $nbre);
+        $nbPlannings = $planningRepository->count([]);
+        $nbrePage = ceil($nbPlannings / $nbre) ;
+        return $this->render('Back-Office/planning/index.html.twig', [
+            'plannings' => $plannings,
+            'isPaginated' => true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre
         ]);
     }
 

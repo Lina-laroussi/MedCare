@@ -37,20 +37,7 @@ class PlanningController extends AbstractController
             'user'=>$user1
         ]);
     }
-    #[Route('/admin/{page?1}/{nbre?5}', name: 'app_planning_index_admin', methods: ['GET']),IsGranted('ROLE_ADMIN')]
-    public function indexAdmin(PlanningRepository $planningRepository,$page, $nbre): Response
-    {
-        $plannings = $planningRepository->findBy([], [],$nbre, ($page - 1 ) * $nbre);
-        $nbPlannings = $planningRepository->count([]);
-        $nbrePage = ceil($nbPlannings / $nbre) ;
-        return $this->render('Back-Office/planning/index.html.twig', [
-            'plannings' => $plannings,
-            'isPaginated' => true,
-            'nbrePage' => $nbrePage,
-            'page' => $page,
-            'nbre' => $nbre
-        ]);
-    }
+
 
     #[Route('/{id}/new', name: 'app_planning_new', methods: ['GET', 'POST']),IsGranted('ROLE_MEDECIN')]
     public function new($id ,Request $request, UserRepository $medecinRep,PlanningRepository $planningRepository): Response
