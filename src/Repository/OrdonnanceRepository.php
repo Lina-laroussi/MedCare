@@ -69,6 +69,9 @@ class OrdonnanceRepository extends ServiceEntityRepository
             return (int) $qb->getQuery()->getSingleScalarResult();
         }
 
+        
+
+
 
 
    /*public function findMedicamentsAddedPerDay(): array

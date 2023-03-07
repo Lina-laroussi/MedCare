@@ -25,6 +25,7 @@ class IntegrationController extends AbstractController
         $totalConsultations = $consultationRepository->getTotalConsultations();
         $totalRevenus = $consultationRepository ->getTotalRevenus();
         $totalMedicaments = $ordonnanceRepository ->getTotalMedicament();
+
         return $this->render('Front-Office/dashboardDoc.html.twig', [
             'totalConsultations' => $totalConsultations,
             'TotalRevenus' => $totalRevenus,

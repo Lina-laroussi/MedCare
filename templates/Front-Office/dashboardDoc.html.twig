@@ -58,7 +58,7 @@
                 </div>
             </div>
             <!--Section2 : body : consultations -->
-            <div class="row">
+            {#<div class="row">
                 <div class="col-lg12">
                     <div class="card dash-cards">
                         <div class="card-header">
@@ -86,58 +86,50 @@
                         </div>
                     </div>
                 </div>
-            </div>         
+            </div>  #}       
             <!--Section3 : body : ordonnance -->   
-            <div class="row">
-                 <!--Section nombre de maladie courant --> 
-                <div class="col-lg-6 d-flex">
-                    <div class="card dash-cards flex-fill">
-                        <div class="card-header">
-                            <div class="today-appointment-title">
-                                <h5 class="mb-0">Nombre de maladie courant</h5>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="earnings-chart"></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="row">                 
                  <!--Section nombre de medicament -->
-                <div class="col-lg-6 d-flex">
+                <div class="col-lg-12 d-flex">
                     <div class="card dash-cards flex-fill">
                         <div class="card-header">
                             <div class="today-appointment-title">
-                                <h5 class="mb-0">Number of medicaments added per day</h5>
+                                <h5 class="mb-0">Nombre de medicaments par jour </h5>
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div>
                             <canvas id="myChart"></canvas>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <!--Section4 : body : RDV : graphe --> 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card dash-cards xyz">
-                        <div class="card-header">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h5 class="card-title">Nombre consultation par day </h5>
-                                </div>
-                                <div class="col-auto chart-select d-flex">
-                                    <div class="me-2">
-                                        <select class="select">
-                                            <option>per day</option>
-                                            <option>per month</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div id="call-chart"></div>
-                        </div>
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <script>
+                            const ctx = document.getElementById('myChart');
+
+                            new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'],
+                                    datasets: [{
+                                        label: 'Number of Medicaments',
+                                        data: [1, 1, 1, 1],
+                                        borderWidth: 1,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        hoverBackgroundColor: 'rgba(54, 162, 235, 0.4)',
+                                        hoverBorderColor: 'rgba(54, 162, 235, 1)',
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            });
+                        </script>
+                 
+
+ 
                     </div>
                 </div>
             </div>
@@ -278,6 +270,7 @@
     <script src="{{ asset('FrontOffice/plugins/select2/js/select2.min.js') }}"></script>
     <script src="{{ asset('FrontOffice/plugins/apex/apexcharts.min.js') }}"></script>
     <script src="{{ asset('FrontOffice/plugins/apex/chart-data.js') }}"></script>
+   
 
 
 {% endblock %}
