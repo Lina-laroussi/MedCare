@@ -1,0 +1,52 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Résultats de la recherche{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1>Résultats de la recherche</h1>
+    
+    {% if categories|length == 0 %}
+      <p>Aucun résultat trouvé.</p>
+    {% else %}
+     
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Etat</th>
+                <th>Marque</th>
+                <th>Groupe_age</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie in categories %}
+            <tr>
+                <td>{{ categorie.id }}</td>
+                <td>{{ categorie.nom }}</td>
+                <td>{{ categorie.description }}</td>
+                <td>{{ categorie.etat }}</td>
+                <td>{{ categorie.marque }}</td>
+                <td>{{ categorie.groupeAge }}</td>
+                
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        </div>
+                </div>
+
+       {% endif %}
+ 
+
+
+        
+        
+{% endblock %}

@@ -89,6 +89,9 @@
             "./config/packages/knpu_oauth2_client.yaml"
         ]
     },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.4.0"
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
@@ -353,5 +356,14 @@
     },
     "twig/extra-bundle": {
         "version": "v3.5.1"
+    },
+    "vich/uploader-bundle": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.13",
+            "ref": "1b3064c2f6b255c2bc2f56461aaeb76b11e07e36"
+        }
     }
 }

@@ -1,0 +1,150 @@
+
+{% extends 'base-back.html.twig' %}
+
+
+{% block body %}
+  
+ <div class="container" style="margin-left: 10%" >
+    <h1>Produit</h1>
+    
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link"  href="{{ path('app_produit_new') }}" >Ajouter</a></li>
+     {% for produit in produits %}
+    <li class="page-item"><a class="page-link"<a href="{{ path('app_produit_show', {'id': produit.id}) }}"  class="btn btn-primary">{{ produit.id }}</a></a></li>
+     {% endfor %}
+          
+  </ul>
+</nav>
+
+
+
+
+<div class="row">
+  <div class="col-md-6">
+    <form action="{{ path('app_produit_chercher') }}" method="get" class="d-flex align-items-center">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Recherche..." name="nom" value="{{ app.request.query.get('nom') }}">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">Chercher par NOM</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <form action="{{ path('app_produit_chercher_etat') }}" method="get" class="d-flex align-items-center">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Recherche..." name="etat" value="{{ app.request.query.get('etat') }}">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">Chercher par ETAT</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+    <table class="table">
+   
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Prix</th>
+                <th>Etat</th>
+                <th>Quantite</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+      {% for produit in produits %}
+            <tr>
+                <td>{{ produit.id }}</td>
+                <td>{{ produit.nom }}</td>
+                <td>{{ produit.description }}</td>
+                <td>{{ produit.prix }}</td>
+                <td>{{ produit.etat }}</td>
+                <td>{{ produit.quantite }}</td>
+                <td> 
+                {% if produit.image %}
+          <img src="{{ asset('uploads/' ~ produit.image) }}" alt="{{ produit.nom }}" />
+
+{% endif %}</td>
+ <td>   
+</td>
+                     <td>   
+                    <a href="{{ path('app_produit_show', {'id': produit.id}) }}"  class="btn btn-primary">show</a>
+                    <a href="{{ path('app_produit_edit', {'id': produit.id}) }}"  class="btn btn-primary" >edit</a>
+                </td>
+            </tr>
+            
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <div class="pagination">
+    {{ knp_pagination_render(pagination) }}
+</div>
+    </table>
+
+    <a href="{{ path('app_produit_new') }}"  class="btn btn-primary" >Create new</a>
+                </div>
+</div>
+
+ <div class="container" style="margin-left: 20%" >
+    <canvas id="myChart" width="400" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="myChart"></canvas>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+   var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [
+            {% for stat in stats %}
+                "{{ stat.categorie.nom }}",
+            {% endfor %}
+        ],
+        datasets: [{
+            label: 'Nombre de produits',
+            data: [
+                {% for stat in stats %}
+                    {{ stat.nbProduits }},
+                {% endfor %}
+            ],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 2
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    fontSize: 10
+                }
+            }]
+        }
+    }
+});
+
+
+</script>
+</div>
+
+{% endblock %}
+
+
+
+
+
+

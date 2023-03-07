@@ -1,0 +1,39 @@
+{% extends 'base-front.html.twig' %}
+
+{% block title %}Les produits
+{% endblock %}
+
+{% block body %}
+<div class="my-background" style="background-image: url('{{ asset('Parapharmacie.jpg') }}');">
+
+        {# une barre de titre simple avec un fond de couleur gris clair. #}
+    <section class="bg-light p-3">
+        <h1>Les produits</h1>
+    </section>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+     {% for produit in produits %}
+    <li class="page-item"><a class="page-link"<a href="{{path("cart_add", {id: produit.id})}}"  class="btn btn-primary">{{ produit.nom}}</a></a></li>
+     {% endfor %}        
+  </ul>
+</nav>
+</nav>
+    <section class="row">
+        {% for produit in categorie.produits %}
+            <div class="col-4 mt-4">
+                <div class="border border-dark rounded p-2 clearfix">
+                    <h2>{{ produit.nom }}</h2>
+                    <p>{{ produit.prix }} Dt</p>
+                    <p>{{ produit.description }} </p>
+                    <img src="{{ asset('uploads/') ~ produit.image }}" alt="Image de {{ produit.nom }}">
+                    <hr>
+                    <a href="{{path("cart_add", {id: produit.id})}}" class="btn btn-primary">
+                        <i class="bi bi-cart-plus"></i> Ajouter au panier
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+                </div>
+
+{% endblock %}

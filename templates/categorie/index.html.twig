@@ -1,0 +1,93 @@
+{% extends 'base-back.html.twig' %}
+
+{% block body %}
+    <h1>Categorie index</h1>
+
+ <div class="container"
+
+ <div class="row justify-content-center">
+
+
+
+     <nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link"  href="{{ path('app_categorie_new') }}" >Ajouter</a></li>
+        {% for categorie in categories %}
+    <li class="page-item"><a class="page-link"<a href="{{ path('app_categorie_show', {'id': categorie.id}) }}"  class="btn btn-primary">{{ categorie.id }}</a></a></li>
+     {% endfor %}
+          
+  </ul>
+</nav>
+
+<div class="row">
+  <div class="col-md-6">
+    <form action="{{ path('app_categorie_chercher') }}" method="get" class="d-flex align-items-center">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Recherche..." name="nom" value="{{ app.request.query.get('nom') }}">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">Chercher par NOM</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <form action="{{ path('app_categorie_chercher_etat') }}" method="get" class="d-flex align-items-center">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Recherche..." name="etat" value="{{ app.request.query.get('etat') }}">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">Chercher par ETAT</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Etat</th>
+                <th>Marque</th>
+                <th>Groupe_age</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie in categories %}
+            <tr>
+                <td>{{ categorie.id }}</td>
+                <td>{{ categorie.nom }}</td>
+                <td>{{ categorie.description }}</td>
+                <td>{{ categorie.etat }}</td>
+                <td>{{ categorie.marque }}</td>
+                <td>{{ categorie.groupeAge }}</td>
+                
+                <td>
+                    <a href="{{ path('app_categorie_show', {'id': categorie.id}) }}"  class="btn btn-primary" >show</a>
+                    <a href="{{ path('app_categorie_edit', {'id': categorie.id}) }}"  class="btn btn-primary" >edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+          <div class="pagination">
+    {{ knp_pagination_render(pagination) }}
+</div>
+    </table>
+
+    <a href="{{ path('app_categorie_new') }}"  class="btn btn-primary" >Create new</a>
+        </div>
+                </div>
+
+        
+
+</div>
+        
+        
+{% endblock %}
