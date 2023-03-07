@@ -127,6 +127,13 @@ class CategorieController extends AbstractController
 
 
 
+   
+    
+
+
+
+
+
 
  //__________////////________________EN JSON _______________///////////
 

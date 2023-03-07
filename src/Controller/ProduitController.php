@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-
+use App\Entity\Categorie;
 use App\Entity\Produit;
 use App\Form\ProduitType;
 use App\Repository\CategorieRepository;
@@ -22,6 +22,7 @@ class ProduitController extends AbstractController
     #[Route('/', name: 'app_produit_index', methods: ['GET'])]
     public function index(ProduitRepository $produitRepository ,PaginatorInterface $paginator, Request $request): Response
     {
+        $stats = $this->statsProduitsParCategorie();
         $produits = $produitRepository->findAll();
         $pagination = $paginator->paginate(
             $produits,
@@ -31,6 +32,8 @@ class ProduitController extends AbstractController
         return $this->render('produit/index.html.twig', [
             'pagination' => $pagination,
             'produits' => $pagination,
+            'stats' => $stats
+
 
         ]);
     }
@@ -187,6 +190,42 @@ public function chercheretat(Request $request, ProduitRepository $ProduitReposit
         'etat' => $etat,
         'produits' => $produits,
     ]);
+}
+
+
+
+public function produitsParCategorie() {
+    $produits = $this->getDoctrine()
+        ->getRepository(Produit::class)
+        ->findBy([], ['categorie' => 'ASC']);
+    return $produits;
+}
+public function toutesLesCategories() {
+    $categories = $this->getDoctrine()
+        ->getRepository(Categorie::class)
+        ->findAll();
+    return $categories;
+}
+
+
+
+public function statsProduitsParCategorie() {
+    $produits = $this->produitsParCategorie();
+    $categories =$this->toutesLesCategories();
+    $stats = array();
+    foreach ($categories as $categorie) {
+        $nbProduits = 0;
+        foreach ($produits as $produit) {
+            if ($produit->getCategorie() == $categorie) {
+                $nbProduits++;
+            }
+        }
+        $stats[] = array(
+            'categorie' => $categorie,
+            'nbProduits' => $nbProduits
+        );
+    }
+    return $stats;
 }
 
 
