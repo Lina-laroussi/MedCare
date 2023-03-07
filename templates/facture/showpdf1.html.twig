@@ -24,62 +24,36 @@
 <h3 style="color: blue" align='center' >Date: <span>{{ facture.date ? facture.date|date('d-m-Y') : '' }}</span></li>
 
 </div>
-
+<br>
+<br>
 <div>
-<h3 align='center' style="color: blue">Pharmacie</h3>
-<table border=1>
-        <thead>
-            <tr>
-                <th scope="col" style="color: blue">Nom</th>
-                <th scope="col" style="color: blue">Adresse</th>
-                <th scope="col" style="color: blue">Gouvernorat</th>
-                <th scope="col" style="color: blue">E-mail</th>
-                <th scope="col" style="color: blue">Numéro</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ facture.pharmacie.nom }}</td>
-                <td>{{ facture.pharmacie.adresse }}</td>
-                <td>{{ facture.pharmacie.gouvernorat }}</td>
-                <td>{{ facture.pharmacie.email }}</td>
-                <td>{{ facture.pharmacie.numTel }}</td>
-            </tr>
-        </tbody>
+
+       
+    
+
+
+
+   
+    <table width="100%" style="font-family: sans-serif;" cellpadding="10">
+
+        <tr>
+            <td width="49%" style="border: 0.1mm solid #eee;"><h3  style="color: blue">Pharmacie</h3><strong>{{ facture.pharmacie.nom }}</strong><br>{{ facture.pharmacie.adresse }}<br>{{ facture.pharmacie.gouvernorat }}<br>{{ facture.pharmacie.email }}<br>{{ facture.pharmacie.numTel }}</td>
+            <td width="2%">&nbsp;</td>
+
+            <td width="49%" style="border: 0.1mm solid #eee; text-align: right;"><h3  style="color: blue">Client(e)</h3><strong>{{ facture.ordonnance.consultation.rendezvous.patient.nom}}{{ facture.ordonnance.consultation.rendezvous.patient.prenom }}</strong><br>{{ facture.ordonnance.consultation.rendezvous.patient.adresse}}<br>{{ facture.ordonnance.consultation.rendezvous.patient.email }}<br> {{ facture.ordonnance.consultation.rendezvous.patient.numTel }}<br></td>
+        </tr>
     </table>
 
-<h3 align='center' style="color: blue">Client</h3>
+<br>
+<br>
 
-<table border=1>
-        <thead>
-            <tr>
-                <th scope="col" style="color: blue">Nom</th>
-                <th scope="col" style="color: blue">Prénom</th>
-                <th scope="col" style="color: blue">Adresse</th>
-                <th scope="col" style="color: blue">E-mail</th>
-                <th scope="col" style="color: blue">Numéro</th>
-
-
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ facture.ordonnance.consultation.rendezvous.patient.nom}}</td>
-                <td>{{ facture.ordonnance.consultation.rendezvous.patient.prenom }}</td>
-                <td>{{ facture.ordonnance.consultation.rendezvous.patient.adresse}}</td>
-                <td>{{ facture.ordonnance.consultation.rendezvous.patient.email }}</td>
-                <td>{{ facture.ordonnance.consultation.rendezvous.patient.numTel }}</td>
-
-            </tr>
-        </tbody>
-    </table>
+<br>
 
 <table border=1>
         <thead>
             <tr>
                 <th scope="col" style="color: blue">Liste des Médicaments</th>
                 
-
             </tr>
         </thead>
         <tbody>
@@ -93,11 +67,12 @@
 
 
 </div>
-<div class ="left">
+<div class ="right">
 
-<h3 style="color: blue"> Total: {{ facture.montant }} Dt</h3>
+<h3 style="color: blue" ; "text-align: right"> Total: {{ facture.montant }} Dt</h3>
+<br>
 
-        <img src ="{{ absolute_url (asset('uploads/images/' ~ facture.imageSignature))  }}"  >
+        <img src ="{{ absolute_url (asset('uploads/images/' ~ facture.imageSignature))  }}" align='center' >
 
 
             

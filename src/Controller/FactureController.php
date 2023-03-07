@@ -121,7 +121,7 @@ class FactureController extends AbstractController
     #[Route('/{id}/print', name: 'print_pdf')]
     public function printfacture(Facture $facture): Response
     {
-        return $this->render('facture/printpdf.html.twig', [
+        return $this->render('facture/showpdf.html.twig', [
             'facture' => $facture,
         ]);
     }
@@ -173,15 +173,65 @@ class FactureController extends AbstractController
             'f'=>$form->createView()
         ]);
     }
-    #[Route('/stat', name: 'app_facture_stat')]
+   /* #[Route('/statistics/ph', name: 'app_facture_stat')]
     public function Statistics(Facture $facture, FactureRepository $factureRepository): Response
     {
-        $factures = $this->getDoctrine()->getRepository(Facture::class)->count(['factures']);
+       $factures = $factureRepository->countfactures();
 
         return $this->render('facture/statistics.html.twig', [
             'factures' => $factures,
         ]);
     }
+    */
+    #[Route('/statistics/ph', name: 'app_fac_stat')]
+    public function stat(FactureRepository $factureRepository): Response
+    { 
+
+        $totalfactures = $factureRepository->TotalFactures();
+        $totalRevenus = $factureRepository ->getTotalRevenus();
+        return $this->render('facture/statistics.html.twig', [
+            'totalFactures' => $totalfactures,
+             'TotalRevenus' => $totalRevenus,
+        ]
+        );
+    
+    }
+  #[Route('/statistics/ph1', name: 'app_fact_stat')]
+
+    public function FacturesStatistics(FactureRepository $factureRepository, PharmacieRepository $pharmacieRepository ): Response
+    {
+        $pharmacies = $pharmacieRepository->findAll();
+
+        $pharmaNom = [];
+      
+
+        // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
+        foreach($pharmacies as $pharmacie){
+            $pharmaNom[] = $pharmacie->getNom();
+          
+        }
+
+        // On va chercher le nombre d'annonces publiées par date
+        $factures = $factureRepository->countByDate();
+        $dates = [];
+        $facturesCount = [];
+
+        // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
+        foreach($factures as $facture){
+            $dates[] = $facture['date'];
+            $facturesCount[] = $facture['count'];
+        }
+
+        return $this->render('facture/statistics1.html.twig', [
+            'pharmaNom' => json_encode($pharmaNom),
+            'pharmaCount' => json_encode($pharmaCount),
+            'dates' => json_encode($dates),
+            'facturesCount' => json_encode($facturesCount),
+        ]);
+    }
+
+    }
+   
+
 
    
-}

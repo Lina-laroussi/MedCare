@@ -1,22 +1,48 @@
-{% extends 'base-front.html.twig' %}
+{% extends 'Menu.html.twig' %}
 
 {% block content %}
     <h1>Facture Statistics</h1>
 
-    <canvas id="factures-chart'" width="400" height="400"></canvas>
+<div class="col-lg-4 col-md-12">
+                        <div class="card dash-cards">
+                            <div class="card-body">
+                                <div class="dash-top-content">
+                                    <div class="circle-bar circle-bar2">
+                                        <div class="circle-graph2" data-percent="75">
+                                            <img src="{{ asset('FrontOffice/img/icon-03.png') }}" class="img-fluid" alt="patient">
+                                        </div>
+                                    </div>
+                                    <div class="dash-widget-info">
+                                        <h6>Nombre total de Factures </h6>
+                                        <h3>{{ totalFactures}}</h3>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        var ctx = document.getElementById('factures-chart').getContext('2d');
-        var FacturesChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Factures', ],
-                datasets: [{
-                    data: [{{ factures }} ],
-                    backgroundColor: ['#36a2eb', '#ff6384']
-                }]
-            }
-        });
-    </script>
+
+
+<div class="col-lg-4 col-md-12">
+                    <div class="card dash-cards">
+                        <div class="card-body">
+                            <div class="dash-top-content">
+                                <div class="circle-bar circle-bar3">
+                                    <div class="circle-graph3" data-percent="50">
+                                     
+                                     <img src="{{asset('public\BackAdmin\img\icon\chart.png')}}" alt="stat" class="img-fluid">
+                                   </div>
+                                </div>
+                                <div class="dash-widget-info">
+                                    <h6>Revenu Total</h6>
+                                    <h3>{{ TotalRevenus }} Dt</h3>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+
+
+
 {% endblock %}

@@ -121,7 +121,9 @@ public function searchPharmacies(Request $request)
   
     #[Route('/send', name: 'app_send')]
     public function sendEmail(MailerService $mailer )
-    {   $mailer->sendEmail(from:'pharmaciemedcare@gmail.com',to:'feryelouerfelli@gmail.com' , content:'votre facture',subject: 'Facture Pharmacie', tmpFile:'document.pdf');
+    {         //    $mailer->sendEmail(from:$facture->getPharmacie()->getEmail(),to:$facture->getOrdonnance()->getConsultation()->getRendezvous()->getPatient()->getEmail(),subject: 'Facture Pharmacie',  template :'template' , tmpFile:'document.pdf');
+
+         $mailer->sendEmail(from:'pharmaciemedcare@gmail.com',to:'feryelouerfelli@gmail.com' , content:'votre facture',subject: 'Facture Pharmacie', tmpFile:'document.pdf');
         return new Response("Success");
     }
 
