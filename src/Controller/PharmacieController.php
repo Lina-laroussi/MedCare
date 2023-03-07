@@ -51,14 +51,6 @@ class PharmacieController extends AbstractController
  
         ]);
     }
-    #[Route('/search', name: 'app_pharmacie_search', methods: ['GET'])]
-    public function search(PharmacieRepository $pharmacieRepository): Response
-    {
-        return $this->render('pharmacie/search.html.twig', [
-            'pharmacies' => $pharmacieRepository->findAll(),
-        ]);
-    }
-
     #[Route('/new', name: 'app_pharmacie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PharmacieRepository $pharmacieRepository , FlashyNotifier $Flashy): Response
     {
@@ -115,7 +107,12 @@ class PharmacieController extends AbstractController
         return $this->redirectToRoute('app_pharmacie_index', [], Response::HTTP_SEE_OTHER);
     }
 
-  /*  #[Route('/tri', name: 'app_pharmacie_tri')]
+  /*  
+  
+  
+  
+  
+  #[Route('/tri', name: 'app_pharmacie_tri')]
    public function tripharmacie(PharmacieRepository $pharmacieRepository)
 {
     $pharmacies  = $pharmacieRepository->tri();
@@ -123,8 +120,21 @@ class PharmacieController extends AbstractController
         'pharmacies' => $pharmacies,
     ]);
 }
+  #[Route('/tri', name: 'app_pharmacie_tri')]
+public function trier(EntityManagerInterface $entityManager)
+    {
+        $pharmacies = $entityManager->getRepository(Pharmacy::class)->createQueryBuilder('p')
+            ->orderBy('p.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('pharmacy/index.html.twig', [
+            'pharmacies' => $pharmacies,
+        ]);
+    }
+}
 */
-#[Route('/tri', name: 'app_pharmacie_triii')]
+/*#[Route('/tri', name: 'app_pharmacie_triii')]
 
     public function Tri(Request $request)
     {
@@ -144,103 +154,26 @@ class PharmacieController extends AbstractController
         array('pharmacies' => $pharmacies));
     
     }
-
-
-}
-
-
-/*#[Route('/stat', name: 'app_stat')]
-
-public function indexAction(){
-    $repository = $this->getDoctrine()->getRepository(Pharmacie::class);
-    $Activites = $repository->findAll();
-    $em = $this->getDoctrine()->getManager();
-    
-    $rd=0; 
-    $qu=0;
-    $es=0;
-   
-
-    foreach ($Activites as $Activites)
-    {
-        if (  $Activites->getCategorie()=="randonnée")  :
-        
-            $rd+=1; 
-         elseif ($Activites->getCategorie()=="quad"):
-
-            $qu+=1; 
-         else :
-            $es +=1;  
-        
-         endif;
-
-    }
-
-
-    $pieChart = new PieChart();
-    $pieChart->getData()->setArrayToDataTable(
-        [['catégories', 'nombres'],
-         ['randonnée',     $rd],
-         ['quad',      $qu],
-         ['escalade',   $es]
-        ]
-    );
-    $pieChart->getOptions()->setTitle('Top categories');
-    $pieChart->getOptions()->setHeight(500);
-    $pieChart->getOptions()->setWidth(900);
-    $pieChart->getOptions()->getTitleTextStyle()->setBold(true);
-    $pieChart->getOptions()->getTitleTextStyle()->setColor('#009900');
-    $pieChart->getOptions()->getTitleTextStyle()->setItalic(true);
-    $pieChart->getOptions()->getTitleTextStyle()->setFontName('Arial');
-    $pieChart->getOptions()->getTitleTextStyle()->setFontSize(20);
-
-    return $this->render('resactivites/stat.html.twig', array('piechart' => $pieChart));
-    }
     */
 
-  /*  #[Route('search', name: 'app_searchph', methods: ['GET'])]
 
-    public function searchAction(Request $request)
-    {
-      $repository = $this->getDoctrine()->getRepository(pharmacie::class);
-      $requestString= $request->get('searchValue');
-      $pharmacies = $repository->findBystring($requestString);
-      $jsonContent = $Normalizer->normalize($repas, 'json',['groups'=>'pharmacies']);
-      $retour=json_encode($jsonContent);
-      return new Response($retour);
-  
-    }
-
-    
-
-    #[Route('/listepharma', name: 'list_pharmacie')]
-    public function list_pharmacie(PharmacieRepository $repo,Request $req): Response
-    {
-        $pharmacies = $repo->findAll();
-        $form = $this->createForm(SearchFormType::class);
-        $form->handleRequest($req);
-        if($form->isSubmitted() ) {
-            $searchTerm = $form->getData();
-            $pharmacies = $repo->findPharmaciesBySearchTerm($searchTerm);
-        }
-
-        return $this->render('Back-Office/pharmacie/index.html.twig', [
-            'pharmacies' => $pharmacies,
-            'form'=>$form->createView(),
-        ]);
-    }
-
-
-
-
-
-
-/*
 }
 
 
 
 
+  
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -253,6 +186,4 @@ public function indexAction(){
 
 
   
-
-*/
 

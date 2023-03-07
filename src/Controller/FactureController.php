@@ -33,10 +33,9 @@ class FactureController extends AbstractController
     {
         return $this->render('facture/index.html.twig', [
             'factures' => $factureRepository->findAll(),
-        ]);
-        
-    
+        ]); 
     }
+
     #[Route('/new', name: 'app_facture_new', methods: ['GET', 'POST'])]
     public function new(Request $request, FactureRepository $factureRepository, UserRepository $userrepository, SluggerInterface $slugger , MailerService $mailer , PharmacieRepository $pharmacieRepository,FlashyNotifier $Flashy): Response
     {
@@ -73,12 +72,6 @@ class FactureController extends AbstractController
                 // instead of its contents
                 $facture->setImageSignature($newFilename);
             }
-
-
-
-
-          //  $mailer->sendEmail(content:'voila votre facture');
-            //$mailer->sendEmail(from:'pharmacoemedcare@gmail.com',to:'feryelouerfelli@gmail.com',content:'votre facture',subject: 'Facture Pharmacie');
             $mailer->sendEmail(from:$facture->getPharmacie()->getEmail(),to:$facture->getOrdonnance()->getConsultation()->getRendezvous()->getPatient()->getEmail(),subject: 'Facture Pharmacie', tmpFile:'document.pdf', htmltemplate:'template', context:['facture'=>$facture]);
 
             $factureRepository->save($facture, true);
@@ -90,6 +83,7 @@ class FactureController extends AbstractController
 
             ]
         ;
+              $Flashy->success("La facture est ajoutée avec succès", '');
 
             return $this->redirectToRoute('app_facture_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -100,6 +94,9 @@ class FactureController extends AbstractController
         ]);
     }
 
+
+
+
     #[Route('/{id}', name: 'app_facture_show', methods: ['GET'])]
     public function show(Facture $facture): Response
     {
@@ -107,6 +104,8 @@ class FactureController extends AbstractController
             'facture' => $facture,
         ]);
     }
+
+    
 
     #[Route('/{id}/pdf', name: 'app_facture_pdf', methods: ['GET'])]
     public function generatepdffacture(Facture $facture = null, DompdfService $pdf ) {
@@ -118,14 +117,6 @@ class FactureController extends AbstractController
 
     }
 
-
-    #[Route('/{id}/print', name: 'print_pdf')]
-    public function printfacture(Facture $facture): Response
-    {
-        return $this->render('facture/showpdf.html.twig', [
-            'facture' => $facture,
-        ]);
-    }
 
     #[Route('/{id}/edit', name: 'app_facture_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Facture $facture, FactureRepository $factureRepository): Response
@@ -156,7 +147,7 @@ class FactureController extends AbstractController
     }
 
     #[Route('/recherche', name: 'app_facture_recherche', methods: ['GET' ,'POST'])]
-    public function chercherRDV(FactureRepository $factureRepository,Request $req): Response
+    public function chercher(FactureRepository $factureRepository,Request $req): Response
     {
         $form = $this->createForm(FactureRechercheType::class);
         $form->HandleRequest($req);
@@ -174,17 +165,8 @@ class FactureController extends AbstractController
             'f'=>$form->createView()
         ]);
     }
-   /* #[Route('/statistics/ph', name: 'app_facture_stat')]
-    public function Statistics(Facture $facture, FactureRepository $factureRepository): Response
-    {
-       $factures = $factureRepository->countfactures();
-
-        return $this->render('facture/statistics.html.twig', [
-            'factures' => $factures,
-        ]);
-    }
-    */
-    #[Route('/statistics/ph', name: 'app_fac_stat')]
+ 
+    #[Route('/statistics/ph', name: 'app_facture_stat')]
     public function stat(FactureRepository $factureRepository): Response
     { 
 
@@ -197,64 +179,57 @@ class FactureController extends AbstractController
         );
     
     }
- /* #[Route('/statistics/ph1', name: 'app_fact_stat')]
+    public function FacturesParpharmacie() {
+        $factures = $this->getDoctrine()
+            ->getRepository(Facture::class)
+            ->findBy([], ['pharmacie' => 'ASC']);
+        return $factures;
+    }
+    
+    
+    public function toutesLespharmacies() {
+        $pharmacies = $this->getDoctrine()
+            ->getRepository(Pharmacie::class)
+            ->findAll();
+        return $pharmacies;
+    }
+    
+    
+    
+    public function statsFacturesParpharmacie() {
+        $factures = $this->FacturesParpharmacie();
+        $pharmacies =$this->toutesLespharmacies();
+        $stats = array();
+        foreach ($pharmacies as $pharmacie) {
+            $nbfactures = 0;
+            foreach ($factures as $facture) {
+                if ($facture->getPharmacie() == $pharmacie) {
+                    $nbfactures++;
+                }
+            }
+            $stats[] = array(
+                'pharmacie' => $pharmacie,
+                'nbfactures' => $nbfactures
+            );
+        }
+        return $stats;
+    }
+   
 
-    public function FacturesStatistics(FactureRepository $factureRepository, PharmacieRepository $pharmacieRepository ): Response
+    #[Route('/statisticsadmin/ph', name: 'app_fac_stat')]
+    public function indexxx(): Response
     {
-        $pharmacies = $pharmacieRepository->findAll();
-
-        $pharmaNom = [];
-      
-
-        // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
-        foreach($pharmacies as $pharmacie){
-            $pharmaNom[] = $pharmacie->getNom();
-          
-        }
-
-        // On va chercher le nombre d'annonces publiées par date
-        $factures = $factureRepository->countByDate();
-        $dates = [];
-        $facturesCount = [];
-
-        // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
-        foreach($factures as $facture){
-            $dates[] = $facture['date'];
-            $facturesCount[] = $facture['count'];
-        }
-
-        return $this->render('facture/statistics1.html.twig', [
-            'pharmaNom' => json_encode($pharmaNom),
-            'pharmaCount' => json_encode($pharmaCount),
-            'dates' => json_encode($dates),
-            'facturesCount' => json_encode($facturesCount),
+        return $this->render('facture/statisticsadmin.html.twig', [
+            'stats' => $this->statsFacturesParpharmacie()
+            
         ]);
     }
-    */
-  /*  #[Route('/statistics/ph2', name: 'app_factt_stat')]
-    public function stati(FactureRepository $factureRepository)
-    {
-        $facturesPerPharmacie = $factureRepository->countfacturesperpharmacie();
-
-        // Prepare the data for the chart
-        $chartData = [
-            'labels' => [],
-            'data' => []
-        ];
-
-        foreach ($facturesPerPharmacie as $factures) {
-            $pharmacieName = $factures['pharmacieName'];
-            $factureCount = $factures['factureCount'];
-            $chartData['labels'][] = $pharmacieName;
-            $chartData['data'][] = $factureCount;
-        }
-
-        return $this->render('facture/statistics3.html.twig', [
-            'chartData' => json_encode($chartData)
-        ]);
-    }
-    */
 }
+
+
+    
+ 
+
 
     
    

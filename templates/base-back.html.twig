@@ -189,7 +189,6 @@
     </div>
 
 {% endblock %}
-
 {% block sidebar%}
     <div class="sidebar" id="sidebar">
         <div class="sidebar-inner slimscroll">
@@ -236,6 +235,8 @@
                         <a href="#"><i class="feather-file-plus"></i> <span> Pharmacies</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="{{path('app_pharmacieadmin_index')}}">All Pharmacies</a></li>
+                        
+                            <li><a href="{{path('app_fac_stat')}}">Statistics</a></li>
                         </ul>
                     </li>
                     <li class="submenu">

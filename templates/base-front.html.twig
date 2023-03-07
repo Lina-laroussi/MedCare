@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>{% block title %}MedCare{% endblock %}</title>
 {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+
 <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
 
     <link type="image/x-icon" href="{{asset('FrontOffice/img/favicon.png') }}" rel="icon">
@@ -24,6 +26,8 @@
     <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
 
 {% endblock%}
+
+
 </head>
 <body>
 {% block header %}
@@ -168,12 +172,17 @@
             </ul>
         </nav>
     </header>
+
 {% endblock %}
 {% block javascripts%}
+
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+
 {% endblock %}
 
 
 {% block body %}
+        {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
 
 {% endblock %}
 
