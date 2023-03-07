@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 
 
 
@@ -28,7 +29,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class FactureController extends AbstractController
 {
     #[Route('/', name: 'app_facture_index', methods: ['GET'])]
-    public function index(FactureRepository $factureRepository): Response
+    public function index(FactureRepository $factureRepository ,FlashyNotifier $Flashy): Response
     {
         return $this->render('facture/index.html.twig', [
             'factures' => $factureRepository->findAll(),
@@ -37,7 +38,7 @@ class FactureController extends AbstractController
     
     }
     #[Route('/new', name: 'app_facture_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, FactureRepository $factureRepository, UserRepository $userrepository, SluggerInterface $slugger , MailerService $mailer , PharmacieRepository $pharmacieRepository): Response
+    public function new(Request $request, FactureRepository $factureRepository, UserRepository $userrepository, SluggerInterface $slugger , MailerService $mailer , PharmacieRepository $pharmacieRepository,FlashyNotifier $Flashy): Response
     {
         $facture = new Facture();
         $form = $this->createForm(FactureType::class, $facture);
@@ -78,7 +79,7 @@ class FactureController extends AbstractController
 
           //  $mailer->sendEmail(content:'voila votre facture');
             //$mailer->sendEmail(from:'pharmacoemedcare@gmail.com',to:'feryelouerfelli@gmail.com',content:'votre facture',subject: 'Facture Pharmacie');
-            $mailer->sendEmail(from:$facture->getPharmacie()->getEmail(),to:$facture->getOrdonnance()->getConsultation()->getRendezvous()->getPatient()->getEmail(),content:'votre facture',subject: 'Facture Pharmacie', tmpFile:'document.pdf');
+            $mailer->sendEmail(from:$facture->getPharmacie()->getEmail(),to:$facture->getOrdonnance()->getConsultation()->getRendezvous()->getPatient()->getEmail(),subject: 'Facture Pharmacie', tmpFile:'document.pdf', htmltemplate:'template', context:['facture'=>$facture]);
 
             $factureRepository->save($facture, true);
             $data=[
@@ -229,8 +230,31 @@ class FactureController extends AbstractController
             'facturesCount' => json_encode($facturesCount),
         ]);
     }
+    #[Route('/statistics/ph2', name: 'app_factt_stat')]
+    public function stati(FactureRepository $factureRepository)
+    {
+        $facturesPerPharmacie = $factureRepository->countfacturesperpharmacie();
 
+        // Prepare the data for the chart
+        $chartData = [
+            'labels' => [],
+            'data' => []
+        ];
+
+        foreach ($facturesPerPharmacie as $factures) {
+            $pharmacieName = $factures['pharmacieName'];
+            $factureCount = $factures['factureCount'];
+            $chartData['labels'][] = $pharmacieName;
+            $chartData['data'][] = $factureCount;
+        }
+
+        return $this->render('facture/statistics3.html.twig', [
+            'chartData' => json_encode($chartData)
+        ]);
     }
+}
+
+    
    
 
 

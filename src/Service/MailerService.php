@@ -5,6 +5,7 @@ namespace App\Service;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Attachment;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class MailerService
 {
@@ -16,22 +17,25 @@ class MailerService
     public function sendEmail(
         $from , 
         $to ,
-        $content,
+        $htmltemplate , 
+
         $subject,
-        $tmpFile
+        $tmpFile,
+        $context
     ): void
     {
-        $email = (new Email())
+        $email = (new TemplatedEmail())
             ->from($from)
             ->to($to)
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
+            ->htmltemplate('facture/template.html.twig')
             ->subject($subject)
             ->text('Sending emails is fun again!')
-            ->html($content)
-            ->attach($tmpFile, 'ab.pdf', 'application/pdf');
+            ->attach($tmpFile, 'ab.pdf', 'application/pdf')
+            ->context($context);
 
             //->addPart(new DataPart(new File('/path/to/documents/terms-of-use.pdf')))
 

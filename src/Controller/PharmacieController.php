@@ -13,6 +13,8 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Attachment;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use MercurySeries\FlashyBundle\FlashyNotifier;
+
 
 #[Route('/pharmacie')]
 class PharmacieController extends AbstractController
@@ -58,7 +60,7 @@ class PharmacieController extends AbstractController
     }
 
     #[Route('/new', name: 'app_pharmacie_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PharmacieRepository $pharmacieRepository): Response
+    public function new(Request $request, PharmacieRepository $pharmacieRepository , FlashyNotifier $Flashy): Response
     {
         $pharmacie = new Pharmacie();
         $form = $this->createForm(PharmacieType::class, $pharmacie);
@@ -66,6 +68,7 @@ class PharmacieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $pharmacieRepository->save($pharmacie, true);
+            $Flashy->success("La pharmacie est ajoutée avec succées", '');
 
             return $this->redirectToRoute('app_pharmacie_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -111,6 +114,16 @@ class PharmacieController extends AbstractController
 
         return $this->redirectToRoute('app_pharmacie_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/tri', name: 'app_pharmacie_tri')]
+   public function tripharmacie(PharmacieRepository $pharmacieRepository)
+{
+    $pharmacies  = $pharmacieRepository->tri();
+    return $this->render('pharmacie/index.html.twig', [
+        'pharmacies' => $pharmacies,
+    ]);
+}
+
 }
 
   /*  #[Route('search', name: 'app_searchph', methods: ['GET'])]
@@ -163,52 +176,11 @@ class PharmacieController extends AbstractController
 
 
 
-    /*#[Route('/ph', name: 'search_pharmacies', methods: ['POST'])]
-    public function search_pharmacies(Request $request, Pharmacie $pharmacie, PharmacieRepository $pharmacieRepository)
-    {
-        $searchQuery = $request->get('search_query');
-        $pharmacies = $this->getDoctrine()
-            ->getRepository(Pharmacie::class)
-            ->findNom($searchQuery); // replace findBySearchQuery with your custom repository method
-        
-        // create an array of data to return as JSON
-        $data = [];
-        foreach ($pharmacies as $pharmacie) {
-            $data[] = [
-                'id' => $pharmacie->getId(),
-                'name' => $pharmacie->getNom(),
-                'address' => $pharmacie->getAdresse(),
-                // add other fields you want to return
-            ];
-        }
-        
-        return new JsonResponse($data);
-    }
 
 
 
-    #[Route('/search', name: 'app_pharmacie_search', )]
 
-    public function search(Request $request): JsonResponse
-    {
-        $term = $request->query->get('term');
-        
-        $pharmacies = $this->getDoctrine()->getRepository(Pharmacie::class)
-            ->searchByNom($term); // implement a custom repository method to search by name
-        
-        $results = [];
-        foreach ($pharmacies as $pharmacie) {
-            $results[] = [
-                'id' => $pharmacie->getId(),
-                'name' => $pharmacie->getNom(),
-                'address' => $pharmacie->getAdresse(),
-                'phone' => $pharmacie->gernumTel(),
-            ];
-        }
-        
-        return new JsonResponse($results);
-    }
-}
+  
 
 */
 

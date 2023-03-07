@@ -1,0 +1,38 @@
+{% extends 'Menu.html.twig' %}
+
+{% block body %}
+    <h1>Statistics</h1>
+    <canvas id="facturesChart"></canvas>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const chartData = {{ chartData|raw }};
+        const chartConfig = {
+            type: 'bar',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    label: 'Factures per Pharmacy',
+                    data: chartData.data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        };
+        const ctx = document.getElementById('facturesChart').getContext('2d');
+        new Chart(ctx, chartConfig);
+    </script>
+{% endblock %}

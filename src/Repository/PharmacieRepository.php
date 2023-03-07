@@ -105,6 +105,14 @@ public function countPharmacies(): int
         ->select('count(r.id)')
         ->getQuery()
         ->getSingleScalarResult();
+
+}
+     public function tri() 
+{
+         return $this->createQueryBuilder('p')
+          ->orderBy('p.nom', 'DESC')
+        ->getQuery()
+        ->getResult();
 }
 
 }

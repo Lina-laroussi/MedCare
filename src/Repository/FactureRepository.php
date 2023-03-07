@@ -99,6 +99,18 @@ public function countfactures(): int
         ->getSingleScalarResult();
 }
 
+public function countfacturesperpharmacie()
+{
+    return $this->createQueryBuilder('f')
+        ->select('COUNT(f.id) as factureCount', 'ph.nom as pharmacieName')
+
+
+        ->join('f.pharmacie', 'ph')
+        ->groupBy('ph.id')
+        ->getQuery()
+        ->getResult();
+}
+
 
 //    /**
 //     * @return Facture[] Returns an array of Facture objects

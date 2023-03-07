@@ -124,7 +124,7 @@
                                         <tr>
                                             <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 10px 0px;font-family:'Raleway',sans-serif;" align="left">
 
-                                                <h1 class="v-text-align v-font-size" style="margin: 0px; line-height: 140%; text-align: center; word-wrap: break-word; font-size: 22px; "><strong>Votre compte a été crée avec succées</strong></h1>
+                                                <h1 class="v-text-align v-font-size" style="margin: 0px; line-height: 140%; text-align: center; word-wrap: break-word; font-size: 22px; "><strong>Votre facture a été crée avec succées</strong></h1>
 
                                             </td>
                                         </tr>
@@ -171,7 +171,7 @@
                                         <tr>
                                             <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:50px 60px 0px;font-family:'Raleway',sans-serif;" align="left">
 
-                                                <h1 class="v-text-align v-font-size" style="margin: 0px; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 20px; "><strong>Objet : Confirmation de création de compte </strong></h1>
+                                                <h1 class="v-text-align v-font-size" style="margin: 0px; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 20px; "><strong>Objet : Facture Pharmacie </strong></h1>
 
                                             </td>
                                         </tr>
@@ -204,7 +204,7 @@
                                             <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 60px 50px;font-family:'Raleway',sans-serif;" align="left">
 
                                                 <div class="v-text-align v-font-size" style="line-height: 140%; text-align: justify; word-wrap: break-word;">
-                                                    <p style="line-height: 140%;">Cher {{ facture.ordonnance.consultation.rendezvous.patient.nom| capitalize }} {{ facture.ordonnance.consultation.rendezvous.patient.prenom|capitalize }},</p>
+                                                    <p style="line-height: 140%;">Cher(e) {{ facture.ordonnance.consultation.rendezvous.patient.nom|capitalize }} {{ facture.ordonnance.consultation.rendezvous.patient.prenom|capitalize }},</p>
                                                     <p style="line-height: 140%;"> </p>
                                                     <p style="line-height: 140%;">Voilà les détails de votre facture crée le {{facture.date ? facture.date|date('Y-m-d') : ''}}   </p>
                                                     <p style="line-height: 140%;"> </p>
@@ -217,7 +217,7 @@
                                                     <p style="line-height: 140%;"> </p>
                                                     <p style="line-height: 140%;">{{facture.montant}} </p>
                                                     <p style="line-height: 140%;"> </p>
-                                                    <p style="line-height: 140%;">Merci d’avoir utiliser notre service.</p>
+                                                    <p style="line-height: 140%;">Merci pour votre fidélité.</p>
                                                     <p style="line-height: 140%;"> </p>
                                                     <p style="line-height: 140%;">Sinceres salutations</p>
                                                     <p style="line-height: 140%;">{{facture.pharmacie.nom|capitalize }} </p>
