@@ -23,6 +23,7 @@ class IntegrationController extends AbstractController
         ]);
     }
 
+
     #[Route('/listMedecins/{page?1}/{nbre?5}', name: 'app_list_medecins')]
     public function listMedecins(UserRepository $repo,Request $req,$nbre,$page): Response
     {

@@ -63,7 +63,12 @@
                                     </div>
                                     <div class="doc-info-right mt-4">
                                         <div class="clinic-booking ">
-                                            <a class="btn btn-primary" href="booking.html">rendez-vous</a>
+                                            {% if not(is_granted('IS_AUTHENTICATED_FULLY')) %}
+                                                <a class="btn btn-primary" href="{{ path('app_login') }}">Prendre un rendez-vous</a>
+                                            {% endif %}
+                                            {% if is_granted('ROLE_PATIENT') %}
+                                            <a class="btn btn-primary" href="{{ path('app_calendar',{'id_medecin':medecin.id}) }}">Prendre un rendez-vous</a>
+                                            {% endif %}
                                         </div>
                                     </div>
                               </div>

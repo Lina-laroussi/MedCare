@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RendezVousRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RendezVousRepository::class)]
 class RendezVous
@@ -18,18 +19,25 @@ class RendezVous
     private ?string $etat = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank (message:"Veuillez entrer les symptomes")]
+    #[Assert\Length (
+    min:5,
+    minMessage:"La saisie est trop courte. Veuillez entrer au moins 5 caractères ")]
     private ?string $symptomes = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_de_creation = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message:"veuillez choisir la date du rendez-vous")]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[ORM\Column(type: Types::TIME_MUTABLE)] 
+    #[Assert\NotBlank(message:"veuillez choisir une heure de debut")]
     private ?\DateTimeInterface $heure_debut = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[Assert\NotBlank(message:"veuillez choisir une heure de fin")]
     private ?\DateTimeInterface $heure_fin = null;
 
     #[ORM\ManyToOne(inversedBy: 'rendezVouses')]
@@ -63,7 +71,7 @@ class RendezVous
         return $this->symptomes;
     }
 
-    public function setSymptomes(string $symptomes): self
+    public function setSymptomes(?string $symptomes): self
     {
         $this->symptomes = $symptomes;
 
@@ -87,7 +95,7 @@ class RendezVous
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(\DateTimeInterface $date = null): self
     {
         $this->date = $date;
 
@@ -99,7 +107,7 @@ class RendezVous
         return $this->heure_debut;
     }
 
-    public function setHeureDebut(\DateTimeInterface $heure_debut): self
+    public function setHeureDebut(\DateTimeInterface $heure_debut  = null): self
     {
         $this->heure_debut = $heure_debut;
 
@@ -111,7 +119,7 @@ class RendezVous
         return $this->heure_fin;
     }
 
-    public function setHeureFin(\DateTimeInterface $heure_fin): self
+    public function setHeureFin(\DateTimeInterface $heure_fin  = null): self
     {
         $this->heure_fin = $heure_fin;
 

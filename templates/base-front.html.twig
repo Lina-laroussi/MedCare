@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/swiper/css/swiper.min.css') }}">
     <link rel="stylesheet" href="{{ asset('FrontOffice/css/aos.css') }}">
     <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
+
+    {% block calendarStyle %}
+
+    {% endblock %}
 {% endblock %}
 </head>
 <body>
@@ -133,12 +137,91 @@
             </ul>
         </nav>
     </header>
+
+{% block page %}{% endblock %}
+<div class="col-auto text-end float-end ms-auto">
+{% block lien %}
+
+{% endblock %}
+
+</div>
 {% endblock %}
 
 {% block body %}
 
 {% endblock %}
+<div class="toast-container position-fixed bottom-0 right-0 p-3">
+</div>
+<!-- Modal for creating or editing rendezVous events -->
+<div class="modal fade" id="rendezVousModal" tabindex="-1" role="dialog" aria-labelledby="rendezVousModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rendezVousModalLabel">Create RendezVous Event</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <div class="modal-body">
+      <form id="rendezVousForm">
 
+          <div class="form-group">
+            <label for="rendezVousStartDate">Start Date</label>
+            <input type="text" class="form-control" id="date" name="start" readonly required>
+          </div>
+
+
+          <div class="form-group">
+            <label for="rendezVousStartTime">Start Time</label>
+            <input type="time" class="form-control" id="heureDebut" name="startTime"  required>
+          </div>
+        <div class="form-group">
+            <label for="rendezVousEndTime">End Time</label>
+            <input type="time" class="form-control" id="heureFin" name="endTime"  required>
+          </div>
+        <div class="form-group">
+            <label for="rendezVousSymptomes">Symptomes</label>
+            <input type="text" class="form-control" id="symptomes" name="symptomes" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+        <input type="hidden" id="planning-id" name="planning-id" value="" />
+
+      </form>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for editing rendezVous events
+<div class="modal fade" id="editRendezVousModal" tabindex="-1" role="dialog" aria-labelledby="editRendezVousModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editRendezVousModalLabel">Edit RendezVous Event</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="editRendezVousForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="editRendezVousTitle">Title</label>
+            <input type="text" class="form-control" id="editRendezVousTitle" name="title" required>
+          </div>
+          <div class="form-group">
+            <label for="editRendezVousStartDate">Start Date</label>
+            <input type="text" class="form-control" id="editRendezVousStartDate" name="start" readonly required>
+          </div>
+          <div class="form-group">
+            <label for="editRendezVousEndDate">End Date</label>
+            <input type="text" class="form-control" id="editRendezVousEndDate" name="end" readonly required>
+          </div>-->
+          <!-- add other form fields for rendezVous event properties -->
+        </div>
 
 {% block footer %}
 
@@ -146,7 +229,7 @@
 
         <div class="footer-top">
             <div class="container-fluid">
-                <div class="row aos" data-aos="fade-up">
+                <div class="row aos" data-aos="">
                     <div class="col-lg-3 col-md-6">
 
                         <div class="footer-widget footer-about">
@@ -262,19 +345,70 @@
 
 {% endblock %}
 {% block javascripts%}
-
-
-    </script><script src="FrontOffice/js/jquery-3.6.0.min.js"></script>
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="FrontOffice/js/jquery-3.6.0.min.js"></script>
 
     <script src="{{ asset('FrontOffice/js/bootstrap.bundle.min.js') }}"></script>
 
     <script src="{{ asset('FrontOffice/plugins/swiper/js/swiper.min.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/js/jquery-3.6.0.min.js') }}"></script>
 
     <script src="{{ asset('FrontOffice/js/slick.js') }}"></script>
 
     <script src="{{ asset('FrontOffice/js/aos.js') }}"></script>
 
     <script src="{{ asset('FrontOffice/js/script.js') }}"></script>
+
+    {% block notification %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <script>
+        var userId = {{ user.id }};
+const eventSource = new EventSource("{{ mercure('/rdvAjouter')|escape('js') }}");
+eventSource.onmessage = event => {
+    // Will be called every time an update is published by the server
+    const rdv = JSON.parse(event.data);
+    const toastHtml = `
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="mr-auto">Nouveau RendezVous</strong>
+                <small class="text-muted">${rdv.date}</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                Vous avez reçu une demande de rendez-vous de ${rdv.nomPatient} pour le ${rdv.date} à ${rdv.heure}.
+            </div>
+        </div>
+    `;
+    const toastContainer = document.querySelector(".toast-container");
+    toastContainer.innerHTML += toastHtml;
+
+    // Show the toast notification
+    const toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    const toastList = toastElList.map(toastEl => new bootstrap.Toast(toastEl));
+    toastList.forEach(toast => toast.show());
+
+    // Add action to close button
+    const closeButtons = document.querySelectorAll(".toast .close");
+    closeButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const toast = button.closest(".toast");
+            const bsToast = bootstrap.Toast.getOrCreateInstance(toast);
+            bsToast.hide();
+        });
+    });
+
+
+}
+
+    </script>
+    {% endif %}
+
+    {% endblock %}
+    {% block calendarScript %}
+
+    {% endblock %}
 {% endblock %}
 </body>
 <!-- Mirrored from doccure.dreamguystech.com/laravel/template/public/index by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 07 Feb 2023 19:57:01 GMT -->

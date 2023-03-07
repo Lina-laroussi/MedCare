@@ -38,6 +38,35 @@ class PlanningRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findTous($userId,$page,$nbre)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.medecin','m')
+            ->Where('m.email = :val')
+            ->setParameter('val',$userId)
+            ->orderBy('p.date_debut', 'ASC')
+            ->setFirstResult(($page - 1 ) * $nbre)
+            ->setMaxResults($nbre)
+            ->getQuery()
+            ->getResult();
+   }
+    public function findByMedecin($userId)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.medecin','m')
+            ->Where('m.id = :val')
+            ->setParameter('val',$userId)
+            ->getQuery()
+            ->getResult();
+    }
+   public function countPlanning(): int
+   {
+       return $this->createQueryBuilder('p')
+           ->select('count(p.id)')
+           ->getQuery()
+           ->getSingleScalarResult()
+           ;
+   }
 
 //    /**
 //     * @return Planning[] Returns an array of Planning objects

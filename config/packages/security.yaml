@@ -38,6 +38,8 @@ security:
     access_control:
          - { path: ^/profile, roles: [ROLE_MEDECIN,ROLE_PATIENT,ROLE_PHARMACIEN,ROLE_ASSUREUR] }
          - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/planning, roles: ROLE_MEDECIN }
+         - { path: ^/calendar, roles: [ROLE_MEDECIN,ROLE_PATIENT] }
 when@test:
     security:
         password_hashers:

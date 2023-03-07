@@ -54,13 +54,109 @@ class RendezVousRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?RendezVous
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findRendezVousesBydate($userId,$page,$nbre,$date)
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.planning','p')
+            ->join('p.medecin','m')
+            ->join('r.patient','pat')
+            ->Where('r.date = :val')
+            ->setParameter('val', $date)
+            ->andWhere('m.email = :val2 OR pat.email = :val2')
+            ->setParameter('val2', $userId)
+            ->orderBy('r.heure_debut', 'ASC')
+            ->setFirstResult(($page - 1 ) * $nbre)
+            ->setMaxResults($nbre)
+            ->getQuery()
+            ->getResult();
+   }
+   public function findUpcomingRendezVouses($userId,$page,$nbre,$date)
+   {
+       return $this->createQueryBuilder('r')
+           ->join('r.planning','p')
+           ->join('p.medecin','m')
+           ->join('r.patient','pat')
+           ->Where('r.date >= :val')
+           ->andWhere('m.email = :val2 OR pat.email = :val2')
+           ->setParameter('val', $date)
+           ->setParameter('val2', $userId)
+           ->orderBy('r.date', 'ASC')
+           ->addOrderBy('r.heure_debut', 'ASC')
+           ->setFirstResult(($page - 1 ) * $nbre)
+           ->setMaxResults($nbre)
+           ->getQuery()
+           ->getResult();
+  }
+  public function findByPlanning($planning_id)
+  {
+      $req = $this->createQueryBuilder('r');
+      if($planning_id!=null){
+        $req
+        ->join('r.planning','p')
+        ->Where('p.id >= :val')
+        ->setParameter('val', $planning_id);
+
+      }
+      $res = $req->getQuery()
+      ->getResult();
+      //return $req;
+
+  }
+
+  public function rechercherRDV($value)
+  {
+    if($value!=null){
+      return $this->createQueryBuilder('r')
+      ->join('r.planning','p')
+      ->join('p.medecin','m')
+      ->join('r.patient','pat')
+      ->Where('r.date LIKE :val  OR m.nom LIKE :val OR pat.nom LIKE :val OR m.prenom LIKE :val OR pat.prenom LIKE :val OR r.etat LIKE :val')
+      ->setParameter('val', $value)
+      ->orderBy('r.date', 'ASC')
+      ->addOrderBy('r.heure_debut', 'ASC')
+      ->getQuery()
+      ->getResult()
+      ;}
+ }
+ public function countUpcommingRDVs($date): int
+ {
+     return $this->createQueryBuilder('r')
+         ->select('count(r.id)')
+         ->Where('r.date >= :val')
+         ->setParameter('val', $date)
+         ->getQuery()
+         ->getSingleScalarResult()
+         ;
+ }
+    public function findByMedecin($medecin_id)
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.planning','p')
+            ->join('p.medecin','m')
+            ->Where('m.id = :val')
+            ->setParameter('val', $medecin_id)
+            ->getQuery()
+            ->getResult();
+    }
+/*public function findByDate($cin)
+    {
+
+      $req=$this->createQueryBuilder('c');
+      if($cin!=null)
+      {
+      $req->select('c.ref')
+      ->join('c.utilisateur','u')
+      ->addSelect('u.nom')//s.name et c.name : meme nom affiche l'un des deux---->ajouter l'alias :addSelect('c.name t')
+      ->where('u.cin=:t')
+      ->andWhere("c.agence='BiatTunis'")
+      ->setParameter('t',$cin);
+      }
+      
+      $res = $req->getQuery()
+      ->getResult();
+      dd($res);
+      //return $req;
+       
+    }
+*/
 }
