@@ -154,7 +154,7 @@ class RemboursementController extends AbstractController
 
 
 
-    #[Route('/aa/aaaaaaaaaaaaaaafiles', name: 'file_list', methods: ['GET', 'POST'],)]
+    #[Route('/file/date', name: 'file_list', methods: ['GET', 'POST'],)]
     public function filterDate(Request $request,RemboursementRepository $Repo )
     {
     /* $startDate = $request->query->get('startDate');
