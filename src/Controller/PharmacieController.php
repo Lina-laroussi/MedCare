@@ -107,6 +107,20 @@ class PharmacieController extends AbstractController
         return $this->redirectToRoute('app_pharmacie_index', [], Response::HTTP_SEE_OTHER);
     }
 
+
+    #[Route('/tri', name: 'app_pharmacie_tri')]
+    public function trier(EntityManagerInterface $entityManager)
+        {
+            $pharmacies = $entityManager->getRepository(Pharmacy::class)->createQueryBuilder('p')
+                ->orderBy('p.nom', 'ASC')
+                ->getQuery()
+                ->getResult();
+    
+            return $this->render('pharmacie/index.html.twig', [
+                'pharmacies' => $pharmacies,
+            ]);
+        }
+    }
   /*  
   
   
@@ -120,19 +134,7 @@ class PharmacieController extends AbstractController
         'pharmacies' => $pharmacies,
     ]);
 }
-  #[Route('/tri', name: 'app_pharmacie_tri')]
-public function trier(EntityManagerInterface $entityManager)
-    {
-        $pharmacies = $entityManager->getRepository(Pharmacy::class)->createQueryBuilder('p')
-            ->orderBy('p.name', 'ASC')
-            ->getQuery()
-            ->getResult();
-
-        return $this->render('pharmacy/index.html.twig', [
-            'pharmacies' => $pharmacies,
-        ]);
-    }
-}
+ 
 */
 /*#[Route('/tri', name: 'app_pharmacie_triii')]
 
@@ -157,7 +159,7 @@ public function trier(EntityManagerInterface $entityManager)
     */
 
 
-}
+
 
 
 
