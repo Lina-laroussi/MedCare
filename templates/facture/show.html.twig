@@ -20,6 +20,7 @@
 
 {% block content %}
     <h1>Facture</h1>
+
         <div class="col-md-7 col-lg-8 col-xl-9">
         <div class="card">
             <div class="card-body">
@@ -95,7 +96,7 @@
 <tr>
 <td></td>
 <td></td>
-<td class="d-none d-sm-table-cell"><h5> Total: {{ facture.montant }}</h5></td>
+<td class="d-none d-sm-table-cell"><h5> Total: {{ facture.montant }} Dt</h5></td>
 <td></td>
 </tr>
 </tbody>
@@ -132,9 +133,9 @@
 <a href="{{ path('app_facture_index') }}" class="btn btn-primary mt-3">{{ button_label|default('Retour') }}</a>
 
     <a href="{{ path('app_facture_edit', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Modifier') }}</a>
-    <a href="{{ path('app_facture_pdf', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Imprimer facture') }}</a>
-    <a href="{{ path('app_fact', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Imprimer facture1') }}</a>
-    <a href="{{ path('app_send', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Envoyer Mail') }}</a>
+    <a href="{{ path('app_fact', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Imprimer facture') }}</a>
+     <a href="{{ path('app_facture_delete', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Supprimer Facture') }}</a>
+
 
 </div>
  
@@ -157,5 +158,4 @@
 
 
 
-    {{ include('facture/_delete_form.html.twig') }}
 {% endblock %}

@@ -115,7 +115,7 @@ class PharmacieController extends AbstractController
         return $this->redirectToRoute('app_pharmacie_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/tri', name: 'app_pharmacie_tri')]
+  /*  #[Route('/tri', name: 'app_pharmacie_tri')]
    public function tripharmacie(PharmacieRepository $pharmacieRepository)
 {
     $pharmacies  = $pharmacieRepository->tri();
@@ -123,8 +123,80 @@ class PharmacieController extends AbstractController
         'pharmacies' => $pharmacies,
     ]);
 }
+*/
+#[Route('/tri', name: 'app_pharmacie_triii')]
+
+    public function Tri(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+
+        $query = $em->createQuery(
+            'SELECT a FROM App\Entity\Pharmacie a 
+            ORDER BY a.nom ASC' 
+        );
+        
+        $pharmacies = $query->getResult(); 
+        
+        
+
+        return $this->render('Back-Office/pharmacie/index.html.twig', 
+        array('pharmacies' => $pharmacies));
+    
+    }
+
 
 }
+
+
+/*#[Route('/stat', name: 'app_stat')]
+
+public function indexAction(){
+    $repository = $this->getDoctrine()->getRepository(Pharmacie::class);
+    $Activites = $repository->findAll();
+    $em = $this->getDoctrine()->getManager();
+    
+    $rd=0; 
+    $qu=0;
+    $es=0;
+   
+
+    foreach ($Activites as $Activites)
+    {
+        if (  $Activites->getCategorie()=="randonnée")  :
+        
+            $rd+=1; 
+         elseif ($Activites->getCategorie()=="quad"):
+
+            $qu+=1; 
+         else :
+            $es +=1;  
+        
+         endif;
+
+    }
+
+
+    $pieChart = new PieChart();
+    $pieChart->getData()->setArrayToDataTable(
+        [['catégories', 'nombres'],
+         ['randonnée',     $rd],
+         ['quad',      $qu],
+         ['escalade',   $es]
+        ]
+    );
+    $pieChart->getOptions()->setTitle('Top categories');
+    $pieChart->getOptions()->setHeight(500);
+    $pieChart->getOptions()->setWidth(900);
+    $pieChart->getOptions()->getTitleTextStyle()->setBold(true);
+    $pieChart->getOptions()->getTitleTextStyle()->setColor('#009900');
+    $pieChart->getOptions()->getTitleTextStyle()->setItalic(true);
+    $pieChart->getOptions()->getTitleTextStyle()->setFontName('Arial');
+    $pieChart->getOptions()->getTitleTextStyle()->setFontSize(20);
+
+    return $this->render('resactivites/stat.html.twig', array('piechart' => $pieChart));
+    }
+    */
 
   /*  #[Route('search', name: 'app_searchph', methods: ['GET'])]
 

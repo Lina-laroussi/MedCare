@@ -197,7 +197,7 @@ class FactureController extends AbstractController
         );
     
     }
-  #[Route('/statistics/ph1', name: 'app_fact_stat')]
+ /* #[Route('/statistics/ph1', name: 'app_fact_stat')]
 
     public function FacturesStatistics(FactureRepository $factureRepository, PharmacieRepository $pharmacieRepository ): Response
     {
@@ -230,7 +230,8 @@ class FactureController extends AbstractController
             'facturesCount' => json_encode($facturesCount),
         ]);
     }
-    #[Route('/statistics/ph2', name: 'app_factt_stat')]
+    */
+  /*  #[Route('/statistics/ph2', name: 'app_factt_stat')]
     public function stati(FactureRepository $factureRepository)
     {
         $facturesPerPharmacie = $factureRepository->countfacturesperpharmacie();
@@ -252,6 +253,7 @@ class FactureController extends AbstractController
             'chartData' => json_encode($chartData)
         ]);
     }
+    */
 }
 
     
