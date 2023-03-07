@@ -1,0 +1,57 @@
+{% extends 'sideBar.html.twig' %}
+
+
+{% block stylesheets %}
+
+    <link href="{{ asset('FrontOffice/img/favicon.png') }}" rel="icon">
+
+    <link rel="stylesheet" href="{{asset('FrontOffice/css/bootstrap.min.css')}}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/all.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/feather.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/dropzone/dropzone.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
+
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="col-md-7 col-lg-8 col-xl-9">
+        <h1>Modifier Consultation</h1>
+        <div class="card" >
+            <div class="card-body pt-0">            
+                <div class="tab-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="submit-section">
+                                {{ include('Front-Office/consultation/_form.html.twig', {'button_label': 'valider'}) }}     
+                                {{ include('Front-Office/consultation/_delete_form.html.twig') }}
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ path('app_consultation_index') }}"> retour à la liste des consultations </a>
+                </div>
+            </div>
+        </div> 
+    </div>
+{% endblock %}
+
+
+
+{% block javascripts %}
+    <script src="{{ asset('BackAdmin/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/js/moment.min.js')}}"></script>
+    <script src="{{ asset('FrontOffice/js/bootstrap-datetimepicker.min.js')}}"></script>
+    <script src="{{ asset('FrontOffice/js/feather.min.js')}}"></script>
+{% endblock %}

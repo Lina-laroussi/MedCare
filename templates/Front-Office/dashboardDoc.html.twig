@@ -1,0 +1,175 @@
+{% extends 'sideBar.html.twig' %}
+
+ {% block title %}Dashboard{% endblock %}
+
+
+{% block stylesheets %}
+
+    <link href="{{ asset('FrontOffice/img/favicon.png') }}" rel="icon">
+
+    <link rel="stylesheet" href="{{asset('FrontOffice/css/bootstrap.min.css')}}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/all.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/feather.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/dropzone/dropzone.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
+
+{% endblock %}
+
+{% block content %}
+            <!--Section1 : head -->
+            <div class="col-md-7 col-lg-8 col-xl-9">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="card dash-cards">
+                            <div class="card-body">
+                                <div class="dash-top-content">
+                                    <div class="circle-bar circle-bar1">
+                                        <div class="circle-graph1" data-percent="75">
+                                            <img src="{{ asset('FrontOffice/img/icon-01.png') }}" class="img-fluid" alt="patient">
+                                        </div>
+                                    </div>
+                                    <div class="dash-widget-info">
+                                        <h6 class="text-center"> Nombre de medicaments </h6>
+                                        <h3 class="text-center">{{ TotalMedicament }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="card dash-cards">
+                            <div class="card-body">
+                                <div class="dash-top-content">
+                                    <div class="circle-bar circle-bar2">
+                                        <div class="circle-graph2" data-percent="75">
+                                            <img src="{{ asset('FrontOffice/img/icon-03.png') }}" class="img-fluid" alt="patient">
+                                        </div>
+                                    </div>
+                                    <div class="dash-widget-info">
+                                        <h6 class="text-center">Nombre total de Consultation </h6>
+                                        <h3 class="text-center">{{ totalConsultations }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-lg-4 col-md-12">
+                    <div class="card dash-cards">
+                        <div class="card-body">
+                            <div class="dash-top-content">
+                                <div class="circle-bar circle-bar3">
+                                    <div class="circle-graph3" data-percent="50">
+                                        <img src="{{ asset('FrontOffice/img/icon-4.png') }}" class="img-fluid" alt="patient">
+                                   </div>
+                                </div>
+                                <div class="dash-widget-info">
+                                    <h6 class="text-center">Revenu d'aujourd'hui</h6>
+                                    <h3 class="text-center">{{ TotalRevenus }}</h3>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Section2 : body : consultations -->
+            {#<div class="row">
+                <div class="col-lg12">
+                    <div class="card dash-cards">
+                        <div class="card-header">
+                            <div class="today-appointment-title">
+                                <h5 class="mb-0">Les Rendez-vous d'aujourd'hui</h5>
+                                <a href="#"><h6 class="mb-0">Voir tout <i class="feather-arrow-right"></i></h6></a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-center mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <h2 class="table-avatar ">
+                                                    <a href="#" class="avatar avatar-m me-2"><img class="avatar-img" src="{{ asset('FrontOffice/img/patients/patient.jpg')}}" alt="User Image"></a>
+                                                    <a href="#">Richard<span>#PT0016</span></a>
+                                                </h2>
+                                            </td>
+                                            <td class="text-center"><a class="call-status" href="{{ path('app_consultation_new') }}"> consultation </a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  #}       
+            <!--Section3 : body : ordonnance -->   
+            <div class="row">                 
+                 <!--Section nombre de medicament -->
+                <div class="col-lg-12 d-flex">
+                    <div class="card dash-cards flex-fill">
+                        <div class="card-header">
+                            <div class="today-appointment-title">
+                                <h5 class="mb-0">Nombre de medicaments par jour </h5>
+                            </div>
+                        </div>
+                        <div>
+                            <canvas id="myChart"></canvas>
+                        </div>
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <script>
+                            const ctx = document.getElementById('myChart');
+
+                            new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'],
+                                    datasets: [{
+                                        label: 'Number of Medicaments',
+                                        data: [1, 1, 1, 1],
+                                        borderWidth: 1,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        hoverBackgroundColor: 'rgba(54, 162, 235, 0.4)',
+                                        hoverBorderColor: 'rgba(54, 162, 235, 1)',
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            });
+                        </script>
+                 
+
+ 
+                    </div>
+                </div>
+            </div>
+            
+
+{% endblock %}  
+
+
+
+
+
+{% block javascripts %}
+    <script src="{{ asset('FrontOffice/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/js/circle-progress.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/js/feather.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/apex/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/apex/chart-data.js') }}"></script>
+{% endblock %}

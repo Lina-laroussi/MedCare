@@ -49,6 +49,13 @@ class RendezVous
     #[ORM\ManyToOne(inversedBy: 'les_rendez_vous')]
     private ?Planning $planning = null;
 
+
+    public function __construct()
+    {
+    $this->date = new \DateTime();
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;

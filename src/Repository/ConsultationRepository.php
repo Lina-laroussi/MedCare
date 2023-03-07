@@ -38,6 +38,43 @@ class ConsultationRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findTous($page,$nbre)
+    {
+        
+        return $this->createQueryBuilder('p')
+        ->orderBy('p.id', 'ASC')
+        ->setFirstResult(($page - 1 ) * $nbre)
+        ->setMaxResults($nbre)
+        ->getQuery()
+        ->getResult();
+   }
+   public function countConsult(): int
+   {
+       return $this->createQueryBuilder('p')
+           ->select('count(p.id)')
+           ->getQuery()
+           ->getSingleScalarResult()
+           ;
+
+   }
+   
+   //------------------------------- stat: nombre de consultation-------------------------
+   public function getTotalConsultations(): int
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)');
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getTotalRevenus(): int
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('SUM(c.prix)');
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
 
 //    /**
 //     * @return Consultation[] Returns an array of Consultation objects

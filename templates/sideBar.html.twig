@@ -11,8 +11,8 @@
                         <div class="profile-sidebar">
                             <div class="widget-profile pro-widget-content">
                                 <div class="profile-info-widget">
-                                    <a href="#" class="booking-doc-img">
-                                        {% if app.user.image %}
+                                    <a href="" class="booking-doc-img">
+                                        {% if user.image %}
                                             <img class="rounded-circle" src="{{ asset('uploads/utilisateurs/' ~ user.image ) }}"  width="31" alt="image">
                                         {% else %}
                                             <img class="rounded-circle" src="{{ asset('uploads/utilisateurs/user1.png' ) }}"  width="31" alt="image">
@@ -28,9 +28,36 @@
                                 <nav class="dashboard-menu">
                                     <ul>
                                         <li >
+                                            <a href="{{ path('app_consult') }}">
+                                                <i class="fas fa-calendar-check"></i>
+                                                <span>Tableau de Bord</span>
+                                            </a>
+                                        </li>
+                                        <li >
                                             <a href="{{ path('app_rendez_vous_index') }}">
                                                 <i class="fas fa-calendar-check"></i>
                                                 <span>Rendez-vous</span>
+                                            </a>
+                                        </li>
+
+                                        <li >
+                                            <a href="{{ path('app_fiche_medicale_index') }}">
+                                                <i class="fas fa-calendar-check"></i>
+                                                <span>Fiche Médicale</span>
+                                            </a>
+                                        </li>
+
+                                        <li >
+                                            <a href="{{ path('app_consultation_index') }}">
+                                                <i class="fas fa-calendar-check"></i>
+                                                <span>Consultation</span>
+                                            </a>
+                                        </li>
+
+                                        <li >
+                                            <a href="{{ path('app_ordonnance_index') }}">
+                                                <i class="fas fa-calendar-check"></i>
+                                                <span>Ordonnance</span>
                                             </a>
                                         </li>
 

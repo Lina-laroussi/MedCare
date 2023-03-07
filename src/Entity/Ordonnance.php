@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\OrdonnanceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrdonnanceRepository::class)]
 class Ordonnance
@@ -13,20 +14,25 @@ class Ordonnance
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+    
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $code_ordonnance = null;
-
-    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $medicaments = null;
 
+    #[ORM\Column(length: 10)]
+    #[Assert\NotBlank()]
+    private ?string $code_ordonnance ;
+
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    private ?string $description = "examenr générale";
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $dosage = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?int $nombre_jours = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -34,6 +40,9 @@ class Ordonnance
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_de_modification = null;
+    
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $qrCodeFilename = null;
 
     #[ORM\OneToOne(mappedBy: 'ordonnance', cascade: ['persist', 'remove'])]
     private ?Consultation $consultation = null;
@@ -42,6 +51,19 @@ class Ordonnance
     private ?Facture $facture = null;
 
 
+    /**
+     * @ORM\PrePersist
+     */
+    public function generateCodeOrdonnance(): void
+    {
+        $this->code_ordonnance = substr(bin2hex(random_bytes(5)), 0, 10);
+    }
+
+    public function __construct()
+    {
+        $this->code_ordonnance = bin2hex(random_bytes(5));
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -161,6 +183,18 @@ class Ordonnance
     public function setFacture(?Facture $facture): self
     {
         $this->facture = $facture;
+
+        return $this;
+    }
+
+    public function getQrCodeFilename(): ?string
+    {
+        return $this->qrCodeFilename;
+    }
+
+    public function setQrCodeFilename(?string $qrCodeFilename): self
+    {
+        $this->qrCodeFilename = $qrCodeFilename;
 
         return $this;
     }

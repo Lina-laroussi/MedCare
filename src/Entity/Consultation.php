@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ConsultationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ConsultationRepository::class)]
 class Consultation
@@ -14,36 +15,46 @@ class Consultation
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $poids = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $taille = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $imc = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $temperature = null;
 
     #[ORM\Column]
-    private ?float $prix = null;
+    #[Assert\NotBlank()]
+    private ?float $prix = 50;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $pression_arterielle = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $frequence_cardiaque = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $taux_glycemie = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $symptomes = null;
+    private ?string $maladie = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $traitement = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $observation = null;
 
     #[ORM\OneToOne(mappedBy: 'consultation', cascade: ['persist', 'remove'])]
@@ -54,6 +65,8 @@ class Consultation
 
     #[ORM\OneToOne(inversedBy: 'consultation', cascade: ['persist', 'remove'])]
     private ?Ordonnance $ordonnance = null;
+    
+    
 
     public function getId(): ?int
     {
@@ -156,14 +169,14 @@ class Consultation
         return $this;
     }
 
-    public function getSymptomes(): ?string
+    public function getmaladie(): ?string
     {
-        return $this->symptomes;
+        return $this->maladie;
     }
 
-    public function setSymptomes(string $symptomes): self
+    public function setmaladie(string $maladie): self
     {
-        $this->symptomes = $symptomes;
+        $this->maladie = $maladie;
 
         return $this;
     }
@@ -197,6 +210,25 @@ class Consultation
         return $this->rendezVous;
     }
 
+    public function getDateRendezVous(): ?\DateTimeInterface
+    {
+    $date = $heureDebut = null;
+    $rendezVous = $this->getRendezVous();
+        if ($rendezVous !== null) {
+            $date = $rendezVous->getDate();
+            $heureDebut = $rendezVous->getHeureDebut();
+        } else {
+            // set default values if $rendezVous is null
+            $date = new \DateTime();
+            $heureDebut = new \DateTime();
+        }
+
+    $rendezVousDateTime = new \DateTime();
+    $rendezVousDateTime->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
+    $rendezVousDateTime->setTime($heureDebut->format('H'), $heureDebut->format('i'), $heureDebut->format('s'));
+
+    return $rendezVousDateTime;
+    }
     public function setRendezVous(?RendezVous $rendezVous): self
     {
         // unset the owning side of the relation if necessary

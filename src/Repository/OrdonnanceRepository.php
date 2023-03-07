@@ -6,6 +6,7 @@ use App\Entity\Ordonnance;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
  * @extends ServiceEntityRepository<Ordonnance>
  *
@@ -38,6 +39,64 @@ class OrdonnanceRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    //------------------------ pagination ------------------------------------------
+    public function findTous($page,$nbre)
+    {
+        
+        return $this->createQueryBuilder('p')
+        ->orderBy('p.id', 'ASC')
+        ->setFirstResult(($page - 1 ) * $nbre)
+        ->setMaxResults($nbre)
+        ->getQuery()
+        ->getResult();
+   }
+   public function countOrdonnance(): int
+   {
+       return $this->createQueryBuilder('p')
+           ->select('count(p.id)')
+           ->getQuery()
+           ->getSingleScalarResult()
+           ;
+   }
+//----------------stat: chart => nbre de med per day -----------------------------------------------------
+
+    public function getTotalMedicament(): int
+        {
+            $qb = $this->createQueryBuilder('c')
+                ->select('COUNT(c.medicaments)');
+
+            return (int) $qb->getQuery()->getSingleScalarResult();
+        }
+
+        
+
+
+
+
+   /*public function findMedicamentsAddedPerDay(): array
+    {
+        $qb = $this->createQueryBuilder('o')
+            ->select('DATE(o.createdAt) as day, COUNT(o.id) as count')
+            ->groupBy('day')
+            ->orderBy('day', 'ASC');
+            
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    
+    public function countMedicationsByDay(int $month): array
+    {
+        $query = $this->createQueryBuilder('o')
+            ->select('DATE(o.date_de_creation) AS day, COUNT(o.id) AS count')
+            ->where('MONTH(o.date_de_creation) = :month')
+            ->setParameter('month', $month)
+            ->groupBy('day')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
 
 //    /**
 //     * @return Ordonnance[] Returns an array of Ordonnance objects
