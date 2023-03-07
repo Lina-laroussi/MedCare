@@ -69,14 +69,8 @@ class ConsultationRepository extends ServiceEntityRepository
 
     public function getTotalRevenus(): int
     {
-        // Get the current date
-        $currentDate = new \DateTime();
-
         $qb = $this->createQueryBuilder('c')
-            ->select('SUM(c.prix)')
-            ->join('c.rendezVous', 'rv')
-            ->where('rv.date = :currentDate')
-            ->setParameter('currentDate', $currentDate->format('Y-m-d'));
+            ->select('SUM(c.prix)');
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }

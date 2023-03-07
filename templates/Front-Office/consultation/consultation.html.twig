@@ -16,7 +16,7 @@
                             <table class="table">
                                 <thead>
                                     <tr>          
-                                        <th>Patient</th>    
+                                        <th>Nom Patient</th>    
                                         <th>Symptomes</th>
                                         <th>Traitement</th>
                                         <th>Medicament</th>
@@ -26,15 +26,15 @@
                                 <tbody>
                                     {% for consultation in consultations  %}
                                     <tr> 
-                                        <td>{{ consultation.id }}</td>              
-                                        <td>{{ consultation.symptomes }}</td>
+                                        <td>{{ consultation.rendezVous.patient.nom }}</td>              
+                                        <td>{{ consultation.maladie }}</td>
                                         <td>{{ consultation.traitement }}</td>
                                         <td>{% if consultation.ordonnance %}
                                             {{ consultation.ordonnance.medicaments }}   
                                             {% endif %}
                                         </td>
                                         <td>{% if consultation.rendezVous %}                                                                                        
-                                                {{ consultation.rendezVous.patient.date }}
+                                                {{ consultation.rendezVous.date ? consultation.rendezVous.date|date('Y-m-d') : ''}}
                                             {% endif %}</td>
                                         <td>
                                             <a href="{{ path('app_consultation_show', {'id': consultation.id}) }}" class="btn btn-sm bg-primary-light" > <i class="fas fa-eye"></i> Afficher</a>
@@ -82,6 +82,7 @@
 </div>      
 {% endblock %}
 
+ {% block title %}Fiche Medicale {% endblock %}
 {% block active_menu %}
     <li class="has-submenu ">
         <a href="/">Accueil </a>

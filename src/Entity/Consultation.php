@@ -47,7 +47,7 @@ class Consultation
     private ?float $taux_glycemie = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $symptomes = null;
+    private ?string $maladie = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
@@ -169,14 +169,14 @@ class Consultation
         return $this;
     }
 
-    public function getSymptomes(): ?string
+    public function getmaladie(): ?string
     {
-        return $this->symptomes;
+        return $this->maladie;
     }
 
-    public function setSymptomes(string $symptomes): self
+    public function setmaladie(string $maladie): self
     {
-        $this->symptomes = $symptomes;
+        $this->maladie = $maladie;
 
         return $this;
     }

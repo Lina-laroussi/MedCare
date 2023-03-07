@@ -49,7 +49,7 @@ class Consultation1Type extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control form-group']
             ])
-            ->add('symptomes', TextType::class, [
+            ->add('maladie', TextType::class, [
                 'attr' => ['class' => 'form-control form-group']
             ])
             ->add('traitement', TextType::class, [
@@ -60,7 +60,12 @@ class Consultation1Type extends AbstractType
             ])
             ->add('rendezVous', EntityType::class,[
                 'class' => RendezVous::class,
-                'choice_label' => 'date',
+                'choice_label' => function (RendezVous $rendezVous) {
+                    $date = $rendezVous->getDate()->format('Y-m-d');
+                    $heureDebut = $rendezVous->getHeureDebut()->format('H:i:s');
+                    $heureFin = $rendezVous->getHeureFin()->format('H:i:s');
+                    return "$date $heureDebut-$heureFin";
+                },
                 'attr' => ['class' => 'form-control form-group']
             ])            
             ->add('fiche_medicale', EntityType::class,[

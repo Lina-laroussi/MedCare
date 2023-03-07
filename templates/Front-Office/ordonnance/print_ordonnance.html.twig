@@ -62,25 +62,9 @@
                 </div>
             </div>
             <div class="invoice-item invoice-table-wrap">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="table-responsive">
-                            <table class="invoice-table table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">Médicament</th>
-                                        <th class="text-center">Dosage</th>
-                                        <th class="text-center">Nombre de jours</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="text-center">{{ ordonnance.medicaments }}</td>
-                                        <td class="text-center">{{ ordonnance.dosage }}</td>
-                                        <td class="text-center">{{ ordonnance.nombreJours}}</td>
-                                        </tr>
-                                </tbody>
-                            </table>
+                <div class="row text-center">
+                    <div class="col-md-12 ">
+                            <img src="{{ asset('FrontOffice/img/qr-code/' ~ qrCodeFilename) }}" alt="QR Code" style="display: block; width: 200px; height: 200px;">
                         </div>
                     </div>                    
                 </div>
@@ -100,9 +84,6 @@
                         </div>
                         <div class="signature-wrap">
                             <div class="signature"></div>
-                        </div>
-                        <div class="col-md-2">
-                            <img src="{{ asset('FrontOffice/img/qr-code/' ~ qrCodeFilename) }}" alt="QR Code" style="display: block; width: 200px; height: 200px;">
                         </div>
                     </div>
                 </div>
