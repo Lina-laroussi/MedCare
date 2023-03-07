@@ -34,7 +34,7 @@
                                             {% endif %}
                                         </td>
                                         <td>{% if consultation.rendezVous %}                                                                                        
-                                                {{ consultation.rendezVous.date }}
+                                                {{ consultation.rendezVous.patient.date }}
                                             {% endif %}</td>
                                         <td>
                                             <a href="{{ path('app_consultation_show', {'id': consultation.id}) }}" class="btn btn-sm bg-primary-light" > <i class="fas fa-eye"></i> Afficher</a>

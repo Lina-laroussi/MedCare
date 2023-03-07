@@ -225,7 +225,7 @@ class Consultation
 
     $rendezVousDateTime = new \DateTime();
     $rendezVousDateTime->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
-    $rendezVousDateTime->setTime($heureDebut->format('H'), $heureDebut->format('i'));
+    $rendezVousDateTime->setTime($heureDebut->format('H'), $heureDebut->format('i'), $heureDebut->format('s'));
 
     return $rendezVousDateTime;
     }

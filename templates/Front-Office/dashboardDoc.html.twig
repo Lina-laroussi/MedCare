@@ -15,12 +15,9 @@
                                         </div>
                                     </div>
                                     <div class="dash-widget-info">
-                                        <h6> Nombre total de patients </h6>
-                                        <h3>1500</h3>
+                                        <h6 class="text-center"> Nombre de medicaments </h6>
+                                        <h3 class="text-center">{{ TotalMedicament }}</h3>
                                     </div>
-                                </div>
-                                <div class="dash-bottom-content">
-                                    <h6> <span> <i class="fas fa-caret-up"></i> 9.5%</span> la semaine dernière </h6>
                                 </div>
                             </div>
                         </div>
@@ -35,16 +32,13 @@
                                         </div>
                                     </div>
                                     <div class="dash-widget-info">
-                                        <h6>Nombre total de Consultation </h6>
-                                        <h3>4587</h3>
+                                        <h6 class="text-center">Nombre total de Consultation </h6>
+                                        <h3 class="text-center">{{ totalConsultations }}</h3>
                                     </div>
                                 </div>
-                                <div class="dash-bottom-content">
-                                    <h6> <span> <i class="fas fa-caret-up"></i> 5.5%</span> la semaine dernière </h6>
-                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
                 <div class="col-lg-4 col-md-12">
                     <div class="card dash-cards">
                         <div class="card-body">
@@ -55,13 +49,10 @@
                                    </div>
                                 </div>
                                 <div class="dash-widget-info">
-                                    <h6>Revenu d'aujourd'hui</h6>
-                                    <h3>1454 TND </h3>
+                                    <h6 class="text-center">Revenu d'aujourd'hui</h6>
+                                    <h3 class="text-center">{{ TotalRevenus }}</h3>
                                 </div>
-                            </div>
-                            <div class="dash-bottom-content low-percent">
-                                <h6> <span> <i class="fas fa-caret-down"></i> 5.5%</span> Hier </h6>
-                            </div>
+                            </div>                            
                         </div>
                     </div>
                 </div>
@@ -126,7 +117,7 @@
             <!--Section3 : body : ordonnance -->   
             <div class="row">
                  <!--Section nombre de maladie courant --> 
-                 <div class="col-lg-6 d-flex">
+                <div class="col-lg-6 d-flex">
                     <div class="card dash-cards flex-fill">
                         <div class="card-header">
                             <div class="today-appointment-title">
@@ -143,11 +134,11 @@
                     <div class="card dash-cards flex-fill">
                         <div class="card-header">
                             <div class="today-appointment-title">
-                                <h5 class="mb-0">nombre de medicament </h5>
+                                <h5 class="mb-0">Number of medicaments added per day</h5>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div id="earnings-chart"></div>
+                            <canvas id="myChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -179,23 +170,7 @@
             </div>
             
 
-{% endblock %}                 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{asset('FrontOffice/css/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{asset('FrontOffice/plugins/apex/apexcharts.css') }}">
-{% endblock %}
-
-{% block javascripts %}
-    <script src="{{ asset('FrontOffice/js/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('FrontOffice/js/circle-progress.min.js') }}"></script>
-    <script src="{{ asset('FrontOffice/js/feather.min.js') }}"></script>
-    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
-    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
-    <script src="{{ asset('FrontOffice/plugins/select2/js/select2.min.js') }}"></script>
-    <script src="{{ asset('FrontOffice/plugins/apex/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('FrontOffice/plugins/apex/chart-data.js') }}"></script>
-{% endblock %}
+{% endblock %}  
 
 {% block active_menu %}
     <li class="has-submenu ">
@@ -312,3 +287,24 @@
 </div>
 {% endblock %}
  
+ {% block title %}Dashboard{% endblock %}
+          
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{asset('FrontOffice/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{asset('FrontOffice/plugins/apex/apexcharts.css') }}">
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('FrontOffice/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/js/circle-progress.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/js/feather.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/apex/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/apex/chart-data.js') }}"></script>
+
+
+{% endblock %}

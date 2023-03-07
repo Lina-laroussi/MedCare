@@ -20,7 +20,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class ConsultationController extends AbstractController
 {
 // -----------------------afficher tous les consultation-----------------------------------
-    #[Route('/show/{page?1}/{nbre?3}', name: 'app_consultation_index', methods: ['GET'])]
+    #[Route('/show/{page?1}/{nbre?5}', name: 'app_consultation_index', methods: ['GET'])]
     public function index(ConsultationRepository $consultationRepository,$nbre,$page): Response
     {
         $nbConsult = $consultationRepository->countConsult();
@@ -139,7 +139,7 @@ class ConsultationController extends AbstractController
         return $this->redirectToRoute('app_consultation_index', [], Response::HTTP_SEE_OTHER);
     }
 
-// -------------------------------------------download consultation en excel-------------------------------
+// -------------------------------------------download consultation en excel-----------------------
 
     #[Route('/consultation/export/csv', name: 'consultation_export_csv')]
     public function exportCsv(EntityManagerInterface $entityManager): Response

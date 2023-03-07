@@ -27,9 +27,6 @@ class Ordonnance
     #[Assert\NotBlank()]
     private ?string $description = "examenr générale";
 
-
-    
-
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
     private ?string $dosage = null;

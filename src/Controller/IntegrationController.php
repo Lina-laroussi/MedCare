@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Consultation;
 use App\Repository\ConsultationRepository;
+use App\Repository\OrdonnanceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,14 +17,23 @@ class IntegrationController extends AbstractController
         return $this->render('Front-Office/Landing.html.twig');
     }
 
+//--------dashboard / stat:  number of medication per day = added per day in January-------------
     #[Route('/dashboard', name: 'app_consult')]
-    public function dashboard(): Response
-    {
+    public function dashboard(ConsultationRepository $consultationRepository, OrdonnanceRepository $ordonnanceRepository): Response
+    { 
 
-        return $this->render('Front-Office/dashboardDoc.html.twig'
+        $totalConsultations = $consultationRepository->getTotalConsultations();
+        $totalRevenus = $consultationRepository ->getTotalRevenus();
+        $totalMedicaments = $ordonnanceRepository ->getTotalMedicament();
+        return $this->render('Front-Office/dashboardDoc.html.twig', [
+            'totalConsultations' => $totalConsultations,
+            'TotalRevenus' => $totalRevenus,
+            'TotalMedicament' => $totalMedicaments,
+        ]
         );
-    }
     
+    }
+        
 
     #[Route('/admin/consultation', name: 'admin_consultation')]
     public function consultation(): Response

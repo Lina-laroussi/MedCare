@@ -55,17 +55,33 @@ class ConsultationRepository extends ServiceEntityRepository
            ->getQuery()
            ->getSingleScalarResult()
            ;
+
    }
-
-   /* public function getConsultationsPerDay()
+   
+   //------------------------------- stat: nombre de consultation-------------------------
+   public function getTotalConsultations(): int
     {
-        $query = $this->createQueryBuilder('c')
-            ->select('COUNT(c.id) as count, DAY(c.date) as day')
-            ->groupBy('day')
-            ->getQuery();
+        $qb = $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)');
 
-        return $query->getResult();
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function getTotalRevenus(): int
+    {
+        // Get the current date
+        $currentDate = new \DateTime();
+
+        $qb = $this->createQueryBuilder('c')
+            ->select('SUM(c.prix)')
+            ->join('c.rendezVous', 'rv')
+            ->where('rv.date = :currentDate')
+            ->setParameter('currentDate', $currentDate->format('Y-m-d'));
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+
 //    /**
 //     * @return Consultation[] Returns an array of Consultation objects
 //     */
