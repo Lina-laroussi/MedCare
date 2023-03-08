@@ -9,6 +9,12 @@
 
 
 {% block stylesheets %}
+
+{{ encore_entry_link_tags('app')}}
+
+<link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+
+
     <link rel="shortcut icon" href="{{ asset('BackAdmin/img/favicon.png') }}">
 
     <link rel="stylesheet" href="{{ asset('BackAdmin/css/bootstrap.min.css') }}">
@@ -334,6 +340,15 @@
 {% endblock %}
 
 {% block javascripts %}
+{{ encore_entry_script_tags('app')}}
+
+
+
+  <!-- Flashy depends on jQuery -->
+    <script src="//code.jquery.com/jquery.js"></script>
+ <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+
+
 <script src="{{ asset('BackAdmin/js/jquery-3.6.0.min.js') }}"></script>
 
 <script src="{{ asset('BackAdmin/js/bootstrap.bundle.min.js') }}"></script>
@@ -354,6 +369,7 @@
 
 <script src="{{ asset('BackAdmin/js/script.js') }}"></script>
 {% endblock %}
+{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
 </body>
 
 <!-- Mirrored from doccure.dreamguystech.com/html/template/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 08 Feb 2023 13:02:22 GMT -->
