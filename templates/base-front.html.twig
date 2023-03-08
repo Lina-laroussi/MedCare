@@ -58,31 +58,10 @@
                         <a href="{{ path('app_list_medecins') }}">Médecin</a>
                     <li class="has-submenu">
                         <a href="{{path('app_integration3')}}" >Pharmacie</a>
-                       <!-- <ul class="submenu">
-                            <i class="fas fa-chevron-down"></i>
-                            <li class="has-submenu">
-                                <a href="#">Doctors</a>
-                                <ul class="submenu">
-                                    <li><a href="map-grid.html">Map Grid</a></li>
-                                    <li><a href="map-list.html">Map List</a></li>
-                                    <li><a href="map-list-1.html">Map List 1</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="search.html">Search Doctor</a></li>
-                            <li><a href="doctor-profile.html">Doctor Profile</a></li>
-                            <li><a href="booking.html">Booking</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
-                            <li><a href="booking-success.html">Booking Success</a></li>
-                            <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
-                            <li><a href="favourites.html">Favourites</a></li>
-                            <li><a href="chat.html">Chat</a></li>
-                            <li><a href="profile-settings.html">Profile Settings</a></li>
-                            <li><a href="change-password.html">Change Password</a></li>
-                        </ul>
-                    </li>-->
 
+                    </li>
                     <li class="has-submenu">
-                        <a href="#">Doctoshop </a>
+                        <a href="{{path('app_categorie_indexC')}}">Doctoshop </a>
                     </li>
                 </ul>
                 {% else %}
@@ -96,7 +75,7 @@
                         <a href="{{path('app_integration3')}}" >Pharmacie</a>
 
                     <li class="has-submenu">
-                        <a href="#">Doctoshop </a>
+                        <a href="{{path('app_categorie_indexC')}}">Doctoshop </a>
                     </li>
                 </ul>
                 {% endif %}

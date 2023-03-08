@@ -1,0 +1,44 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Résultats de la recherche{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1>Résultats de la recherche</h1>
+    
+    {% if produits|length == 0 %}
+      <p>Aucun résultat trouvé.</p>
+    {% else %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Prix</th>
+            <th>Etat</th>
+            <th>Quantité</th>
+            <th>Image</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for produit in produits %}
+            <tr>
+              <td>{{ produit.id }}</td>
+              <td>{{ produit.nom }}</td>
+              <td>{{ produit.description }}</td>
+              <td>{{ produit.prix }}</td>
+              <td>{{ produit.etat }}</td>
+              <td>{{ produit.quantite }}</td>
+              <td>
+                {% if produit.image %}
+                  <img src="{{ asset('uploads/' ~ produit.image) }}" alt="{{ produit.nom }}" />
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+{% endblock %}

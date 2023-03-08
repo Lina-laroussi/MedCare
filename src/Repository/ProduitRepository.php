@@ -39,6 +39,50 @@ class ProduitRepository extends ServiceEntityRepository
         }
     }
 
+    public function countByCategorie()
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->select('p.categorie, COUNT(p.id) as count')
+            ->groupBy('p.categorie');
+
+        $results = $queryBuilder->getQuery()->getResult();
+
+        $categoriesCount = [];
+
+        foreach ($results as $result) {
+            $categorie = $result['categorie'];
+            $count = $result['count'];
+
+            $categoriesCount[$categorie] = $count;
+        }
+
+        return $categoriesCount;
+    }
+
+
+    public function findByNom(string $nom): array
+    { return $this->createQueryBuilder('p')
+        ->where('p.nom LIKE :nom')
+        ->setParameter('nom', '%'.$nom.'%')
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function findByEtat(string $etat): array
+    { return $this->createQueryBuilder('p')
+        ->where('p.etat LIKE :etat')
+        ->setParameter('etat', '%'.$etat.'%')
+        ->getQuery()
+        ->getResult();
+    }
+
+
+
+
+
+
+
+
 //    /**
 //     * @return Produit[] Returns an array of Produit objects
 //     */
@@ -64,3 +108,4 @@ class ProduitRepository extends ServiceEntityRepository
 //        ;
 //    }
 }
+?>
