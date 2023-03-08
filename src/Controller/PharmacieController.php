@@ -14,6 +14,7 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Attachment;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use MercurySeries\FlashyBundle\FlashyNotifier;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 #[Route('/pharmacie')]
@@ -108,15 +109,15 @@ class PharmacieController extends AbstractController
     }
 
 
-    #[Route('/tri', name: 'app_pharmacie_tri')]
+    #[Route('/tri/a', name: 'app_pharmacie_tri')]
     public function trier(EntityManagerInterface $entityManager)
         {
-            $pharmacies = $entityManager->getRepository(Pharmacy::class)->createQueryBuilder('p')
+            $pharmacies = $entityManager->getRepository(Pharmacie::class)->createQueryBuilder('p')
                 ->orderBy('p.nom', 'ASC')
                 ->getQuery()
                 ->getResult();
     
-            return $this->render('pharmacie/index.html.twig', [
+            return $this->render('Back-Office/pharmacie/indextri.html.twig', [
                 'pharmacies' => $pharmacies,
             ]);
         }
