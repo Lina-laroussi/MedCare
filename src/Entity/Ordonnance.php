@@ -186,6 +186,9 @@ class Ordonnance
 
         return $this;
     }
+    public function __toString() :string {
+        return $this->code_ordonnance;
+    }
 
     public function getQrCodeFilename(): ?string
     {

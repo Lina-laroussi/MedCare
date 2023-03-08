@@ -116,6 +116,46 @@
                                     </ul>
                                 </nav>
                             </div>
+                            {% elseif is_granted('ROLE_PHARMACIEN') %}
+                                <div class="dashboard-widget">
+                                    <nav class="dashboard-menu">
+                                        <ul>
+                                            <li class="active">
+                                                <a href="{{ path('app_pharmacie_index') }}">
+                                                    <i class="fas fa-calendar-check"></i>
+                                                    <span>Pharmacie</span>
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="{{ path('app_facture_index') }}">
+                                                    <i class="fas fa-file-invoice"></i>
+                                                    <span>Factures</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('app_facture_stat') }}">
+                                                    <i class="fas fa-file-invoice"></i>
+                                                    <span>Statistiques</span>
+                                                </a>
+                                            </li>
+
+
+                                            <li>
+                                                <a href="{{ path('app_user_profile') }}">
+                                                    <i class="fas fa-user-cog"></i>
+                                                    <span>Parametre du profile</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="index.html">
+                                                    <i class="fas fa-sign-out-alt"></i>
+                                                    <span>Se déconnecter</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
                             {% endif %}
                         </div>
                     </div>

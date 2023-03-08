@@ -1,0 +1,61 @@
+{% extends 'base-back.html.twig' %}
+
+{% block body %}
+
+    
+<div class="page-wrapper">
+        <div class="content container-fluid">
+    <h1>Mes Pharmacies </h1>
+    <form role="search" id="nav-search-form" method="post" action="{{ path('app_pharmacie_tri') }}">
+										<div class="btn-toolbar" role="toolbar" aria-label="Programmatic control">
+											<div class="btn-group btn-group-sm" aria-label="Set Select2 option">
+												<button class="js-programmatic-set-val btn btn-outline-primary mr-1 mb-1">
+													Tri par Nom
+												</button>
+											</div>
+										</div>
+
+									</form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Adresse</th>
+                <th>Nom</th>
+                <th>Num_tel</th>
+                <th>Etat</th>
+                <th>Horaire</th>
+                <th>Email</th>
+                <th>Matricule</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pharmacie in pharmacies %}
+            <tr>
+                <td>{{ pharmacie.id }}</td>
+                <td>{{ pharmacie.adresse }}</td>
+                <td>{{ pharmacie.nom }}</td>
+                <td>{{ pharmacie.numTel }}</td>
+                <td>{{ pharmacie.etat }}</td>
+                <td>{{ pharmacie.horaire }}</td>
+                <td>{{ pharmacie.email }}</td>
+                <td>{{ pharmacie.matricule }}</td>
+                <td>
+                    <a href="{{ path('app_pharmacie_show', {'id': pharmacie.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Voir') }}</a>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pharmacie_new') }}" class="btn btn-primary mt-3">{{ button_label|default('Ajouter une nouvelle pharmacie ') }} </a>
+</div>
+</div>
+{% endblock %}

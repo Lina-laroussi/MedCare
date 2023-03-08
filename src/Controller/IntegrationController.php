@@ -11,10 +11,23 @@ use App\Service\MailerService;
 use App\Entity\Consultation;
 use App\Repository\ConsultationRepository;
 use App\Repository\OrdonnanceRepository;
+use App\Service\MailerServicePharmacie;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Annotation\Mime;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Attachment;
+use App\Entity\Pharmacie;
+use App\Form\PharmacieType;
+use App\Repository\PharmacieRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+
+
+
 
 class IntegrationController extends AbstractController
 {
@@ -81,16 +94,15 @@ class IntegrationController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/ordonnance', name: 'admin_ordonnance')]
-    public function ordonnance(): Response
+    #[Route('/detail', name: 'app_integration10')]
+    public function detail(): Response
     {
-        return $this->render('Back-Office/ordonnance.html.twig');
+        return $this->render('Front-Office/pharmacy-details1.html.twig', [
+            'controller_name' => 'IntegrationController',
+        ]);
     }
-    #[Route('/admin/ficheMedicale', name: 'admin_fiche_medicale')]
-    public function ficheMedicale(): Response
-    {
-        return $this->render('Back-Office/fichMedicale.html.twig');
-    }
+
+
 
 
     #[Route('/login', name: 'app_login')]
@@ -98,11 +110,112 @@ class IntegrationController extends AbstractController
     {
         return $this->render('Back-Office/login.html.twig');
     }
+    #[Route('/searchpharmacie/{id}', name: 'app_integration4', methods: ['GET'])]
+    public function  detailspharmacie(Pharmacie $pharmacie): Response
+    {
+        return $this->render('pharmacie/pharmacy-details.html.twig', [
+            'pharmacie' => $pharmacie,
+            'controller_name' => 'IntegrationController',
+
+        ]);
+    }
+    #[Route('/searchpharmacie', name: 'app_integration3')]
+    public function searchpharmacie(PharmacieRepository $pharmacieRepository): Response
+    {
+
+        $user=$this->getUser();
+        return $this->render('pharmacie/pharmacy-search.html.twig', [
+            'controller_name' => 'IntegrationController',
+            'pharmacies' => $pharmacieRepository->findAll(),
+            'user'=>$user
+
+        ]);
+    }
+
+    #[Route('/searchpharmacieajax', name: 'app_searchpharmacieajax' )]
+
+ public function searchpharmacieajax (Request $request)
+    {
+        $search =$request->get('info');
+        $pharmacies =$this->getDoctrine()->getRepository(Pharmacie::class)->findName($search);
+        $jsonData =array();
+        $idx = 0 ;
+        foreach($pharmacies as $pharmacie)
+        {
+              $temp = array(
+
+                    //  'id' => $pharmacie->getId(),
+                    'name' => $pharmacie->getNom(),
+                    //'address' => $pharmacie->getAdresse(),
+              );
+              $jsonData[$idx++] = $temp ;
+            }
+            return new JsonResponse($jsonData) ;
+
+        }
 
 
 
+/*
+#[Route('/ph', name: 'app_integration15')]
+
+public function searchPharmacies(Request $request)
+{
+    $searchQuery = $request->request->get('search_query');
+    $pharmacies = $this->getDoctrine()
+        ->getRepository(Pharmacie::class)
+        ->findNom($searchQuery); // replace findBySearchQuery with your custom repository method
+
+    // create an array of data to return as JSON
+    $data = [];
+    foreach ($pharmacies as $pharmacie) {
+        $data[] = [
+            'id' => $pharmacie->getId(),
+            'name' => $pharmacie->getNom(),
+            'address' => $pharmacie->getAdresse(),
+            // add other fields you want to return
+        ];
+    }
+
+    return
+    //new JsonResponse($data);
+    $this->render('pharmacie/resultat.html.twig', [
+        'controller_name' => 'IntegrationController',
+    ]);
+}
+
+*/
 
 
+    #[Route('/send', name: 'app_send')]
+    public function sendEmail(MailerServicePharmacie $mailer )
+    {         //    $mailer->sendEmail(from:$facture->getPharmacie()->getEmail(),to:$facture->getOrdonnance()->getConsultation()->getRendezvous()->getPatient()->getEmail(),subject: 'Facture Pharmacie',  template :'template' , tmpFile:'document.pdf');
 
+         $mailer->sendEmail(from:'pharmaciemedcare@gmail.com',to:'feryelouerfelli@gmail.com' ,subject: 'Facture Pharmacie', tmpFile:'document.pdf' , htmltemplate:'template' , context:[facture]);
+        return new Response("Success");
+    }
+
+
+    /*#[Route('/search', name: 'ajax_search')]
+
+    public function searchAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $requestString = $request->get('q');
+        $posts =  $em->getRepository('AppBundle:Post')->findEntitiesByString($requestString);
+        if(!$posts) {
+            $result['posts']['error'] = "Post Not found :( ";
+        } else {
+            $result['posts'] = $this->getRealEntities($posts);
+        }
+        return new Response(json_encode($result));
+    }
+    public function getRealEntities($posts){
+        foreach ($posts as $posts){
+            $realEntities[$posts->getId()] = [$posts->getPhoto(),$posts->getTitle()];
+
+        }
+        return $realEntities;
+    }*/
 
 }

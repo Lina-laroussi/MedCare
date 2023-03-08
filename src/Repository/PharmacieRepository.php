@@ -38,6 +38,146 @@ class PharmacieRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findByString($nom){
+        return $this->createQueryBuilder('pharmacie')
+            ->where('pharmacie.nom like :nom')
+            ->setParameter('nom', '%'.$nom.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    public function __toString(){
+        //return $this->id;
+        return (string)$this->id;
+        
+    }
+    public function findName(string $term): array
+    {
+
+        $qb = $this->createQueryBuilder('p');
+
+        return $qb->where($qb->expr()->like('p.nom', ':term'))
+            ->setParameter('term', '%' . $term . '%')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findPharmacieBySearchTerm($searchTerm): array
+    {
+       return $this->createQueryBuilder('u')
+           ->where('u.nom LIKE :searchTerm OR
+            u.email Like :searchTerm OR
+            u.matricule LIKE :searchTerm OR 
+            u.adresse Like :searchTerm OR
+            u.gouvernorat LIKE :searchTerm OR
+            u.etat LIKE :searchTerm' )
+           ->setParameter('searchTerm', $searchTerm)
+           ->getQuery()
+           ->getResult()
+       ;
+    }
+
+    public function findOneByGouvernorat($gouvernorat): ?Facture
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.gouvernorat = :val')
+            ->setParameter('val', $gouvernorat)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+    public function findTous($nbre , $page) 
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.id', 'ASC')
+            ->setFirstResult(($page - 1 )* $nbre)
+            ->setMaxResults($nbre)
+            ->getQuery()
+            ->getResult();
+            
+    }
+
+
+
+public function countPharmacies(): int
+{
+    return $this->createQueryBuilder('r')
+        ->select('count(r.id)')
+        ->getQuery()
+        ->getSingleScalarResult();
+
+}
+     public function tri() 
+{
+         return $this->createQueryBuilder('p')
+          ->orderBy('p.nom', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
+
+}
+
+ 
+
+   /*public function findBeginWith($value, $userId)
+    {
+        if($userId == null) {
+            return $this->createQueryBuilder('a')
+                ->andWhere('a.title LIKE :val or a.description LIKE :val')
+                ->setParameter('val', '%'.$value.'%')
+                ->orderBy('a.id', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult()
+            ;
+        }
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.user = :id')
+            ->setParameter('id', $userId)
+            ->andWhere('a.title LIKE :val or a.description LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*public function findNom($searchquery)
+{
+            return $this->createQueryBuilder('p')
+                ->andWhere('p.nom LIKE :searchTerm')
+                ->setParameter('searchTerm', '%'.$searchquery.'%')
+                ->orderBy('p.id', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult()
+          ;
+        }
+
+/*
+
+
 
 //    /**
 //     * @return Pharmacie[] Returns an array of Pharmacie objects
@@ -63,4 +203,4 @@ class PharmacieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-}
+

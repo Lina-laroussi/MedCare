@@ -1,0 +1,256 @@
+{% extends 'base-front.html.twig' %}
+
+{% block stylesheets %}
+
+    <link href="{{ asset('FrontOffice/img/favicon.png') }}" rel="icon">
+
+    <link rel="stylesheet" href="{{asset('FrontOffice/css/bootstrap.min.css')}}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/all.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/feather.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/dropzone/dropzone.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/rating.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
+
+<div class="breadcrumb-bar-six">
+<div class="container">
+<div class="row align-items-center">
+<div class="col-md-12 col-12">
+<h2 class="breadcrumb-title">Pharmacy</h2>
+<nav aria-label="breadcrumb" class="page-breadcrumb">
+<ol class="breadcrumb">
+<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+<li class="breadcrumb-item active" aria-current="page">Pharmacy Details</li>
+</ol>
+</nav>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="content pharmacy-cart-content">
+<div class="container">
+
+<div class="card pharmacy-card">
+<div class="card-body">
+<div class="doctor-widget pharmacy-widget">
+<div class="doc-info-left">
+<div class="doctor-img1">
+<a href="pharmacy-details.html">
+<img src="assets/img/pharmacy/pharmacy-05.jpg" class="img-fluid" alt="">
+</a>
+</div>
+<div class="doc-info-cont">
+<h4 class="doc-name"><a href="pharmacy-details.html">{{ pharmacie.nom }}</a></h4>
+<div class="rating">
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star filled"></i>
+<i class="fas fa-star"></i>
+<span class="d-inline-block average-rating">(17)</span>
+</div>
+<div class="clinic-details">
+<div class="clini-infos">
+<p class="doc-location">
+<i class="feather-map-pin"></i> {{pharmacie.adresse}}
+</p>
+<p class="doc-location text-ellipse">
+<i class="feather-tag"></i> {{pharmacie.gouvernorat}}
+</div>
+</div>
+<div class="pharmacy-social-links">
+<ul class="nav">
+<li>
+<a href="#" target="_blank">
+<i class="fab fa-facebook"></i>
+</a>
+</li>
+<li>
+<a href="#" target="_blank">
+<i class="fab fa-twitter"></i>
+</a>
+</li>
+<li>
+<a href="#" target="_blank">
+<i class="fab fa-instagram"></i>
+</a>
+</li>
+<li>
+<a href="#" target="_blank">
+<i class="fab fa-linkedin"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="doc-info-right d-flex align-items-center justify-content-center">
+<div class="pharmacy-booking pharmacy-booking-right">
+
+<a class="btn browse-products-btn" href="#" data-bs-toggle="modal" data-bs-target="#voice_call">
+<i class="feather-phone-call"></i> Call Now
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="pharmacy-details-info">
+
+<div class="product-description-tabs">
+<ul class="nav nav-tabs">
+
+<li class="nav-item">
+<a class="nav-link description-link active" href="#about_store" data-bs-toggle="tab">About Store</a>
+</li>
+
+ <li class="nav-item">
+<a class="nav-link reviews-link" href="#pharmacy_reviews" data-bs-toggle="tab">Reviews (125)</a>
+</li>
+
+</ul>
+</div>
+</div>
+
+
+
+<div class="tab-content pt-0">
+
+<div role="tabpanel" id="about_store" class="tab-pane fade show active">
+<div class="row">
+<div class="col-md-12">
+
+<div class="widget about-widget">
+                <h2 class="breadcrumb-title">{{pharmacie.nom}}</h2>
+
+
+<h>Cette Pharmcie est ouverte de {{pharmacie.horaire}} , elle se situe {{pharmacie.adresse}} , {{pharmacie.gouvernorat}} 
+Elle est actuellement {{pharmacie.etat}}.
+Veuillez nous contacter sur notre mail {{pharmacie.email}} ou notre Numéro de télephone {{pharmacie.numTel}}</h>
+</div>
+ <form action="" >
+       
+                <h2 class="breadcrumb-title">Veuillez noter les services de notre pharmacie</h2>
+
+
+        <div class="stars">
+            <i class="lar la-star" data-value="1" ></i>
+            <i class="lar la-star" data-value="2"></i>
+            <i class="lar la-star" data-value="3"></i>
+            <i class="lar la-star" data-value="4"></i>
+            <i class="lar la-star" data-value="5"></i>
+            
+        </div>
+        <input type="hidden" name="note" id="note" value="0">
+        <button type="submit">Valider</button>
+    </form>
+
+
+
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+
+
+
+</div>
+
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+<script>
+window.onload = () => {
+    // On va chercher toutes les étoiles
+    const stars = document.querySelectorAll(".la-star");
+    
+    // On va chercher l'input
+    const note = document.querySelector("#note");
+
+    // On boucle sur les étoiles pour le ajouter des écouteurs d'évènements
+    for(star of stars){
+        // On écoute le survol
+        star.addEventListener("mouseover", function(){
+            resetStars();
+            this.style.color = "red";
+            this.classList.add("las");
+            this.classList.remove("lar");
+            // L'élément précédent dans le DOM (de même niveau, balise soeur)
+            let previousStar = this.previousElementSibling;
+
+            while(previousStar){
+                // On passe l'étoile qui précède en rouge
+                previousStar.style.color = "red";
+                previousStar.classList.add("las");
+                previousStar.classList.remove("lar");
+                // On récupère l'étoile qui la précède
+                previousStar = previousStar.previousElementSibling;
+            }
+        });
+
+        // On écoute le clic
+        star.addEventListener("click", function(){
+            note.value = this.dataset.value;
+        });
+
+        star.addEventListener("mouseout", function(){
+            resetStars(note.value);
+        });
+    }
+
+    /**
+     * Reset des étoiles en vérifiant la note dans l'input caché
+     * @param {number} note 
+     */
+    function resetStars(note = 0){
+        for(star of stars){
+            if(star.dataset.value > note){
+                star.style.color = "black";
+                star.classList.add("lar");
+                star.classList.remove("las");
+            }else{
+                star.style.color = "red";
+                star.classList.add("las");
+                star.classList.remove("lar");
+            }
+        }
+    }
+}
+
+
+		</script>
+
+
+{% endblock %}

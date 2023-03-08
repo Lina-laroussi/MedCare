@@ -37,7 +37,80 @@ class FactureRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+
+
+      
     }
+    
+
+
+public function TotalFactures(): int
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)');
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getTotalRevenus(): int
+   { $qb = $this->createQueryBuilder('c')
+          ->select('SUM(c.montant)');
+
+       return (int) $qb->getQuery()->getSingleScalarResult(); }
+ 
+
+  /*  public function findtous($nbre , $page) 
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.id', 'ASC')
+            ->setFirstResult(($page - 1 )* $nbre)
+            ->setMaxResults($nbre)
+            ->getQuery()
+            ->getResult();
+            
+    }
+
+
+
+public function countbydate($date): int
+{
+    return $this->createQueryBuilder('r')
+        ->select('count(r.id)')
+        ->Where('r.date = :val')
+        ->setParameter('val', $date)
+        ->getQuery()
+        ->getSingleScalarResult()
+        ;
+}
+*/
+public function countByDate(){
+$query = $this->createQueryBuilder('a')
+->select('SUBSTRING(a.date, 1, 10) as datefactures, COUNT(a) as count')
+->groupBy('datefactures')
+;
+return $query->getQuery()->getResult();
+}
+
+public function countfactures(): int
+{
+    return $this->createQueryBuilder('r')
+        ->select('count(r.id)')
+        ->getQuery()
+        ->getSingleScalarResult();
+}
+
+public function countfacturesperpharmacie()
+{
+    return $this->createQueryBuilder('f')
+        ->select('COUNT(f.id) as factureCount', 'ph.nom as pharmacieName')
+
+
+        ->join('f.pharmacie', 'ph')
+        ->groupBy('ph.id')
+        ->getQuery()
+        ->getResult();
+}
+
 
 //    /**
 //     * @return Facture[] Returns an array of Facture objects

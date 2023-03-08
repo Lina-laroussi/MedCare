@@ -1,0 +1,46 @@
+{% extends 'base-front.html.twig' %}
+
+{% block javascripts%}
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    {% block javascripts %}
+<script>
+        const searchForm = document.querySelector('#search-form');
+        const searchInput = document.querySelector('#search-input');
+        const searchResults = document.querySelector('#search-results');
+        
+        searchForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '{{ path('app_pharmacie_search') }}?term=' + encodeURIComponent(searchInput.value));
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = () => {
+         console.log(xhr.responseText);
+
+                if (xhr.status === 200) {
+                    const results = JSON.parse(xhr.responseText);
+                    searchResults.innerHTML = '';
+                    results.forEach((result) => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `${result.nom} - ${result.adresse} - ${result.numTel}`;
+                        searchResults.appendChild(li);
+                    });
+                }
+            };
+            xhr.send('term=' + encodeURIComponent(searchInput.value));
+        });
+    </script>
+{% endblock %}
+{% block body %}
+ 
+    <form id="search-form">
+        <label for="search-input">Search:</label>
+        <input type="text" id="search-input" name="term">
+        <button type="submit">Submit</button>
+    </form>
+    
+    <ul id="search-results"></ul>
+
+{% endblock %}

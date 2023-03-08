@@ -1,0 +1,132 @@
+<title>MedCare</title>
+<link href="{{asset('FrontOffice/img/favicon.png')}}" rel="icon">
+<link rel="stylesheet" href="{{asset('FrontOffice/css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{asset('FrontOffice/plugins/fontawesome/css/fontawesome.min.css')}}">
+<link rel="stylesheet" href="{{asset('FrontOffice/plugins/fontawesome/css/all.min.css')}}">
+<link rel="stylesheet" href="{{asset('FrontOffice/css/feather.css')}}">
+<link rel="stylesheet" href="{{asset('FrontOffice/css/style.css')}}">
+
+<body>
+ <h1>Facture</h1>
+        <div class="col-md-7 col-lg-8 col-xl-9">
+        <div class="card">
+            <div class="card-body">
+    
+<div class="page-wrapper">
+<div class="content container-fluid">
+
+<div class="invoice-container">
+<div class="row">
+<div class="col-sm-6 mb-4">
+<img alt="Logo" class="inv-logo img-fluid" src="/FrontOffice/img/logoMedB.png">
+</div>
+<div class="col-sm-6 m-b-20">
+<div class="invoice-details">
+<h3 > Numéro Facture :{{ facture.id }}</h3>
+<ul class="list-unstyled mb-0">
+<li>Date: <span>{{ facture.date ? facture.date|date('Y-m-d') : '' }}</span></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 mb-4">
+<ul class="list-unstyled mb-0">
+<li><h6>{{ facture.pharmacie.nom }} </h6></li>
+<li>{{ facture.pharmacie.adresse }}</li>
+<li>{{ facture.pharmacie.numTel }}</li>
+<li>{{ facture.pharmacie.email}}</li>
+</ul>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-6 col-lg-7 col-xl-8 mb-4">
+<h6></h6>
+<ul class="list-unstyled mb-0">
+<li><h5 class="mb-0"><strong></strong></h5></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+</div>
+<div class="col-sm-6 col-lg-5 col-xl-4 mb-4">
+<ul class="list-unstyled invoice-payment-details mb-0">
+<li> <h5>{{ facture.ordonnance.consultation.rendezvous.patient.nom}}
+{{ facture.ordonnance.consultation.rendezvous.patient.prenom}}</li></h5>
+
+<li>{{ facture.ordonnance.consultation.rendezvous.patient.adresse}}</li>
+
+<li>{{ facture.ordonnance.consultation.rendezvous.patient.numTel}}</li>
+
+<li>{{ facture.ordonnance.consultation.rendezvous.patient.email}}</li>
+
+</ul>
+</div>
+</div>
+
+
+
+
+
+<div class="table-responsive">
+<table class="table table-borderless hover-table">
+<thead>
+<tr>
+<th>Liste des Médicaments</th>
+
+</tr>
+
+<tr>
+<td>{{ facture.ordonnance.medicaments }}</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td class="d-none d-sm-table-cell"><h5> Total: {{ facture.montant }}</h5></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<div class="row invoice-payment">
+<div class="col-sm-7">
+</div>
+
+
+
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="invoice-info">
+  <tr>
+                <th class="d-none d-sm-table-cell" >Image_signature</th> </tr>
+               
+
+                <img src="{{ asset('uploads/images/' ~ facture.imageSignature ) }}" alt="Image de signature" >
+
+
+            
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</body>
+
+<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script src="{{asset('FrontOffice/js/jquery-3.6.0.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/feather.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/script.js')}}"></script>
+<script>
+    window.onload = function() {
+        window.print();
+    }
+</script

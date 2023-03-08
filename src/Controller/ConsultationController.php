@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Consultation;
 use App\Form\Consultation1Type;
 use App\Repository\ConsultationRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-#[Route('/consultation')]
+#[Route('/consultation'),
+    IsGranted ('IS_AUTHENTICATED_FULLY')]
 class ConsultationController extends AbstractController
 {
 // -----------------------afficher tous les consultation-----------------------------------
