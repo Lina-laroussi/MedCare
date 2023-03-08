@@ -10,14 +10,17 @@ use App\Form\RemboursementType;
 use App\Repository\FicheAssuranceRepository;
 use App\Repository\RemboursementRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Dompdf\Dompdf;
 use Knp\Component\Pager\PaginatorInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
+use \Swift_Mailer;
 
 #[Route('/remboursement')]
 class RemboursementController extends AbstractController
@@ -69,24 +72,6 @@ class RemboursementController extends AbstractController
      ]);
  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     #[Route('/new', name: 'app_remboursement_new', methods: ['GET', 'POST'])]
     public function new(Request $request, RemboursementRepository $remboursementRepository,FlashyNotifier $flashy ): Response
     {
@@ -107,9 +92,6 @@ class RemboursementController extends AbstractController
             'form' => $form,
         ]);
     } 
-   
-
-
  
 
     #[Route('/{id}', name: 'app_remboursement_show', methods: ['GET'])]
@@ -149,42 +131,10 @@ class RemboursementController extends AbstractController
     }
 
 
-
-
-
-
-
+////////////////////////////////// rechercher par DATE ///////////////////////
     #[Route('/file/date', name: 'file_list', methods: ['GET', 'POST'],)]
-    public function filterDate(Request $request,RemboursementRepository $Repo )
+    public function filterDate(Request $request,RemboursementRepository $Repo ,PaginatorInterface $paginator)
     {
-    /* $startDate = $request->query->get('startDate');
-        $endDate = $request->query->get('endDate');
-    
-        $files = [];
-    
-        if ($startDate && $endDate) {
-            $queryBuilder = $Repo->createQueryBuilder('f')
-                ->where('f.date_remboursement BETWEEN :start_date AND :end_date')
-                ->setParameter('start_date', $startDate)
-                ->setParameter('end_date', $endDate);
-            
-            $files = $queryBuilder->getQuery()->getResult();
-        }
-    
-        return $this->render('remboursement/file.html.twig', [
-            'files' => $files,
-        ]);
-
-*/
-
-
-
-
-
-
-
-
-
 
          $search = new FileSearch();
         $form = $this->createForm(FileType::class, $search);
@@ -204,18 +154,20 @@ class RemboursementController extends AbstractController
                 ->setParameter('end_date', $endDate);
                
         }
+
         $files = $queryBuilder->getQuery()->getResult();
          
         return $this->render('remboursement/file.html.twig', [
             'form' => $form->createView(),
             'files' => $files,
         ]); 
+        
     }
 
 
     ////////////////////////////////////changer etat ////////////////////////////
-    #[Route('/{id}/confirm', name: 'app_rendez_vous_confirm', methods: ['GET', 'POST'])]
-    public function confirm(Request $request, Remboursement $Remboursement, RemboursementRepository $RemboursementRepository,HubInterface $hub): Response
+    #[Route('/{id}/confirm', name: 'app_confirm_remboursemet', methods: ['GET', 'POST'])]
+    public function confirm(Request $request, Remboursement $Remboursement,\Swift_Mailer $mailer, RemboursementRepository $RemboursementRepository,HubInterface $hub,$id): Response
     {
 
         $Remboursement->setEtat("confirmé");
@@ -228,19 +180,135 @@ class RemboursementController extends AbstractController
             'TauxRemboursement'=>$Remboursement->getTauxRemboursement(),
             'Etat'=>$Remboursement->getEtat(),
             'idFicheAssurance'=>$Remboursement->getFicheAssurance(),
-            
-
         ];
-            $update = new Update(
-                '/RemboursementConfirme',  //.$rendezVou->getPlanning()->getMedecin()->getId(),
-                json_encode($data)
-            );
+       
+       
+        $message = (new \Swift_Message(' la fiche est mise a jour'))
+        ->setFrom('bentaarits@gmail.com')
+        ->setTo('sbentaarit@gmail.com')
+        ->setBody(
+            $this->renderView(
+                'remboursement/emails/email.html.twig',
+                ['id' => $id]
+            ),
+            'text/html'
+        );
 
-            $hub->publish($update);
-        
+
+    $mailer->send($message);
+
+   
+
 
         return $this->redirectToRoute('app_remboursement_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
+
+    ///////////////////////////////pdf/////////////////////////////
+    #[Route('/{id}/pdf', name: 'app_remboursement_pdf', methods: ['GET','POST'])]
+public function pdf(Remboursement $remboursement): Response
+{
+    // create new PDF document
+    $dompdf = new Dompdf();
+    
+    // generate HTML content for the document
+    $html = $this->renderView('remboursement/pdf.html.twig', [
+        'remboursement' => $remboursement, 
+        
+    ]);
+
+    // load HTML into the PDF document
+    $dompdf->loadHtml($html);
+
+    // set paper size and orientation
+    $dompdf->setPaper('A4', 'portrait');
+
+    // render PDF document
+    $dompdf->render();
+
+    // create a response object to return the PDF file
+    $response = new Response($dompdf->output());
+    
+    // set content type to application/pdf
+    $response->headers->set('Content-Type', 'application/pdf');
+
+    $disposition = $response->headers->makeDisposition(
+        ResponseHeaderBag::DISPOSITION_INLINE,
+        'remboursement.pdf'
+    );
+    $response->headers->set('Content-Disposition', $disposition);
+
+    return $response;
+}
+
+ ///////////////////////////////pdf///////////////////////////// ///////////////////////////////pdf///////////////////////////// ///////////////////////////////pdf/////////////////////////////
+#[Route('/file/dateq', name: 'file_listq', methods: ['GET','POST'])]
+public function filterDate1(Request $request, RemboursementRepository $repo, PaginatorInterface $paginator)
+{
+    // Create form
+    $search = new FileSearch();
+    $form = $this->createForm(FileType::class, $search);
+    $form->handleRequest($request);
+
+    // Filter files by date range
+   
+    $queryBuilder = $repo->createQueryBuilder('f');
+    if ($form->isSubmitted() && $form->isValid()) {
+        $startDate = $search->startDate;
+        $endDate = $search->endDate;
+
+        $queryBuilder
+            ->where('f.date_remboursement BETWEEN :start_date AND :end_date')
+            ->setParameter('start_date', $startDate)
+            ->setParameter('end_date', $endDate);
+    }
+
+        // Get files matching the date range
+        $files = $queryBuilder->getQuery()->getResult();
+        // Generate PDF using Dompdf
+        $dompdf = new Dompdf();
+        $html = $this->renderView('remboursement/pdf.html.twig', [
+            'files' => $files,
+        ]);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+    
+    // Set HTTP response headers to download the PDF file
+    $response = new Response($dompdf->output());
+    $response->headers->set('Content-Type', 'application/pdf');
+    $response->headers->set('Content-Disposition', 'attachment;filename="file.pdf"');
+    $response->headers->set('Cache-Control', 'private, max-age=0, must-revalidate');
+    $response->headers->set('Pragma', 'public');
+    $response->headers->set('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT');
+    $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'remboursement.pdf');
+
+
+    return $this->renderForm('remboursement/file.html.twig', [
+        'files' => $files,
+        'form' => $form,
+    ]);
+    $response;
+
+  
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

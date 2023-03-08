@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>identifiant unique: {{ remboursement.id }}</title>
+</head>
+<body>
+    <h1>Remboursement</h1>
+    <p>Cette fiche atteste que {% for remboursement in remboursement %}
+            
+         
+            {% endfor %} a participé au tournoi {{ remboursement.taux_remboursement }} organisé par notre association.</p>
+    <p>Date : {{ remboursement.date_remboursement | date("d/m/Y") }}</p>
+    <p>Signature : . .    .   . . . .  . .  ... ....</p>
+</body>
+</html>

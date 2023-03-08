@@ -45,7 +45,7 @@ class Remboursement
     
     #[Assert\Positive]
     #[ORM\Column]
-    private ?float $taux_remboursement = null;
+    public ?float $taux_remboursement = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::DATE_MUTABLE)]

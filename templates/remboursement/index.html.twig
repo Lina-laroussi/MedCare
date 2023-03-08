@@ -51,7 +51,7 @@
                     {{ remboursement.etat }}</span>
                 </td>
                     <td>
-                    <a href="{{ path('app_remboursement_show', {'id': remboursement.id}) }}"><button>confirmer la fiche </button></a>
+                    {{ include('remboursement/_confirm_form.html.twig') }}
                     <a href="{{ path('app_remboursement_show', {'id': remboursement.id}) }}">show</a>
                     <a href="{{ path('app_remboursement_edit', {'id': remboursement.id}) }}">edit</a>
                 </td>
