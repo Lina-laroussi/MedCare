@@ -173,7 +173,7 @@ class ConsultationController extends AbstractController
                 $consultation->getPressionArterielle(),
                 $consultation->getFrequenceCardiaque(),
                 $consultation->getTauxGlycemie(),
-                $consultation->getSymptomes(),
+                $consultation->getmaladie(),
                 $consultation->getTraitement(),
                 $consultation->getPrix(),//  ? to chek if get... is not null
                 $consultation->getRendezVous() ? $consultation->getRendezVous()->getDate()->format('Y-m-d H:i:s') : (new \DateTime())->format('Y-m-d H:i:s'),

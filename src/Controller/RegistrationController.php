@@ -62,7 +62,7 @@ class RegistrationController extends AbstractController
             );
 
             $mailer->sendEmail(
-                to: "admin20@gmail.com",
+                to: "lina.laroussi20@gmail.com",
                 template: 'confirmation-register-admin',
                 subject: ' Nouveau compte utilisateur créé',
                 context: $context
@@ -109,7 +109,7 @@ class RegistrationController extends AbstractController
                 context: $context
             );
             $mailer->sendEmail(
-                to: "admin20@gmail.com",
+                to: "lina.laroussi20@gmail.com",
                 template: 'confirmation-register-admin',
                 subject: ' Nouveau compte utilisateur créé',
                 context: $context
@@ -157,7 +157,7 @@ class RegistrationController extends AbstractController
                 context: $context
             );
             $mailer->sendEmail(
-                to: "admin20@gmail.com",
+                to: "lina.laroussi20@gmail.com",
                 template: 'confirmation-register-admin',
                 subject: ' Nouveau compte utilisateur créé',
                 context: $context
@@ -206,7 +206,7 @@ class RegistrationController extends AbstractController
                 context: $context
             );
             $mailer->sendEmail(
-                to: "admin20@gmail.com",
+                to: "lina.laroussi20@gmail.com",
                 template: 'confirmation-register-admin',
                 subject: ' Nouveau compte utilisateur créé',
                 context: $context
@@ -224,7 +224,7 @@ class RegistrationController extends AbstractController
     public function registerAdmin(Request $request,ManagerRegistry $rm)
     {
             $user = new User();
-            $user->setEmail("admin20@gmail.com");
+            $user->setEmail("lina.laroussi20@gmail.com");
             // Encode the new users password
             $user->setPassword($this->userPasswordHasher->hashPassword($user,"admin"));
             $user->setNom("admin");

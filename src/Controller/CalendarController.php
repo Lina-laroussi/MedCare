@@ -123,7 +123,7 @@ class CalendarController extends AbstractController
             ]
         ;
         $update = new Update(
-            '/rdvAjouter/'.$rendezVou->getPlanning()->getMedecin()->getId(),
+            '/rdvAjouter/',//.$rendezVou->getPlanning()->getMedecin()->getId(),
             json_encode($data)
         );
 
