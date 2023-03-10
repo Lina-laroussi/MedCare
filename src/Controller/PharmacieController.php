@@ -52,7 +52,7 @@ class PharmacieController extends AbstractController
  
         ]);
     }
-    #[Route('/new', name: 'app_pharmacie_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_pharmacie_new')]
     public function new(Request $request, PharmacieRepository $pharmacieRepository , FlashyNotifier $Flashy): Response
     {
         $pharmacie = new Pharmacie();

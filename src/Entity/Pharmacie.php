@@ -63,9 +63,6 @@ class Pharmacie
     #[ORM\Column(length: 255)]
     private ?string $services = null;
 
-    #[ORM\OneToOne(inversedBy: 'pharmacie', cascade: ['persist', 'remove'])]
-    private ?User $pharmacien = null;
-
     #[ORM\OneToMany(mappedBy: 'pharmacie', targetEntity: Facture::class , cascade: ['persist', 'remove'])]
     private Collection $factures;
 
@@ -188,18 +185,6 @@ class Pharmacie
     public function setServices(string $services = null ): self
     {
         $this->services = $services;
-
-        return $this;
-    }
-
-    public function getPharmacien(): ?User
-    {
-        return $this->pharmacien;
-    }
-
-    public function setPharmacien(?User $pharmacien): self
-    {
-        $this->pharmacien = $pharmacien;
 
         return $this;
     }
