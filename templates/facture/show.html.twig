@@ -134,7 +134,7 @@
 
     <a href="{{ path('app_facture_edit', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Modifier') }}</a>
     <a href="{{ path('app_fact', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Imprimer facture') }}</a>
-     <a href="{{ path('app_facture_delete', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Supprimer Facture') }}</a>
+    {{ include('facture/_delete_form.html.twig') }}
 
 
 </div>

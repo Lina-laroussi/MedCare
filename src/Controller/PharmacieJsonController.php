@@ -34,19 +34,42 @@ class PharmacieJsonController extends AbstractController
 
 
     #[Route('/new', name: 'app_pharmaciejson_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PharmacieRepository $pharmacieRepository , NormalizerInterface $Normalizer , SerializerInterface $serializer): Response
+    public function new(Request $req, PharmacieRepository $pharmacieRepository , NormalizerInterface $Normalizer , SerializerInterface $serializer): Response
     {
         $pharmacie = new Pharmacie();
-        $pharmacie->setNom($request->get('nom'));
-        $pharmacie->setEtat($request->get('etat'));
-        $pharmacie->setAdresse($request->get('adresse'));
-        $pharmacie->setGouvernorat($request->get('gouvernorat'));
-        $pharmacie->setDescription($request->get('description'));
-        $pharmacie->setServices($request->get('services'));
-        $pharmacie->setNumTel($request->get('num_tel'));
-        $pharmacie->setHoraire($request->get('horaire'));
-        $pharmacie->setMatricule($request->get('matricule'));
-        $pharmacie->setEmail($request->get('email'));
+
+        $nom = $req->get('nom') ?? ''; 
+        $pharmacie->setNom($nom);
+
+     
+
+        $adresse = $req->get('adresse') ?? ''; 
+        $pharmacie->setAdresse($adresse);
+        $Gouvernorat = $req->get('gouvernorat') ?? ''; 
+        $pharmacie->setGouvernorat($Gouvernorat);
+
+
+        $email= $req->get('email') ?? ''; 
+        $pharmacie->setEmail($email);
+ 
+        $etat= $req->get('etat') ?? ''; 
+        $pharmacie->setEtat($etat);
+
+        $num_tel= $req->get('num_tel') ?? ''; 
+        $pharmacie->setNumTel($num_tel);
+
+
+        $matricule = $req->get('matricule') ?? ''; 
+        $pharmacie->setMatricule($matricule);
+
+        $horaire= $req->get('horaire') ?? ''; 
+        $pharmacie->setHoraire($horaire);
+        $description= $req->get('description') ?? ''; 
+        $pharmacie->setDescription($description); 
+
+        $services = $req->get('services') ?? ''; 
+        $pharmacie->setServices($services);
+
 
         $pharmacieRepository->save($pharmacie, true);
         $jsonContent = $Normalizer->normalize($pharmacie, 'json', ['groups' => 'pharmacies']);

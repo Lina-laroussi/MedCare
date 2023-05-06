@@ -15,14 +15,19 @@ class Pharmacie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["pharmacies"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez ajouter l'adresse de votre pharmacie")]
+    #[Groups(["pharmacies"])]
+
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez ajouter le nom de votre pharmacie")]
+    #[Groups(["pharmacies"])]
+
     private ?string $nom = null;
 
     #[ORM\Column]
@@ -34,33 +39,47 @@ class Pharmacie
         minMessage: 'Votre numéro doit etre composer de 8 numéros au minimum',
         maxMessage: 'Non valide',
     )]
+    #[Groups(["pharmacies"])]
+
     private ?string $num_tel = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank (message:"Veuillez entrer une description")]
+    #[Groups(["pharmacies"])]
+
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez choisir votre état")]
+    #[Groups(["pharmacies"])]
+
 
     private ?string $etat = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez ajouter votre horaire de travail")]
+    #[Groups(["pharmacies"])]
+
 
     private ?string $horaire = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez ajouter votre email")]
     #[Assert\Email(message: "Le mail n'est pas valide")]
+    #[Groups(["pharmacies"])]
+
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez ajouter la matricule de votre pharmacie")]
+    #[Groups(["pharmacies"])]
+
 
     private ?string $matricule = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["pharmacies"])]
+
     private ?string $services = null;
 
     #[ORM\OneToMany(mappedBy: 'pharmacie', targetEntity: Facture::class , cascade: ['persist', 'remove'])]
@@ -68,6 +87,9 @@ class Pharmacie
 
     #[ORM\Column(length: 255)]
     private ?string $Gouvernorat = null;
+
+    #[ORM\OneToOne(inversedBy: 'pharmacie', cascade: ['persist', 'remove'])]
+    private ?User $pharmacien = null;
 
   
 
@@ -185,6 +207,17 @@ class Pharmacie
     public function setServices(string $services = null ): self
     {
         $this->services = $services;
+
+        return $this;
+    }
+    public function getPharmacien(): ?User
+    {
+        return $this->pharmacien;
+    }
+
+    public function setPharmacien(?User $pharmacien): self
+    {
+        $this->pharmacien = $pharmacien;
 
         return $this;
     }

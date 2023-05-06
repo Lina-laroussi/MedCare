@@ -33,7 +33,7 @@
                 <td>
                     <a href="{{ path('app_facture_show', {'id': facture.id}) }}" class="btn btn-sm bg-primary-light"><i class = "fas fa-eye"></i>{{ button_label|default('Voir') }}</a>
                     <a href="{{ path('app_facture_edit', {'id': facture.id}) }}"class="btn btn-sm bg-success-light" > <i class="fas fa-edit"></i> {{ button_label|default('Modifier') }}</a>
-                     <a href="{{ path('app_facture_delete', {'id': facture.id}) }}"class="btn btn-sm bg-danger-light" > <i class="far fa-trash-alt"></i> {{ button_label|default('Supprimer') }}</a>
+    {{ include('facture/_delete_form.html.twig') }}
 
                 </td>
             </tr>

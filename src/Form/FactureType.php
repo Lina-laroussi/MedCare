@@ -62,6 +62,8 @@ class FactureType extends AbstractType
                 ],
             ])
             ->add('montant')
+            ->add('etat')
+
 
         ;
     }

@@ -25,6 +25,8 @@ class Facture
     #[Assert\NotBlank(message: "Veuillez ajouter le montant du facture")]
     #[Assert\Positive(message: "Non valide")]
     private ?float $montant = null;
+    #[ORM\Column(length: 255)]
+    private ?string $etat = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
@@ -34,11 +36,15 @@ class Facture
 
     #[ORM\Column]
     #[Assert\NotBlank(message: "Veuillez ajouter le numéro du facture")]
-    #[Assert\Positive(message: "Non valide")]
-    private ?int $num_facture = null;
+    private ?string $num_facture = null;
 
-    #[ORM\OneToOne(mappedBy: 'facture' , cascade: ['persist', 'remove'])]
+    //#[ORM\OneToOne(mappedBy: 'facture' , cascade: ['persist', 'remove'])]
+    //private ?Ordonnance $ordonnance = null;
+
+    
+    #[ORM\OneToOne(inversedBy: 'facture')]
     private ?Ordonnance $ordonnance = null;
+
 
     #[ORM\ManyToOne(inversedBy: 'factures')]
     private ?Pharmacie $pharmacie = null;
@@ -59,6 +65,17 @@ class Facture
     public function setMontant(float $montant=null): self
     {
         $this->montant = $montant;
+
+        return $this;
+    }
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }
@@ -87,12 +104,12 @@ class Facture
         return $this;
     }
 
-    public function getNumFacture(): ?int
+    public function getNumFacture(): ?string
     {
         return $this->num_facture;
     }
 
-    public function setNumFacture(int $num_facture = null): self
+    public function setNumFacture(string $num_facture = null): self
     {
         $this->num_facture = $num_facture;
 

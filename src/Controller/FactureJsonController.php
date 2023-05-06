@@ -31,7 +31,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[Route('/jsonfacture')]
 class FactureJsonController extends AbstractController
 {
-    #[Route('/', name: 'app_facture_index', methods: ['GET'])]
+    #[Route('/', name: 'app_facturejson_index', methods: ['GET'])]
     public function index(FactureRepository $factureRepository , NormalizerInterface $Normalizer): Response
     {
         return $this->render('facture/index.html.twig', [
@@ -39,7 +39,7 @@ class FactureJsonController extends AbstractController
         ]); 
     }
 
-    #[Route('/new', name: 'app_facture_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_facturejson_new', methods: ['GET', 'POST'])]
     public function new(Request $request, FactureRepository $factureRepository, UserRepository $userrepository, SluggerInterface $slugger , MailerService $mailer , PharmacieRepository $pharmacieRepository,NormalizerInterface $Normalizer): Response
     {
         $facture = new Facture();
@@ -60,7 +60,7 @@ class FactureJsonController extends AbstractController
             ]
         ;
 
-            return $this->redirectToRoute('app_facture_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_facturejson_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('facture/new.html.twig', [
@@ -72,7 +72,7 @@ class FactureJsonController extends AbstractController
 
 
 
-    #[Route('/{id}', name: 'app_facture_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_facturejson_show', methods: ['GET'])]
     public function show(Facture $facture , NormalizerInterface $Normalizer): Response
     {
         return $this->render('facture/show.html.twig', [
@@ -82,7 +82,7 @@ class FactureJsonController extends AbstractController
 
     
 
-    #[Route('/{id}/pdf', name: 'app_facture_pdf', methods: ['GET'])]
+    #[Route('/{id}/pdf', name: 'app_facturejson_pdf', methods: ['GET'])]
     public function generatepdffacture(Facture $facture = null, DompdfService $pdf , NormalizerInterface $Normalizer ) {
         return$this->render('facture/showpdf1.html.twig',['facture' => $facture]) ;
  // $html = $this->render('facture/showpdf1.html.twig',['facture' => $facture]) ;
@@ -93,7 +93,7 @@ class FactureJsonController extends AbstractController
     }
 
 
-    #[Route('/{id}/edit', name: 'app_facture_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_facturejson_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Facture $facture, FactureRepository $factureRepository , NormalizerInterface $Normalizer): Response
     {
         $form = $this->createForm(FactureType::class, $facture);
@@ -102,7 +102,7 @@ class FactureJsonController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $factureRepository->save($facture, true);
 
-            return $this->redirectToRoute('app_facture_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_facturejson_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('facture/edit.html.twig', [
@@ -111,17 +111,17 @@ class FactureJsonController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_facture_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_facturejson_delete', methods: ['POST'])]
     public function delete(Request $request, Facture $facture, FactureRepository $factureRepository , NormalizerInterface $Normalizer): Response
     {
         if ($this->isCsrfTokenValid('delete'.$facture->getId(), $request->request->get('_token'))) {
             $factureRepository->remove($facture, true);
         }
 
-        return $this->redirectToRoute('app_facture_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_facturejson_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/recherche', name: 'app_facture_recherche', methods: ['GET' ,'POST'])]
+    #[Route('/recherche', name: 'app_facturejson_recherche', methods: ['GET' ,'POST'])]
     public function chercher(FactureRepository $factureRepository,Request $req , NormalizerInterface $Normalizer): Response
     {
         $form = $this->createForm(FactureRechercheType::class);
@@ -141,7 +141,7 @@ class FactureJsonController extends AbstractController
         ]);
     }
  
-    #[Route('/statistics/ph', name: 'app_facture_stat')]
+    #[Route('/statistics/ph', name: 'app_facturejson_stat')]
     public function stat(FactureRepository $factureRepository , NormalizerInterface $Normalizer): Response
     { 
 
@@ -191,7 +191,7 @@ class FactureJsonController extends AbstractController
     }
    
 
-    #[Route('/statisticsadmin/ph', name: 'app_fac_stat')]
+    #[Route('/statisticsadmin/ph', name: 'app_facjson_stat')]
     public function indexxx(NormalizerInterface $Normalizer): Response
     {
         return $this->render('facture/statisticsadmin.html.twig', [

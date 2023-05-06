@@ -38,7 +38,7 @@ class Ordonnance
     #[ORM\OneToOne(mappedBy: 'ordonnance', cascade: ['persist', 'remove'])]
     private ?Consultation $consultation = null;
 
-    #[ORM\OneToOne(inversedBy: 'ordonnance', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'ordonnance', cascade: ['persist', 'remove'])]
     private ?Facture $facture = null;
 
 

@@ -28,39 +28,10 @@ class PharmacieType extends AbstractType
             'required' => true
             ])
             ->add('matricule')
-            ->add('gouvernorat',ChoiceType::class, [
-                'choices'  => [
-             'Ariana' =>"Ariana",
-           'Béja'=>"Béja",
-             'Ben Arous'=>"Ben Arous",
-              'Bizerte'=>"Bizerte",
-             'Gabès'=>"Gabès",
-              'Gafsa'=>"Gafsa",
-              'Jendouba'=>"Jendouba",
-             'Kairouan'=>"Kairouan",
-             'Kasserine'=>"Kasserine",
-             'Kébili'=>"Kébili",
-             'Kef'=>"Kef",
-             'Mahdia'=>"Mahdia",
-             'Manouba'=>"Manouba",
-            'Médenine'=>"Médenine",
-             'Monastir'=>"Monastir",
-           'Nabeul'=>"Nabeul",
-             'Sfax'=>"Sfax",
-            'Sidi Bouzid'=>"Sidi Bouzid",
-           'Siliana'=>"Siliana",
-           'Sousse'=>"Sousse",
-            'Tataouine'=>"Tataouine",
-             'Tozeur'=>"Tozeur",
-           'Tunis'=>"Tunis",
-           'Zaghouan'=>"Zaghouan"   ]]) 
+            ->add('gouvernorat')
 
             ->add('horaire')
-            ->add('etat',ChoiceType::class, [
-                'choices'  => [
-                    'Ouvert' => "Ouvert",
-                    'Ferme' =>"Ferme"
-                ]]) 
+            ->add('etat')
              ->add('description',TextareaType::class, 
                 [
                     'attr' => ['class' => 'form-control'],
@@ -72,7 +43,6 @@ class PharmacieType extends AbstractType
                 'attr' => ['class' => 'form-control'],
                 'required' => true
             ])      
-          ->add('pharmacien')
 
 
 
