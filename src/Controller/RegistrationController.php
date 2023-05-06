@@ -4,7 +4,9 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\EditFormMedecinType;
 use App\Form\EditFormUserType;
+use App\Form\RenvoyerCodeVerifType;
 use App\Form\UserType;
+use App\Form\VerificationEmailType;
 use App\Repository\UserRepository;
 use App\Service\MailerService;
 use Doctrine\Persistence\ManagerRegistry;
@@ -46,7 +48,9 @@ class RegistrationController extends AbstractController
             // Set their role
             $user->setRoles(['ROLE_PATIENT']);
             $user->setDateDeCreation(new \DateTime());
-            $user->setEtat("non valide");
+            $user->setEtat("non vérifié");
+            $verificationCode = rand(100000, 999999);
+            $user->setResetToken($verificationCode);
             // Save
             $em =$rm->getManager();
             $em->persist($user);
@@ -56,7 +60,7 @@ class RegistrationController extends AbstractController
 
             $mailer->sendEmail(
                 to: $user->getEmail(),
-                template: 'confirmation-register',
+                template: 'verificationCode',
                 subject: ' Confirmation de création de compte',
                 context: $context
             );
@@ -67,12 +71,129 @@ class RegistrationController extends AbstractController
                 subject: ' Nouveau compte utilisateur créé',
                 context: $context
             );
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_verification_patient');
 
         }
         return $this->render('Front-Office/registration/register-patient.html.twig', [
 
             'form' => $form->createView()
+        ]);
+    }
+
+
+    #[Route('/verifyPatient', name: 'app_verification_patient')]
+    public function VerifyPatient(Request $request,ManagerRegistry $rm,MailerService $mailer,UserRepository $repo)
+    {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_user_home');
+        }
+
+        $form = $this->createForm(VerificationEmailType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $Verifcode=$form->get('code')->getData();
+
+            $user=$repo->findOneByCode($Verifcode);
+            if($user){
+                $userCode = $user->getResetToken();
+                if($Verifcode == $userCode ){
+
+                    $user->setEtat("valide");
+                    $user->setResetToken('');
+                    // Save
+                    $em =$rm->getManager();
+                    $em->persist($user);
+                    $em->flush();
+
+                    $context = ['user' =>$user];
+
+                    $mailer->sendEmail(
+                        to: $user->getEmail(),
+                        template: 'confirmation_verification',
+                        subject: ' Verification de votre compte',
+                        context: $context
+                    );
+
+                    return $this->redirectToRoute('app_login');
+                }
+            }
+            else{
+                return $this->redirectToRoute('app_code_invalid');
+            }
+
+        }
+        return $this->render('Front-Office/registration/verify-email.html.twig', [
+
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+    #[Route('/error', name: 'app_code_invalid')]
+    public function error(): Response
+    {
+        return $this->render('Front-Office/registration/code-invalid.html.twig', [
+            'controller_name' => 'RegistrationController'
+
+        ]);
+    }
+
+    #[Route('/notFound', name: 'app_user_not_found')]
+    public function notFound(): Response
+    {
+        return $this->render('Front-Office/registration/user-not-found.html.twig', [
+            'controller_name' => 'RegistrationController'
+
+        ]);
+    }
+
+
+    #[Route('/renvoyerCode', name: 'app_renvoyer_code')]
+    public function renvoyezCode(Request $request,ManagerRegistry $rm,MailerService $mailer,UserRepository $repo)
+    {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_user_home');
+        }
+        $form = $this->createForm(RenvoyerCodeVerifType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $email=$form->get('email')->getData();
+
+            $user=$repo->findOneByEmail($email);
+
+            if($user) {
+                $verificationCode = rand(100000, 999999);
+                $user->setResetToken($verificationCode);
+                // Save
+                $em = $rm->getManager();
+                $em->persist($user);
+                $em->flush();
+
+                $context = ['user' => $user];
+
+                $mailer->sendEmail(
+                    to: $user->getEmail(),
+                    template: 'nouveau-code',
+                    subject: ' Nouveau code de vérification',
+                    context: $context
+                );
+
+                return $this->redirectToRoute('app_verification_patient');
+            }
+            else {
+                return $this->redirectToRoute('app_user_not_found');
+            }
+        }
+        return $this->render('Front-Office/registration/renvoyer-code.html.twig', [
+
+            'form' => $form->createView()
+
         ]);
     }
 

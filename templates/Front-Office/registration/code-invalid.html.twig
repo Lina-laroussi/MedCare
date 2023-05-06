@@ -1,0 +1,49 @@
+
+
+
+{% block stylesheets %}
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('BackAdmin/img/favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/css/bootstrap.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/css/feather.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('BackAdmin/css/style.css') }}">
+
+
+{% endblock %}
+
+
+
+{% block body %}
+    <body class="error-page">
+
+    <div class="main-wrapper">
+        <div class="header d-none">
+
+            <ul class="nav nav-tabs user-menu">
+
+                <li class="nav-item">
+                    <a href="#" id="dark-mode-toggle" class="dark-mode-toggle">
+                        <i class="feather-sun light-mode"></i><i class="feather-moon dark-mode"></i>
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="error-box">
+            <img src="{{ asset('FrontOffice/img/error.png') }}" class="img-fluid" alt="404">
+            <h3>Oops! Le code que vous avez entré est incorrecte  </h3>
+            <a href="{{ path('app_verification_patient') }}" class="btn btn-primary">Retour</a>
+        </div>
+
+    </div>
+
+    </body>
+
+{% endblock %}
+
+
+

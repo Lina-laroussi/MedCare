@@ -48,6 +48,9 @@ class Pharmacie
     #[ORM\OneToMany(mappedBy: 'pharmacie', targetEntity: Facture::class)]
     private Collection $factures;
 
+    #[ORM\Column(length: 255)]
+    private ?string $Gouvernorat = null;
+
     public function __construct()
     {
         $this->factures = new ArrayCollection();
@@ -204,6 +207,17 @@ class Pharmacie
                 $facture->setPharmacie(null);
             }
         }
+
+        return $this;
+    }
+    public function getGouvernorat(): ?string
+    {
+        return $this->Gouvernorat;
+    }
+
+    public function setGouvernorat(string $Gouvernorat): self
+    {
+        $this->Gouvernorat = $Gouvernorat;
 
         return $this;
     }

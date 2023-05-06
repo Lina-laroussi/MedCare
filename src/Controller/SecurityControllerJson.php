@@ -9,6 +9,7 @@ use App\Service\MailerService;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -16,8 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Serializer\SerializerInterface;
 
-class SecurityController extends AbstractController
+class SecurityControllerJson extends AbstractController
 {
     private $userPasswordHasher;
 
@@ -34,29 +36,29 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    #[Route(path: '/loginJson', name: 'app_login_json')]
+    public function login(AuthenticationUtils $authenticationUtils,SerializerInterface $serializer): Response
     {
-        if ($this->getUser()) {
-             return $this->redirectToRoute('app_user_home');
-        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+        $login=[$error,$lastUsername];
 
-        return $this->render('Front-Office/security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        $jsonLogin = $serializer->serialize($login, 'json',['groups' => "User"]);
+
+        return new JsonResponse($jsonLogin,Response::HTTP_OK,[],true);
     }
 
-    #[Route(path: '/logout', name: 'app_logout')]
+    #[Route(path: '/logoutJson', name: 'app_logout_json')]
     public function logout(): void
     {
        // throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    #[Route('/forgotPass', name: 'app_forgot_password')]
-    public function forgottenPassword(Request $request,UserRepository $repo,MailerService $mailer,TokenGeneratorInterface $tokenGenerator,ManagerRegistry $rm)
+    #[Route('/forgotPassJson', name: 'app_forgot_password_json')]
+    public function forgottenPassword(Request $request,UserRepository $repo,MailerService $mailer,TokenGeneratorInterface $tokenGenerator,ManagerRegistry $rm,SerializerInterface $serializer)
     {
         $form=$this->createForm(ForgotPasswordFormType::class);
         $form->handleRequest($request);
@@ -83,19 +85,15 @@ class SecurityController extends AbstractController
                 );
                 return $this->redirectToRoute('app_login');
             }
-            else{
-                return $this->redirectToRoute('app_user_not_found');
-            }
+            return $this->redirectToRoute('app_login');
         }
-        return $this->render('Front-Office/security/forgot-password.html.twig', [
-            'controller_name' => 'SecurityController',
-            'form'=>$form->createView()
 
-        ]);
+        $jsonForgot = $serializer->serialize($form, 'json');
+        return new JsonResponse($jsonForgot,Response::HTTP_OK,[],true);
     }
 
-    #[Route('/resetPass{token}', name: 'app_reset_password')]
-    public function resetPass($token , UserRepository $repo,Request $request,ManagerRegistry $rm,MailerService $mailer): Response
+    #[Route('/resetPassJson{token}', name: 'app_reset_password_json')]
+    public function resetPass($token , UserRepository $repo,Request $request,ManagerRegistry $rm,MailerService $mailer,SerializerInterface $serializer): Response
     {
         $user = $repo->findOneByResetToken($token);
 
@@ -122,10 +120,8 @@ class SecurityController extends AbstractController
                 return $this->redirectToRoute('app_login');
             }
         }
-        return $this->render('Front-Office/security/password-reset.html.twig', [
-            'controller_name' => 'SecurityController',
-            'form'=>$form->createView()
-        ]);
+        $jsonReset = $serializer->serialize($form, 'json');
+        return new JsonResponse($jsonReset,Response::HTTP_OK,[],true);
     }
 
 

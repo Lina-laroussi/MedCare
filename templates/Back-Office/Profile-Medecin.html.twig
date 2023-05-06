@@ -59,7 +59,11 @@
                         <div class="form-group">
                             <div class="change-avatar">
                                 <div class="profile-img">
-                                    <img src="{{ asset('uploads/utilisateurs/' ~ user.image )|default('uploads/utilisateurs/user.png') }}" alt="User Image">
+                                    {% if app.user.image %}
+                                        <img class="rounded-circle" src="{{ asset('uploads/utilisateurs/' ~ user.image ) }}"  width="31" alt="image">
+                                    {% else %}
+                                        <img class="rounded-circle" src="{{ asset('uploads/utilisateurs/pngegg.png' ) }}"  width="31" alt="image">
+                                    {% endif %}
                                 </div>
                                 <div class="upload-img">
                                     <div class="change-photo-btn">

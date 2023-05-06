@@ -17,6 +17,9 @@ class Facture
     #[ORM\Column]
     private ?float $montant = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $etat = null;
+
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
@@ -24,13 +27,14 @@ class Facture
     private ?string $image_signature = null;
 
     #[ORM\Column]
-    private ?int $num_facture = null;
+    private ?string $num_facture = null;
 
-    #[ORM\OneToOne(mappedBy: 'facture', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'facture')]
     private ?Ordonnance $ordonnance = null;
 
     #[ORM\ManyToOne(inversedBy: 'factures')]
     private ?Pharmacie $pharmacie = null;
+
 
     public function getId(): ?int
     {
@@ -73,12 +77,12 @@ class Facture
         return $this;
     }
 
-    public function getNumFacture(): ?int
+    public function getNumFacture(): ?String
     {
         return $this->num_facture;
     }
 
-    public function setNumFacture(int $num_facture): self
+    public function setNumFacture(String $num_facture): self
     {
         $this->num_facture = $num_facture;
 
@@ -115,6 +119,18 @@ class Facture
     public function setPharmacie(?Pharmacie $pharmacie): self
     {
         $this->pharmacie = $pharmacie;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,8 +22,10 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator,UserRepository $repo)
     {
+        $this->userRepository = $repo;
+
     }
 
     public function authenticate(Request $request): Passport
@@ -48,9 +51,14 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         $user = $token->getUser();
+        $user1=$this->userRepository->findOneByEmail($user->getUserIdentifier());
 
         if(in_array('ROLE_ADMIN',$user->getRoles(),true)) {
             return new RedirectResponse($this->urlGenerator->generate('app_admin'));
+        }else if($user1->getEtat() == 'non valide') {
+            return new RedirectResponse($this->urlGenerator->generate('app_denied'));
+        }else if($user1->isIsBlocked()){
+            return new RedirectResponse($this->urlGenerator->generate('app_blocked'));
         }else{
             return new RedirectResponse($this->urlGenerator->generate('app_user_home'));
         }

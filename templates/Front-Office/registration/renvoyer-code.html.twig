@@ -1,0 +1,40 @@
+{% extends 'base-front.html.twig' %}
+
+
+
+{% block body %}
+    <body class="account-page">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+
+                    <div class="account-content">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col-md-7 col-lg-6 login-left">
+                                <img src="{{ asset('FrontOffice/img/emailVerif.png') }}" class="img-fluid" alt="Login Banner">
+                            </div>
+                            <div class="col-md-12 col-lg-6 login-right">
+                                <div class="login-header">
+                                    <p class="small text-muted">Entrez votre email pour vous envoyer un code de vérification</p>
+                                </div>
+                                {{ form_start(form, {attr: {'novalidate': 'novalidate'}}) }}
+                                <div class="form-group form-focus">
+                                    {{ form_widget(form.email,{attr:{'class':'form-control floating'}}) }}
+                                    <label class="focus-label">Email</label>
+                                </div>
+                                <div class="form-group">
+                                    {{ form_errors(form.email,{attr:{'class':'text-danger'}})  }}
+                                </div>
+                                <button class="btn btn-primary w-100 btn-lg login-btn" type="submit">Envoyer</button>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+{% endblock %}

@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -16,25 +17,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["User"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true,nullable:true)]
     #[Assert\NotBlank(message: "Veuillez renseigner votre email")]
     #[Assert\Email(message: "Votre email n'est pas valide")]
+    #[Groups(["User"])]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Groups(["User"])]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     #[Assert\NotBlank(message: "Veuillez renseigner votre mot de passe")]
     #[Assert\Regex(
         pattern: "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/",
         message:"Votre mot de passe doit comporter au moins huit caractères, dont des lettres majuscules et minuscules, un chiffre et un symbole"
     )]
+    #[Groups(["User"])]
     private ?string $password = null;
 
     #[ORM\Column(length: 255,nullable:true)]
@@ -45,6 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         minMessage: 'Votre nom doit comporter au moins {{ limit }} caractères',
         maxMessage: 'Votre nom ne peut pas dépasser {{ limit }} caractères',
     )]
+    #[Groups(["User"])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255,nullable:true)]
@@ -55,45 +61,59 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         minMessage: 'Votre prénom doit comporter au moins {{ limit }} caractères',
         maxMessage: 'Votre prénom ne peut pas dépasser {{ limit }} caractères',
     )]
+    #[Groups(["User"])]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255,nullable:true)]
+    #[Groups(["User"])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255,nullable:true)]
+    #[Groups(["User"])]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255,nullable:true)]
+    #[Groups(["User"])]
     private ?string $num_tel = null;
 
     #[ORM\Column(length: 255,nullable:true)]
+    #[Groups(["User"])]
     private ?string $age = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE,nullable:true)]
+    #[Groups(["User"])]
     private ?\DateTimeInterface $date_de_naissance = null;
 
     #[ORM\Column(length: 255,nullable:true)]
+    #[Groups(["User"])]
     private ?string $sexe = null;
 
     #[ORM\Column(length: 255,nullable:true)]
+    #[Groups(["User"])]
     private ?string $specialite = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(["User"])]
     private ?\DateTimeInterface $date_de_creation = null;
 
     #[ORM\Column(length: 255,nullable:true)]
+    #[Groups(["User"])]
     private ?string $cin = null;
 
     #[ORM\Column(nullable:true)]
+    #[Groups(["User"])]
     private ?int $num_securite_sociale = null;
 
     #[ORM\Column(length: 255,nullable:true)]
+    #[Groups(["User"])]
     private ?string $image = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE,nullable:true)]
+    #[Groups(["User"])]
     private ?\DateTimeInterface $date_de_modification = null;
 
     #[ORM\Column(length: 255,nullable:true)]
+    #[Groups(["User"])]
     private ?string $etat = null;
 
     #[ORM\OneToMany(mappedBy: 'patient', targetEntity: RendezVous::class)]
@@ -109,9 +129,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Pharmacie $pharmacie = null;
 
     #[ORM\Column(length: 255,nullable: true)]
+    #[Groups(["User"])]
     private ?string $resetToken = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(["User"])]
     private ?bool $isBlocked = null;
 
 
