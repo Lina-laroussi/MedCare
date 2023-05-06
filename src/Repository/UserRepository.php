@@ -106,6 +106,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ;
     }
 
+
+    public function findOneByCode($Verifcode): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.resetToken  = :val')
+            ->setParameter('val', $Verifcode)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
     public function findUsersByRole($page,$nbre,$role): array
     {
         return $this->createQueryBuilder('u')
@@ -114,6 +125,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('role', '%'.$role.'%')
             ->setFirstResult(($page - 1 ) * $nbre)
             ->setMaxResults($nbre)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
+    public function findPatients($role): array
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u')
+            ->Where('u.roles LIKE :role')
+            ->setParameter('role', '%'.$role.'%')
             ->getQuery()
             ->getResult()
             ;

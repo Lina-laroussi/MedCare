@@ -32,20 +32,16 @@ class ProfileController extends AbstractController
     #[Route('/denied', name: 'app_denied')]
     public function denied(): Response
     {
-        $user=$this->getUser();
         return $this->render('Front-Office/profile/access_denied.html.twig', [
             'controller_name' => 'ProfileController',
-            'user'=>$user
         ]);
     }
 
     #[Route('/blocked', name: 'app_blocked')]
     public function blocked(): Response
     {
-        $user=$this->getUser();
         return $this->render('Front-Office/profile/blocked-user.html.twig', [
             'controller_name' => 'ProfileController',
-            'user'=>$user
         ]);
     }
 
@@ -54,14 +50,7 @@ class ProfileController extends AbstractController
     public function home(UserRepository $repo): Response
     {
         $user=$this->getUser();
-        $email=$user->getUserIdentifier();
-        $currentUser = $repo->findOneByEmail($email);
-        if($currentUser->getEtat() == "non valide"){
-            return $this->redirectToRoute('app_denied');
-        }
-        if($currentUser->isIsBlocked()){
-            return $this->redirectToRoute('app_blocked');
-        }
+
         return $this->render('Front-Office/profile/home-user.html.twig', [
             'controller_name' => 'ProfileController',
             'user'=>$user

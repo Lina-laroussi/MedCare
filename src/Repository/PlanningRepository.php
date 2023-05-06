@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Planning;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -67,6 +68,8 @@ class PlanningRepository extends ServiceEntityRepository
            ->getSingleScalarResult()
            ;
    }
+
+
 
 //    /**
 //     * @return Planning[] Returns an array of Planning objects

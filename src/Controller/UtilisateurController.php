@@ -51,6 +51,7 @@ class UtilisateurController extends AbstractController
         $plannings = $planningRepository->findBy([], [],$nbre, ($page - 1 ) * $nbre);
         $nbPlannings = $planningRepository->count([]);
         $nbrePage = ceil($nbPlannings / $nbre) ;
+
         return $this->render('Back-Office/planning/index.html.twig', [
             'plannings' => $plannings,
             'isPaginated' => true,

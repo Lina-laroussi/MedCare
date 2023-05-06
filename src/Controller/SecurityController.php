@@ -83,7 +83,9 @@ class SecurityController extends AbstractController
                 );
                 return $this->redirectToRoute('app_login');
             }
-            return $this->redirectToRoute('app_login');
+            else{
+                return $this->redirectToRoute('app_user_not_found');
+            }
         }
         return $this->render('Front-Office/security/forgot-password.html.twig', [
             'controller_name' => 'SecurityController',

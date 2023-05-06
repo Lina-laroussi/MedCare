@@ -26,6 +26,9 @@ class Facture
     #[Assert\Positive(message: "Non valide")]
     private ?float $montant = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $etat = null;
+
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
@@ -35,16 +38,19 @@ class Facture
     #[ORM\Column]
     #[Assert\NotBlank(message: "Veuillez ajouter le numéro du facture")]
     #[Assert\Positive(message: "Non valide")]
-    private ?int $num_facture = null;
+    private ?string $num_facture = null;
 
-    #[ORM\OneToOne(mappedBy: 'facture' , cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'facture')]
     private ?Ordonnance $ordonnance = null;
 
     #[ORM\ManyToOne(inversedBy: 'factures')]
     private ?Pharmacie $pharmacie = null;
+
+
     public function __toString() :string {
         return $this->pharmacie;
     }
+
 
     public function getId(): ?int
     {
@@ -87,12 +93,12 @@ class Facture
         return $this;
     }
 
-    public function getNumFacture(): ?int
+    public function getNumFacture(): ?String
     {
         return $this->num_facture;
     }
 
-    public function setNumFacture(int $num_facture = null): self
+    public function setNumFacture(String $num_facture): self
     {
         $this->num_facture = $num_facture;
 
@@ -132,6 +138,18 @@ class Facture
 
         return $this;
     }
-   
-    
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+
 }

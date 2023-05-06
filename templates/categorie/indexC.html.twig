@@ -9,17 +9,17 @@
   <!-- Le contenu de votre site web -->
 
     <h2 class="text-center">Les catégories</h2>
-    <div class="container">
-        <div class="row justify-content-center">
+    <div class="container ">
+        <div class="row flex-nowrap">
             <ul>
                 {% for categorie in categories %}
-                    <li>
-                        <h3>{{ categorie.nom }}</h3>
-                        <p>{{ categorie.description }}</p>
+
+                        <h3 class="mt-5">{{ categorie.nom }}</h3>
+
                         <a href="{{ path('app_produit_index1', {'categorie': categorie.id}) }}" class="btn btn-primary">
                             Voir les produits
                         </a>
-                    </li>
+
                 {% else %}
                     <li>Aucune catégorie trouvée.</li>
                 {% endfor %}

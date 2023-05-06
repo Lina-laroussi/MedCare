@@ -152,7 +152,7 @@ class RendezVousController extends AbstractController
 
         $rendezVou->setEtat("confirmé");
         $rendezVousRepository->save($rendezVou, true);
-        $data=[
+        /*$data=[
 
             'date' => $rendezVou->getDate()->format('Y-m-d'),
             'heure'=>$rendezVou->getHeureDebut()->format('H:i:s'),
@@ -167,7 +167,7 @@ class RendezVousController extends AbstractController
                 json_encode($data)
             );
 
-            $hub->publish($update);
+            $hub->publish($update);*/
         
 
         return $this->redirectToRoute('app_rendez_vous_index', [], Response::HTTP_SEE_OTHER);

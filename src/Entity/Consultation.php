@@ -65,8 +65,8 @@ class Consultation
 
     #[ORM\OneToOne(inversedBy: 'consultation', cascade: ['persist', 'remove'])]
     private ?Ordonnance $ordonnance = null;
-    
-    
+
+
 
     public function getId(): ?int
     {
@@ -169,12 +169,12 @@ class Consultation
         return $this;
     }
 
-    public function getmaladie(): ?string
+    public function getMaladie(): ?string
     {
         return $this->maladie;
     }
 
-    public function setmaladie(string $maladie): self
+    public function setMaladie(string $maladie): self
     {
         $this->maladie = $maladie;
 

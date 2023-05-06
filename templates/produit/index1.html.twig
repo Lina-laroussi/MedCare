@@ -4,36 +4,331 @@
 {% endblock %}
 
 {% block body %}
-<div class="my-background" style="background-image: url('{{ asset('Parapharmacie.jpg') }}');">
 
-        {# une barre de titre simple avec un fond de couleur gris clair. #}
-    <section class="bg-light p-3">
-        <h1>Les produits</h1>
-    </section>
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-     {% for produit in produits %}
-    <li class="page-item"><a class="page-link"<a href="{{path("cart_add", {id: produit.id})}}"  class="btn btn-primary">{{ produit.nom}}</a></a></li>
-     {% endfor %}        
-  </ul>
-</nav>
-</nav>
-    <section class="row">
-        {% for produit in categorie.produits %}
-            <div class="col-4 mt-4">
-                <div class="border border-dark rounded p-2 clearfix">
-                    <h2>{{ produit.nom }}</h2>
-                    <p>{{ produit.prix }} Dt</p>
-                    <p>{{ produit.description }} </p>
-                    <img src="{{ asset('uploads/') ~ produit.image }}" width="30px" alt="Image de {{ produit.nom }}">
-                    <hr>
-                    <a href="{{path("cart_add", {id: produit.id})}}" class="btn btn-primary">
-                        <i class="bi bi-cart-plus"></i> Ajouter au panier
-                    </a>
+
+    <div class="main-wrapper">
+
+        <div class="breadcrumb-bar-six">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-12 col-12">
+                        <h2 class="breadcrumb-title">Parapharmacie</h2>
+                        <nav aria-label="breadcrumb" class="page-breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Products </li>
+                            </ol>
+                        </nav>
+                    </div>
                 </div>
             </div>
-        {% endfor %}
-    </section>
+        </div>
+
+
+        <div class="content pharmacy-cart-content">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-lg-3 col-xl-3 theiaStickySidebar">
+
+                        <div class="filter-new">
+                            <div class="filter-header">
+                                <h4>Shop by Category</h4>
+                            </div>
+                            <div class="filter-widget">
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">Medicine <span><i class="fas fa-angle-right"></i></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Mask <span><i class="fas fa-angle-right"></i></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Blood Pressure <span><i class="fas fa-angle-right"></i></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Hand Gloves <span><i class="fas fa-angle-right"></i></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Nutritions <span><i class="fas fa-angle-right"></i></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Safety Guard <span><i class="fas fa-angle-right"></i></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Pills <span><i class="fas fa-angle-right"></i></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Testing kit <span><i class="fas fa-angle-right"></i></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Pharmacies <span><i class="fas fa-angle-right"></i></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);javascript:void(0);">Vitamins <span><i class="fas fa-angle-right"></i></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Surgical Mask <span><i class="fas fa-angle-right"></i></span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div class="filter-new">
+                            <div class="filter-header">
+                                <h4>Price Range</h4>
+                            </div>
+                            <div class="filter-widget">
+                                <div class="filter-content filter-content-slider">
+                                    <div class="slider-wrapper"><div id="price-range"></div></div>
+                                    <div class="price-wrapper">
+                                        <h6>Price: <span>$<span id="pricerangemin"></span> - $<span id="pricerangemax"></span></span></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="filter-new">
+                            <div class="filter-header">
+                                <h4>By Brands</h4>
+                            </div>
+                            <div class="filter-widget">
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">Aquare Pharma <span> (25)</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Med Care <span> (10)</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Happy Life Bio Care <span> (08)</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">MediMall Pharma <span> (06)</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div class="filter-new">
+                            <div class="filter-header">
+                                <h4>By Rating</h4>
+                            </div>
+                            <div class="filter-widget">
+                                <ul>
+                                    <li>
+                                        <ul class="ratings">
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                        </ul>
+                                        <span> (10)</span>
+                                    </li>
+                                    <li>
+                                        <ul class="ratings">
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                            </li>
+                                        </ul>
+                                        <span>(05)</span>
+                                    </li>
+                                    <li>
+                                        <ul class="ratings">
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                            </li>
+                                        </ul>
+                                        <span>(30)</span>
+                                    </li>
+                                    <li>
+                                        <ul class="ratings">
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                            </li>
+                                        </ul>
+                                        <span>(25)</span>
+                                    </li>
+                                    <li>
+                                        <ul class="ratings">
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                            </li>
+                                        </ul>
+                                        <span>(14)</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-9 col-xl-9 ">
+
+                        <div class="filter-info">
+                            <div class="row align-items-center">
+                                <div class="col-md-7 col-12 d-md-block custom-short-by">
+                                    <div class="pharm-viewicon">
+                                        <div class="view-icons ">
+                                            <a href="product-all.html" class="grid-view active"><i class="feather-grid"></i></a>
+                                            <a href="product-list.html" class="list-view"><i class="feather-list"></i></a>
+                                        </div>
+                                        <p>Showing 1–9 of 12 results</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-12 d-md-block custom-short-by">
+                                    <div class="sort-by sort-byone">
+<span class="sortby-fliter">
+<select class="select">
+<option>Default Sorting</option>
+<option class="sorting">Rating</option>
+<option class="sorting">Popular</option>
+<option class="sorting">Latest</option>
+<option class="sorting">Free</option>
+</select>
+</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pro-grid">
+                            <div class="row flex-nowrap">
+
+                                <div class="col-md-4 col-lg-3 col-xl-3 ">
+                                    <div class="prod-widget">
+                                        {% for produit in categorie.produits %}
+                                        <div class="deal-pro-img">
+                                            <div class="deal-pro-tags">
+                                                <span class="offer">-25% OFF</span>
+                                                <a href="javascript:void(0);" class="favourite-icon favourite-icon-filled">
+                                                    <i class="far fa-heart"></i>
+                                                </a>
+                                            </div>
+                                            <a href="product-list.html">
+                                                <img src="{{ asset('uploads/') ~ produit.image }}" alt="Image de {{ produit.nom }}" class="img-fluid">
+                                            </a>
+                                        </div>
+                                        <div class="deal-pro-detail">
+                                            <h3><a href="product-list.html">{{ produit.nom }}</a></h3>
+                                            {% if produit.etat == "disponible" %}
+                                                <h4><span style="color: #0AE5A8">Disponible</span></h4>
+                                            {% else %}
+                                               <h4 style="color: #fb1612"><span>Non disponible</span></h4>
+                                            {% endif %}
+                                            <ul class="brand-pro">
+
+                                                <li>
+                                                    <ul class="ratings">
+                                                        <li>
+                                                            <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);"><i class="fas fa-star filled"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                        </li>
+                                                        <li><span>(40)</span></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                            <h2>{{ produit.prix }} TND</h2>
+                                            <a href="{{path("cart_add", {id: produit.id})}}" class="btn btn-primary">
+                                                <i class="bi bi-cart-plus"></i> Ajouter au panier
+                                            </a>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
                 </div>
 
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+
 {% endblock %}
+
+
+
+

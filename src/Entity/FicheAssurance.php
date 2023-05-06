@@ -41,6 +41,10 @@ class FicheAssurance
     #[ORM\OneToOne(inversedBy: 'ficheAssurance', cascade: ['persist', 'remove'])]
     private ?Remboursement $remboursement = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Facture $facture_id = null;
+
+
 
     public function getId(): ?int
     {
@@ -151,6 +155,18 @@ class FicheAssurance
     public function setRemboursement(?Remboursement $remboursement): self
     {
         $this->remboursement = $remboursement;
+
+        return $this;
+    }
+
+    public function getFactureId(): ?Facture
+    {
+        return $this->facture_id;
+    }
+
+    public function setFactureId(?Facture $facture_id): self
+    {
+        $this->facture_id = $facture_id;
 
         return $this;
     }

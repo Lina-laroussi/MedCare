@@ -43,7 +43,7 @@ class FicheMedicale
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id ;
     }
 
     public function getDescription(): ?string

@@ -47,7 +47,7 @@ class Ordonnance
     #[ORM\OneToOne(mappedBy: 'ordonnance', cascade: ['persist', 'remove'])]
     private ?Consultation $consultation = null;
 
-    #[ORM\OneToOne(inversedBy: 'ordonnance', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'ordonnance', cascade: ['persist', 'remove'])]
     private ?Facture $facture = null;
 
 
@@ -66,7 +66,7 @@ class Ordonnance
     
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id ;
     }
 
     public function getDescription(): ?string
