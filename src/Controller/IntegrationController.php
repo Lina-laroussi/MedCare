@@ -113,10 +113,12 @@ class IntegrationController extends AbstractController
     #[Route('/searchpharmacie/{id}', name: 'app_integration4', methods: ['GET'])]
     public function  detailspharmacie(Pharmacie $pharmacie): Response
     {
+        $user=$this->getUser();
+
         return $this->render('pharmacie/pharmacy-details.html.twig', [
             'pharmacie' => $pharmacie,
             'controller_name' => 'IntegrationController',
-
+            'user'=>$user
         ]);
     }
     #[Route('/searchpharmacie', name: 'app_integration3')]
@@ -128,7 +130,6 @@ class IntegrationController extends AbstractController
             'controller_name' => 'IntegrationController',
             'pharmacies' => $pharmacieRepository->findAll(),
             'user'=>$user
-
         ]);
     }
 

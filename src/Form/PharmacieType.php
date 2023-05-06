@@ -59,8 +59,8 @@ class PharmacieType extends AbstractType
             ->add('horaire')
             ->add('etat',ChoiceType::class, [
                 'choices'  => [
-                    'Ouvert' => "Ouvert",
-                    'Ferme' =>"Ferme"
+                    'Ouvert' => "Ouverte",
+                    'Ferme' =>"Fermee"
                 ]]) 
              ->add('description',TextareaType::class, 
                 [
