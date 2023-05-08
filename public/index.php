@@ -1,4 +1,4 @@
-PIDEV<?php
+<?php
 
 use App\Kernel;
 
