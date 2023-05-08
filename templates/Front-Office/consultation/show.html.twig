@@ -1,0 +1,104 @@
+{% extends 'sideBar.html.twig' %}
+
+{% block stylesheets %}
+
+    <link href="{{ asset('FrontOffice/img/favicon.png') }}" rel="icon">
+
+    <link rel="stylesheet" href="{{asset('FrontOffice/css/bootstrap.min.css')}}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/all.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/feather.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/dropzone/dropzone.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
+
+{% endblock %}
+
+
+{% block content %}
+<div class="col-md-7 col-lg-8 col-xl-9">
+    <h1>Consultation</h1>
+    <div class="card">
+        <div class="card-body pt-0">            
+            <div class="tab-content">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>imc</th>
+                            <td>{{ consultation.imc }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date</th>
+                            <td>                                                                                       
+                                    {{ consultation.rendezVous.date|date }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>poids</th>
+                            <td>{{ consultation.poids }}</td>
+                        </tr>
+                        <tr>
+                            <th>taille</th>
+                            <td>{{ consultation.taille }}</td>
+                        </tr>            
+                        <tr>
+                            <th>temperature</th>
+                            <td>{{ consultation.temperature }}</td>
+                        </tr>
+                        <tr>
+                            <th>Pression Arterielle </th>
+                            <td>{{ consultation.pressionArterielle }}</td>
+                        </tr>
+                        <tr>
+                            <th>Frequence Cardiaque</th>
+                            <td>{{ consultation.frequenceCardiaque }}</td>
+                        </tr>
+                        <tr>
+                            <th>Taux Glycemie</th>
+                            <td>{{ consultation.tauxGlycemie }}</td>
+                        </tr>   
+                        <tr>
+                            <th>Symptomes</th>
+                            <td>{{ consultation.maladie }}</td>
+                        </tr>
+                        <tr>
+                            <th>Traitement</th>
+                            <td>{{ consultation.traitement }}</td>
+                        </tr>
+                        <tr>
+                            <th>Observation</th>
+                            <td>{{ consultation.observation }}</td>
+                        </tr>   
+                        <tr>
+                            <th>Code Ordonnance</th>
+                            <td>
+                                {% if consultation.ordonnance %}
+                                    {{ consultation.ordonnance.codeOrdonnance }}   
+                                {% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>
+                                {% if consultation.ficheMedicale %}
+                                    {{ consultation.ficheMedicale.description }}
+                                {% endif %}
+                            </td>
+                        </tr>                     
+                    </tbody>
+                </table>    
+            </div>
+            <a href="{{ path('app_consultation_edit', {'id': consultation.id}) }}" class="btn btn-primary submit-btn"> Modifier </a>
+            {{ include('Front-Office/consultation/_delete_form.html.twig') }}
+            <a href="{{ path('app_consultation_index') }}"> retour à la liste</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

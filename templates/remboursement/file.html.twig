@@ -1,0 +1,88 @@
+{% extends 'base-back.html.twig' %}
+{% block body %}
+
+    
+   <div class="page-wrapper">
+    <div class="content container-fluid">   
+    <div class="appointment-tab">
+    <h1>File Search</h1>
+    {{ form_start(form) }}
+        {{ form_row(form.startDate) }}
+        {{ form_row(form.endDate) }}
+        <button type="submit">Search</button>
+    {{ form_end(form) }}
+
+    {% if files|length > 0 %}
+        <h2>Found {{ files|length }} files</h2>
+       <h1>Remboursement index</h1>
+
+
+                <div class="tab-content pt-0">
+                <div id="upcoming-appointments" class="tab-pane fade show active" role="tabpanel">
+                <div class="card card-table mb-0">
+                <div class="card-body">
+                <div class="table-responsive">
+                <table class="table table-hover table-center mb-0">
+        <thead>
+            <tr>
+                <th class="font-weight-bold">Id</th>
+                <th class="font-weight-bold">montantARembourser</th>
+                <th class="font-weight-bold">montantMaximale</th>
+                <th class="font-weight-bold">tauxRemboursement</th>
+                <th class="font-weight-bold">Date De Creation</th>  
+                <th class="font-weight-bold">Etat</th>
+                
+            </tr>
+        </thead>
+<tbody>
+                {% for file in files %}
+                    <tr>
+                        <td>{{ file.id }}</td>
+                        <td>{{ file.montantARembourser }}</td>
+                        <td>{{ file.montantMaximale }}</td>
+                        <td>{{ file.tauxRemboursement }}</td>
+                        <td>{{ file.dateRemboursement ? file.dateRemboursement|date('Y-m-d') : '' }}</td>
+                        <td> 
+                            {% if file.etat =="Non confirmé" %}
+                            <span class="badge rounded-pill bg-warning-light">
+                            {% endif %}
+                            {% if file.etat !="Non confirmé" %}
+                            <span class="badge rounded-pill bg-success-light">
+                            {% endif %}
+                            {% if file.etat =="annulé" %}
+                            <span class="badge rounded-pill bg-danger-light"> 
+                            {% endif %}
+                            {{ file.etat }}</span>
+                        </td>
+
+                    </tr>
+                    
+               
+                {% else %}
+
+        {% endfor %}
+        
+              
+
+    {% else %}
+        <h2>No files found.</h2>
+    {% endif %}
+            </tbody>
+            </table>
+    </div>
+    </div>
+</div>
+</div>
+</div>
+        </tbody>
+    </table>
+<br/>
+
+    {% endblock %}
+
+
+
+
+
+
+    

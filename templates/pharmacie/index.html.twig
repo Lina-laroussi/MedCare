@@ -1,0 +1,134 @@
+{% extends 'sideBar.html.twig' %}
+
+{% block stylesheets %}
+
+    <link href="{{ asset('FrontOffice/img/favicon.png') }}" rel="icon">
+
+    <link rel="stylesheet" href="{{asset('FrontOffice/css/bootstrap.min.css')}}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/all.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/feather.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/dropzone/dropzone.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="col m-lg-auto">
+        <a href="{{ path('app_pharmacie_new') }}" class="btn btn-primary">{{ button_label|default('Ajouter une nouvelle pharmacie ') }} </a>
+    </div>
+
+	<div class="card-body">
+        <div class="table-responsive">
+											<input class="form-control" id="myInput" type="text" id="navbar-search-input" placeholder="chercher.." aria-label="search" aria-describedby="search">
+											<table id="example" class="table table-striped table-bordered" >
+												<thead>
+													<tr>
+                                                    <th class="wd-15p">ID</th>
+														<th class="wd-15p">Adresse</th>
+														<th class="wd-20p">gouvernorat</th>
+														<th class="wd-15p">Nom</th>
+                                                        <th class="wd-15p">Num_tel</th>
+                                                        <th class="wd-15p">Etat</th>
+                                                        <th class="wd-15p">Horaire</th>
+														<th class="wd-10p">Email</th>
+														<th class="wd-25p">Matricule</th>
+                                                        <th class="wd-25p">Actions</th>
+
+													</tr>
+												</thead>
+												<tbody id="hi">
+          
+        {% for pharmacie in pharmacies %}
+            <tr>
+                <td>{{ pharmacie.id }}</td>
+                <td>{{ pharmacie.adresse }}</td>
+                 <td>{{ pharmacie.gouvernorat}}</td>
+
+                <td>{{ pharmacie.nom }}</td>
+                <td>{{ pharmacie.numTel }}</td>
+                <td>{{ pharmacie.etat }}</td>
+                <td>{{ pharmacie.horaire }}</td>
+                <td>{{ pharmacie.email }}</td>
+                <td>{{ pharmacie.matricule }}</td>
+                <td>
+                    <a href="{{ path('app_pharmacie_show', {'id': pharmacie.id}) }}" class="btn btn-sm bg-primary-light"><i class = "fas fa-eye"></i>{{ button_label|default('Voir') }}</a>
+                    <a href="{{ path('app_pharmacie_edit', {'id': pharmacie.id}) }}" class="btn btn-sm bg-success-light mt-3" > <i class="fas fa-edit"></i>{{ button_label|default('Modifier') }}</a>
+
+                    <a href="{{ path('app_facture_new', {'id': pharmacie.id}) }}" class="btn btn-primary mt-3 w-150">{{ button_label|default('Ajouter une facture') }}</a>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if isPaginated  %}
+                <div class="d-flex justify-content-center">
+                    <nav aria-label="col Page navigation example">
+                        <ul class="pagination">
+                            {% if page != 1 %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ path('app_pharmacie_index', {page: page - 1, nbre: nbre}) }}">Previous</a></li>
+                            {% endif %}
+                            {% for i in range(1, nbrePage) %}
+                                <li class="page-item">
+                                    <a class="page-link"  href="{{ path('app_pharmacie_index', {page: i, nbre: nbre}) }}">{{ i }}</a>
+                                </li>
+                            {% endfor %}
+                            {% if page != nbrePage %}
+                                <li class="page-item">
+                                    <a class="page-link"  href="{{ path('app_pharmacie_index', {page: page + 1, nbre: nbre}) }}">Next</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+
+                </div>
+            {% endif %}
+</div>
+									</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#hi tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+    <script src="{{ asset('FrontOffice/js/bootstrap.bundle.min.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/plugins/swiper/js/swiper.min.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/js/jquery-3.6.0.min.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/js/slick.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/js/aos.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/js/script.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/js/jquery-3.6.0.min.js') }}"></script>
+
+{% endblock %}

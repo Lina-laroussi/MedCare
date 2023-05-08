@@ -1,0 +1,121 @@
+{% extends 'sideBar.html.twig' %}
+
+
+{% block stylesheets %}
+
+    <link href="{{ asset('FrontOffice/img/favicon.png') }}" rel="icon">
+
+    <link rel="stylesheet" href="{{asset('FrontOffice/css/bootstrap.min.css')}}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/all.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/feather.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/dropzone/dropzone.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
+
+{% endblock %}
+
+
+
+
+{% block content %}
+    <div class="col-md-7 col-lg-8 col-xl-12">
+        <h1>Fiche Medicale  </h1>
+        <div class="card">
+            <div class="card-body pt-0">
+                <div class="col-md-12">
+                    <div class="row mt-3">
+                        <div class="text-end">
+                            <a href="{{ path('app_fiche_medicale_new') }}" class="add-new-btn"> Ajouter Fiche Med </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-table mb-0">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Num</th>
+                                    <th>Nom patient</th>
+                                    <th>Description</th>
+                                    <th>Date creation</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for fiche_medicale in fiche_medicales %}
+                                    <tr>
+                                        <td>{{ fiche_medicale.id }}</td>
+                                        <td>
+                                            {% for consultation in fiche_medicale.consultations %}
+                                                {% for rendezVous in rendezVous.consultation %}
+                                                    {{ rendezVous.patient.nom }}
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </td>
+                                        <td>{{ fiche_medicale.description }}</td>
+                                        <td>{{ fiche_medicale.dateDeCreation ? fiche_medicale.dateDeCreation|date('Y-m-d') : '' }}</td>
+                                        <td>
+                                            <a href="{{ path('app_fiche_medicale_show', {'id': fiche_medicale.id}) }}" class="btn btn-sm bg-primary-light" > <i class="fas fa-eye"></i> Afficher</a>
+                                            <a href="{{ path('app_fiche_medicale_edit', {'id': fiche_medicale.id}) }}" class="btn btn-sm bg-success-light" > <i class="fas fa-edit"></i> Modifier</a>
+                                            <a href="{{ path('app_fiche_medicale_delete', {'id': fiche_medicale.id}) }}" class="btn btn-sm bg-danger-light" > <i class="fas fa-edit"></i> Supprimer</a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="7">Aucun enregistrement trouvé</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if isPaginated  %}
+        <div class="d-flex justify-content-center">
+            <nav aria-label="col Page navigation example">
+                <ul class="pagination">
+                    {% if page != 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_fiche_medicale_index', {page: page - 1, nbre: nbre}) }}">Previous</a></li>
+                    {% endif %}
+                    {% for i in range(1, nbrePage) %}
+                        <li class="page-item">
+                            <a class="page-link"  href="{{ path('app_fiche_medicale_index', {page: i, nbre: nbre}) }}">{{ i }}</a>
+                        </li>
+                    {% endfor %}
+                    {% if page != nbrePage %}
+                        <li class="page-item">
+                            <a class="page-link"  href="{{ path('app_fiche_medicale_index', {page: page + 1, nbre: nbre}) }}">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+    <script src="{{ asset('BackAdmin/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+    <script src="{{ asset('FrontOffice/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('FrontOffice/js/moment.min.js')}}"></script>
+    <script src="{{ asset('FrontOffice/js/bootstrap-datetimepicker.min.js')}}"></script>
+    <script src="{{ asset('FrontOffice/js/feather.min.js')}}"></script>
+{% endblock %}

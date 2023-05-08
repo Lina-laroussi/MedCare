@@ -1,0 +1,34 @@
+{% extends 'base-front.html.twig' %}
+
+{% block body %}
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+
+                {% block side %}
+                    <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                        <div class="profile-sidebar">
+                            <div class="widget-profile pro-widget-content">
+                                <div class="profile-info-widget">
+                                    <a href="#" class="booking-doc-img">
+                                        {% if app.user.image %}
+                                            <img class="rounded-circle" src="{{ asset('uploads/utilisateurs/' ~ user.image ) }}"  width="31" alt="image">
+                                        {% else %}
+                                            <img class="rounded-circle" src="{{ asset('uploads/utilisateurs/pngegg.png' ) }}"  width="31" alt="image">
+                                        {% endif %}
+                                    </a>
+                                    <div class="profile-det-info">
+                                        <h3>{{ user.nom | capitalize }} {{ user.prenom |capitalize }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <nav class="dashboard-menu">
+                                    <ul>
+                                        <li class="active">
+                                            <a href="#">
+                                                <i class="fas fa-calendar-check"></i>
+                                                <span>Rendez-vous</span>
+                                            </a>
+                                        </li>

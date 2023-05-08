@@ -1,0 +1,86 @@
+{% extends "base-pdf.html.twig" %}
+{% block title %}Facture{{facture.id}} {% endblock %}
+{% block body %}
+
+<div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css">
+
+
+
+<h1 align='center' style="color: blue">Facture</h1>
+
+
+ </div>
+
+ <div>
+<table width="100%" border="1">
+<tr>
+                <td colspan="2">
+                
+ <img  src="{{ absolute_url (asset('FrontOffice/img/logoMedB.png')) }}" class="img-fluid"  align='right' alt="Logo">
+ <img src="{{ absolute_url (asset('FrontOffice/img/logoMedB.png')) }}" class="img-fluid"  align='left'   alt="Logo">
+
+<h3 style="color: blue" align='center' > Numéro Facture :{{ facture.id }}</h3>
+<h3 style="color: blue" align='center' >Date: <span>{{ facture.date ? facture.date|date('d-m-Y') : '' }}</span></li>
+
+</div>
+<br>
+<br>
+<div>
+
+       
+    
+
+
+
+   
+    <table width="100%" style="font-family: sans-serif;" cellpadding="10">
+
+        <tr>
+            <td width="49%" style="border: 0.1mm solid #eee;"><h3  style="color: blue">Pharmacie</h3><strong>{{ facture.pharmacie.nom }}</strong><br>{{ facture.pharmacie.adresse }}<br>{{ facture.pharmacie.gouvernorat }}<br>{{ facture.pharmacie.email }}<br>{{ facture.pharmacie.numTel }}</td>
+            <td width="2%">&nbsp;</td>
+
+            <td width="49%" style="border: 0.1mm solid #eee; text-align: right;"><h3  style="color: blue">Client(e)</h3><strong>{{ facture.ordonnance.consultation.rendezvous.patient.nom}}{{ facture.ordonnance.consultation.rendezvous.patient.prenom }}</strong><br>{{ facture.ordonnance.consultation.rendezvous.patient.adresse}}<br>{{ facture.ordonnance.consultation.rendezvous.patient.email }}<br> {{ facture.ordonnance.consultation.rendezvous.patient.numTel }}<br></td>
+        </tr>
+    </table>
+
+<br>
+<br>
+
+<br>
+
+<table border=1>
+        <thead>
+            <tr>
+                <th scope="col" style="color: blue">Liste des Médicaments</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ facture.ordonnance.medicaments }}</td>
+              
+
+            </tr>
+        </tbody>
+    </table>
+
+
+</div>
+<div class ="right">
+
+<h3 style="color: blue" ; "text-align: right"> Total: {{ facture.montant }} Dt</h3>
+<br>
+
+        <img src ="{{ absolute_url (asset('uploads/images/' ~ facture.imageSignature))  }}" align='center' >
+
+
+            
+</div>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'sideBar.html.twig' %}
+
+{% block stylesheets %}
+
+    <link href="assets/img/favicon.png" rel="icon">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/bootstrap.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/fontawesome/css/all.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/feather.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/bootstrap-datetimepicker.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/plugins/select2/css/select2.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
+
+{% endblock %}
+{% block content %}
+    <h1>Facture Statistics</h1>
+
+<div class="col-lg-4 col-md-12">
+                        <div class="card dash-cards">
+                            <div class="card-body">
+                                <div class="dash-top-content">
+                                    <div class="circle-bar circle-bar2">
+                                        <div class="circle-graph2" data-percent="75">
+                                            <img src="{{ asset('FrontOffice/img/icon-03.png') }}" class="img-fluid" alt="patient">
+                                        </div>
+                                    </div>
+                                    <div class="dash-widget-info">
+                                        <h6>Nombre total de Factures </h6>
+                                        <h3>{{ totalFactures}}</h3>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+<div class="col-lg-4 col-md-12">
+                    <div class="card dash-cards">
+                        <div class="card-body">
+                            <div class="dash-top-content">
+                                <div class="circle-bar circle-bar3">
+                                </div>
+                                <div class="dash-widget-info">
+                                    <h6>Revenu Total</h6>
+                                    <h3>{{ TotalRevenus }} Dt</h3>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('FrontOffice/js/bootstrap.bundle.min.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/plugins/swiper/js/swiper.min.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/js/jquery-3.6.0.min.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/js/slick.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/js/aos.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/js/script.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/js/jquery-3.6.0.min.js') }}"></script>
+
+{% endblock %}

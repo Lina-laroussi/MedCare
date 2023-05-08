@@ -1,0 +1,81 @@
+{% extends 'base-back.html.twig' %}
+
+{% block body %}
+<br/>
+   <div class="page-wrapper">
+    <div class="content container-fluid">   
+    <div class="appointment-tab">
+    
+    <h1>fiche assurances index</h1>
+    <form class="form-inline my-2 my-lg-0" action="{{ path('app_fiche_assurance_index') }}">
+        <div class="input-group mb-3">
+            <input class="form-control mr-sm-2" type="search" placeholder="Recherche" aria-label="Recherche" name="q" value="{{ q }}">
+            <div class="input-group-append"><button class="btn btn-outline-success my-2 my-sm-1" type="submit">Rechercher</button></div>
+        </div>
+    </form>
+                <div class="tab-content pt-0">
+                <div id="upcoming-appointments" class="tab-pane fade show active" role="tabpanel">
+                <div class="card card-table mb-0">
+                <div class="card-body">
+                <div class="table-responsive">
+                <table class="table table-hover table-center mb-0">
+        <thead>
+            <tr>
+                <th class="font-weight-bold">Id</th>
+                <th class="font-weight-bold">numAdherent </th>
+                <th class="font-weight-bold">description</th>
+                <th class="font-weight-bold">imageFacture</th>
+                <th class="font-weight-bold">dateCreation</th>
+                <th class="font-weight-bold">etat</th>
+                <th class="font-weight-bold">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fiche in fiche_assurances %}
+            <tr>
+                <td>{{ fiche.id }}</td>
+                <td>{{ fiche.numAdherent }}</td>
+                <td>{{ fiche.description }}</td>
+                <td>{{ fiche.imageFacture }}</td>
+               
+                <td>{{ fiche.dateCreation ? fiche.dateCreation|date('Y-m-d ') : '' }}</td>
+
+                
+                <td>
+                {% if fiche.etat !="confirmé" %}
+                <span class="badge rounded-pill bg-warning-light">
+                {% endif %}
+                {% if fiche.etat =="confirmé" %}
+                <span class="badge rounded-pill bg-success-light">
+                {% endif %}
+                {% if fiche.etat =="annulé" %}
+                <span class="badge rounded-pill bg-danger-light">
+                {% endif %}
+                {{ fiche.etat }}</span>
+                </td>
+                    <td>
+                        <a href="{{ path('app_fiche_assurance_show', {'id': fiche.id}) }}">show</a>
+                        <a href="{{ path('app_fiche_assurance_edit', {'id': fiche.id}) }}">edit</a>
+                    </td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">Pas de resultats</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+</div>
+</div>
+</div>
+        </tbody>
+    </table>
+<br/>
+
+    <br/>
+    <a class="btn btn-primary" href="{{ path('app_fiche_assurance_new') }}">Create new</a>
+    </div>
+{% endblock %}
