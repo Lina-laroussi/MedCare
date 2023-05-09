@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ORM\Entity(repositoryClass: PharmacieRepository::class)]
@@ -15,14 +16,17 @@ class Pharmacie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["pharmacies"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez ajouter l'adresse de votre pharmacie")]
+    #[Groups(["pharmacies"])]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez ajouter le nom de votre pharmacie")]
+    #[Groups(["pharmacies"])]
     private ?string $nom = null;
 
     #[ORM\Column]
@@ -34,33 +38,37 @@ class Pharmacie
         minMessage: 'Votre numéro doit etre composer de 8 numéros au minimum',
         maxMessage: 'Non valide',
     )]
+    #[Groups(["pharmacies"])]
     private ?string $num_tel = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank (message:"Veuillez entrer une description")]
+    #[Groups(["pharmacies"])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez choisir votre état")]
-
+    #[Groups(["pharmacies"])]
     private ?string $etat = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez ajouter votre horaire de travail")]
-
+    #[Groups(["pharmacies"])]
     private ?string $horaire = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez ajouter votre email")]
     #[Assert\Email(message: "Le mail n'est pas valide")]
+    #[Groups(["pharmacies"])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez ajouter la matricule de votre pharmacie")]
-
+    #[Groups(["pharmacies"])]
     private ?string $matricule = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["pharmacies"])]
     private ?string $services = null;
 
     #[ORM\OneToOne(inversedBy: 'pharmacie', cascade: ['persist', 'remove'])]
@@ -70,6 +78,7 @@ class Pharmacie
     private Collection $factures;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["pharmacies"])]
     private ?string $Gouvernorat = null;
 
   

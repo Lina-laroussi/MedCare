@@ -5,6 +5,7 @@ use App\Entity\User;
 use App\Form\EditFormMedecinType;
 use App\Form\EditFormUserType;
 use App\Form\UserType;
+use App\Form\VerificationEmailType;
 use App\Repository\UserRepository;
 use App\Service\MailerService;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,21 +40,67 @@ class RegistrationControllerJson extends AbstractController
             $user->setNom($request->get('nom'));
             $user->setPrenom($request->get('prenom'));
             $user->setEmail($request->get('email'));
-            //$user->setPassword("Selim123456?");
             $password = $request->get('password');
             $user->setPassword($this->userPasswordHasher->hashPassword($user,$password));
 
             $user->setRoles(['ROLE_PATIENT']);
             $user->setDateDeCreation(new \DateTime());
-            $user->setEtat("non valide");
+            $user->setEtat("non vérifié");
+            $verificationCode = rand(100000, 999999);
+            $user->setResetToken($verificationCode);
             // Save
             $em =$rm->getManager();
             $em->persist($user);
             $em->flush();
 
+            $context = ['user' =>$user];
+
+            $mailer->sendEmail(
+                to: $user->getEmail(),
+                template: 'verificationCode',
+                subject: ' Confirmation de création de compte',
+                context: $context
+            );
+
         $UserNormalises = $normalizer->normalize($user, 'json', ['groups' => "User"]);
         return new JsonResponse($UserNormalises,Response::HTTP_OK,[],true);
     }
+
+
+    #[Route('/verifyPatientJson', name: 'app_verification_patient_json')]
+    public function VerifyPatientJson(Request $request,ManagerRegistry $rm,MailerService $mailer,UserRepository $repo,NormalizerInterface $normalizer)
+    {
+
+            $Verifcode=$request->get('code');
+
+            $user=$repo->findOneByCode($Verifcode);
+            if($user){
+                $userCode = $user->getResetToken();
+                if($Verifcode == $userCode ){
+
+                    $user->setEtat("valide");
+                    $user->setResetToken('');
+                    // Save
+                    $em =$rm->getManager();
+                    $em->persist($user);
+                    $em->flush();
+
+                    $context = ['user' =>$user];
+
+                    $mailer->sendEmail(
+                        to: $user->getEmail(),
+                        template: 'confirmation_verification',
+                        subject: ' Verification de votre compte',
+                        context: $context
+                    );
+
+                }
+            }
+            $UserNormalises = $normalizer->normalize($user, 'json', ['groups' => "User"]);
+            return new JsonResponse($UserNormalises,Response::HTTP_OK,[],true);
+    }
+
+
 
     #[Route('/registerMedecinJson', name: 'app_registration_doctor_json')]
     public function registerDoctor(Request $request,ManagerRegistry $rm,MailerService $mailer,NormalizerInterface $normalizer)

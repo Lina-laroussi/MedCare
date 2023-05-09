@@ -6,16 +6,18 @@ use App\Repository\RendezVousRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: RendezVousRepository::class)]
 class RendezVous
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('rendezVous')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('rendezVous')]
     private ?string $etat = null;
 
     #[ORM\Column(length: 255)]
@@ -23,21 +25,26 @@ class RendezVous
     #[Assert\Length (
     min:5,
     minMessage:"La saisie est trop courte. Veuillez entrer au moins 5 caractères ")]
+    #[Groups('rendezVous')]
     private ?string $symptomes = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups('rendezVous')]
     private ?\DateTimeInterface $date_de_creation = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message:"veuillez choisir la date du rendez-vous")]
+    #[Groups('rendezVous')]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)] 
     #[Assert\NotBlank(message:"veuillez choisir une heure de debut")]
+    #[Groups('rendezVous')]
     private ?\DateTimeInterface $heure_debut = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     #[Assert\NotBlank(message:"veuillez choisir une heure de fin")]
+    #[Groups('rendezVous')]
     private ?\DateTimeInterface $heure_fin = null;
 
     #[ORM\ManyToOne(inversedBy: 'rendezVouses')]

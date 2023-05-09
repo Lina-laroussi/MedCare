@@ -55,7 +55,7 @@
                                         <td>{{ fiche_medicale.id }}</td>
                                         <td>
                                             {% for consultation in fiche_medicale.consultations %}
-                                                {% for rendezVous in rendezVous.consultation %}
+                                                {% for rendezVous in consultation.rendezVous %}
                                                     {{ rendezVous.patient.nom }}
                                                 {% endfor %}
                                             {% endfor %}
