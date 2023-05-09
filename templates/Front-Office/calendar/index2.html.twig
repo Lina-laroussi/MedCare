@@ -22,6 +22,7 @@
 
 <!-- the moment-to-fullcalendar connector. must go AFTER the moment lib -->
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.4/index.global.min.js'></script>
+
 <script>
    document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
@@ -122,13 +123,20 @@
                         // show the modal
                         $modal.modal('show');
                       },
-                    error: function(xhr, status, error) {
-                      console.log('error');
-                    }
-                    })
-                    }
-              }
+                       error: function(xhr, status, error) {
+                       console.log('error');
+                     }
+                     })
+                   }
+            }
           },
+            eventClick: function(info) {
+              // redirect to route with id parameter
+              if(info.event.display != 'background'){
+                  window.location.href = "{{ path('app_rendez_vous_show', {'id': '__RDV_ID__'}) }}".replace("__RDV_ID__", info.event.id);
+
+              }
+            },
           eventDrop: function(info) {
                var eventStart = info.event.start;
               var eventEnd = info.event.end;

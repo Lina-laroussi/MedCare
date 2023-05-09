@@ -2,48 +2,92 @@
 
 
 {% block content %}
-    <h1>RendezVous</h1>
+<div class="content">
+    <div class="container-fluid">
+    <div class="row">
+    <div class="col-lg-10 offset-lg-1">
+    <div class="invoice-content">
+    <div class="invoice-item">
+    <div class="row">
+    <div class="col-md-11">
+        <div class="invoice-item">
+    <div class="row">
+    <div class="col-md-6">
+    <div class="invoice-info">
+    <strong class="customer-text">Rendez-vous</strong>
+    <p class="invoice-details invoice-details-two">
+ {{ rendez_vou.planning.medecin.nom }}  {{ rendez_vou.planning.medecin.prenom }} <br>
+    {{ rendez_vou.planning.medecin.adresse ? rendez_vou.planning.medecin.adresse}}<br>
+    </p>
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="invoice-info invoice-info2">
+    <strong class="customer-text">Etat</strong>
+    <p class="invoice-details">
+                {% if rendez_vou.etat =="en attente" %}
+             <button type="button" class="btn bg-warning-light btn-sm" id="topup_status">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ rendez_vou.id }}</td>
-            </tr>
-            <tr>
-                <th>Medecin</th>
-                <td>{{ rendez_vou.planning.medecin.nom }}  {{ rendez_vou.planning.medecin.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Etat</th>
-                <td>{{ rendez_vou.etat }}</td>
-            </tr>
-            <tr>
-                <th>Symptomes</th>
-                <td>{{ rendez_vou.symptomes }}</td>
-            </tr>
-            <tr>
-                <th>Date_de_creation</th>
-                <td>{{ rendez_vou.dateDeCreation ? rendez_vou.dateDeCreation|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ rendez_vou.date ? rendez_vou.date|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Heure_debut</th>
-                <td>{{ rendez_vou.heureDebut ? rendez_vou.heureDebut|date('H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Heure_fin</th>
-                <td>{{ rendez_vou.heureFin ? rendez_vou.heureFin|date('H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+                {% endif %}
+                {% if rendez_vou.etat =="confirmé" %}
+             <button type="button" class="btn bg-success-light btn-sm" id="topup_status">
+                {% endif %}
+                {% if rendez_vou.etat =="annulé" %}
+             <button type="button" class="btn bg-danger-light btn-sm" id="topup_status">
+                {% endif %}
+                {{ rendez_vou.etat }}
+            </button>
 
-    <a href="{{ path('app_rendez_vous_index') }}">back to list</a>
+    </p>
+    </div>
+    </div>
+    </div>
 
-    <a href="{{ path('app_rendez_vous_edit', {'id': rendez_vou.id}) }}">edit</a>
 
-    {{ include('Front-Office/rendez_vous/_delete_form.html.twig') }}
+
+    <div class="invoice-item">
+    <div class="row">
+    <div class="col-md-6">
+    <div class="invoice-info">
+    <strong class="customer-text">Date</strong>
+    <p class="invoice-details invoice-details-two">
+        {{ rendez_vou.dateDeCreation ? rendez_vou.dateDeCreation|date('Y-m-d') : '' }}  <br>
+             {{ rendez_vou.heureDebut ? rendez_vou.heureDebut|date('H:m') : '' }}-{{ rendez_vou.heureFin ? rendez_vou.heureFin|date('H:m') : '' }}
+    </p>
+    </div>
+    </div>
+    </div>
+
+<div class="invoice-item">
+    <div class="row">
+    <div class="col-md-6">
+    <div class="invoice-info">
+    <strong class="customer-text">Symptomes</strong>
+    <p class="invoice-details invoice-details-two">
+        {{ rendez_vou.symptomes }}  
+    </p>
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="invoice-info invoice-info2">
+    </div>
+    </div>
+    </div>    
+<div class="col-12">
+<div class="d-flex justify-content-end">
+<div class="">{{ include('Front-Office/rendez_vous/_delete_form.html.twig') }}</div>
+<div class="mx-3">  {{ include('Front-Office/rendez_vous/_confirm_form.html.twig') }}</div>
+<div class="">  {{ include('Front-Office/rendez_vous/_cancel_form.html.twig') }}</div>
+
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 {% endblock %}

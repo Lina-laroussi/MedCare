@@ -47,6 +47,13 @@ class PlanningRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
    }
+   public function findTous1()
+   {
+       return $this->createQueryBuilder('p')
+       ->orderBy('p.date_debut', 'ASC')
+       ->getQuery()
+       ->getResult();
+  }
    public function countPlanning(): int
    {
        return $this->createQueryBuilder('p')

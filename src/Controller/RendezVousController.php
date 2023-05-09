@@ -14,8 +14,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use DateTimeImmutable;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/rendezVous')]
 class RendezVousController extends AbstractController
@@ -151,14 +153,7 @@ class RendezVousController extends AbstractController
             
 
         ];
-            $update = new Update(
-                '/rdvConfirme',  //.$rendezVou->getPlanning()->getMedecin()->getId(),
-                json_encode($data)
-            );
-
-            $hub->publish($update);
         
-
         return $this->redirectToRoute('app_rendez_vous_index', [], Response::HTTP_SEE_OTHER);
     }
     #[Route('/{id}/cancel', name: 'app_rendez_vous_cancel', methods: ['GET', 'POST'])]
@@ -197,4 +192,5 @@ class RendezVousController extends AbstractController
             'f'=>$form->createView()
         ]);
     }
+
 }

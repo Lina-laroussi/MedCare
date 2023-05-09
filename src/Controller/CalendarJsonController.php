@@ -19,10 +19,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 
-#[Route('/calendar')]
-class CalendarController extends AbstractController
+#[Route('/calendarM')]
+class CalendarJsonController extends AbstractController
 {
-    #[Route('/', name: 'app_calendar', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'app_calendarM', methods: ['GET', 'POST'])]
     public function index(Request $request,PlanningRepository $planningRepository,UserRepository $patientRep,RendezVousRepository $rendezVousRepository): Response
     {
         $getRendezVous = $rendezVousRepository->findAll();
@@ -90,7 +90,7 @@ class CalendarController extends AbstractController
 
         return $this->render('Front-Office/calendar/index2.html.twig', compact('data'));
     }
-    #[Route('/new/{planningId}', name: 'app_rendez_vous_calendar_new', methods: ['GET', 'POST'])]
+    #[Route('/new/{planningId}', name: 'app_rendez_vous_calendarM_new', methods: ['GET', 'POST'])]
     public function new($planningId,Request $request,PlanningRepository $planningRep,UserRepository $patientRep ,RendezVousRepository $rendezVousRepository,HubInterface $hub): Response
     {
         $rendezVou = new RendezVous();
@@ -122,14 +122,14 @@ class CalendarController extends AbstractController
 
         $hub->publish($update);
 
-           return $this->redirectToRoute('app_calendar', [], Response::HTTP_SEE_OTHER);
+           return $this->redirectToRoute('app_calendarM', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('Front-Office/calendar/_form.html.twig', [
             'form' => $form,
         ]);
     }
-    #[Route('/{id}/edit', name: 'app_calendar_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_calendarM_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, RendezVous $rendezVou, RendezVousRepository $rendezVousRepository,PlanningRepository $planningRep): Response
     {
         $donnes = json_decode($request->getContent());

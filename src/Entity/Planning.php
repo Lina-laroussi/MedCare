@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PlanningRepository::class)]
 class Planning
@@ -15,18 +16,23 @@ class Planning
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('planning')]
+
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message:"veuillez choisir une Date de debut du planing")]
+    #[Groups('planning')]
     private ?\DateTimeInterface $date_debut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message:"veuillez choisir une Date de fin du planing")]
+    #[Groups('planning')]
     private ?\DateTimeInterface $date_fin = null;
 
 
     #[ORM\Column(length: 255)]
+    #[Groups('planning')]
     private ?string $etat = null;
 
     #[ORM\Column(length: 255)]
@@ -34,19 +40,24 @@ class Planning
     #[Assert\Length(
     min:5, 
     minMessage:"La saisie est trop courte. Veuillez entrer au moins 5 caractères ")]
+    #[Groups('planning')]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     #[Assert\NotBlank(message:"veuillez choisir une heure de debut")]
+    #[Groups('planning')]
     private ?\DateTimeInterface $heure_debut = null;
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     #[Assert\NotBlank(message:"veuillez choisir une heure de fin")]
+    #[Groups('planning')]
     private ?\DateTimeInterface $heure_fin = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups('planning')]
     private ?\DateTimeInterface $date_de_creation = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups('planning')]
     private ?\DateTimeInterface $date_de_modification = null;
 
     #[ORM\OneToMany(mappedBy: 'planning', targetEntity: RendezVous::class, cascade: ['remove'],)]

@@ -37,7 +37,8 @@ class RendezVousType extends AbstractType
                 'required' => true
             ])
             ->add('symptomes',TextareaType::class, [
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control','rows' => 5,
+            ],
                 'required' => true
             ])
 

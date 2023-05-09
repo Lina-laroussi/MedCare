@@ -434,7 +434,16 @@ eventSource.onmessage = event => {
         </div>
     `;
     const toastContainer = document.querySelector(".toast-container");
-    toastContainer.innerHTML += toastHtml;
+    const newToast = document.createElement("div");
+    newToast.innerHTML = toastHtml;
+    newToast.onclick = function() {
+        // add your onclick function here
+        console.log("The toast was clicked!");
+                window.location.href = "{{ path('app_rendez_vous_show', {'id': '__RDV_ID__'}) }}".replace("__RDV_ID__", rdv.id);
+
+
+    };
+    toastContainer.appendChild(newToast);
 
     // Show the toast notification
     const toastElList = [].slice.call(document.querySelectorAll('.toast'))
