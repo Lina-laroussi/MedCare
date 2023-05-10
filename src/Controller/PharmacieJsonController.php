@@ -76,7 +76,30 @@ class PharmacieJsonController extends AbstractController
         return new Response(json_encode($jsonContent));
       
     }
+    #[Route('/update', name: 'app_pharmaciejson_edit', methods: ['GET', 'POST'])]
+    {    public function edit(Request $request, Pharmacie $pharmacie, PharmacieRepository $pharmacieRepository , NormalizerInterface $Normalizer): Response
+
+        $id = $request->get('id');
+        $pharmacie = $pharmacieRepository->find($id);
+        $pharmacie->setNom($request->get('nom'));
+        $pharmacie->setAdresse($request->get('adresse'));
+        $pharmacie->setGouvernorat($request->get('Gouvernorat'));
+        $pharmacie->setEmail($request->get('email'));
+        $pharmacie->setEtat($request->get('etat'));
+        $pharmacie->setNumTel($request->get('num_tel'));
+        $pharmacie->setMatricule($request->get('matricule'));
+        $pharmacie->setHoraire($request->get('horaire'));
+        $pharmacie->setDescription($request->get('description')); 
+        $pharmacie->setServices($request->get('services'));
+        $pharmacieRepository->save($pharmacie, true);
+        $jsonContent = $Normalizer->normalize($pharmacie, 'json', ['groups' => 'pharmacies']);
+        return new Response(json_encode($jsonContent));
+
+
+    }
 }
+
+
 
     /*
     #[Route('/{id}', name: 'app_pharmaciejson_show', methods: ['GET'])]
