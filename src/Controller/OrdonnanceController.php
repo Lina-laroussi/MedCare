@@ -35,6 +35,24 @@ class OrdonnanceController extends AbstractController
         ]);
     }
 
+
+    #[Route('/show/{page?1}/{nbre?5}', name: 'app_ordonnance_index_patient', methods: ['GET'])]
+    public function indexPatient(OrdonnanceRepository $ordonnanceRepository, $nbre,$page): Response
+    {
+        $user=$this->getUser();
+        $email=$user->getUserIdentifier();
+        $nbOrdon = $ordonnanceRepository->countOrdonnance();
+        $nbrePage = ceil((int)$nbOrdon /(int)$nbre) ;
+        return $this->render('Front-Office/ordonnance/ordonnance.html.twig', [
+            'ordonnances' => $ordonnanceRepository->findOdonByPatient($page,$nbre,$email),
+            'isPaginated'=>true,
+            'nbrePage' => $nbrePage,
+            'page' => $page,
+            'nbre' => $nbre,
+            'user'=>$user
+        ]);
+    }
+
 // ------------------------creation new ordenance--------------------------------------
     #[Route('/new', name: 'app_ordonnance_new', methods: ['GET', 'POST'])]
     public function new(Request $request, OrdonnanceRepository $ordonnanceRepository): Response
@@ -50,6 +68,8 @@ class OrdonnanceController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $ordonnance->setDateDeCreation(new \DateTime());
+            $ordonnance->setDateDeModification(new \DateTime());
             $ordonnanceRepository->save($ordonnance, true);
 
             return $this->redirectToRoute('app_ordonnance_index', [], Response::HTTP_SEE_OTHER);

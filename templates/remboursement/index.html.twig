@@ -1,12 +1,12 @@
-{% extends 'base-back.html.twig' %}
+{% extends 'sideBar.html.twig' %}
 
 
-{% block body %}
+{% block content %}
 
    <div class="page-wrapper">
     <div class="content container-fluid">   
     <div class="appointment-tab">
-       <h1>Remboursement index</h1>
+       <h1>Ajouter Remboursement</h1>
     <form class="form-inline my-2 my-lg-0" action="{{ path('app_remboursement_index') }}">
         <div class="input-group mb-3">
         <input class="form-control mr-sm-2" type="search" placeholder="Recherche" aria-label="Recherche" name="q">
@@ -52,8 +52,8 @@
                 </td>
                     <td>
                     {{ include('remboursement/_confirm_form.html.twig') }}
-                    <a class="btn btn-primary" href="{{ path('app_remboursement_show', {'id': remboursement.id}) }}">show</a>
-                    <a  class="btn btn-primary" href="{{ path('app_remboursement_edit', {'id': remboursement.id}) }}">edit</a>
+                    <a class="btn btn-primary mt-4" href="{{ path('app_remboursement_show', {'id': remboursement.id}) }}">show</a>
+                    <a  class="btn btn-primary mt-4" href="{{ path('app_remboursement_edit', {'id': remboursement.id}) }}">edit</a>
                 </td>
             
             </tr>

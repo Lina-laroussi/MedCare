@@ -43,12 +43,12 @@ class FicheAssuranceController extends AbstractController
     public function index(FicheAssuranceRepository $ficheAssuranceRepository , Request $request, PaginatorInterface $paginator,FlashyNotifier $Flashy): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-    
+
         // récupérer les paramètres de la requête
         $limit = $request->query->getInt('limit', 100);
         $page = $request->query->getInt('page', 1);
         $q = $request->query->get('q');
-        
+        $user=$this->getUser();
         // construire la requête pour récupérer les ficheAssurances
         $queryBuilder = $ficheAssuranceRepository->createQueryBuilder('t');
         $queryBuilder->orderBy('t.id', 'ASC');
@@ -72,6 +72,7 @@ class FicheAssuranceController extends AbstractController
         return $this->render('fiche_assurance/ficheassurancetri.html.twig', [
             'fiche_assurances' => $pagination,
             'q' => $q,
+            'user'=>$user
         ]);
     }
 
@@ -95,6 +96,7 @@ class FicheAssuranceController extends AbstractController
         $ficheAssurance = new FicheAssurance();
         $form = $this->createForm(FicheAssuranceType::class, $ficheAssurance);
         $form->handleRequest($request);
+        $user=$this->getUser();
 
         if ($form->isSubmitted() && $form->isValid()) {
             
@@ -109,20 +111,24 @@ class FicheAssuranceController extends AbstractController
         return $this->renderForm('fiche_assurance/new.html.twig', [
             'fiche_assurance' => $ficheAssurance,
             'form' => $form,
+            'user'=>$user
         ]);
     }
 
     #[Route('/{id}', name: 'app_fiche_assurance_show', methods: ['GET'])]
     public function show(FicheAssurance $ficheAssurance): Response
     {
+        $user=$this->getUser();
         return $this->render('fiche_assurance/show.html.twig', [
             'fiche_assurance' => $ficheAssurance,
+            'user'=>$user
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_fiche_assurance_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, FicheAssurance $ficheAssurance, FicheAssuranceRepository $ficheAssuranceRepository): Response
     {
+        $user=$this->getUser();
         $form = $this->createForm(FicheAssuranceType::class, $ficheAssurance);
         $form->handleRequest($request);
 
@@ -135,6 +141,7 @@ class FicheAssuranceController extends AbstractController
         return $this->renderForm('fiche_assurance/edit.html.twig', [
             'fiche_assurance' => $ficheAssurance,
             'form' => $form,
+            'user'=>$user
         ]);
     }
 

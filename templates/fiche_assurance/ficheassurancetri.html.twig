@@ -1,12 +1,12 @@
-{% extends 'base-back.html.twig' %}
+{% extends 'sideBar.html.twig' %}
 
-{% block body %}
+{% block content %}
 <br/>
    <div class="page-wrapper">
     <div class="content container-fluid">   
     <div class="appointment-tab">
     
-    <h1>fiche assurances index</h1>
+    <h1>Ajouter Fiche Assurances</h1>
     <form class="form-inline my-2 my-lg-0" action="{{ path('app_fiche_assurance_index') }}">
         <div class="input-group mb-3">
             <input class="form-control mr-sm-2" type="search" placeholder="Recherche" aria-label="Recherche" name="q" value="{{ q }}">
@@ -76,6 +76,6 @@
 <br/>
 
     <br/>
-    <a class="btn btn-primary" href="{{ path('app_fiche_assurance_new') }}">Create new</a>
+    <a class="btn btn-primary" href="{{ path('app_fiche_assurance_new') }}">Ajouter une fiche</a>
     </div>
 {% endblock %}

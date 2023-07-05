@@ -130,11 +130,10 @@
 
 </div>
 </div>
-<a href="{{ path('app_facture_index') }}" class="btn btn-primary mt-3">{{ button_label|default('Retour') }}</a>
 
-    <a href="{{ path('app_facture_edit', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Modifier') }}</a>
-    <a href="{{ path('app_fact', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Imprimer facture') }}</a>
-     <a href="{{ path('app_facture_delete', {'id': facture.id}) }}" class="btn btn-primary mt-3">{{ button_label|default('Supprimer Facture') }}</a>
+    <a href="{{ path('app_facture_edit', {'id': facture.id}) }}" class="btn btn-primary mb-3">{{ button_label|default('Modifier') }}</a>
+    <a href="{{ path('app_fact', {'id': facture.id}) }}" class="btn btn-warning mb-3 " style="color: white;">{{ button_label|default('Imprimer') }}</a>
+     <a href="{{ path('app_facture_delete', {'id': facture.id}) }}" class="btn btn-danger mb-3 ">{{ button_label|default('Supprimer') }}</a>
   </div>
 
  

@@ -25,8 +25,25 @@
 
 {% block body %}
 <div class="main-wrapper">
+    <div class="breadcrumb-bar-six">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-12 col-12">
+                    <h2 class="breadcrumb-title">Medecins</h2>
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">medecins </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
   <div class="content">
+
     <div class="container-fluid col-10">
+
       <div class="row">
         <div class="d-flex justify-content-end">
             {{ form_start(form) }}
@@ -43,7 +60,7 @@
                                             {% if medecin.image %}
                                                 <img src="{{ asset('uploads/utilisateurs/' ~ medecin.image ) }}" class="img-fluid" alt="Image">
                                             {% else %}
-                                                <img src="{{ asset('uploads/utilisateurs/user1.png' ) }}" class="img-fluid" alt="Image">
+                                                <img src="{{ asset('uploads/utilisateurs/pngegg.png' ) }}" class="img-fluid" alt="Image">
                                             {% endif %}
                                         </div>
                                         <div class="doc-info-cont">

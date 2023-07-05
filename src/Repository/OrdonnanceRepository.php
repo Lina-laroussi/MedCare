@@ -51,6 +51,24 @@ class OrdonnanceRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
    }
+
+    public function findOdonByPatient($page,$nbre,$email)
+    {
+
+        return $this->createQueryBuilder('o')
+            ->join('o.consultation','cons')
+            ->join('cons.rendezVous','rdv')
+            ->join('rdv.patient','patient')
+            ->Where('patient.email = :val')
+            ->setParameter('val', $email)
+            ->orderBy('p.id', 'ASC')
+            ->setFirstResult(($page - 1 ) * $nbre)
+            ->setMaxResults($nbre)
+            ->getQuery()
+            ->getResult();
+    }
+
+
    public function countOrdonnance(): int
    {
        return $this->createQueryBuilder('p')

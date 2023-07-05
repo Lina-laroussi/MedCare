@@ -42,6 +42,8 @@ class FicheMedicaleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $ficheMedicale->setDateDeCreation(new \DateTime());
+            $ficheMedicale->setDateDeModification(new \DateTime());
             $ficheMedicaleRepository->save($ficheMedicale, true);
 
             return $this->redirectToRoute('app_fiche_medicale_index', [], Response::HTTP_SEE_OTHER);

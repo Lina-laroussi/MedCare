@@ -26,13 +26,7 @@ class FactureType extends AbstractType
         $builder
             ->add('pharmacie')
             ->add('num_facture')
-            ->add('date',DateType::class, [
-               
-                'label' => 'Date ',
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
-                'required' => true
-            ])           
+
             ->add('ordonnance')
             ->add('image', FileType::class, [
                 'label' => 'Ajouter votre image de signature(JPG, GIF ou PNG autorisés. Taille maximale de 2 Mo)                ',

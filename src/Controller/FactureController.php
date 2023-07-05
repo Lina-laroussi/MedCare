@@ -81,6 +81,8 @@ class FactureController extends AbstractController
             }
             $mailer->sendEmail(from:$facture->getPharmacie()->getEmail(),to:$facture->getOrdonnance()->getConsultation()->getRendezvous()->getPatient()->getEmail(),subject: 'Facture Pharmacie', tmpFile:'document.pdf', htmltemplate:'template', context:['facture'=>$facture]);
 
+            $facture->setDate(new \DateTime());
+            $facture->setEtat('Payé');
             $factureRepository->save($facture, true);
             $data=[
 

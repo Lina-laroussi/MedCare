@@ -1,4 +1,4 @@
-{% extends 'base-back.html.twig' %}
+{% extends 'sideBar.html.twig' %}
 
 {% block body %}
 <div style="margin-left:10%">
@@ -26,7 +26,7 @@
                 <td>{{ fiche_assurance.imageFacture }}</td>
                 <td>{{ fiche_assurance.etat }}</td>
                 <td>
-                    <a class="btn btn-primary" href="{{ path('app_fiche_assurance_show', {'id': fiche_assurance.id}) }}">show</a>
+                    <a class="btn btn-primary" href="{{ path('app_fiche_assurance_show', {'id': fiche_assurance.id}) }}" >show</a>
                     <a class="btn btn-primary"  href="{{ path('app_fiche_assurance_edit', {'id': fiche_assurance.id}) }}">edit</a>
                 </td>
             </tr>

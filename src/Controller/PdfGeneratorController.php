@@ -31,8 +31,6 @@ public function generatePdf(Facture $facture = null)
     //$dompdf->set_option('isRemoteEnabled',TRUE);
     //$dompdf->set_option('isHtmlParserEnabled',TRUE);
 
- 
-
     $context = stream_context_create([
         'ssl' => [
             'verify_peer' => false,
@@ -45,7 +43,7 @@ public function generatePdf(Facture $facture = null)
     $html = $this->render('facture/showpdf1.html.twig',['facture' => $facture]) ;
     $dompdf->loadHtml($html);
     $dompdf->render();
-    $fichier = 'aaa.pdf';
+    $fichier = 'facture.pdf';
     $pdf = $dompdf->output();
      $dompdf->stream($fichier, [
         'Attachment' => true

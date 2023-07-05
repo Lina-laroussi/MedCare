@@ -131,7 +131,9 @@ class RendezVousController extends AbstractController
     #[Route('/{id}/edit', name: 'app_rendez_vous_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, RendezVous $rendezVou, RendezVousRepository $rendezVousRepository): Response
     {
+        $user=$this->getUser();
         $form = $this->createForm(RendezVousType::class, $rendezVou);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -142,6 +144,7 @@ class RendezVousController extends AbstractController
         return $this->renderForm('Front-Office/rendez_vous/edit.html.twig', [
             'rendez_vou' => $rendezVou,
             'form' => $form,
+            'user'=>$user
         ]);
         
     }

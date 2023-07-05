@@ -45,6 +45,7 @@ class RemboursementController extends AbstractController
      $limit = $request->query->getInt('limit', 99);
      $page = $request->query->getInt('page', 1);
      $q = $request->query->get('q');
+     $user=$this->getUser();
      
      // construire la requête pour récupérer les ficheAssurances
      $queryBuilder = $RemboursementRepository->createQueryBuilder('t');
@@ -63,12 +64,14 @@ class RemboursementController extends AbstractController
      $pagination = $paginator->paginate(
          $query,
          $page,
-         $limit
+         $limit,
+
      );
  
      return $this->render('remboursement/index.html.twig', [
          'remboursements' => $pagination,
          'q' => $q,
+         'user'=>$user
      ]);
  }
 
@@ -78,6 +81,7 @@ class RemboursementController extends AbstractController
         $remboursement = new Remboursement();
         $form = $this->createForm(RemboursementType::class, $remboursement);
         $form->handleRequest($request);
+        $user=$this->getUser();
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -90,6 +94,7 @@ class RemboursementController extends AbstractController
         return $this->renderForm('remboursement/new.html.twig', [
             'remboursement' => $remboursement,
             'form' => $form,
+            'user'=>$user
         ]);
     } 
  
@@ -97,8 +102,10 @@ class RemboursementController extends AbstractController
     #[Route('/{id}', name: 'app_remboursement_show', methods: ['GET'])]
     public function show(Remboursement $remboursement): Response
     {
+        $user=$this->getUser();
         return $this->render('remboursement/show.html.twig', [
             'remboursement' => $remboursement,
+            'user'=>$user
         ]);
     }
 
@@ -107,6 +114,7 @@ class RemboursementController extends AbstractController
     {
         $form = $this->createForm(RemboursementType::class, $remboursement);
         $form->handleRequest($request);
+        $user=$this->getUser();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $remboursementRepository->save($remboursement, true);
@@ -117,12 +125,14 @@ class RemboursementController extends AbstractController
         return $this->renderForm('remboursement/edit.html.twig', [
             'remboursement' => $remboursement,
             'form' => $form,
+            'user'=>$user
         ]);
     }
 
     #[Route('/{id}', name: 'app_remboursement_delete', methods: ['POST'])]
     public function delete(Request $request, Remboursement $remboursement, RemboursementRepository $remboursementRepository): Response
     {
+
         if ($this->isCsrfTokenValid('delete'.$remboursement->getId(), $request->request->get('_token'))) {
             $remboursementRepository->remove($remboursement, true);
         }

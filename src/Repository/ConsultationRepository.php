@@ -48,6 +48,23 @@ class ConsultationRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
    }
+
+
+    public function findConsultationByPatient($page,$nbre)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.ordonnance','o')
+            ->Where('r.date = :val')
+            ->orderBy('p.id', 'ASC')
+            ->setFirstResult(($page - 1 ) * $nbre)
+            ->setMaxResults($nbre)
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
+
    public function countConsult(): int
    {
        return $this->createQueryBuilder('p')

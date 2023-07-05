@@ -31,7 +31,7 @@ class RendezVousMobileController extends AbstractController
     public function new(Request $request,UserRepository $patientRep ,PlanningRepository $planningRepo,RendezVousRepository $rendezVousRepository,NormalizerInterface $Normalizer): Response
     {
         $rendezVou = new RendezVous();
-        $rendezVou->setPlanning($planningRepo->find(50));
+        $rendezVou->setPlanning($planningRepo->find(2));
         $rendezVou->setPatient($patientRep->find(2));
         $rendezVou->setEtat("en attente");
         $date_creation = new DateTimeImmutable();

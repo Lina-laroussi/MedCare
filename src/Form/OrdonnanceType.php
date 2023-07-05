@@ -38,19 +38,6 @@ class OrdonnanceType extends AbstractType
             ->add('nombre_jours', IntegerType::class, [
                 'attr' => ['class' => 'form-control form-group']
             ])
-            ->add('date_de_creation', DateType::class,[
-                    'widget' => 'single_text',
-                    'html5' => false,
-                    'data' => new \DateTime(),
-                    'format' => 'dd/MM/yyyy',
-                    'attr' => ['class' => 'form-control form-group']
-            ])
-            ->add('date_de_modification', DateTimeType::class,[
-                    'widget' => 'single_text',
-                    'html5' => false,
-                    'data' => new \DateTime(),
-                    'format' => 'dd/MM/yyyy H:m:s'
-            ])
             ->add('consultation', EntityType::class,[
                     'class' => Consultation::class,
                     'choice_label' => 'traitement',

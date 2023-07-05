@@ -33,9 +33,10 @@ class Consultation1Type extends AbstractType
                 'attr' => ['class' => 'form-control form-group']
             ])
             ->add('prix', MoneyType::class, array(
-                'scale' => 2, 
+                'scale' => 2,
                 'currency' => 'TND',
-                'attr' => ['class' => 'form-control form-group']
+                'attr' => ['class' => 'form-control form-group'
+                ],
             ))
             ->add('pression_arterielle', NumberType::class, [
                 'required' => false,
